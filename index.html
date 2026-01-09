@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fjcoolcat's Website</title>
+
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
             background: linear-gradient(to right, #000000, #8B0000);
-            color: #ffffff;
+            color: white;
             margin: 0;
             padding: 0;
             text-align: center;
@@ -17,16 +18,16 @@
         h1 {
             margin-top: 50px;
             font-size: 3em;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.6);
         }
 
-        h2, h3 {
+        h2 {
             margin: 20px 0;
         }
 
         p {
-            margin: 20px auto;
             max-width: 600px;
+            margin: 20px auto;
             font-size: 1.2em;
         }
 
@@ -42,33 +43,77 @@
             margin: 15px;
             padding: 15px 30px;
             font-size: 1.2em;
-            color: #fff;
+            color: white;
             text-decoration: none;
             border-radius: 50px;
             background: linear-gradient(45deg, #000000, #8B0000);
-            box-shadow: 0px 5px 15px rgba(0,0,0,0.5);
-            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            transition: 0.3s;
+            cursor: pointer;
         }
 
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0px 10px 20px rgba(0,0,0,0.7);
-        }
-
-        .button-container {
-            margin-top: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.7);
         }
 
         .button-row {
-            margin-bottom: 20px;
+            margin-top: 25px;
         }
 
         section {
             margin: 50px 20px;
         }
+
+        /* ===== POPUP STYLES ===== */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-box {
+            background: linear-gradient(45deg, #000000, #8B0000);
+            padding: 60px;
+            border-radius: 25px;
+            box-shadow: 0 0 40px rgba(0,0,0,0.9);
+            max-width: 600px;
+            width: 90%;
+        }
+
+        .popup-box h1 {
+            font-size: 3em;
+            color: #ff5555;
+            margin-bottom: 20px;
+        }
+
+        .popup-box p {
+            font-size: 1.4em;
+        }
+
+        .close-btn {
+            margin-top: 30px;
+            padding: 12px 35px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            border: none;
+            background: black;
+            color: white;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            background: #8B0000;
+        }
     </style>
 </head>
+
 <body>
+
     <h1>Welcome to Fjcoolcat's Website</h1>
     <hr>
     <h2>Thank you for visiting</h2>
@@ -81,25 +126,49 @@
         We are <strong>not affiliated with MistyMc</strong> at all, we just like to help people!
     </div>
 
-    <!-- First row of buttons -->
-    <div class="button-container button-row">
+    <!-- First row -->
+    <div class="button-row">
         <a href="support.html" class="btn">Support</a>
         <a href="servers.html" class="btn">Servers</a>
         <a href="https://discord.gg/gVYX2GMSvk" target="_blank" class="btn">Join Discord</a>
     </div>
 
-    <!-- Second row of buttons -->
-    <div class="button-container button-row">
+    <!-- Second row -->
+    <div class="button-row">
         <a href="https://mistymc.site/" target="_blank" class="btn">MistyMC Website</a>
         <a href="staff.html" class="btn">Server I am Staff on</a>
-        <a href="mistyinfo.html" class="btn">MistyMC Info</a>
+        <a class="btn" onclick="openPopup()">MistyMC Info</a>
     </div>
 
-    <section id="contact">
+    <section>
         <h2>Contact / Info</h2>
         <p>
-            You can reach me directly on Discord: <strong>Fjcoolcat</strong>. Feel free to DM me about anything related to MistyMc or Minecraft in general.
+            You can reach me directly on Discord: <strong>Fjcoolcat</strong>.
+            Feel free to DM me about anything related to MistyMc or Minecraft.
         </p>
     </section>
+
+    <!-- ===== POPUP ===== -->
+    <div id="popup" class="popup-overlay">
+        <div class="popup-box">
+            <h1>🚧 UNDER DEVELOPMENT 🚧</h1>
+            <p>
+                This page is currently being worked on.<br>
+                Please check back later!
+            </p>
+            <button class="close-btn" onclick="closePopup()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        function openPopup() {
+            document.getElementById("popup").style.display = "flex";
+        }
+
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+    </script>
+
 </body>
 </html>
