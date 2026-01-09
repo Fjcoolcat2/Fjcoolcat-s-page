@@ -1,174 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fjcoolcat's Website</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fjcoolcat's Website</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #000000, #8B0000);
-            color: white;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #000000, #8B0000);
+    color: white;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
 
-        h1 {
-            margin-top: 50px;
-            font-size: 3em;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.6);
-        }
+/* HEADINGS */
+h1 {
+    margin-top: 50px;
+    font-size: 3em;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+}
 
-        h2 {
-            margin: 20px 0;
-        }
+p {
+    max-width: 600px;
+    margin: 20px auto;
+    font-size: 1.2em;
+}
 
-        p {
-            max-width: 600px;
-            margin: 20px auto;
-            font-size: 1.2em;
-        }
+.bold-disclaimer {
+    font-weight: bold;
+    color: #ff4444;
+    margin: 20px auto;
+    max-width: 600px;
+}
 
-        .bold-disclaimer {
-            font-weight: bold;
-            color: #ff4444;
-            margin: 20px auto;
-            max-width: 600px;
-        }
+/* BUTTONS */
+.btn {
+    display: inline-block;
+    margin: 15px;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    background: linear-gradient(45deg, #000000, #8B0000);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+    transition: 0.3s;
+    cursor: pointer;
+}
 
-        .btn {
-            display: inline-block;
-            margin: 15px;
-            padding: 15px 30px;
-            font-size: 1.2em;
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            background: linear-gradient(45deg, #000000, #8B0000);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            transition: 0.3s;
-            cursor: pointer;
-        }
+.btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+}
 
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.7);
-        }
+.button-row {
+    margin-top: 25px;
+}
 
-        .button-row {
-            margin-top: 25px;
-        }
+/* ===== POPUP OVERLAY ===== */
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(6px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
 
-        section {
-            margin: 50px 20px;
-        }
+/* POPUP BOX */
+.popup-box {
+    background: linear-gradient(45deg, #000000, #8B0000);
+    padding: 60px;
+    border-radius: 25px;
+    box-shadow: 0 0 40px rgba(0,0,0,0.9);
+    max-width: 600px;
+    width: 90%;
+    transform: scale(0.7);
+    opacity: 0;
+}
 
-        /* ===== POPUP STYLES ===== */
-        .popup-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 999;
-            justify-content: center;
-            align-items: center;
-        }
+/* OPEN ANIMATION */
+.popup-overlay.show .popup-box {
+    animation: popupIn 0.45s ease forwards;
+}
 
-        .popup-box {
-            background: linear-gradient(45deg, #000000, #8B0000);
-            padding: 60px;
-            border-radius: 25px;
-            box-shadow: 0 0 40px rgba(0,0,0,0.9);
-            max-width: 600px;
-            width: 90%;
-        }
+/* CLOSE ANIMATION */
+.popup-overlay.hide .popup-box {
+    animation: popupOut 0.35s ease forwards;
+}
 
-        .popup-box h1 {
-            font-size: 3em;
-            color: #ff5555;
-            margin-bottom: 20px;
-        }
+@keyframes popupIn {
+    from {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
 
-        .popup-box p {
-            font-size: 1.4em;
-        }
+@keyframes popupOut {
+    from {
+        transform: scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: scale(0.6);
+        opacity: 0;
+    }
+}
 
-        .close-btn {
-            margin-top: 30px;
-            padding: 12px 35px;
-            font-size: 1.1em;
-            border-radius: 50px;
-            border: none;
-            background: black;
-            color: white;
-            cursor: pointer;
-        }
+.popup-box h1 {
+    font-size: 3em;
+    color: #ff5555;
+}
 
-        .close-btn:hover {
-            background: #8B0000;
-        }
-    </style>
+.popup-box p {
+    font-size: 1.4em;
+}
+
+/* CLOSE BUTTON */
+.close-btn {
+    margin-top: 30px;
+    padding: 12px 35px;
+    font-size: 1.1em;
+    border-radius: 50px;
+    border: none;
+    background: black;
+    color: white;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    background: #8B0000;
+}
+</style>
 </head>
 
 <body>
 
-    <h1>Welcome to Fjcoolcat's Website</h1>
-    <hr>
-    <h2>Thank you for visiting</h2>
+<h1>Welcome to Fjcoolcat's Website</h1>
+<hr>
+<p>Here I will help you with any information you need about my shop on the MistyMc Minecraft server.</p>
 
-    <p>
-        Here I will help you with any information you need about my shop on the MistyMc Minecraft server.
-    </p>
+<div class="bold-disclaimer">
+    We are <strong>not affiliated with MistyMc</strong> at all, we just like to help people!
+</div>
 
-    <div class="bold-disclaimer">
-        We are <strong>not affiliated with MistyMc</strong> at all, we just like to help people!
+<div class="button-row">
+    <a href="support.html" class="btn">Support</a>
+    <a href="servers.html" class="btn">Servers</a>
+    <a href="https://discord.gg/gVYX2GMSvk" target="_blank" class="btn">Join Discord</a>
+</div>
+
+<div class="button-row">
+    <a href="https://mistymc.site/" target="_blank" class="btn">MistyMC Website</a>
+    <a href="staff.html" class="btn">Server I am Staff on</a>
+    <a class="btn" onclick="openPopup()">MistyMC Info</a>
+</div>
+
+<section>
+    <h2>Contact / Info</h2>
+    <p>You can reach me on Discord: <strong>Fjcoolcat</strong></p>
+</section>
+
+<!-- POPUP -->
+<div id="popup" class="popup-overlay">
+    <div class="popup-box">
+        <h1>🚧 UNDER DEVELOPMENT 🚧</h1>
+        <p>This page is currently being worked on.<br>Please check back later!</p>
+        <button class="close-btn" onclick="closePopup()">Close</button>
     </div>
+</div>
 
-    <!-- First row -->
-    <div class="button-row">
-        <a href="support.html" class="btn">Support</a>
-        <a href="servers.html" class="btn">Servers</a>
-        <a href="https://discord.gg/gVYX2GMSvk" target="_blank" class="btn">Join Discord</a>
-    </div>
+<script>
+const popup = document.getElementById("popup");
 
-    <!-- Second row -->
-    <div class="button-row">
-        <a href="https://mistymc.site/" target="_blank" class="btn">MistyMC Website</a>
-        <a href="staff.html" class="btn">Server I am Staff on</a>
-        <a class="btn" onclick="openPopup()">MistyMC Info</a>
-    </div>
+function openPopup() {
+    popup.style.display = "flex";
+    popup.classList.remove("hide");
+    popup.classList.add("show");
+}
 
-    <section>
-        <h2>Contact / Info</h2>
-        <p>
-            You can reach me directly on Discord: <strong>Fjcoolcat</strong>.
-            Feel free to DM me about anything related to MistyMc or Minecraft.
-        </p>
-    </section>
+function closePopup() {
+    popup.classList.remove("show");
+    popup.classList.add("hide");
 
-    <!-- ===== POPUP ===== -->
-    <div id="popup" class="popup-overlay">
-        <div class="popup-box">
-            <h1>🚧 UNDER DEVELOPMENT 🚧</h1>
-            <p>
-                This page is currently being worked on.<br>
-                Please check back later!
-            </p>
-            <button class="close-btn" onclick="closePopup()">Close</button>
-        </div>
-    </div>
-
-    <script>
-        function openPopup() {
-            document.getElementById("popup").style.display = "flex";
-        }
-
-        function closePopup() {
-            document.getElementById("popup").style.display = "none";
-        }
-    </script>
+    setTimeout(() => {
+        popup.style.display = "none";
+    }, 350);
+}
+</script>
 
 </body>
 </html>
