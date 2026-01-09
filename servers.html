@@ -101,8 +101,16 @@
         <div id="clash-players" class="status"></div>
     </div>
 
+    <!-- DonutSMP -->
+    <div class="card">
+        <h2>Server Status – DonutSMP</h2>
+        <p><strong>IP:</strong> play.donutsmp.net</p>
+        <div id="donut-status" class="status">Loading...</div>
+        <div id="donut-players" class="status"></div>
+    </div>
+
     <div class="disclaimer">
-        We are <strong>not affiliated with MistyMc or ClashSMP</strong>. This is a community-made page.
+        We are <strong>not affiliated with MistyMc, ClashSMP, or DonutSMP</strong>. This is a community-made page.
     </div>
 
     <div>
@@ -123,12 +131,14 @@
                     if (data.online) {
                         statusEl.innerHTML = "🟢 Server Online";
                         statusEl.classList.add("online");
+                        statusEl.classList.remove("offline");
 
                         playerEl.innerHTML =
                             `👥 Players Online: <strong>${data.players.online}</strong> / ${data.players.max}`;
                     } else {
                         statusEl.innerHTML = "🔴 Server Offline";
                         statusEl.classList.add("offline");
+                        statusEl.classList.remove("online");
                         playerEl.innerHTML = "";
                     }
                 })
@@ -140,6 +150,7 @@
 
         loadServerStatus("playmistymc.com", "misty-status", "misty-players");
         loadServerStatus("clashsmp.net", "clash-status", "clash-players");
+        loadServerStatus("play.donutsmp.net", "donut-status", "donut-players");
     </script>
 
 </body>
