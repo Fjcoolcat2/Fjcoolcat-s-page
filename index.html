@@ -5,9 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fjcoolcat's Website</title>
 
+<!-- Minecraft Font -->
+<link href="https://fonts.googleapis.com/css2?family=Minecraftia&display=swap" rel="stylesheet">
+
 <style>
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Minecraftia', Arial, sans-serif;
     background: linear-gradient(to right, #000000, #8B0000);
     color: white;
     margin: 0;
@@ -15,17 +18,16 @@ body {
     text-align: center;
 }
 
-/* HEADINGS */
 h1 {
     margin-top: 50px;
-    font-size: 3em;
-    text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+    font-size: 2.5em;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
 }
 
 p {
     max-width: 600px;
     margin: 20px auto;
-    font-size: 1.2em;
+    font-size: 1em;
 }
 
 .bold-disclaimer {
@@ -39,8 +41,8 @@ p {
 .btn {
     display: inline-block;
     margin: 15px;
-    padding: 15px 30px;
-    font-size: 1.2em;
+    padding: 14px 28px;
+    font-size: 1em;
     color: white;
     text-decoration: none;
     border-radius: 50px;
@@ -52,11 +54,7 @@ p {
 
 .btn:hover {
     transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.8);
-}
-
-.button-row {
-    margin-top: 25px;
+    box-shadow: 0 10px 25px rgba(255,0,0,0.7);
 }
 
 /* ===== POPUP OVERLAY ===== */
@@ -74,61 +72,60 @@ p {
 /* POPUP BOX */
 .popup-box {
     background: linear-gradient(45deg, #000000, #8B0000);
-    padding: 60px;
+    padding: 50px;
     border-radius: 25px;
-    box-shadow: 0 0 40px rgba(0,0,0,0.9);
     max-width: 600px;
     width: 90%;
     transform: scale(0.7);
     opacity: 0;
+    text-align: center;
 }
 
-/* OPEN ANIMATION */
+/* OPEN + GLOW */
 .popup-overlay.show .popup-box {
-    animation: popupIn 0.45s ease forwards;
+    animation:
+        popupIn 0.45s ease forwards,
+        glowPulse 2s infinite;
 }
 
-/* CLOSE ANIMATION */
+/* CLOSE */
 .popup-overlay.hide .popup-box {
     animation: popupOut 0.35s ease forwards;
 }
 
 @keyframes popupIn {
-    from {
-        transform: scale(0.7);
-        opacity: 0;
-    }
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
 
 @keyframes popupOut {
-    from {
-        transform: scale(1);
-        opacity: 1;
-    }
-    to {
-        transform: scale(0.6);
-        opacity: 0;
-    }
+    from { transform: scale(1); opacity: 1; }
+    to { transform: scale(0.6); opacity: 0; }
+}
+
+/* GLOW PULSE */
+@keyframes glowPulse {
+    0%   { box-shadow: 0 0 15px rgba(255,0,0,0.4); }
+    50%  { box-shadow: 0 0 40px rgba(255,0,0,0.9); }
+    100% { box-shadow: 0 0 15px rgba(255,0,0,0.4); }
 }
 
 .popup-box h1 {
-    font-size: 3em;
+    font-size: 2.2em;
     color: #ff5555;
 }
 
-.popup-box p {
-    font-size: 1.4em;
+.countdown {
+    font-size: 1.3em;
+    margin-top: 20px;
+    color: #00ffcc;
 }
 
 /* CLOSE BUTTON */
 .close-btn {
     margin-top: 30px;
-    padding: 12px 35px;
-    font-size: 1.1em;
+    padding: 12px 30px;
+    font-size: 1em;
     border-radius: 50px;
     border: none;
     background: black;
@@ -146,19 +143,22 @@ p {
 
 <h1>Welcome to Fjcoolcat's Website</h1>
 <hr>
-<p>Here I will help you with any information you need about my shop on the MistyMc Minecraft server.</p>
+
+<p>
+Here I will help you with any information you need about my shop on the MistyMc Minecraft server.
+</p>
 
 <div class="bold-disclaimer">
     We are <strong>not affiliated with MistyMc</strong> at all, we just like to help people!
 </div>
 
-<div class="button-row">
+<div>
     <a href="support.html" class="btn">Support</a>
     <a href="servers.html" class="btn">Servers</a>
     <a href="https://discord.gg/gVYX2GMSvk" target="_blank" class="btn">Join Discord</a>
 </div>
 
-<div class="button-row">
+<div>
     <a href="https://mistymc.site/" target="_blank" class="btn">MistyMC Website</a>
     <a href="staff.html" class="btn">Server I am Staff on</a>
     <a class="btn" onclick="openPopup()">MistyMC Info</a>
@@ -173,21 +173,42 @@ p {
 <div id="popup" class="popup-overlay">
     <div class="popup-box">
         <h1>🚧 UNDER DEVELOPMENT 🚧</h1>
-        <p>This page is currently being worked on.<br>Please check back later!</p>
+        <p>This page is currently being worked on.</p>
+        <div class="countdown">
+            Closing in <span id="timer">5</span> seconds...
+        </div>
         <button class="close-btn" onclick="closePopup()">Close</button>
     </div>
 </div>
 
 <script>
 const popup = document.getElementById("popup");
+const timerText = document.getElementById("timer");
+let countdown;
+let timeLeft;
 
 function openPopup() {
     popup.style.display = "flex";
     popup.classList.remove("hide");
     popup.classList.add("show");
+
+    timeLeft = 5;
+    timerText.textContent = timeLeft;
+
+    clearInterval(countdown);
+    countdown = setInterval(() => {
+        timeLeft--;
+        timerText.textContent = timeLeft;
+
+        if (timeLeft <= 0) {
+            clearInterval(countdown);
+            closePopup();
+        }
+    }, 1000);
 }
 
 function closePopup() {
+    clearInterval(countdown);
     popup.classList.remove("show");
     popup.classList.add("hide");
 
