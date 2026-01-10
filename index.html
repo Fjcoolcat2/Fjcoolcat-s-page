@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fjcoolcat's Website</title>
 
-<!-- Minecraft Font -->
 <link href="https://fonts.googleapis.com/css2?family=Minecraftia&display=swap" rel="stylesheet">
 
 <style>
@@ -57,7 +56,26 @@ p {
     box-shadow: 0 10px 25px rgba(255,0,0,0.7);
 }
 
-/* ===== POPUP OVERLAY ===== */
+/* BLUE + PINK BUTTON */
+.fun-btn {
+    display: inline-block;
+    margin: 20px;
+    padding: 16px 32px;
+    font-size: 1.05em;
+    color: white;
+    border-radius: 50px;
+    background: linear-gradient(45deg, #00c6ff, #ff4fd8);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.6);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.fun-btn:hover {
+    transform: translateY(-4px) scale(1.06);
+    box-shadow: 0 12px 30px rgba(0,198,255,0.8);
+}
+
+/* ===== POPUPS ===== */
 .popup-overlay {
     position: fixed;
     inset: 0;
@@ -69,61 +87,35 @@ p {
     z-index: 999;
 }
 
-/* POPUP BOX */
+/* RED POPUP */
 .popup-box {
     background: linear-gradient(45deg, #000000, #8B0000);
     padding: 50px;
     border-radius: 25px;
     max-width: 600px;
     width: 90%;
-    transform: scale(0.7);
-    opacity: 0;
     text-align: center;
 }
 
-/* OPEN + GLOW */
-.popup-overlay.show .popup-box {
-    animation:
-        popupIn 0.45s ease forwards,
-        glowPulse 2s infinite;
-}
-
-/* CLOSE */
-.popup-overlay.hide .popup-box {
-    animation: popupOut 0.35s ease forwards;
-}
-
-@keyframes popupIn {
-    from { transform: scale(0.7); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
-
-@keyframes popupOut {
-    from { transform: scale(1); opacity: 1; }
-    to { transform: scale(0.6); opacity: 0; }
-}
-
-/* GLOW PULSE */
-@keyframes glowPulse {
-    0%   { box-shadow: 0 0 15px rgba(255,0,0,0.4); }
-    50%  { box-shadow: 0 0 40px rgba(255,0,0,0.9); }
-    100% { box-shadow: 0 0 15px rgba(255,0,0,0.4); }
-}
-
-.popup-box h1 {
-    font-size: 2.2em;
-    color: #ff5555;
+/* BLUE/PINK POPUP */
+.fun-popup-box {
+    background: linear-gradient(45deg, #00c6ff, #ff4fd8);
+    padding: 50px;
+    border-radius: 25px;
+    max-width: 600px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(255,79,216,0.8);
 }
 
 .countdown {
     font-size: 1.3em;
     margin-top: 20px;
-    color: #00ffcc;
+    color: #ffffff;
 }
 
-/* CLOSE BUTTON */
 .close-btn {
-    margin-top: 30px;
+    margin-top: 25px;
     padding: 12px 30px;
     font-size: 1em;
     border-radius: 50px;
@@ -131,10 +123,6 @@ p {
     background: black;
     color: white;
     cursor: pointer;
-}
-
-.close-btn:hover {
-    background: #8B0000;
 }
 </style>
 </head>
@@ -149,7 +137,7 @@ Here I will help you with any information you need about my shop on the MistyMc 
 </p>
 
 <div class="bold-disclaimer">
-    We are <strong>not affiliated with MistyMc</strong> at all, we just like to help people!
+    We are <strong>not affiliated with MistyMc</strong> at all.
 </div>
 
 <div>
@@ -164,16 +152,20 @@ Here I will help you with any information you need about my shop on the MistyMc 
     <a class="btn" onclick="openPopup()">MistyMC Info</a>
 </div>
 
+<!-- FUN BUTTON -->
+<div>
+    <div class="fun-btn" onclick="openFunPopup()">MistyMc Fun</div>
+</div>
+
 <section>
     <h2>Contact / Info</h2>
-    <p>You can reach me on Discord: <strong>Fjcoolcat</strong></p>
+    <p>Discord: <strong>Fjcoolcat</strong></p>
 </section>
 
-<!-- POPUP -->
+<!-- RED POPUP -->
 <div id="popup" class="popup-overlay">
     <div class="popup-box">
         <h1>🚧 UNDER DEVELOPMENT 🚧</h1>
-        <p>This page is currently being worked on.</p>
         <div class="countdown">
             Closing in <span id="timer">5</span> seconds...
         </div>
@@ -181,40 +173,52 @@ Here I will help you with any information you need about my shop on the MistyMc 
     </div>
 </div>
 
+<!-- BLUE/PINK POPUP -->
+<div id="funPopup" class="popup-overlay">
+    <div class="fun-popup-box">
+        <h1>🚧 UNDER DEVELOPMENT 🚧</h1>
+        <div class="countdown">
+            Closing in <span id="funTimer">5</span> seconds...
+        </div>
+    </div>
+</div>
+
 <script>
-const popup = document.getElementById("popup");
-const timerText = document.getElementById("timer");
-let countdown;
-let timeLeft;
+let countdown, funCountdown;
 
+/* RED POPUP */
 function openPopup() {
-    popup.style.display = "flex";
-    popup.classList.remove("hide");
-    popup.classList.add("show");
-
-    timeLeft = 5;
-    timerText.textContent = timeLeft;
-
+    document.getElementById("popup").style.display = "flex";
+    let time = 5;
+    document.getElementById("timer").textContent = time;
     clearInterval(countdown);
     countdown = setInterval(() => {
-        timeLeft--;
-        timerText.textContent = timeLeft;
-
-        if (timeLeft <= 0) {
-            clearInterval(countdown);
-            closePopup();
-        }
+        time--;
+        document.getElementById("timer").textContent = time;
+        if (time <= 0) closePopup();
     }, 1000);
 }
 
 function closePopup() {
     clearInterval(countdown);
-    popup.classList.remove("show");
-    popup.classList.add("hide");
+    document.getElementById("popup").style.display = "none";
+}
 
-    setTimeout(() => {
-        popup.style.display = "none";
-    }, 350);
+/* BLUE/PINK POPUP */
+function openFunPopup() {
+    const popup = document.getElementById("funPopup");
+    popup.style.display = "flex";
+    let time = 5;
+    document.getElementById("funTimer").textContent = time;
+    clearInterval(funCountdown);
+    funCountdown = setInterval(() => {
+        time--;
+        document.getElementById("funTimer").textContent = time;
+        if (time <= 0) {
+            clearInterval(funCountdown);
+            popup.style.display = "none";
+        }
+    }, 1000);
 }
 </script>
 
