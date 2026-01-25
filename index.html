@@ -698,7 +698,85 @@
             color: #1a0b2e;
         }
 
-        /* Bulk Orders Panel - Premium */
+        /* User Bulk Panel (for regular users) */
+        .user-bulk-panel {
+            display: none;
+            background: 
+                linear-gradient(135deg, rgba(156, 39, 176, 0.1) 0%, rgba(106, 27, 154, 0.05) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(156, 39, 176, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .user-bulk-panel.show {
+            display: block;
+            animation: slideDown 0.5s ease;
+        }
+
+        .user-bulk-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .user-bulk-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: #e1bee7;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-bulk-list {
+            list-style: none;
+        }
+
+        .user-bulk-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #9c27b0;
+        }
+
+        .submit-bulk-btn {
+            margin-top: 20px;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--accent-green) 0%, #2e7d32 100%);
+            color: #1a0b2e;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .submit-bulk-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(105, 240, 174, 0.4);
+        }
+
+        .submit-bulk-btn:disabled {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.3);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Admin Bulk Orders Panel */
         .bulk-orders-panel {
             display: none;
             background: 
@@ -791,6 +869,12 @@
         .bulk-item-price {
             color: var(--gold-primary);
             font-size: 0.9rem;
+        }
+
+        .bulk-item-customer {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            margin-top: 4px;
         }
 
         .remove-bulk {
@@ -1067,8 +1151,9 @@
             
             <div id="userInfo" class="user-info">
                 <span>Welcome, <span class="username" id="currentUser"></span></span>
+                <!-- Bulk Orders button visible to ALL logged in users -->
+                <button class="btn-bulk active" id="bulkBtn" onclick="toggleBulkPanel()">My Bulk Order</button>
                 <div class="notification-badge" id="notifBadge">
-                    <button class="btn-bulk" id="bulkBtn" onclick="toggleBulkPanel()">Bulk Orders</button>
                     <span class="badge-count" id="badgeCount">0</span>
                 </div>
                 <button class="btn-danger" onclick="logout()">Exit</button>
@@ -1148,16 +1233,34 @@
             </div>
         </div>
 
-        <!-- Bulk Orders Panel -->
-        <div id="bulkPanel" class="bulk-orders-panel">
+        <!-- User Bulk Panel (for regular users to see their selected items) -->
+        <div id="userBulkPanel" class="user-bulk-panel">
+            <div class="user-bulk-header">
+                <div class="user-bulk-title">
+                    <span>📦</span>
+                    <span>Your Bulk Order</span>
+                </div>
+            </div>
+            <ul id="userBulkList" class="user-bulk-list">
+                <li style="color: rgba(255,255,255,0.4); font-style: italic; text-align: center; padding: 20px;">
+                    Your bulk order is empty...
+                </li>
+            </ul>
+            <button class="submit-bulk-btn" id="submitBulkBtn" onclick="submitBulkOrder()" disabled>
+                Submit Bulk Order
+            </button>
+        </div>
+
+        <!-- Admin Bulk Orders Panel (for FJ121 only - shows all customer orders) -->
+        <div id="adminBulkPanel" class="bulk-orders-panel">
             <div class="bulk-header">
                 <div class="bulk-title">
                     <span>📦</span>
-                    <span>Bulk Orders Queue</span>
+                    <span>Customer Bulk Orders</span>
                 </div>
                 <button class="clear-all-btn" onclick="clearAllBulk()">Clear All</button>
             </div>
-            <ul id="bulkList" class="bulk-list">
+            <ul id="adminBulkList" class="bulk-list">
                 <li style="color: rgba(255,255,255,0.4); font-style: italic; text-align: center; padding: 40px;">
                     No bulk orders pending...
                 </li>
@@ -1171,7 +1274,8 @@
                 <button class="tab" onclick="filterItems('in')">Available Now</button>
                 <button class="tab" onclick="filterItems('out')">Out of Stock</button>
                 <button class="tab" onclick="filterItems('limited')">Limited Edition</button>
-                <button class="tab bulk-tab" id="bulkTab" onclick="showBulkOnly()">📦 Bulk Orders</button>
+                <!-- Admin-only tab to view all bulk orders -->
+                <button class="tab bulk-tab" id="adminBulkTab" onclick="showAdminBulkView()">📦 All Bulk Orders</button>
             </div>
         </div>
 
@@ -1191,7 +1295,7 @@
             <button class="alert-close" onclick="closePrivateAlert()">×</button>
         </div>
         <div class="alert-content" id="alertContent">
-            A customer has requested items in bulk.
+            A customer has submitted a bulk order.
         </div>
         <div class="alert-time" id="alertTime"></div>
     </div>
@@ -1237,11 +1341,11 @@
         ];
 
         let currentUser = null;
-        let bulkOrders = [];
+        let userBulkOrder = []; // Current user's selected items
+        let submittedBulkOrders = []; // All submitted orders (for admin)
         let currentFilter = 'all';
-        let bulkCounter = 0;
 
-        // Render items with enhanced styling
+        // Render items
         function renderItems() {
             const container = document.getElementById('itemsContainer');
             container.innerHTML = '';
@@ -1253,8 +1357,6 @@
                 filteredItems = items.filter(item => item.stock === 'out');
             } else if (currentFilter === 'limited') {
                 filteredItems = items.filter(item => item.stock === 'limited');
-            } else if (currentFilter === 'bulk') {
-                filteredItems = items.filter(item => bulkOrders.some(bo => bo.id === item.id));
             }
 
             if (filteredItems.length === 0) {
@@ -1277,8 +1379,8 @@
             const div = document.createElement('div');
             div.className = 'item-card';
             
-            const isInBulk = bulkOrders.some(bo => bo.id === item.id);
-            const bulkBtnText = isInBulk ? '✓ In Bulk Order' : 'Add to Bulk Order';
+            const isInBulk = userBulkOrder.some(bo => bo.id === item.id);
+            const bulkBtnText = isInBulk ? '✓ Added' : 'Add to Bulk';
             const bulkBtnClass = isInBulk ? 'added' : '';
             
             div.innerHTML = `
@@ -1319,25 +1421,29 @@
             document.getElementById('loginForm').classList.add('hidden');
             document.getElementById('userInfo').classList.add('show');
             
+            // Show bulk button for ALL users
+            document.getElementById('bulkBtn').classList.add('active');
+            
             if (username === 'FJ121') {
+                // Admin-only features
                 document.getElementById('adminControls').classList.add('show');
                 document.getElementById('statsBar').classList.add('show');
                 document.getElementById('notifBadge').classList.add('show');
-                document.getElementById('bulkTab').classList.add('show');
+                document.getElementById('adminBulkTab').classList.add('show');
                 updateStats();
                 showToast('Welcome, Shopkeeper! You have full access.', 'success');
             } else {
+                // Regular user - show their bulk panel
                 showToast(`Welcome to The Tavern, ${username}!`, 'success');
             }
             
             renderItems();
+            updateUserBulkList();
         }
 
         function logout() {
             currentUser = null;
-            bulkOrders = [];
-            updateBulkList();
-            updateBadge();
+            userBulkOrder = [];
             
             document.getElementById('usernameInput').value = '';
             document.getElementById('loginForm').classList.remove('hidden');
@@ -1346,8 +1452,9 @@
             document.getElementById('statsBar').classList.remove('show');
             document.getElementById('notifBadge').classList.remove('show');
             document.getElementById('bulkBtn').classList.remove('active');
-            document.getElementById('bulkTab').classList.remove('show');
-            document.getElementById('bulkPanel').classList.remove('show');
+            document.getElementById('adminBulkTab').classList.remove('show');
+            document.getElementById('userBulkPanel').classList.remove('show');
+            document.getElementById('adminBulkPanel').classList.remove('show');
             
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelector('.tab').classList.add('active');
@@ -1393,70 +1500,123 @@
         function deleteItem(id) {
             if (confirm('Are you sure you want to remove this item from the shop?')) {
                 items = items.filter(item => item.id !== id);
-                bulkOrders = bulkOrders.filter(bo => bo.id !== id);
-                updateBulkList();
-                updateBadge();
-                renderItems();
+                userBulkOrder = userBulkOrder.filter(bo => bo.id !== id);
+                submittedBulkOrders = submittedBulkOrders.filter(bo => bo.id !== id);
+                updateUserBulkList();
+                updateAdminBulkList();
                 updateStats();
+                renderItems();
                 showToast('Item removed from the shop', 'success');
             }
         }
 
-        // Bulk order functions
+        // Bulk order functions for users
         function toggleBulkItem(id, btn) {
             const item = items.find(i => i.id === id);
             if (!item) return;
 
-            const existingIndex = bulkOrders.findIndex(bo => bo.id === id);
+            const existingIndex = userBulkOrder.findIndex(bo => bo.id === id);
             
             if (existingIndex !== -1) {
-                bulkOrders.splice(existingIndex, 1);
-                btn.textContent = 'Add to Bulk Order';
+                userBulkOrder.splice(existingIndex, 1);
+                btn.textContent = 'Add to Bulk';
                 btn.classList.remove('added');
-                showToast('Removed from bulk order', 'success');
+                showToast('Removed from your bulk order', 'success');
             } else {
-                bulkOrders.push({
-                    ...item,
-                    addedAt: new Date(),
-                    addedBy: currentUser
-                });
-                btn.textContent = '✓ In Bulk Order';
+                userBulkOrder.push({...item, addedAt: new Date()});
+                btn.textContent = '✓ Added';
                 btn.classList.add('added');
-                showToast('Added to bulk order!', 'success');
-                
-                // Send private notification to admin
-                sendPrivateNotification(item, currentUser);
+                showToast('Added to your bulk order!', 'success');
             }
             
-            updateBulkList();
-            updateBadge();
-            updateStats();
+            updateUserBulkList();
         }
 
-        function sendPrivateNotification(item, username) {
-            // Update badge
-            bulkCounter++;
+        function updateUserBulkList() {
+            const list = document.getElementById('userBulkList');
+            const submitBtn = document.getElementById('submitBulkBtn');
+            
+            if (userBulkOrder.length === 0) {
+                list.innerHTML = '<li style="color: rgba(255,255,255,0.4); font-style: italic; text-align: center; padding: 20px;">Your bulk order is empty...</li>';
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Submit Bulk Order';
+                return;
+            }
+
+            submitBtn.disabled = false;
+            submitBtn.textContent = `Submit Order (${userBulkOrder.length} items)`;
+            
+            list.innerHTML = '';
+            userBulkOrder.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'user-bulk-item';
+                li.innerHTML = `
+                    <div>
+                        <div style="font-weight: 600; color: #fff;">${item.name}</div>
+                        <div style="color: var(--gold-primary); font-size: 0.9rem;">${item.price}</div>
+                    </div>
+                    <button class="remove-bulk" onclick="removeFromUserBulk(${item.id})">Remove</button>
+                `;
+                list.appendChild(li);
+            });
+        }
+
+        function removeFromUserBulk(id) {
+            userBulkOrder = userBulkOrder.filter(bo => bo.id !== id);
+            updateUserBulkList();
+            renderItems(); // Re-render to update button states
+            showToast('Removed from your bulk order', 'success');
+        }
+
+        function submitBulkOrder() {
+            if (userBulkOrder.length === 0) return;
+            
+            // Submit to admin
+            const order = {
+                id: Date.now(),
+                customer: currentUser,
+                items: [...userBulkOrder],
+                submittedAt: new Date(),
+                totalItems: userBulkOrder.length
+            };
+            
+            submittedBulkOrders.push(order);
+            
+            // Clear user's bulk order
+            userBulkOrder = [];
+            updateUserBulkList();
+            renderItems();
+            
+            // Notify admin if online
+            if (document.getElementById('adminControls').classList.contains('show')) {
+                showPrivateAlert(order);
+                updateStats();
+                updateAdminBulkList();
+            }
+            
+            showToast('Your bulk order has been submitted to the shopkeeper!', 'success');
+            toggleBulkPanel(); // Close panel
+        }
+
+        // Admin bulk order management
+        function showPrivateAlert(order) {
+            const alert = document.getElementById('privateAlert');
+            const content = document.getElementById('alertContent');
+            const time = document.getElementById('alertTime');
+            
+            content.innerHTML = `
+                <strong>${order.customer}</strong> has submitted a bulk order with 
+                <strong>${order.totalItems} items</strong>.<br>
+                <span style="color: #ffd700; font-size: 0.9rem;">Click "Bulk Orders" to view details.</span>
+            `;
+            time.textContent = new Date().toLocaleTimeString();
+            
+            alert.classList.add('show');
             updateBadge();
             
-            // Show private alert if admin is logged in
-            if (currentUser === 'FJ121') {
-                const alert = document.getElementById('privateAlert');
-                const content = document.getElementById('alertContent');
-                const time = document.getElementById('alertTime');
-                
-                content.innerHTML = `
-                    <strong>${username}</strong> has requested <strong>${item.name}</strong> (${item.price}) in bulk.<br>
-                    <span style="color: #ffd700; font-size: 0.9rem;">Click "Bulk Orders" to view all requests.</span>
-                `;
-                time.textContent = new Date().toLocaleTimeString();
-                
-                alert.classList.add('show');
-                
-                // Auto-hide after 8 seconds
-                setTimeout(() => {
-                    closePrivateAlert();
-                }, 8000);
-            }
+            setTimeout(() => {
+                closePrivateAlert();
+            }, 8000);
         }
 
         function closePrivateAlert() {
@@ -1465,89 +1625,104 @@
 
         function updateBadge() {
             const badge = document.getElementById('badgeCount');
-            const count = bulkOrders.length;
+            const count = submittedBulkOrders.length;
             badge.textContent = count;
             badge.style.display = count > 0 ? 'flex' : 'none';
-            
-            if (count > 0) {
-                document.getElementById('bulkBtn').classList.add('active');
-            }
         }
 
         function toggleBulkPanel() {
-            const panel = document.getElementById('bulkPanel');
-            panel.classList.toggle('show');
-            if (panel.classList.contains('show')) {
-                updateBulkList();
+            if (currentUser === 'FJ121') {
+                // Admin sees all customer orders
+                const panel = document.getElementById('adminBulkPanel');
+                panel.classList.toggle('show');
+                if (panel.classList.contains('show')) {
+                    updateAdminBulkList();
+                }
+            } else {
+                // Regular user sees their own order
+                const panel = document.getElementById('userBulkPanel');
+                panel.classList.toggle('show');
             }
         }
 
-        function updateBulkList() {
-            const list = document.getElementById('bulkList');
-            if (bulkOrders.length === 0) {
+        function updateAdminBulkList() {
+            const list = document.getElementById('adminBulkList');
+            if (submittedBulkOrders.length === 0) {
                 list.innerHTML = '<li style="color: rgba(255,255,255,0.4); font-style: italic; text-align: center; padding: 40px;">No bulk orders pending...</li>';
                 return;
             }
 
             list.innerHTML = '';
-            bulkOrders.forEach(order => {
-                const li = document.createElement('li');
-                li.className = 'bulk-item';
-                li.innerHTML = `
-                    <div class="bulk-item-info">
-                        <div class="bulk-item-name">${order.name}</div>
-                        <div class="bulk-item-price">${order.price} • Requested by ${order.addedBy}</div>
-                    </div>
-                    <button class="remove-bulk" onclick="removeFromBulk(${order.id})">Remove</button>
-                `;
-                list.appendChild(li);
+            submittedBulkOrders.forEach(order => {
+                order.items.forEach(item => {
+                    const li = document.createElement('li');
+                    li.className = 'bulk-item';
+                    li.innerHTML = `
+                        <div class="bulk-item-info">
+                            <div class="bulk-item-name">${item.name}</div>
+                            <div class="bulk-item-price">${item.price}</div>
+                            <div class="bulk-item-customer">Ordered by ${order.customer} at ${new Date(order.submittedAt).toLocaleTimeString()}</div>
+                        </div>
+                        <button class="remove-bulk" onclick="removeSubmittedOrder(${order.id})">Remove</button>
+                    `;
+                    list.appendChild(li);
+                });
             });
         }
 
-        function removeFromBulk(id) {
-            bulkOrders = bulkOrders.filter(bo => bo.id !== id);
-            updateBulkList();
-            updateBadge();
+        function removeSubmittedOrder(orderId) {
+            submittedBulkOrders = submittedBulkOrders.filter(o => o.id !== orderId);
+            updateAdminBulkList();
             updateStats();
-            renderItems();
-            showToast('Removed from bulk orders', 'success');
+            updateBadge();
+            showToast('Order removed', 'success');
         }
 
         function clearAllBulk() {
-            if (bulkOrders.length === 0) return;
-            if (confirm('Clear all bulk orders?')) {
-                bulkOrders = [];
-                updateBulkList();
-                updateBadge();
+            if (submittedBulkOrders.length === 0) return;
+            if (confirm('Clear all submitted bulk orders?')) {
+                submittedBulkOrders = [];
+                updateAdminBulkList();
                 updateStats();
-                renderItems();
-                showToast('All bulk orders cleared', 'success');
+                updateBadge();
+                showToast('All orders cleared', 'success');
             }
         }
 
         function updateStats() {
             document.getElementById('totalItems').textContent = items.length;
             document.getElementById('inStockItems').textContent = items.filter(i => i.stock === 'in').length;
-            document.getElementById('bulkRequests').textContent = bulkOrders.length;
+            document.getElementById('bulkRequests').textContent = submittedBulkOrders.reduce((sum, o) => sum + o.totalItems, 0);
             
-            const total = bulkOrders.reduce((sum, item) => {
-                const price = parseInt(item.price) || 0;
-                return sum + price;
+            const total = submittedBulkOrders.reduce((sum, order) => {
+                return sum + order.items.reduce((itemSum, item) => {
+                    const price = parseInt(item.price) || 0;
+                    return itemSum + price;
+                }, 0);
             }, 0);
             document.getElementById('totalValue').textContent = total + ' d';
         }
 
-        function showBulkOnly() {
-            currentFilter = 'bulk';
+        function showAdminBulkView() {
+            // Switch to admin bulk view tab
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             event.target.classList.add('active');
-            renderItems();
+            
+            // Show admin panel
+            document.getElementById('adminBulkPanel').classList.add('show');
+            document.getElementById('itemsContainer').style.display = 'none';
+            updateAdminBulkList();
         }
 
         function filterItems(type) {
             currentFilter = type;
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             event.target.classList.add('active');
+            
+            // Hide admin bulk panel and show items
+            document.getElementById('adminBulkPanel').classList.remove('show');
+            document.getElementById('itemsContainer').style.display = 'grid';
+            
             renderItems();
         }
 
