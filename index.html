@@ -36,6 +36,34 @@
             overflow-x: hidden;
         }
 
+        /* Location Bar */
+        .location-bar {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--gold-primary);
+            padding: 12px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .location-text {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-primary);
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .location-icon {
+            font-size: 1.3rem;
+        }
+
         /* Animated background particles */
         .particles {
             position: fixed;
@@ -76,8 +104,8 @@
         /* Enhanced Header with 3D effect */
         header {
             text-align: center;
-            margin-bottom: 50px;
-            padding: 40px 20px;
+            margin-bottom: 30px;
+            padding: 40px 20px 20px;
             position: relative;
         }
 
@@ -120,23 +148,32 @@
         .title-decoration.left { left: -220px; }
         .title-decoration.right { right: -220px; }
 
-        .subtitle {
+        .shop-owners {
             font-family: 'Cinzel', serif;
-            font-size: 1.3rem;
-            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
             margin-top: 15px;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            position: relative;
+            background: linear-gradient(90deg, var(--gold-primary), #fff, var(--gold-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% auto;
+            animation: shine 3s linear infinite;
         }
 
-        .subtitle::before,
-        .subtitle::after {
-            content: '◆';
-            color: var(--gold-primary);
-            margin: 0 20px;
-            font-size: 0.8rem;
-            vertical-align: middle;
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        .subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 10px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
         }
 
         /* Glassmorphism Login Section */
@@ -274,11 +311,6 @@
             background: linear-gradient(135deg, #9c27b0 0%, #6a1b9a 100%);
             color: #fff;
             box-shadow: 0 4px 15px rgba(156, 39, 176, 0.3);
-            display: none;
-        }
-
-        .btn-bulk.active {
-            display: inline-block;
         }
 
         .btn-bulk:hover {
@@ -286,12 +318,25 @@
             box-shadow: 0 8px 25px rgba(156, 39, 176, 0.5);
         }
 
+        .btn-view-bulk {
+            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+            margin-left: 10px;
+        }
+
+        .btn-view-bulk:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.5);
+        }
+
         .user-info {
             display: none;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
             position: relative;
             z-index: 1;
+            flex-wrap: wrap;
         }
 
         .user-info.show {
@@ -480,19 +525,6 @@
         .tab:hover:not(.active) {
             background: rgba(255, 255, 255, 0.1);
             transform: translateY(-2px);
-        }
-
-        .tab.bulk-tab {
-            display: none;
-            border-color: #9c27b0;
-        }
-
-        .tab.bulk-tab.show {
-            display: inline-block;
-        }
-
-        .tab.bulk-tab.active::before {
-            background: linear-gradient(135deg, #9c27b0, #6a1b9a);
         }
 
         /* Item Cards - Enhanced Design */
@@ -698,65 +730,167 @@
             color: #1a0b2e;
         }
 
-        /* User Bulk Panel (for regular users) */
-        .user-bulk-panel {
+        /* Bulk Order Modal/Page */
+        .bulk-modal-overlay {
             display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .bulk-modal-overlay.show {
+            display: flex;
+        }
+
+        .bulk-modal {
             background: 
-                linear-gradient(135deg, rgba(156, 39, 176, 0.1) 0%, rgba(106, 27, 154, 0.05) 100%);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(156, 39, 176, 0.3);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+                linear-gradient(135deg, rgba(30, 30, 40, 0.95) 0%, rgba(20, 20, 30, 0.95) 100%);
+            border: 2px solid rgba(156, 39, 176, 0.5);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
             position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
         }
 
-        .user-bulk-panel.show {
-            display: block;
-            animation: slideDown 0.5s ease;
-        }
-
-        .user-bulk-header {
+        .bulk-modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(156, 39, 176, 0.3);
         }
 
-        .user-bulk-title {
+        .bulk-modal-title {
             font-family: 'Cinzel', serif;
-            font-size: 1.5rem;
+            font-size: 2rem;
             color: #e1bee7;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
         }
 
-        .user-bulk-list {
+        .close-modal {
+            background: rgba(255, 82, 82, 0.2);
+            color: #ff5252;
+            border: 2px solid rgba(255, 82, 82, 0.5);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .close-modal:hover {
+            background: rgba(255, 82, 82, 0.4);
+            color: #fff;
+            transform: rotate(90deg);
+        }
+
+        .bulk-items-list {
             list-style: none;
+            margin-bottom: 30px;
         }
 
-        .user-bulk-item {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px 20px;
-            margin-bottom: 10px;
-            border-radius: 12px;
+        .bulk-item-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(156, 39, 176, 0.3);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-left: 4px solid #9c27b0;
+            transition: all 0.3s;
         }
 
-        .submit-bulk-btn {
-            margin-top: 20px;
-            width: 100%;
-            padding: 15px;
+        .bulk-item-card:hover {
+            transform: translateX(10px);
+            border-color: rgba(156, 39, 176, 0.6);
+        }
+
+        .bulk-item-info h3 {
+            color: #fff;
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+
+        .bulk-item-info .price {
+            font-size: 1.2rem;
+            color: var(--gold-primary);
+        }
+
+        .remove-item-btn {
+            background: rgba(255, 82, 82, 0.2);
+            color: #ff5252;
+            border: 2px solid rgba(255, 82, 82, 0.5);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .remove-item-btn:hover {
+            background: rgba(255, 82, 82, 0.4);
+            color: #fff;
+        }
+
+        .bulk-total {
+            background: rgba(156, 39, 176, 0.1);
+            border: 2px solid rgba(156, 39, 176, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .bulk-total-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .bulk-total-value {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            color: var(--gold-primary);
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .bulk-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-submit-bulk {
+            flex: 1;
+            min-width: 200px;
+            padding: 18px;
             background: linear-gradient(135deg, var(--accent-green) 0%, #2e7d32 100%);
             color: #1a0b2e;
             border: none;
             border-radius: 12px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
@@ -764,232 +898,135 @@
             letter-spacing: 2px;
         }
 
-        .submit-bulk-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(105, 240, 174, 0.4);
+        .btn-submit-bulk:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(105, 240, 174, 0.4);
         }
 
-        .submit-bulk-btn:disabled {
+        .btn-submit-bulk:disabled {
             background: rgba(255, 255, 255, 0.1);
             color: rgba(255, 255, 255, 0.3);
             cursor: not-allowed;
-            transform: none;
         }
 
-        /* Admin Bulk Orders Panel */
-        .bulk-orders-panel {
+        .btn-clear-bulk {
+            flex: 1;
+            min-width: 200px;
+            padding: 18px;
+            background: rgba(255, 82, 82, 0.2);
+            color: #ff5252;
+            border: 2px solid rgba(255, 82, 82, 0.5);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-clear-bulk:hover {
+            background: rgba(255, 82, 82, 0.4);
+            color: #fff;
+        }
+
+        .empty-bulk {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .empty-bulk-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        /* Admin Bulk Orders View */
+        .admin-bulk-orders {
             display: none;
-            background: 
-                linear-gradient(135deg, rgba(156, 39, 176, 0.1) 0%, rgba(106, 27, 154, 0.05) 100%);
+            background: rgba(156, 39, 176, 0.05);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(156, 39, 176, 0.3);
             border-radius: 20px;
             padding: 30px;
             margin-bottom: 40px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            position: relative;
-            overflow: hidden;
         }
 
-        .bulk-orders-panel::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(156,39,176,0.1) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .bulk-orders-panel.show {
+        .admin-bulk-orders.show {
             display: block;
             animation: slideDown 0.5s ease;
         }
 
-        .bulk-header {
+        .admin-bulk-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 1;
+            margin-bottom: 25px;
         }
 
-        .bulk-title {
+        .admin-bulk-title {
             font-family: 'Cinzel', serif;
             font-size: 1.8rem;
             color: #e1bee7;
-            display: flex;
-            align-items: center;
-            gap: 15px;
         }
 
-        .bulk-list {
-            list-style: none;
-            position: relative;
-            z-index: 1;
-        }
-
-        .bulk-item {
+        .customer-order {
             background: rgba(0, 0, 0, 0.3);
-            padding: 15px 20px;
-            margin-bottom: 12px;
-            border-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-left: 4px solid #9c27b0;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
-        }
-
-        .bulk-item:hover {
-            transform: translateX(10px);
-            background: rgba(0, 0, 0, 0.4);
-        }
-
-        .bulk-item-info {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .bulk-item-name {
-            font-weight: 600;
-            color: #fff;
-            font-size: 1.1rem;
-        }
-
-        .bulk-item-price {
-            color: var(--gold-primary);
-            font-size: 0.9rem;
-        }
-
-        .bulk-item-customer {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.85rem;
-            margin-top: 4px;
-        }
-
-        .remove-bulk {
-            background: rgba(255, 82, 82, 0.2);
-            color: #ff5252;
-            border: 1px solid rgba(255, 82, 82, 0.5);
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .remove-bulk:hover {
-            background: rgba(255, 82, 82, 0.4);
-            color: #fff;
-        }
-
-        .clear-all-btn {
-            background: rgba(255, 82, 82, 0.2);
-            color: #ff5252;
-            border: 1px solid rgba(255, 82, 82, 0.5);
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .clear-all-btn:hover {
-            background: rgba(255, 82, 82, 0.4);
-            color: #fff;
-        }
-
-        /* Private Admin Alert */
-        .private-alert {
-            display: none;
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: 
-                linear-gradient(135deg, rgba(156, 39, 176, 0.95) 0%, rgba(106, 27, 154, 0.95) 100%);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(156, 39, 176, 0.2);
             border-radius: 16px;
             padding: 25px;
-            max-width: 400px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            animation: slideInRight 0.5s ease;
+            margin-bottom: 20px;
         }
 
-        .private-alert.show {
-            display: block;
-        }
-
-        @keyframes slideInRight {
-            from {
-                transform: translateX(500px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        .alert-header {
+        .customer-order-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(156, 39, 176, 0.2);
         }
 
-        .alert-title {
+        .customer-name {
             font-family: 'Cinzel', serif;
             font-size: 1.3rem;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            color: var(--gold-primary);
         }
 
-        .alert-close {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0;
-            width: 30px;
-            height: 30px;
+        .order-time {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        .customer-items {
+            list-style: none;
+        }
+
+        .customer-item {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
+            justify-content: space-between;
+            padding: 10px 0;
+            color: rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .customer-item:last-child {
+            border-bottom: none;
+        }
+
+        .delete-order-btn {
+            background: rgba(255, 82, 82, 0.2);
+            color: #ff5252;
+            border: 1px solid rgba(255, 82, 82, 0.5);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
             transition: all 0.3s;
         }
 
-        .alert-close:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .alert-content {
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.6;
-        }
-
-        .alert-time {
-            margin-top: 15px;
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.6);
-            font-style: italic;
+        .delete-order-btn:hover {
+            background: rgba(255, 82, 82, 0.4);
+            color: #fff;
         }
 
         /* Toast Notification */
@@ -1006,7 +1043,7 @@
             font-weight: 600;
             opacity: 0;
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            z-index: 999;
+            z-index: 9999;
             backdrop-filter: blur(10px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
@@ -1064,8 +1101,12 @@
         /* Responsive */
         @media (max-width: 768px) {
             .main-title {
-                font-size: 3rem;
+                font-size: 2.5rem;
                 letter-spacing: 4px;
+            }
+            
+            .shop-owners {
+                font-size: 0.9rem;
             }
             
             .title-decoration {
@@ -1088,6 +1129,14 @@
             
             input[type="text"] {
                 width: 100%;
+            }
+
+            .bulk-modal {
+                padding: 20px;
+            }
+
+            .bulk-actions {
+                flex-direction: column;
             }
         }
 
@@ -1126,6 +1175,14 @@
     </style>
 </head>
 <body>
+    <!-- Location Bar -->
+    <div class="location-bar">
+        <div class="location-text">
+            <span class="location-icon">📌</span>
+            <span>Shop is at <strong>281 50 24</strong></span>
+        </div>
+    </div>
+
     <!-- Background Particles -->
     <div class="particles" id="particles"></div>
 
@@ -1137,6 +1194,7 @@
                 <h1 class="main-title">THE TAVERN</h1>
                 <div class="title-decoration right"></div>
             </div>
+            <div class="shop-owners">FJcoolcat & PizzaboiTM Shop</div>
             <p class="subtitle">Premium Minecraft Emporium</p>
         </header>
 
@@ -1151,12 +1209,10 @@
             
             <div id="userInfo" class="user-info">
                 <span>Welcome, <span class="username" id="currentUser"></span></span>
-                <!-- Bulk Orders button visible to ALL logged in users -->
-                <button class="btn-bulk active" id="bulkBtn" onclick="toggleBulkPanel()">My Bulk Order</button>
+                <button class="btn-bulk" id="bulkBtn" onclick="openBulkModal()">My Bulk Order</button>
                 <div class="notification-badge" id="notifBadge">
                     <span class="badge-count" id="badgeCount">0</span>
                 </div>
-                <button class="btn-danger" onclick="logout()">Exit</button>
             </div>
         </div>
 
@@ -1233,38 +1289,18 @@
             </div>
         </div>
 
-        <!-- User Bulk Panel (for regular users to see their selected items) -->
-        <div id="userBulkPanel" class="user-bulk-panel">
-            <div class="user-bulk-header">
-                <div class="user-bulk-title">
-                    <span>📦</span>
-                    <span>Your Bulk Order</span>
+        <!-- Admin Bulk Orders View -->
+        <div id="adminBulkOrders" class="admin-bulk-orders">
+            <div class="admin-bulk-header">
+                <div class="admin-bulk-title">📦 Customer Bulk Orders</div>
+                <button class="btn-clear-bulk" onclick="clearAllOrders()">Clear All Orders</button>
+            </div>
+            <div id="adminBulkList">
+                <div class="empty-bulk">
+                    <div class="empty-bulk-icon">📭</div>
+                    <p>No bulk orders yet...</p>
                 </div>
             </div>
-            <ul id="userBulkList" class="user-bulk-list">
-                <li style="color: rgba(255,255,255,0.4); font-style: italic; text-align: center; padding: 20px;">
-                    Your bulk order is empty...
-                </li>
-            </ul>
-            <button class="submit-bulk-btn" id="submitBulkBtn" onclick="submitBulkOrder()" disabled>
-                Submit Bulk Order
-            </button>
-        </div>
-
-        <!-- Admin Bulk Orders Panel (for FJ121 only - shows all customer orders) -->
-        <div id="adminBulkPanel" class="bulk-orders-panel">
-            <div class="bulk-header">
-                <div class="bulk-title">
-                    <span>📦</span>
-                    <span>Customer Bulk Orders</span>
-                </div>
-                <button class="clear-all-btn" onclick="clearAllBulk()">Clear All</button>
-            </div>
-            <ul id="adminBulkList" class="bulk-list">
-                <li style="color: rgba(255,255,255,0.4); font-style: italic; text-align: center; padding: 40px;">
-                    No bulk orders pending...
-                </li>
-            </ul>
         </div>
 
         <!-- Tabs -->
@@ -1274,8 +1310,6 @@
                 <button class="tab" onclick="filterItems('in')">Available Now</button>
                 <button class="tab" onclick="filterItems('out')">Out of Stock</button>
                 <button class="tab" onclick="filterItems('limited')">Limited Edition</button>
-                <!-- Admin-only tab to view all bulk orders -->
-                <button class="tab bulk-tab" id="adminBulkTab" onclick="showAdminBulkView()">📦 All Bulk Orders</button>
             </div>
         </div>
 
@@ -1285,19 +1319,25 @@
         </div>
     </div>
 
-    <!-- Private Admin Alert -->
-    <div id="privateAlert" class="private-alert">
-        <div class="alert-header">
-            <div class="alert-title">
-                <span>🔔</span>
-                <span>New Bulk Order!</span>
+    <!-- Bulk Order Modal -->
+    <div id="bulkModal" class="bulk-modal-overlay">
+        <div class="bulk-modal">
+            <div class="bulk-modal-header">
+                <div class="bulk-modal-title">
+                    <span>📦</span>
+                    <span>Your Bulk Order</span>
+                </div>
+                <button class="close-modal" onclick="closeBulkModal()">×</button>
             </div>
-            <button class="alert-close" onclick="closePrivateAlert()">×</button>
+            
+            <div id="bulkModalContent">
+                <div class="empty-bulk">
+                    <div class="empty-bulk-icon">🛒</div>
+                    <p>Your bulk order is empty</p>
+                    <p style="font-size: 0.9rem; margin-top: 10px; opacity: 0.6;">Add items from the shop to get started</p>
+                </div>
+            </div>
         </div>
-        <div class="alert-content" id="alertContent">
-            A customer has submitted a bulk order.
-        </div>
-        <div class="alert-time" id="alertTime"></div>
     </div>
 
     <!-- Toast Notification -->
@@ -1340,10 +1380,34 @@
             }
         ];
 
-        let currentUser = null;
-        let userBulkOrder = []; // Current user's selected items
-        let submittedBulkOrders = []; // All submitted orders (for admin)
+        let currentUser = localStorage.getItem('tavernUser') || null;
+        let userBulkOrder = JSON.parse(localStorage.getItem('tavernBulkOrder')) || [];
+        let submittedOrders = JSON.parse(localStorage.getItem('tavernSubmittedOrders')) || [];
         let currentFilter = 'all';
+
+        // Check for saved login on load
+        window.onload = function() {
+            if (currentUser) {
+                restoreLogin();
+            }
+            renderItems();
+        };
+
+        function restoreLogin() {
+            document.getElementById('currentUser').textContent = currentUser;
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('userInfo').classList.add('show');
+            document.getElementById('bulkBtn').style.display = 'inline-block';
+            
+            if (currentUser === 'FJ121') {
+                document.getElementById('adminControls').classList.add('show');
+                document.getElementById('statsBar').classList.add('show');
+                document.getElementById('notifBadge').classList.add('show');
+                document.getElementById('adminBulkOrders').classList.add('show');
+                updateStats();
+                renderAdminOrders();
+            }
+        }
 
         // Render items
         function renderItems() {
@@ -1408,7 +1472,7 @@
             return div;
         }
 
-        // Login system
+        // Login system - NO LOGOUT
         function login() {
             const username = document.getElementById('usernameInput').value.trim();
             if (!username) {
@@ -1417,51 +1481,27 @@
             }
 
             currentUser = username;
+            localStorage.setItem('tavernUser', currentUser);
+            
             document.getElementById('currentUser').textContent = username;
             document.getElementById('loginForm').classList.add('hidden');
             document.getElementById('userInfo').classList.add('show');
-            
-            // Show bulk button for ALL users
-            document.getElementById('bulkBtn').classList.add('active');
+            document.getElementById('bulkBtn').style.display = 'inline-block';
             
             if (username === 'FJ121') {
-                // Admin-only features
                 document.getElementById('adminControls').classList.add('show');
                 document.getElementById('statsBar').classList.add('show');
                 document.getElementById('notifBadge').classList.add('show');
-                document.getElementById('adminBulkTab').classList.add('show');
+                document.getElementById('adminBulkOrders').classList.add('show');
                 updateStats();
-                showToast('Welcome, Shopkeeper! You have full access.', 'success');
+                renderAdminOrders();
+                showToast('Welcome back, Shopkeeper!', 'success');
             } else {
-                // Regular user - show their bulk panel
                 showToast(`Welcome to The Tavern, ${username}!`, 'success');
             }
             
             renderItems();
-            updateUserBulkList();
-        }
-
-        function logout() {
-            currentUser = null;
-            userBulkOrder = [];
-            
-            document.getElementById('usernameInput').value = '';
-            document.getElementById('loginForm').classList.remove('hidden');
-            document.getElementById('userInfo').classList.remove('show');
-            document.getElementById('adminControls').classList.remove('show');
-            document.getElementById('statsBar').classList.remove('show');
-            document.getElementById('notifBadge').classList.remove('show');
-            document.getElementById('bulkBtn').classList.remove('active');
-            document.getElementById('adminBulkTab').classList.remove('show');
-            document.getElementById('userBulkPanel').classList.remove('show');
-            document.getElementById('adminBulkPanel').classList.remove('show');
-            
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelector('.tab').classList.add('active');
-            currentFilter = 'all';
-            
-            renderItems();
-            showToast('You have left The Tavern. Come again soon!', 'success');
+            updateBulkModal();
         }
 
         // Admin functions
@@ -1494,23 +1534,21 @@
             document.getElementById('itemName').value = '';
             document.getElementById('itemPrice').value = '';
             
-            showToast(`${name} has been added to the shop!`, 'success');
+            showToast(`${name} added to the shop!`, 'success');
         }
 
         function deleteItem(id) {
-            if (confirm('Are you sure you want to remove this item from the shop?')) {
+            if (confirm('Remove this item from the shop?')) {
                 items = items.filter(item => item.id !== id);
                 userBulkOrder = userBulkOrder.filter(bo => bo.id !== id);
-                submittedBulkOrders = submittedBulkOrders.filter(bo => bo.id !== id);
-                updateUserBulkList();
-                updateAdminBulkList();
-                updateStats();
+                saveBulkOrder();
                 renderItems();
-                showToast('Item removed from the shop', 'success');
+                updateStats();
+                showToast('Item removed', 'success');
             }
         }
 
-        // Bulk order functions for users
+        // Bulk order functions
         function toggleBulkItem(id, btn) {
             const item = items.find(i => i.id === id);
             if (!item) return;
@@ -1521,170 +1559,187 @@
                 userBulkOrder.splice(existingIndex, 1);
                 btn.textContent = 'Add to Bulk';
                 btn.classList.remove('added');
-                showToast('Removed from your bulk order', 'success');
+                showToast('Removed from bulk order', 'success');
             } else {
-                userBulkOrder.push({...item, addedAt: new Date()});
+                userBulkOrder.push({...item, addedAt: new Date().toISOString()});
                 btn.textContent = '✓ Added';
                 btn.classList.add('added');
-                showToast('Added to your bulk order!', 'success');
+                showToast('Added to bulk order!', 'success');
             }
             
-            updateUserBulkList();
+            saveBulkOrder();
+            updateBulkModal();
         }
 
-        function updateUserBulkList() {
-            const list = document.getElementById('userBulkList');
-            const submitBtn = document.getElementById('submitBulkBtn');
+        function saveBulkOrder() {
+            localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
+        }
+
+        function openBulkModal() {
+            updateBulkModal();
+            document.getElementById('bulkModal').classList.add('show');
+        }
+
+        function closeBulkModal() {
+            document.getElementById('bulkModal').classList.remove('show');
+        }
+
+        function updateBulkModal() {
+            const content = document.getElementById('bulkModalContent');
             
             if (userBulkOrder.length === 0) {
-                list.innerHTML = '<li style="color: rgba(255,255,255,0.4); font-style: italic; text-align: center; padding: 20px;">Your bulk order is empty...</li>';
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Submit Bulk Order';
+                content.innerHTML = `
+                    <div class="empty-bulk">
+                        <div class="empty-bulk-icon">🛒</div>
+                        <p>Your bulk order is empty</p>
+                        <p style="font-size: 0.9rem; margin-top: 10px; opacity: 0.6;">Add items from the shop to get started</p>
+                    </div>
+                `;
                 return;
             }
 
-            submitBtn.disabled = false;
-            submitBtn.textContent = `Submit Order (${userBulkOrder.length} items)`;
-            
-            list.innerHTML = '';
-            userBulkOrder.forEach(item => {
-                const li = document.createElement('li');
-                li.className = 'user-bulk-item';
-                li.innerHTML = `
-                    <div>
-                        <div style="font-weight: 600; color: #fff;">${item.name}</div>
-                        <div style="color: var(--gold-primary); font-size: 0.9rem;">${item.price}</div>
-                    </div>
-                    <button class="remove-bulk" onclick="removeFromUserBulk(${item.id})">Remove</button>
+            let total = 0;
+            const itemsHtml = userBulkOrder.map(item => {
+                const price = parseInt(item.price) || 0;
+                total += price;
+                return `
+                    <li class="bulk-item-card">
+                        <div class="bulk-item-info">
+                            <h3>${item.name}</h3>
+                            <div class="price">${item.price}</div>
+                        </div>
+                        <button class="remove-item-btn" onclick="removeFromBulk(${item.id})">Remove</button>
+                    </li>
                 `;
-                list.appendChild(li);
-            });
+            }).join('');
+
+            content.innerHTML = `
+                <ul class="bulk-items-list">
+                    ${itemsHtml}
+                </ul>
+                <div class="bulk-total">
+                    <div class="bulk-total-label">Total Estimated Value</div>
+                    <div class="bulk-total-value">${total} d</div>
+                </div>
+                <div class="bulk-actions">
+                    <button class="btn-submit-bulk" onclick="submitBulkOrder()">
+                        Submit Order (${userBulkOrder.length} items)
+                    </button>
+                    <button class="btn-clear-bulk" onclick="clearUserBulk()">
+                        Clear All
+                    </button>
+                </div>
+            `;
         }
 
-        function removeFromUserBulk(id) {
+        function removeFromBulk(id) {
             userBulkOrder = userBulkOrder.filter(bo => bo.id !== id);
-            updateUserBulkList();
-            renderItems(); // Re-render to update button states
-            showToast('Removed from your bulk order', 'success');
+            saveBulkOrder();
+            updateBulkModal();
+            renderItems();
+            showToast('Item removed', 'success');
+        }
+
+        function clearUserBulk() {
+            if (userBulkOrder.length === 0) return;
+            if (confirm('Clear your entire bulk order?')) {
+                userBulkOrder = [];
+                saveBulkOrder();
+                updateBulkModal();
+                renderItems();
+                showToast('Bulk order cleared', 'success');
+            }
         }
 
         function submitBulkOrder() {
             if (userBulkOrder.length === 0) return;
             
-            // Submit to admin
             const order = {
                 id: Date.now(),
                 customer: currentUser,
                 items: [...userBulkOrder],
-                submittedAt: new Date(),
+                submittedAt: new Date().toISOString(),
                 totalItems: userBulkOrder.length
             };
             
-            submittedBulkOrders.push(order);
+            submittedOrders.push(order);
+            localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
             
             // Clear user's bulk order
             userBulkOrder = [];
-            updateUserBulkList();
+            saveBulkOrder();
+            updateBulkModal();
             renderItems();
             
-            // Notify admin if online
-            if (document.getElementById('adminControls').classList.contains('show')) {
-                showPrivateAlert(order);
-                updateStats();
-                updateAdminBulkList();
-            }
-            
-            showToast('Your bulk order has been submitted to the shopkeeper!', 'success');
-            toggleBulkPanel(); // Close panel
-        }
-
-        // Admin bulk order management
-        function showPrivateAlert(order) {
-            const alert = document.getElementById('privateAlert');
-            const content = document.getElementById('alertContent');
-            const time = document.getElementById('alertTime');
-            
-            content.innerHTML = `
-                <strong>${order.customer}</strong> has submitted a bulk order with 
-                <strong>${order.totalItems} items</strong>.<br>
-                <span style="color: #ffd700; font-size: 0.9rem;">Click "Bulk Orders" to view details.</span>
-            `;
-            time.textContent = new Date().toLocaleTimeString();
-            
-            alert.classList.add('show');
-            updateBadge();
-            
-            setTimeout(() => {
-                closePrivateAlert();
-            }, 8000);
-        }
-
-        function closePrivateAlert() {
-            document.getElementById('privateAlert').classList.remove('show');
-        }
-
-        function updateBadge() {
-            const badge = document.getElementById('badgeCount');
-            const count = submittedBulkOrders.length;
-            badge.textContent = count;
-            badge.style.display = count > 0 ? 'flex' : 'none';
-        }
-
-        function toggleBulkPanel() {
+            // Update admin view if admin is logged in
             if (currentUser === 'FJ121') {
-                // Admin sees all customer orders
-                const panel = document.getElementById('adminBulkPanel');
-                panel.classList.toggle('show');
-                if (panel.classList.contains('show')) {
-                    updateAdminBulkList();
-                }
-            } else {
-                // Regular user sees their own order
-                const panel = document.getElementById('userBulkPanel');
-                panel.classList.toggle('show');
+                updateStats();
+                renderAdminOrders();
             }
+            
+            closeBulkModal();
+            showToast('✓ Order submitted successfully! The shopkeeper will review it soon.', 'success');
         }
 
-        function updateAdminBulkList() {
-            const list = document.getElementById('adminBulkList');
-            if (submittedBulkOrders.length === 0) {
-                list.innerHTML = '<li style="color: rgba(255,255,255,0.4); font-style: italic; text-align: center; padding: 40px;">No bulk orders pending...</li>';
+        // Admin order management
+        function renderAdminOrders() {
+            const container = document.getElementById('adminBulkList');
+            
+            if (submittedOrders.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-bulk">
+                        <div class="empty-bulk-icon">📭</div>
+                        <p>No bulk orders yet...</p>
+                    </div>
+                `;
                 return;
             }
 
-            list.innerHTML = '';
-            submittedBulkOrders.forEach(order => {
-                order.items.forEach(item => {
-                    const li = document.createElement('li');
-                    li.className = 'bulk-item';
-                    li.innerHTML = `
-                        <div class="bulk-item-info">
-                            <div class="bulk-item-name">${item.name}</div>
-                            <div class="bulk-item-price">${item.price}</div>
-                            <div class="bulk-item-customer">Ordered by ${order.customer} at ${new Date(order.submittedAt).toLocaleTimeString()}</div>
+            container.innerHTML = submittedOrders.map(order => {
+                const itemsHtml = order.items.map(item => `
+                    <li class="customer-item">
+                        <span>${item.name}</span>
+                        <span style="color: var(--gold-primary);">${item.price}</span>
+                    </li>
+                `).join('');
+                
+                const total = order.items.reduce((sum, item) => sum + (parseInt(item.price) || 0), 0);
+                
+                return `
+                    <div class="customer-order">
+                        <div class="customer-order-header">
+                            <div>
+                                <div class="customer-name">${order.customer}</div>
+                                <div class="order-time">${new Date(order.submittedAt).toLocaleString()}</div>
+                            </div>
+                            <button class="delete-order-btn" onclick="deleteOrder(${order.id})">Delete Order</button>
                         </div>
-                        <button class="remove-bulk" onclick="removeSubmittedOrder(${order.id})">Remove</button>
-                    `;
-                    list.appendChild(li);
-                });
-            });
+                        <ul class="customer-items">
+                            ${itemsHtml}
+                        </ul>
+                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(156, 39, 176, 0.2); text-align: right; color: var(--gold-primary); font-weight: bold;">
+                            Total: ${total} d
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
-        function removeSubmittedOrder(orderId) {
-            submittedBulkOrders = submittedBulkOrders.filter(o => o.id !== orderId);
-            updateAdminBulkList();
+        function deleteOrder(orderId) {
+            submittedOrders = submittedOrders.filter(o => o.id !== orderId);
+            localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
+            renderAdminOrders();
             updateStats();
-            updateBadge();
-            showToast('Order removed', 'success');
+            showToast('Order deleted', 'success');
         }
 
-        function clearAllBulk() {
-            if (submittedBulkOrders.length === 0) return;
-            if (confirm('Clear all submitted bulk orders?')) {
-                submittedBulkOrders = [];
-                updateAdminBulkList();
+        function clearAllOrders() {
+            if (submittedOrders.length === 0) return;
+            if (confirm('Delete ALL customer orders? This cannot be undone.')) {
+                submittedOrders = [];
+                localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
+                renderAdminOrders();
                 updateStats();
-                updateBadge();
                 showToast('All orders cleared', 'success');
             }
         }
@@ -1692,37 +1747,23 @@
         function updateStats() {
             document.getElementById('totalItems').textContent = items.length;
             document.getElementById('inStockItems').textContent = items.filter(i => i.stock === 'in').length;
-            document.getElementById('bulkRequests').textContent = submittedBulkOrders.reduce((sum, o) => sum + o.totalItems, 0);
+            document.getElementById('bulkRequests').textContent = submittedOrders.reduce((sum, o) => sum + o.totalItems, 0);
             
-            const total = submittedBulkOrders.reduce((sum, order) => {
-                return sum + order.items.reduce((itemSum, item) => {
-                    const price = parseInt(item.price) || 0;
-                    return itemSum + price;
-                }, 0);
+            const total = submittedOrders.reduce((sum, order) => {
+                return sum + order.items.reduce((itemSum, item) => itemSum + (parseInt(item.price) || 0), 0);
             }, 0);
             document.getElementById('totalValue').textContent = total + ' d';
-        }
-
-        function showAdminBulkView() {
-            // Switch to admin bulk view tab
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
             
-            // Show admin panel
-            document.getElementById('adminBulkPanel').classList.add('show');
-            document.getElementById('itemsContainer').style.display = 'none';
-            updateAdminBulkList();
+            // Update badge
+            const badge = document.getElementById('badgeCount');
+            badge.textContent = submittedOrders.length;
+            badge.style.display = submittedOrders.length > 0 ? 'flex' : 'none';
         }
 
         function filterItems(type) {
             currentFilter = type;
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             event.target.classList.add('active');
-            
-            // Hide admin bulk panel and show items
-            document.getElementById('adminBulkPanel').classList.remove('show');
-            document.getElementById('itemsContainer').style.display = 'grid';
-            
             renderItems();
         }
 
@@ -1745,8 +1786,10 @@
             if (e.key === 'Enter') addItem();
         });
 
-        // Initial render
-        renderItems();
+        // Close modal on outside click
+        document.getElementById('bulkModal').addEventListener('click', function(e) {
+            if (e.target === this) closeBulkModal();
+        });
     </script>
 </body>
 </html>
