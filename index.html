@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Tavern - Minecraft Shop</title>
+    <title>The Tavern - Premium Minecraft Emporium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -11,137 +12,286 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --gold-primary: #ffd700;
+            --gold-light: #ffed4e;
+            --gold-dark: #b8860b;
+            --purple-deep: #1a0b2e;
+            --purple-mid: #2d1b4e;
+            --purple-light: #4a3b6e;
+            --accent-blue: #4fc3f7;
+            --accent-red: #ff5252;
+            --accent-green: #69f0ae;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: 'Inter', sans-serif;
+            background: 
+                radial-gradient(ellipse at top, var(--purple-mid) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom, var(--purple-deep) 0%, #0a0a0f 100%),
+                linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            background-attachment: fixed;
             min-height: 100vh;
             color: #fff;
-            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--gold-primary);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
         }
 
         .container {
-            max-width: 1200px;
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
             margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 30px;
             padding: 20px;
         }
 
-        h1 {
-            font-size: 3rem;
-            background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700);
+        /* Enhanced Header with 3D effect */
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .title-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .main-title {
+            font-family: 'Cinzel', serif;
+            font-size: 5rem;
+            font-weight: 800;
+            background: linear-gradient(180deg, #fff 0%, var(--gold-primary) 50%, var(--gold-dark) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
-            margin-bottom: 10px;
+            text-shadow: 
+                0 0 30px rgba(255, 215, 0, 0.5),
+                0 0 60px rgba(255, 215, 0, 0.3),
+                0 4px 0 rgba(0,0,0,0.5);
+            letter-spacing: 8px;
+            position: relative;
+            animation: titleGlow 3s ease-in-out infinite alternate;
         }
+
+        @keyframes titleGlow {
+            from { filter: drop-shadow(0 0 20px rgba(255,215,0,0.4)); }
+            to { filter: drop-shadow(0 0 40px rgba(255,215,0,0.8)); }
+        }
+
+        .title-decoration {
+            position: absolute;
+            width: 200px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .title-decoration.left { left: -220px; }
+        .title-decoration.right { right: -220px; }
 
         .subtitle {
-            color: #a0a0a0;
-            font-size: 1.1rem;
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 15px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            position: relative;
         }
 
+        .subtitle::before,
+        .subtitle::after {
+            content: '◆';
+            color: var(--gold-primary);
+            margin: 0 20px;
+            font-size: 0.8rem;
+            vertical-align: middle;
+        }
+
+        /* Glassmorphism Login Section */
         .login-section {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,215,0,0.05), transparent);
+            animation: shimmer 8s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
 
         .login-form {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             align-items: center;
+            position: relative;
+            z-index: 1;
         }
 
         input[type="text"] {
-            padding: 10px 15px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            background: rgba(0, 0, 0, 0.3);
+            padding: 15px 25px;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            background: rgba(0, 0, 0, 0.4);
             color: #fff;
-            border-radius: 8px;
-            font-size: 1rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
             outline: none;
             transition: all 0.3s;
+            min-width: 250px;
+            font-family: 'Inter', sans-serif;
         }
 
         input[type="text"]:focus {
-            border-color: #ffd700;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+            transform: translateY(-2px);
         }
 
+        input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Premium Buttons */
         button {
-            padding: 10px 20px;
+            padding: 15px 30px;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
             font-size: 1rem;
             font-weight: 600;
             transition: all 0.3s;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
         }
 
         .btn-primary {
-            background: linear-gradient(45deg, #ffd700, #ffed4e);
-            color: #1a1a2e;
+            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dark) 100%);
+            color: #1a0b2e;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
         }
 
         .btn-danger {
-            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            background: linear-gradient(135deg, #ff5252 0%, #b33939 100%);
             color: #fff;
+            box-shadow: 0 4px 15px rgba(255, 82, 82, 0.3);
         }
 
         .btn-danger:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 82, 82, 0.5);
         }
 
         .btn-success {
-            background: linear-gradient(45deg, #27ae60, #2ecc71);
-            color: #fff;
+            background: linear-gradient(135deg, var(--accent-green) 0%, #2e7d32 100%);
+            color: #1a0b2e;
+            box-shadow: 0 4px 15px rgba(105, 240, 174, 0.3);
         }
 
         .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(39, 174, 96, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(105, 240, 174, 0.5);
         }
 
         .btn-bulk {
-            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+            background: linear-gradient(135deg, #9c27b0 0%, #6a1b9a 100%);
             color: #fff;
+            box-shadow: 0 4px 15px rgba(156, 39, 176, 0.3);
             display: none;
-        }
-
-        .btn-bulk:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(155, 89, 182, 0.4);
         }
 
         .btn-bulk.active {
             display: inline-block;
         }
 
+        .btn-bulk:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(156, 39, 176, 0.5);
+        }
+
         .user-info {
             display: none;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
         }
 
         .user-info.show {
@@ -149,30 +299,46 @@
         }
 
         .username {
-            color: #ffd700;
-            font-weight: bold;
-            font-size: 1.1rem;
+            color: var(--gold-primary);
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
         }
 
+        /* Admin Panel - Premium Design */
         .admin-controls {
             display: none;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            animation: slideDown 0.3s ease;
+            background: rgba(255, 215, 0, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .admin-controls::after {
+            content: '👑';
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 2rem;
+            opacity: 0.3;
         }
 
         .admin-controls.show {
             display: block;
+            animation: slideDown 0.5s ease;
         }
 
         @keyframes slideDown {
             from {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: translateY(-30px);
             }
             to {
                 opacity: 1;
@@ -180,87 +346,177 @@
             }
         }
 
+        .admin-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--gold-primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         .add-item-form {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 8px;
         }
 
         label {
-            color: #a0a0a0;
-            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         select {
-            padding: 10px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            background: rgba(0, 0, 0, 0.4);
             color: #fff;
-            border-radius: 8px;
+            border-radius: 12px;
             outline: none;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .tab {
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 25px;
-            color: #fff;
+            font-size: 1rem;
             cursor: pointer;
             transition: all 0.3s;
         }
 
-        .tab.active {
-            background: linear-gradient(45deg, #ffd700, #ffed4e);
-            color: #1a1a2e;
+        select:focus {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+        }
+
+        /* Notification Badge for Admin */
+        .notification-badge {
+            position: relative;
+            display: none;
+        }
+
+        .notification-badge.show {
+            display: inline-block;
+        }
+
+        .badge-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff5252;
+            color: #fff;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
             font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Tabs - Premium Style */
+        .tabs-container {
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+            padding-bottom: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab {
+            padding: 12px 28px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: -1;
+        }
+
+        .tab.active {
+            color: #1a0b2e;
+            border-color: var(--gold-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .tab.active::before {
+            opacity: 1;
         }
 
         .tab:hover:not(.active) {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
         }
 
         .tab.bulk-tab {
             display: none;
-            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+            border-color: #9c27b0;
         }
 
         .tab.bulk-tab.show {
             display: inline-block;
         }
 
+        .tab.bulk-tab.active::before {
+            background: linear-gradient(135deg, #9c27b0, #6a1b9a);
+        }
+
+        /* Item Cards - Enhanced Design */
         .items-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
         }
 
         .item-card {
-            background: rgba(30, 30, 40, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 20px;
+            background: 
+                linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
         .item-card::before {
@@ -270,14 +526,23 @@
             left: 0;
             right: 0;
             height: 3px;
-            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.5), transparent);
+            background: linear-gradient(90deg, var(--gold-primary), var(--gold-dark), var(--gold-primary));
+            background-size: 200% 100%;
+            animation: shimmerLine 3s infinite linear;
             opacity: 0;
             transition: opacity 0.3s;
         }
 
+        @keyframes shimmerLine {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
         .item-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(255, 215, 0, 0.1);
             border-color: rgba(255, 215, 0, 0.3);
         }
 
@@ -290,39 +555,42 @@
         }
 
         .item-name {
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-bottom: 10px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 12px;
             color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
         .tags {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
         .tag {
-            padding: 4px 12px;
-            border-radius: 6px;
+            padding: 6px 16px;
+            border-radius: 20px;
             font-size: 0.85rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
         .tag-item {
-            background: linear-gradient(45deg, #3498db, #2980b9);
+            background: linear-gradient(135deg, var(--accent-blue), #0288d1);
             color: #fff;
         }
 
         .tag-floor {
-            background: linear-gradient(45deg, #f39c12, #e67e22);
+            background: linear-gradient(135deg, #ff9800, #f57c00);
             color: #fff;
         }
 
         .tag-rarity {
-            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            background: linear-gradient(135deg, var(--accent-red), #c62828);
             color: #fff;
         }
 
@@ -331,147 +599,259 @@
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            gap: 10px;
+            gap: 12px;
         }
 
         .price {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #ffd700;
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(180deg, var(--gold-light) 0%, var(--gold-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
         }
 
         .stock-status {
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.95rem;
             font-weight: 600;
             border: 2px solid;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
         .in-stock {
-            background: rgba(39, 174, 96, 0.2);
-            color: #2ecc71;
-            border-color: #27ae60;
+            background: rgba(105, 240, 174, 0.15);
+            color: var(--accent-green);
+            border-color: var(--accent-green);
         }
 
         .out-of-stock {
-            background: rgba(231, 76, 60, 0.2);
-            color: #e74c3c;
-            border-color: #e74c3c;
+            background: rgba(255, 82, 82, 0.15);
+            color: var(--accent-red);
+            border-color: var(--accent-red);
         }
 
         .delete-btn {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(231, 76, 60, 0.8);
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 82, 82, 0.9);
             color: #fff;
             border: none;
-            width: 30px;
-            height: 30px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             cursor: pointer;
             display: none;
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
         .item-card:hover .delete-btn {
             display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         .delete-btn:hover {
-            background: #e74c3c;
-            transform: scale(1.1);
+            background: #ff1744;
+            transform: scale(1.1) rotate(90deg);
         }
 
         .add-to-bulk {
-            margin-top: 10px;
-            padding: 5px 15px;
-            background: rgba(155, 89, 182, 0.3);
-            border: 2px solid #9b59b6;
+            margin-top: 12px;
+            padding: 10px 20px;
+            background: rgba(156, 39, 176, 0.2);
+            border: 2px solid #9c27b0;
             color: #fff;
-            border-radius: 6px;
+            border-radius: 25px;
             cursor: pointer;
             font-size: 0.9rem;
+            font-weight: 600;
             transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .add-to-bulk:hover {
-            background: #9b59b6;
+            background: #9c27b0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(156, 39, 176, 0.4);
         }
 
         .add-to-bulk.added {
-            background: #27ae60;
-            border-color: #27ae60;
+            background: var(--accent-green);
+            border-color: var(--accent-green);
+            color: #1a0b2e;
         }
 
+        /* Bulk Orders Panel - Premium */
         .bulk-orders-panel {
             display: none;
-            background: rgba(155, 89, 182, 0.1);
-            border: 2px solid rgba(155, 89, 182, 0.5);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-            animation: slideDown 0.3s ease;
+            background: 
+                linear-gradient(135deg, rgba(156, 39, 176, 0.1) 0%, rgba(106, 27, 154, 0.05) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(156, 39, 176, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bulk-orders-panel::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(156,39,176,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .bulk-orders-panel.show {
             display: block;
+            animation: slideDown 0.5s ease;
+        }
+
+        .bulk-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .bulk-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: #e1bee7;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
         .bulk-list {
             list-style: none;
-            margin-top: 15px;
+            position: relative;
+            z-index: 1;
         }
 
         .bulk-item {
             background: rgba(0, 0, 0, 0.3);
-            padding: 10px 15px;
-            margin-bottom: 8px;
-            border-radius: 8px;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            border-radius: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-left: 4px solid #9b59b6;
+            border-left: 4px solid #9c27b0;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .bulk-item:hover {
+            transform: translateX(10px);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .bulk-item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .bulk-item-name {
+            font-weight: 600;
+            color: #fff;
+            font-size: 1.1rem;
+        }
+
+        .bulk-item-price {
+            color: var(--gold-primary);
+            font-size: 0.9rem;
         }
 
         .remove-bulk {
-            background: rgba(231, 76, 60, 0.6);
-            color: #fff;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
+            background: rgba(255, 82, 82, 0.2);
+            color: #ff5252;
+            border: 1px solid rgba(255, 82, 82, 0.5);
+            padding: 8px 16px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
         }
 
         .remove-bulk:hover {
-            background: #e74c3c;
+            background: rgba(255, 82, 82, 0.4);
+            color: #fff;
         }
 
-        .notification {
+        .clear-all-btn {
+            background: rgba(255, 82, 82, 0.2);
+            color: #ff5252;
+            border: 1px solid rgba(255, 82, 82, 0.5);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .clear-all-btn:hover {
+            background: rgba(255, 82, 82, 0.4);
+            color: #fff;
+        }
+
+        /* Private Admin Alert */
+        .private-alert {
+            display: none;
             position: fixed;
             top: 20px;
             right: 20px;
-            background: linear-gradient(45deg, #27ae60, #2ecc71);
-            color: #fff;
-            padding: 15px 25px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-            display: none;
-            animation: slideIn 0.3s ease;
+            background: 
+                linear-gradient(135deg, rgba(156, 39, 176, 0.95) 0%, rgba(106, 27, 154, 0.95) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 25px;
+            max-width: 400px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
             z-index: 1000;
+            animation: slideInRight 0.5s ease;
         }
 
-        .notification.show {
+        .private-alert.show {
             display: block;
         }
 
-        @keyframes slideIn {
+        @keyframes slideInRight {
             from {
-                transform: translateX(400px);
+                transform: translateX(500px);
                 opacity: 0;
             }
             to {
@@ -480,13 +860,132 @@
             }
         }
 
-        .hidden {
-            display: none !important;
+        .alert-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
         }
 
+        .alert-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-close {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .alert-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .alert-content {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        .alert-time {
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            padding: 16px 32px;
+            border-radius: 50px;
+            border: 1px solid var(--gold-primary);
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 999;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.success { border-color: var(--accent-green); color: var(--accent-green); }
+        .toast.error { border-color: var(--accent-red); color: var(--accent-red); }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stats-bar.show {
+            display: grid;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+
+        .stat-value {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            color: var(--gold-primary);
+            font-weight: 700;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 5px;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
+            .main-title {
+                font-size: 3rem;
+                letter-spacing: 4px;
+            }
+            
+            .title-decoration {
+                display: none;
             }
             
             .items-grid {
@@ -497,31 +996,111 @@
                 flex-direction: column;
                 text-align: center;
             }
+            
+            .login-form {
+                width: 100%;
+                flex-direction: column;
+            }
+            
+            input[type="text"] {
+                width: 100%;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--gold-primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state-text {
+            font-size: 1.2rem;
+            font-style: italic;
         }
     </style>
 </head>
 <body>
+    <!-- Background Particles -->
+    <div class="particles" id="particles"></div>
+
     <div class="container">
+        <!-- Header -->
         <header>
-            <h1>🏰 The Tavern 🏰</h1>
-            <p class="subtitle">Premium Minecraft Items & Gear</p>
+            <div class="title-wrapper">
+                <div class="title-decoration left"></div>
+                <h1 class="main-title">THE TAVERN</h1>
+                <div class="title-decoration right"></div>
+            </div>
+            <p class="subtitle">Premium Minecraft Emporium</p>
         </header>
 
+        <!-- Login Section -->
         <div class="login-section">
             <div id="loginForm" class="login-form">
-                <input type="text" id="usernameInput" placeholder="Enter username (try FJ121)">
-                <button class="btn-primary" onclick="login()">Login</button>
+                <input type="text" id="usernameInput" placeholder="Enter your username">
+                <button class="btn-primary" onclick="login()">
+                    <span>Enter</span>
+                </button>
             </div>
             
             <div id="userInfo" class="user-info">
                 <span>Welcome, <span class="username" id="currentUser"></span></span>
-                <button class="btn-bulk" id="bulkBtn" onclick="toggleBulkPanel()">Bulk Orders</button>
-                <button class="btn-danger" onclick="logout()">Logout</button>
+                <div class="notification-badge" id="notifBadge">
+                    <button class="btn-bulk" id="bulkBtn" onclick="toggleBulkPanel()">Bulk Orders</button>
+                    <span class="badge-count" id="badgeCount">0</span>
+                </div>
+                <button class="btn-danger" onclick="logout()">Exit</button>
             </div>
         </div>
 
+        <!-- Stats Bar (Admin Only) -->
+        <div id="statsBar" class="stats-bar">
+            <div class="stat-card">
+                <div class="stat-value" id="totalItems">0</div>
+                <div class="stat-label">Total Items</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="inStockItems">0</div>
+                <div class="stat-label">In Stock</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="bulkRequests">0</div>
+                <div class="stat-label">Bulk Requests</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalValue">0</div>
+                <div class="stat-label">Total Value</div>
+            </div>
+        </div>
+
+        <!-- Admin Controls -->
         <div id="adminControls" class="admin-controls">
-            <h3>🔧 Admin Controls - Add New Item</h3>
+            <div class="admin-title">
+                <span>👑</span>
+                <span>Shopkeeper's Controls</span>
+            </div>
             <div class="add-item-form">
                 <div class="form-group">
                     <label>Item Name</label>
@@ -532,12 +1111,14 @@
                     <input type="text" id="itemPrice" placeholder="e.g., 25 d">
                 </div>
                 <div class="form-group">
-                    <label>Type</label>
+                    <label>Category</label>
                     <select id="itemType">
                         <option value="item">Item</option>
                         <option value="block">Block</option>
                         <option value="tool">Tool</option>
                         <option value="armor">Armor</option>
+                        <option value="weapon">Weapon</option>
+                        <option value="rare">Rare</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -548,47 +1129,92 @@
                         <option value="Floor 3">Floor 3</option>
                         <option value="Basement">Basement</option>
                         <option value="Vault">Vault</option>
+                        <option value="Hidden">Hidden</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Stock Status</label>
+                    <label>Availability</label>
                     <select id="itemStock">
                         <option value="in">In Stock</option>
                         <option value="out">Out of Stock</option>
+                        <option value="limited">Limited</option>
                     </select>
                 </div>
                 <div class="form-group" style="display: flex; align-items: end;">
-                    <button class="btn-success" onclick="addItem()" style="width: 100%;">Add Item</button>
+                    <button class="btn-success" onclick="addItem()" style="width: 100%;">
+                        Add to Shop
+                    </button>
                 </div>
             </div>
         </div>
 
+        <!-- Bulk Orders Panel -->
         <div id="bulkPanel" class="bulk-orders-panel">
-            <h3>📦 Bulk Orders List</h3>
-            <p style="color: #a0a0a0; margin-top: 5px;">Items requested for bulk purchase:</p>
+            <div class="bulk-header">
+                <div class="bulk-title">
+                    <span>📦</span>
+                    <span>Bulk Orders Queue</span>
+                </div>
+                <button class="clear-all-btn" onclick="clearAllBulk()">Clear All</button>
+            </div>
             <ul id="bulkList" class="bulk-list">
-                <li style="color: #666; font-style: italic;">No items in bulk order yet...</li>
+                <li style="color: rgba(255,255,255,0.4); font-style: italic; text-align: center; padding: 40px;">
+                    No bulk orders pending...
+                </li>
             </ul>
         </div>
 
-        <div class="tabs">
-            <button class="tab active" onclick="filterItems('all')">All Items</button>
-            <button class="tab" onclick="filterItems('in')">In Stock</button>
-            <button class="tab" onclick="filterItems('out')">Out of Stock</button>
-            <button class="tab bulk-tab" id="bulkTab" onclick="showBulkOnly()">📦 Bulk Orders</button>
+        <!-- Tabs -->
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab active" onclick="filterItems('all')">All Wares</button>
+                <button class="tab" onclick="filterItems('in')">Available Now</button>
+                <button class="tab" onclick="filterItems('out')">Out of Stock</button>
+                <button class="tab" onclick="filterItems('limited')">Limited Edition</button>
+                <button class="tab bulk-tab" id="bulkTab" onclick="showBulkOnly()">📦 Bulk Orders</button>
+            </div>
         </div>
 
+        <!-- Items Grid -->
         <div id="itemsContainer" class="items-grid">
-            <!-- Items will be rendered here -->
+            <!-- Items rendered here -->
         </div>
     </div>
 
-    <div id="notification" class="notification">
-        Action completed successfully!
+    <!-- Private Admin Alert -->
+    <div id="privateAlert" class="private-alert">
+        <div class="alert-header">
+            <div class="alert-title">
+                <span>🔔</span>
+                <span>New Bulk Order!</span>
+            </div>
+            <button class="alert-close" onclick="closePrivateAlert()">×</button>
+        </div>
+        <div class="alert-content" id="alertContent">
+            A customer has requested items in bulk.
+        </div>
+        <div class="alert-time" id="alertTime"></div>
     </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
 
     <script>
-        // Initial data based on screenshots
+        // Initialize particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Initial data
         let items = [
             {
                 id: 1,
@@ -613,8 +1239,9 @@
         let currentUser = null;
         let bulkOrders = [];
         let currentFilter = 'all';
+        let bulkCounter = 0;
 
-        // Render items
+        // Render items with enhanced styling
         function renderItems() {
             const container = document.getElementById('itemsContainer');
             container.innerHTML = '';
@@ -624,8 +1251,20 @@
                 filteredItems = items.filter(item => item.stock === 'in');
             } else if (currentFilter === 'out') {
                 filteredItems = items.filter(item => item.stock === 'out');
+            } else if (currentFilter === 'limited') {
+                filteredItems = items.filter(item => item.stock === 'limited');
             } else if (currentFilter === 'bulk') {
-                filteredItems = items.filter(item => bulkOrders.includes(item.id));
+                filteredItems = items.filter(item => bulkOrders.some(bo => bo.id === item.id));
+            }
+
+            if (filteredItems.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1/-1;">
+                        <div class="empty-state-icon">📭</div>
+                        <div class="empty-state-text">No items found in this category...</div>
+                    </div>
+                `;
+                return;
             }
 
             filteredItems.forEach(item => {
@@ -637,6 +1276,11 @@
         function createItemCard(item) {
             const div = document.createElement('div');
             div.className = 'item-card';
+            
+            const isInBulk = bulkOrders.some(bo => bo.id === item.id);
+            const bulkBtnText = isInBulk ? '✓ In Bulk Order' : 'Add to Bulk Order';
+            const bulkBtnClass = isInBulk ? 'added' : '';
+            
             div.innerHTML = `
                 ${currentUser === 'FJ121' ? `<button class="delete-btn" onclick="deleteItem(${item.id})">×</button>` : ''}
                 <div class="item-info">
@@ -644,17 +1288,17 @@
                     <div class="tags">
                         <span class="tag tag-item">${item.type}</span>
                         ${item.location ? `<span class="tag tag-floor">${item.location}</span>` : ''}
+                        ${item.stock === 'limited' ? `<span class="tag tag-rarity">Limited</span>` : ''}
                     </div>
                 </div>
                 <div class="item-details">
                     <div class="price">${item.price}</div>
-                    <div class="stock-status ${item.stock === 'in' ? 'in-stock' : 'out-of-stock'}">
-                        ${item.stock === 'in' ? 'In Stock' : 'Out of Stock'}
+                    <div class="stock-status ${item.stock === 'in' ? 'in-stock' : item.stock === 'limited' ? 'in-stock' : 'out-of-stock'}">
+                        ${item.stock === 'in' ? 'In Stock' : item.stock === 'limited' ? 'Limited Stock' : 'Out of Stock'}
                     </div>
                     ${currentUser && currentUser !== 'FJ121' ? `
-                        <button class="add-to-bulk ${bulkOrders.includes(item.id) ? 'added' : ''}" 
-                                onclick="toggleBulkItem(${item.id}, this)">
-                            ${bulkOrders.includes(item.id) ? '✓ Added to Bulk' : 'Add to Bulk Order'}
+                        <button class="add-to-bulk ${bulkBtnClass}" onclick="toggleBulkItem(${item.id}, this)">
+                            ${bulkBtnText}
                         </button>
                     ` : ''}
                 </div>
@@ -666,7 +1310,7 @@
         function login() {
             const username = document.getElementById('usernameInput').value.trim();
             if (!username) {
-                showNotification('Please enter a username', 'error');
+                showToast('Please enter your username', 'error');
                 return;
             }
 
@@ -675,14 +1319,15 @@
             document.getElementById('loginForm').classList.add('hidden');
             document.getElementById('userInfo').classList.add('show');
             
-            // Show admin controls only for FJ121
             if (username === 'FJ121') {
                 document.getElementById('adminControls').classList.add('show');
-                document.getElementById('bulkBtn').classList.add('active');
+                document.getElementById('statsBar').classList.add('show');
+                document.getElementById('notifBadge').classList.add('show');
                 document.getElementById('bulkTab').classList.add('show');
-                showNotification('Welcome Admin! You can now manage items.');
+                updateStats();
+                showToast('Welcome, Shopkeeper! You have full access.', 'success');
             } else {
-                showNotification(`Welcome ${username}! You can now add items to bulk orders.`);
+                showToast(`Welcome to The Tavern, ${username}!`, 'success');
             }
             
             renderItems();
@@ -692,22 +1337,24 @@
             currentUser = null;
             bulkOrders = [];
             updateBulkList();
+            updateBadge();
             
             document.getElementById('usernameInput').value = '';
             document.getElementById('loginForm').classList.remove('hidden');
             document.getElementById('userInfo').classList.remove('show');
             document.getElementById('adminControls').classList.remove('show');
+            document.getElementById('statsBar').classList.remove('show');
+            document.getElementById('notifBadge').classList.remove('show');
             document.getElementById('bulkBtn').classList.remove('active');
             document.getElementById('bulkTab').classList.remove('show');
             document.getElementById('bulkPanel').classList.remove('show');
             
-            // Reset tabs
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelector('.tab').classList.add('active');
             currentFilter = 'all';
             
             renderItems();
-            showNotification('Logged out successfully');
+            showToast('You have left The Tavern. Come again soon!', 'success');
         }
 
         // Admin functions
@@ -719,7 +1366,7 @@
             const stock = document.getElementById('itemStock').value;
 
             if (!name || !price) {
-                showNotification('Please fill in all fields', 'error');
+                showToast('Please fill in all required fields', 'error');
                 return;
             }
 
@@ -727,80 +1374,167 @@
                 id: Date.now(),
                 name: name,
                 type: type,
-                location: location === 'Vault' ? null : location,
+                location: location === 'Hidden' || location === 'Vault' ? null : location,
                 price: price,
                 stock: stock,
-                tags: [type, location === 'Vault' ? null : location].filter(Boolean)
+                tags: [type, location].filter(Boolean)
             };
 
             items.push(newItem);
             renderItems();
+            updateStats();
             
-            // Clear form
             document.getElementById('itemName').value = '';
             document.getElementById('itemPrice').value = '';
             
-            showNotification('Item added successfully!');
+            showToast(`${name} has been added to the shop!`, 'success');
         }
 
         function deleteItem(id) {
-            if (confirm('Are you sure you want to delete this item?')) {
+            if (confirm('Are you sure you want to remove this item from the shop?')) {
                 items = items.filter(item => item.id !== id);
-                bulkOrders = bulkOrders.filter(bid => bid !== id);
+                bulkOrders = bulkOrders.filter(bo => bo.id !== id);
                 updateBulkList();
+                updateBadge();
                 renderItems();
-                showNotification('Item deleted successfully');
+                updateStats();
+                showToast('Item removed from the shop', 'success');
             }
         }
 
         // Bulk order functions
         function toggleBulkItem(id, btn) {
-            if (bulkOrders.includes(id)) {
-                bulkOrders = bulkOrders.filter(bid => bid !== id);
+            const item = items.find(i => i.id === id);
+            if (!item) return;
+
+            const existingIndex = bulkOrders.findIndex(bo => bo.id === id);
+            
+            if (existingIndex !== -1) {
+                bulkOrders.splice(existingIndex, 1);
                 btn.textContent = 'Add to Bulk Order';
                 btn.classList.remove('added');
-                showNotification('Removed from bulk order');
+                showToast('Removed from bulk order', 'success');
             } else {
-                bulkOrders.push(id);
-                btn.textContent = '✓ Added to Bulk';
+                bulkOrders.push({
+                    ...item,
+                    addedAt: new Date(),
+                    addedBy: currentUser
+                });
+                btn.textContent = '✓ In Bulk Order';
                 btn.classList.add('added');
-                showNotification('Added to bulk order');
+                showToast('Added to bulk order!', 'success');
+                
+                // Send private notification to admin
+                sendPrivateNotification(item, currentUser);
             }
+            
             updateBulkList();
+            updateBadge();
+            updateStats();
+        }
+
+        function sendPrivateNotification(item, username) {
+            // Update badge
+            bulkCounter++;
+            updateBadge();
+            
+            // Show private alert if admin is logged in
+            if (currentUser === 'FJ121') {
+                const alert = document.getElementById('privateAlert');
+                const content = document.getElementById('alertContent');
+                const time = document.getElementById('alertTime');
+                
+                content.innerHTML = `
+                    <strong>${username}</strong> has requested <strong>${item.name}</strong> (${item.price}) in bulk.<br>
+                    <span style="color: #ffd700; font-size: 0.9rem;">Click "Bulk Orders" to view all requests.</span>
+                `;
+                time.textContent = new Date().toLocaleTimeString();
+                
+                alert.classList.add('show');
+                
+                // Auto-hide after 8 seconds
+                setTimeout(() => {
+                    closePrivateAlert();
+                }, 8000);
+            }
+        }
+
+        function closePrivateAlert() {
+            document.getElementById('privateAlert').classList.remove('show');
+        }
+
+        function updateBadge() {
+            const badge = document.getElementById('badgeCount');
+            const count = bulkOrders.length;
+            badge.textContent = count;
+            badge.style.display = count > 0 ? 'flex' : 'none';
+            
+            if (count > 0) {
+                document.getElementById('bulkBtn').classList.add('active');
+            }
         }
 
         function toggleBulkPanel() {
             const panel = document.getElementById('bulkPanel');
             panel.classList.toggle('show');
+            if (panel.classList.contains('show')) {
+                updateBulkList();
+            }
         }
 
         function updateBulkList() {
             const list = document.getElementById('bulkList');
             if (bulkOrders.length === 0) {
-                list.innerHTML = '<li style="color: #666; font-style: italic;">No items in bulk order yet...</li>';
+                list.innerHTML = '<li style="color: rgba(255,255,255,0.4); font-style: italic; text-align: center; padding: 40px;">No bulk orders pending...</li>';
                 return;
             }
 
             list.innerHTML = '';
-            bulkOrders.forEach(id => {
-                const item = items.find(i => i.id === id);
-                if (item) {
-                    const li = document.createElement('li');
-                    li.className = 'bulk-item';
-                    li.innerHTML = `
-                        <span>${item.name} - ${item.price}</span>
-                        <button class="remove-bulk" onclick="removeFromBulk(${item.id})">Remove</button>
-                    `;
-                    list.appendChild(li);
-                }
+            bulkOrders.forEach(order => {
+                const li = document.createElement('li');
+                li.className = 'bulk-item';
+                li.innerHTML = `
+                    <div class="bulk-item-info">
+                        <div class="bulk-item-name">${order.name}</div>
+                        <div class="bulk-item-price">${order.price} • Requested by ${order.addedBy}</div>
+                    </div>
+                    <button class="remove-bulk" onclick="removeFromBulk(${order.id})">Remove</button>
+                `;
+                list.appendChild(li);
             });
         }
 
         function removeFromBulk(id) {
-            bulkOrders = bulkOrders.filter(bid => bid !== id);
+            bulkOrders = bulkOrders.filter(bo => bo.id !== id);
             updateBulkList();
+            updateBadge();
+            updateStats();
             renderItems();
-            showNotification('Removed from bulk order');
+            showToast('Removed from bulk orders', 'success');
+        }
+
+        function clearAllBulk() {
+            if (bulkOrders.length === 0) return;
+            if (confirm('Clear all bulk orders?')) {
+                bulkOrders = [];
+                updateBulkList();
+                updateBadge();
+                updateStats();
+                renderItems();
+                showToast('All bulk orders cleared', 'success');
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('totalItems').textContent = items.length;
+            document.getElementById('inStockItems').textContent = items.filter(i => i.stock === 'in').length;
+            document.getElementById('bulkRequests').textContent = bulkOrders.length;
+            
+            const total = bulkOrders.reduce((sum, item) => {
+                const price = parseInt(item.price) || 0;
+                return sum + price;
+            }, 0);
+            document.getElementById('totalValue').textContent = total + ' d';
         }
 
         function showBulkOnly() {
@@ -817,21 +1551,23 @@
             renderItems();
         }
 
-        function showNotification(message, type = 'success') {
-            const notif = document.getElementById('notification');
-            notif.textContent = message;
-            notif.style.background = type === 'error' 
-                ? 'linear-gradient(45deg, #e74c3c, #c0392b)' 
-                : 'linear-gradient(45deg, #27ae60, #2ecc71)';
-            notif.classList.add('show');
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+            
             setTimeout(() => {
-                notif.classList.remove('show');
+                toast.classList.remove('show');
             }, 3000);
         }
 
-        // Allow Enter key to login
+        // Enter key support
         document.getElementById('usernameInput')?.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') login();
+        });
+
+        document.getElementById('itemPrice')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') addItem();
         });
 
         // Initial render
