@@ -765,21 +765,13 @@
         }
 
         .message-author.staff {
-            background: linear-gradient(90deg, #ffd700, #ffed4e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 1rem;
-        }
-
-        .staff-badge {
             background: linear-gradient(135deg, #ffd700, #ffed4e);
             color: #1a0b2e;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            margin-right: 5px;
-            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
             letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .message-time {
@@ -2160,13 +2152,13 @@
         }
 
         function createMessageHTML(msg, type, className) {
-            const isStaff = currentUser === 'FJ121';
+            const isStaffUser = currentUser === 'FJ121';
             const isOwn = msg.author === currentUser;
             const time = new Date(msg.timestamp).toLocaleTimeString();
             const isStaffMsg = msg.isStaff || msg.author === 'FJ121';
             
             let actions = '';
-            if (isStaff && !msg.deleted && msg.author !== 'FJ121') {
+            if (isStaffUser && !msg.deleted && msg.author !== 'FJ121') {
                 actions = `
                     <div class="message-actions">
                         <button class="msg-btn msg-btn-delete" onclick="deleteMessage('${type}', ${msg.id})">🗑 Delete</button>
@@ -2176,13 +2168,14 @@
                 `;
             }
             
+            // Show only "[STAFF]" for staff messages, no username displayed
+            const authorDisplay = isStaffMsg ? '[STAFF]' : msg.author;
             const authorClass = isStaffMsg ? 'staff' : '';
-            const staffBadge = isStaffMsg ? '<span class="staff-badge">[STAFF]</span>' : '';
             
             return `
                 <div class="${className || 'chat-message ' + (isOwn ? 'own' : 'other')}" data-msg-id="${msg.id}">
                     <div class="message-header">
-                        <span class="message-author ${authorClass}">${staffBadge}${msg.author}</span>
+                        <span class="message-author ${authorClass}">${authorDisplay}</span>
                         <span class="message-time">${time}</span>
                     </div>
                     <div class="message-content">${msg.deleted ? '<em>Message deleted by moderator</em>' : escapeHtml(msg.content)}</div>
