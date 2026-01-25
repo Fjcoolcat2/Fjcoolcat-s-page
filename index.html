@@ -595,8 +595,8 @@
             font-weight: bold;
         }
 
-        /* Bulk Order Modal */
-        .bulk-modal-overlay {
+        /* Chat System */
+        .chat-overlay {
             display: none;
             position: fixed;
             top: 0;
@@ -609,108 +609,1831 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-            overflow-y: auto;
         }
 
-        .bulk-modal-overlay.show {
+        .chat-overlay.show {
             display: flex;
         }
 
-        .bulk-modal {
-            background: linear-gradient(135deg, rgba(30, 30, 40, 0.98) 0%, rgba(20, 20, 30, 0.98) 100%);
-            border: 2px solid rgba(156, 39, 176, 0.5);
+        .chat-container {
+            background: var(--chat-bg);
+            border: 2px solid rgba(255, 215, 0, 0.3);
             border-radius: 24px;
-            padding: 40px;
-            max-width: 900px;
             width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
+            max-width: 1000px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
             box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9);
         }
 
-        .bulk-modal-header {
+        .chat-header {
+            background: rgba(255, 215, 0, 0.1);
+            padding: 20px 30px;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.2);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid rgba(156, 39, 176, 0.3);
         }
 
-        .bulk-modal-title {
+        .chat-title {
             font-family: 'Cinzel', serif;
-            font-size: 2rem;
-            color: #e1bee7;
+            font-size: 1.8rem;
+            color: var(--gold-primary);
             display: flex;
             align-items: center;
             gap: 15px;
         }
 
-        .close-modal {
+        .chat-type-badge {
+            background: rgba(33, 150, 243, 0.3);
+            color: #fff;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .chat-type-badge.support {
+            background: rgba(255, 152, 0, 0.3);
+        }
+
+        .chat-type-badge.staff {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #1a0b2e;
+            font-weight: 700;
+        }
+
+        .close-chat {
             background: rgba(255, 82, 82, 0.2);
             color: #ff5252;
             border: 2px solid rgba(255, 82, 82, 0.5);
-            width: 45px;
-            height: 45px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.3s;
         }
 
-        .close-modal:hover {
+        .close-chat:hover {
             background: rgba(255, 82, 82, 0.4);
             color: #fff;
             transform: rotate(90deg);
         }
 
-        .customer-info-section {
-            background: rgba(156, 39, 176, 0.1);
-            border: 1px solid rgba(156, 39, 176, 0.3);
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 30px;
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
-        .customer-info-section h3 {
-            color: #e1bee7;
+        .chat-message {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 15px 20px;
+            max-width: 80%;
+            position: relative;
+            animation: messageSlide 0.3s ease;
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chat-message.own {
+            align-self: flex-end;
+            background: rgba(156, 39, 176, 0.2);
+            border: 1px solid rgba(156, 39, 176, 0.3);
+        }
+
+        .chat-message.other {
+            align-self: flex-start;
+            background: rgba(33, 150, 243, 0.2);
+            border: 1px solid rgba(33, 150, 243, 0.3);
+        }
+
+        .chat-message.support-msg {
+            background: rgba(255, 152, 0, 0.2);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+        }
+
+        .chat-message.staff-msg {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 237, 78, 0.1));
+            border: 2px solid var(--gold-primary);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .chat-message.deleted {
+            opacity: 0.5;
+            font-style: italic;
+        }
+
+        .chat-message.deleted .message-content {
+            text-decoration: line-through;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .message-author {
+            font-weight: 700;
+            color: var(--gold-primary);
+            font-size: 0.95rem;
+        }
+
+        .message-author.staff {
+            background: linear-gradient(90deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1rem;
+        }
+
+        .staff-badge {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #1a0b2e;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            margin-right: 5px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .message-content {
+            color: #fff;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        .message-actions {
+            display: none;
+            gap: 8px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-message:hover .message-actions {
+            display: flex;
+        }
+
+        .msg-btn {
+            padding: 5px 12px;
+            font-size: 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            border: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .msg-btn-delete {
+            background: rgba(255, 82, 82, 0.3);
+            color: #ff5252;
+        }
+
+        .msg-btn-delete:hover {
+            background: rgba(255, 82, 82, 0.5);
+            color: #fff;
+        }
+
+        .msg-btn-ban {
+            background: rgba(0, 0, 0, 0.5);
+            color: #ff5252;
+            border: 1px solid #ff5252;
+        }
+
+        .msg-btn-ban:hover {
+            background: #ff5252;
+            color: #fff;
+        }
+
+        .msg-btn-mute {
+            background: rgba(255, 152, 0, 0.3);
+            color: #ff9800;
+        }
+
+        .msg-btn-mute:hover {
+            background: rgba(255, 152, 0, 0.5);
+            color: #fff;
+        }
+
+        .chat-input-area {
+            padding: 20px 30px;
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 2px solid rgba(255, 215, 0, 0.2);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            background: rgba(0, 0, 0, 0.4);
+            color: #fff;
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .chat-input:focus {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+        }
+
+        .chat-input:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-send {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dark) 100%);
+            color: #1a0b2e;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        .btn-send:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-send:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .muted-banner {
+            background: rgba(255, 82, 82, 0.2);
+            color: #ff5252;
+            padding: 15px;
+            text-align: center;
+            border-top: 2px solid rgba(255, 82, 82, 0.3);
+            font-weight: 600;
+        }
+
+        /* Support Chat List (Staff Only) */
+        .support-list {
+            display: none;
+            background: rgba(255, 152, 0, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .support-list.show {
+            display: block;
+        }
+
+        .support-list-header {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: #ff9800;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .customer-info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-        }
-
-        .how-to-order {
-            background: rgba(156, 39, 176, 0.1);
-            border: 1px solid rgba(156, 39, 176, 0.3);
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 30px;
-        }
-
-        .how-to-order h3 {
-            color: #e1bee7;
+        .support-chat-item {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 152, 0, 0.2);
+            border-radius: 12px;
+            padding: 20px;
             margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .support-chat-item:hover {
+            background: rgba(255, 152, 0, 0.1);
+            transform: translateX(10px);
+            border-color: rgba(255, 152, 0, 0.5);
+        }
+
+        .support-chat-item.unread {
+            border-left: 4px solid #ff9800;
+        }
+
+        .support-user-info h4 {
+            color: #ff9800;
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+
+        .support-user-info p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .support-meta {
+            text-align: right;
+        }
+
+        .support-time {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+
+        .support-badge {
+            background: #ff5252;
+            color: #fff;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        /* Banned Users List */
+        .banned-users {
+            display: none;
+            background: rgba(255, 82, 82, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 82, 82, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .banned-users.show {
+            display: block;
+        }
+
+        .banned-header {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: #ff5252;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .how-to-order ol {
-            margin-left: 20px;
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.8;
+        .banned-item {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 82, 82, 0.2);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .how-to-order li {
-            margin-bottom: 8
+        .banned-name {
+            color: #ff5252;
+            font-weight: 600;
+        }
+
+        .btn-unban {
+            padding: 8px 16px;
+            background: rgba(105, 240, 174, 0.2);
+            color: var(--accent-green);
+            border: 1px solid var(--accent-green);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .btn-unban:hover {
+            background: var(--accent-green);
+            color: #1a0b2e;
+        }
+
+        /* Admin Bulk Orders */
+        .admin-bulk-orders {
+            display: none;
+            background: rgba(156, 39, 176, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(156, 39, 176, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .admin-bulk-orders.show {
+            display: block;
+        }
+
+        .admin-bulk-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .admin-bulk-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: #e1bee7;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-bulk-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .bulk-order-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(156, 39, 176, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            transition: all 0.3s;
+        }
+
+        .bulk-order-card:hover {
+            border-color: rgba(156, 39, 176, 0.6);
+            transform: translateX(5px);
+        }
+
+        .bulk-order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .bulk-order-user {
+            font-weight: 700;
+            color: #e1bee7;
+            font-size: 1.2rem;
+        }
+
+        .bulk-order-time {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+        }
+
+        .bulk-order-details {
+            margin-bottom: 15px;
+        }
+
+        .bulk-order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .bulk-order-item:last-child {
+            border-bottom: none;
+        }
+
+        .bulk-item-name {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .bulk-item-qty {
+            color: #9c27b0;
+            font-weight: 700;
+        }
+
+        .bulk-order-total {
+            background: rgba(156, 39, 176, 0.2);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 15px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            color: var(--gold-primary);
+        }
+
+        .empty-orders {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Bulk Modal Styles */
+        .bulk-item-row {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(156, 39, 176, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .bulk-item-info h4 {
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .bulk-item-info p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .bulk-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .shulker-count {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 15px;
+            border-radius: 8px;
+        }
+
+        .shulker-count input {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid rgba(156, 39, 176, 0.5);
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .btn-remove {
+            background: rgba(255, 82, 82, 0.2);
+            color: #ff5252;
+            border: 1px solid rgba(255, 82, 82, 0.5);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .btn-remove:hover {
+            background: rgba(255, 82, 82, 0.4);
+            color: #fff;
+        }
+
+        .bulk-total {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05));
+            border: 2px solid var(--gold-primary);
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .bulk-total h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-primary);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .bulk-total-amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .btn-submit-order {
+            width: 100%;
+            margin-top: 20px;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--accent-green) 0%, #2e7d32 100%);
+            color: #1a0b2e;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .btn-submit-order:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(105, 240, 174, 0.4);
+        }
+
+        .empty-bulk {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .empty-bulk-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            padding: 16px 32px;
+            border-radius: 50px;
+            border: 1px solid var(--gold-primary);
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.4s;
+            z-index: 9999;
+            backdrop-filter: blur(10px);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.success { border-color: var(--accent-green); color: var(--accent-green); }
+        .toast.error { border-color: var(--accent-red); color: var(--accent-red); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-title { font-size: 2.5rem; letter-spacing: 4px; }
+            .shop-owners { font-size: 0.9rem; }
+            .items-grid { grid-template-columns: 1fr; }
+            .login-form { grid-template-columns: 1fr; }
+            .user-info { flex-direction: column; text-align: center; }
+            .chat-container { height: 90vh; }
+            .chat-message { max-width: 90%; }
+            .message-actions { display: flex; }
+            .admin-bulk-header { flex-direction: column; text-align: center; }
+            .bulk-item-row { flex-direction: column; gap: 15px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Location Bar -->
+    <div class="location-bar">
+        <div class="location-text">
+            <span class="location-icon">📌</span>
+            <span>Shop is at <strong>281 50 24</strong></span>
+        </div>
+    </div>
+
+    <!-- Particles -->
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1 class="main-title">THE TAVERN</h1>
+            <div class="shop-owners">FJcoolcat & PizzaboiTM Shop</div>
+            <p style="color: rgba(255,255,255,0.5); margin-top: 10px; letter-spacing: 4px; text-transform: uppercase;">Premium Minecraft Emporium</p>
+        </header>
+
+        <!-- Login Section -->
+        <div class="login-section" id="loginSection">
+            <div id="loginForm" class="login-form">
+                <input type="text" id="usernameInput" placeholder="Username">
+                <input type="text" id="discordInput" placeholder="Discord (e.g., user#1234)">
+                <input type="text" id="minecraftInput" placeholder="Minecraft Username">
+                <button class="btn-primary" onclick="login()">Enter Shop</button>
+            </div>
+            
+            <div id="userInfo" class="user-info">
+                <div class="welcome-text">
+                    Welcome, <span class="username" id="currentUser"></span>
+                </div>
+                <div class="user-actions">
+                    <button class="btn-chat" onclick="openGlobalChat()">💬 Global Chat</button>
+                    <button class="btn-support" onclick="openSupportChat()">🎫 Support Chat</button>
+                    <button class="btn-bulk" onclick="openBulkModal()">📦 My Bulk Order</button>
+                    <button class="btn-danger" onclick="logout()">Exit</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Bar (Admin) -->
+        <div id="statsBar" class="stats-bar">
+            <div class="stat-card">
+                <div class="stat-value" id="totalItems">0</div>
+                <div class="stat-label">Total Items</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="inStockItems">0</div>
+                <div class="stat-label">In Stock</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="bulkRequests">0</div>
+                <div class="stat-label">Bulk Requests</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalValue">0</div>
+                <div class="stat-label">Total Value</div>
+            </div>
+        </div>
+
+        <!-- Admin Controls -->
+        <div id="adminControls" class="admin-controls">
+            <div class="admin-title">
+                <span>👑</span>
+                <span>Shopkeeper's Controls</span>
+            </div>
+            <div class="add-item-form">
+                <div class="form-group">
+                    <label>Item Name</label>
+                    <input type="text" id="itemName" placeholder="e.g., Netherite Sword">
+                </div>
+                <div class="form-group">
+                    <label>Price (single item)</label>
+                    <input type="text" id="itemPrice" placeholder="e.g., 25 d">
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="itemType">
+                        <option value="item">Item</option>
+                        <option value="block">Block</option>
+                        <option value="tool">Tool</option>
+                        <option value="armor">Armor</option>
+                        <option value="weapon">Weapon</option>
+                        <option value="rare">Rare</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <select id="itemLocation">
+                        <option value="Floor 1">Floor 1</option>
+                        <option value="Floor 2">Floor 2</option>
+                        <option value="Floor 3">Floor 3</option>
+                        <option value="Basement">Basement</option>
+                        <option value="Vault">Vault</option>
+                        <option value="Hidden">Hidden</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Availability</label>
+                    <select id="itemStock">
+                        <option value="in">In Stock</option>
+                        <option value="out">Out of Stock</option>
+                        <option value="limited">Limited</option>
+                    </select>
+                </div>
+                <div class="form-group" style="display: flex; align-items: end;">
+                    <button class="btn-success" onclick="addItem()" style="width: 100%;">Add to Shop</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Support Chats List (Admin Only) -->
+        <div id="supportList" class="support-list">
+            <div class="support-list-header">
+                <span>🎫</span>
+                <span>Support Tickets</span>
+            </div>
+            <div id="supportChatsContainer">
+                <p style="color: rgba(255,255,255,0.5); text-align: center; padding: 40px;">No support tickets yet...</p>
+            </div>
+        </div>
+
+        <!-- Banned Users (Admin Only) -->
+        <div id="bannedUsers" class="banned-users">
+            <div class="banned-header">
+                <span>🚫</span>
+                <span>Banned Users</span>
+            </div>
+            <div id="bannedList">
+                <p style="color: rgba(255,255,255,0.5); text-align: center;">No banned users</p>
+            </div>
+        </div>
+
+        <!-- Admin Bulk Orders (Admin Only - Hidden from normal users) -->
+        <div id="adminBulkOrders" class="admin-bulk-orders">
+            <div class="admin-bulk-header">
+                <div class="admin-bulk-title">📦 Customer Bulk Orders</div>
+                <button class="btn-danger" onclick="clearAllOrders()">Clear All Orders</button>
+            </div>
+            <div id="adminBulkList" class="admin-bulk-list">
+                <div class="empty-orders">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">📭</div>
+                    <p>No bulk orders yet...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab active" onclick="filterItems('all')">All Items</button>
+                <button class="tab" onclick="filterItems('in')">Available Now</button>
+                <button class="tab" onclick="filterItems('out')">Out of Stock</button>
+                <button class="tab" onclick="filterItems('limited')">Limited Edition</button>
+            </div>
+        </div>
+
+        <!-- Items Grid -->
+        <div id="itemsContainer" class="items-grid"></div>
+    </div>
+
+    <!-- Global Chat Overlay -->
+    <div id="globalChatOverlay" class="chat-overlay">
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="chat-title">
+                    <span>💬</span>
+                    <span>Global Chat</span>
+                    <span class="chat-type-badge">Public</span>
+                </div>
+                <button class="close-chat" onclick="closeChat()">×</button>
+            </div>
+            <div class="chat-messages" id="globalMessages"></div>
+            <div id="globalMutedBanner" class="muted-banner" style="display: none;">
+                🔇 You are muted and cannot send messages
+            </div>
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" id="globalInput" placeholder="Type your message..." maxlength="500">
+                <button class="btn-send" id="globalSendBtn" onclick="sendGlobalMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Support Chat Overlay -->
+    <div id="supportChatOverlay" class="chat-overlay">
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="chat-title">
+                    <span>🎫</span>
+                    <span id="supportChatTitle">Support Chat</span>
+                    <span class="chat-type-badge support">Private</span>
+                </div>
+                <button class="close-chat" onclick="closeChat()">×</button>
+            </div>
+            <div class="chat-messages" id="supportMessages"></div>
+            <div id="supportMutedBanner" class="muted-banner" style="display: none;">
+                🔇 You are muted and cannot send messages
+            </div>
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" id="supportInput" placeholder="Describe your issue or question..." maxlength="500">
+                <button class="btn-send" id="supportSendBtn" onclick="sendSupportMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Order Modal -->
+    <div id="bulkModal" class="chat-overlay">
+        <div class="chat-container" style="max-width: 900px;">
+            <div class="chat-header">
+                <div class="chat-title">
+                    <span>📦</span>
+                    <span>Your Bulk Order</span>
+                </div>
+                <button class="close-chat" onclick="closeBulkModal()">×</button>
+            </div>
+            <div style="padding: 30px; overflow-y: auto; flex: 1;">
+                <div class="how-to-order" style="background: rgba(156, 39, 176, 0.1); border: 1px solid rgba(156, 39, 176, 0.3); border-radius: 16px; padding: 25px; margin-bottom: 30px;">
+                    <h3 style="color: #e1bee7; margin-bottom: 15px;">📋 How to Order</h3>
+                    <ol style="margin-left: 20px; color: rgba(255, 255, 255, 0.8); line-height: 1.8;">
+                        <li>Add items to your bulk order using the "Add to Bulk" buttons in the shop</li>
+                        <li>Specify how many <strong>shulkers</strong> you want for each item</li>
+                        <li><strong>Important:</strong> 1 shulker = 27 stacks = 27× the single item price</li>
+                        <li>Review your order - prices are automatically calculated per shulker</li>
+                        <li>Click <strong>"Submit Order"</strong> to send it to the shopkeeper</li>
+                        <li>The shopkeeper will contact you on Discord to arrange pickup at <strong>281 50 24</strong></li>
+                    </ol>
+                </div>
+                <div id="bulkModalContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+        // Initialize particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Data
+        let items = JSON.parse(localStorage.getItem('tavernItems')) || [
+            { id: 1, name: "Elytra", type: "item", location: "Floor 1", price: "40 d", stock: "in", tags: ["item", "Floor 1"] },
+            { id: 2, name: "Heavy Core", type: "item", location: null, price: "18 db", stock: "out", tags: ["item"] }
+        ];
+
+        let currentUser = localStorage.getItem('tavernUser') || null;
+        let userDiscord = localStorage.getItem('tavernDiscord') || '';
+        let userMinecraft = localStorage.getItem('tavernMinecraft') || '';
+        let userBulkOrder = JSON.parse(localStorage.getItem('tavernBulkOrder')) || [];
+        let submittedOrders = JSON.parse(localStorage.getItem('tavernSubmittedOrders')) || [];
+        let currentFilter = 'all';
+        let currentChat = null;
+        let currentSupportUser = null;
+
+        // Chat data
+        let globalMessages = JSON.parse(localStorage.getItem('tavernGlobalChat')) || [];
+        let supportChats = JSON.parse(localStorage.getItem('tavernSupportChats')) || {};
+        let bannedUsers = JSON.parse(localStorage.getItem('tavernBanned')) || [];
+        let mutedUsers = JSON.parse(localStorage.getItem('tavernMuted')) || [];
+
+        // Check login on load
+        window.onload = function() {
+            if (currentUser) restoreLogin();
+            renderItems();
+        };
+
+        function restoreLogin() {
+            document.getElementById('currentUser').textContent = currentUser;
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('userInfo').classList.add('show');
+            
+            if (currentUser === 'FJ121') {
+                document.getElementById('adminControls').classList.add('show');
+                document.getElementById('statsBar').classList.add('show');
+                document.getElementById('adminBulkOrders').classList.add('show');
+                document.getElementById('supportList').classList.add('show');
+                document.getElementById('bannedUsers').classList.add('show');
+                updateStats();
+                renderAdminOrders();
+                renderSupportList();
+                renderBannedList();
+            }
+        }
+
+        function login() {
+            const username = document.getElementById('usernameInput').value.trim();
+            const discord = document.getElementById('discordInput').value.trim();
+            const minecraft = document.getElementById('minecraftInput').value.trim();
+
+            if (!username || !discord || !minecraft) {
+                showToast('Please fill in all fields', 'error');
+                return;
+            }
+
+            if (bannedUsers.includes(username.toLowerCase())) {
+                showToast('You are banned from this shop', 'error');
+                return;
+            }
+
+            currentUser = username;
+            userDiscord = discord;
+            userMinecraft = minecraft;
+            
+            localStorage.setItem('tavernUser', currentUser);
+            localStorage.setItem('tavernDiscord', userDiscord);
+            localStorage.setItem('tavernMinecraft', userMinecraft);
+            
+            document.getElementById('currentUser').textContent = username;
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('userInfo').classList.add('show');
+            
+            if (username === 'FJ121') {
+                document.getElementById('adminControls').classList.add('show');
+                document.getElementById('statsBar').classList.add('show');
+                document.getElementById('adminBulkOrders').classList.add('show');
+                document.getElementById('supportList').classList.add('show');
+                document.getElementById('bannedUsers').classList.add('show');
+                updateStats();
+                renderAdminOrders();
+                renderSupportList();
+                renderBannedList();
+                showToast('Welcome, Shopkeeper!', 'success');
+            } else {
+                showToast(`Welcome to The Tavern, ${username}!`, 'success');
+            }
+            
+            renderItems();
+        }
+
+        function logout() {
+            if (!confirm('Exit your account? You will need to log in again.')) return;
+            
+            currentUser = null;
+            userDiscord = '';
+            userMinecraft = '';
+            userBulkOrder = [];
+            
+            localStorage.removeItem('tavernUser');
+            localStorage.removeItem('tavernDiscord');
+            localStorage.removeItem('tavernMinecraft');
+            localStorage.removeItem('tavernBulkOrder');
+            
+            document.getElementById('usernameInput').value = '';
+            document.getElementById('discordInput').value = '';
+            document.getElementById('minecraftInput').value = '';
+            
+            document.getElementById('loginForm').style.display = 'grid';
+            document.getElementById('userInfo').classList.remove('show');
+            document.getElementById('adminControls').classList.remove('show');
+            document.getElementById('statsBar').classList.remove('show');
+            document.getElementById('adminBulkOrders').classList.remove('show');
+            document.getElementById('supportList').classList.remove('show');
+            document.getElementById('bannedUsers').classList.remove('show');
+            
+            closeChat();
+            closeBulkModal();
+            renderItems();
+            showToast('You have exited your account', 'success');
+        }
+
+        // Item Management Functions
+        function addItem() {
+            if (currentUser !== 'FJ121') return;
+            
+            const name = document.getElementById('itemName').value.trim();
+            const price = document.getElementById('itemPrice').value.trim();
+            const type = document.getElementById('itemType').value;
+            const location = document.getElementById('itemLocation').value;
+            const stock = document.getElementById('itemStock').value;
+
+            if (!name || !price) {
+                showToast('Please fill in item name and price', 'error');
+                return;
+            }
+
+            const newItem = {
+                id: Date.now(),
+                name: name,
+                type: type,
+                location: location === 'Hidden' ? null : location,
+                price: price,
+                stock: stock,
+                tags: [type]
+            };
+
+            if (location && location !== 'Hidden') {
+                newItem.tags.push(location);
+            }
+
+            items.push(newItem);
+            localStorage.setItem('tavernItems', JSON.stringify(items));
+            
+            // Clear form
+            document.getElementById('itemName').value = '';
+            document.getElementById('itemPrice').value = '';
+            
+            renderItems();
+            updateStats();
+            showToast('Item added successfully!', 'success');
+        }
+
+        function deleteItem(id) {
+            if (currentUser !== 'FJ121') return;
+            if (!confirm('Delete this item?')) return;
+            
+            items = items.filter(item => item.id !== id);
+            localStorage.setItem('tavernItems', JSON.stringify(items));
+            renderItems();
+            updateStats();
+            showToast('Item deleted', 'success');
+        }
+
+        function updateStats() {
+            if (currentUser !== 'FJ121') return;
+            
+            document.getElementById('totalItems').textContent = items.length;
+            document.getElementById('inStockItems').textContent = items.filter(i => i.stock === 'in').length;
+            document.getElementById('bulkRequests').textContent = submittedOrders.length;
+            
+            // Calculate total value (simplified)
+            let total = 0;
+            items.forEach(item => {
+                const price = parseFloat(item.price) || 0;
+                total += price;
+            });
+            document.getElementById('totalValue').textContent = total + ' d';
+        }
+
+        // Bulk Order Functions
+        function toggleBulkItem(itemId, btnElement) {
+            if (!currentUser || currentUser === 'FJ121') {
+                showToast('Please log in as a customer to use bulk orders', 'error');
+                return;
+            }
+
+            const existingIndex = userBulkOrder.findIndex(item => item.id === itemId);
+            const item = items.find(i => i.id === itemId);
+            
+            if (!item) return;
+
+            if (existingIndex > -1) {
+                // Remove from bulk
+                userBulkOrder.splice(existingIndex, 1);
+                btnElement.textContent = 'Add to Bulk';
+                btnElement.classList.remove('added');
+                document.getElementById(`shulker-${itemId}`).style.display = 'none';
+                showToast('Removed from bulk order', 'success');
+            } else {
+                // Add to bulk
+                userBulkOrder.push({
+                    id: itemId,
+                    shulkers: 1,
+                    name: item.name,
+                    price: item.price
+                });
+                btnElement.textContent = '✓ Added';
+                btnElement.classList.add('added');
+                document.getElementById(`shulker-${itemId}`).style.display = 'flex';
+                showToast('Added to bulk order!', 'success');
+            }
+            
+            localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
+        }
+
+        function updateShulkers(itemId, value) {
+            const item = userBulkOrder.find(i => i.id === itemId);
+            if (item) {
+                item.shulkers = Math.max(1, Math.min(64, parseInt(value) || 1));
+                localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
+            }
+        }
+
+        function removeFromBulk(itemId) {
+            const index = userBulkOrder.findIndex(i => i.id === itemId);
+            if (index > -1) {
+                userBulkOrder.splice(index, 1);
+                localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
+                renderBulkModal();
+                renderItems(); // Update buttons in grid
+                showToast('Removed from bulk order', 'success');
+            }
+        }
+
+        function openBulkModal() {
+            if (!currentUser) {
+                showToast('Please log in first', 'error');
+                return;
+            }
+            if (currentUser === 'FJ121') {
+                showToast('Shopkeepers cannot place bulk orders', 'error');
+                return;
+            }
+            document.getElementById('bulkModal').classList.add('show');
+            renderBulkModal();
+        }
+
+        function closeBulkModal() {
+            document.getElementById('bulkModal').classList.remove('show');
+        }
+
+        function renderBulkModal() {
+            const container = document.getElementById('bulkModalContent');
+            
+            if (userBulkOrder.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-bulk">
+                        <div class="empty-bulk-icon">📭</div>
+                        <p>Your bulk order is empty</p>
+                        <p style="font-size: 0.9rem; margin-top: 10px;">Add items from the shop to get started!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let totalPrice = 0;
+            let html = '';
+
+            userBulkOrder.forEach(item => {
+                const shopItem = items.find(i => i.id === item.id);
+                if (!shopItem) return;
+
+                // Parse price (remove non-numeric chars except decimal)
+                const priceNum = parseFloat(shopItem.price.replace(/[^0-9.]/g, '')) || 0;
+                const currency = shopItem.price.replace(/[0-9.]/g, '').trim() || 'd';
+                const shulkerPrice = priceNum * 27 * item.shulkers; // 27 stacks per shulker
+                totalPrice += shulkerPrice;
+
+                html += `
+                    <div class="bulk-item-row">
+                        <div class="bulk-item-info">
+                            <h4>${shopItem.name}</h4>
+                            <p>${shopItem.price} per item × 27 × ${item.shulkers} shulkers = ${shulkerPrice} ${currency}</p>
+                        </div>
+                        <div class="bulk-item-actions">
+                            <div class="shulker-count">
+                                <span>Shulkers:</span>
+                                <input type="number" value="${item.shulkers}" min="1" max="64" 
+                                    onchange="updateShulkers(${item.id}, this.value); renderBulkModal();">
+                            </div>
+                            <button class="btn-remove" onclick="removeFromBulk(${item.id})">Remove</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                <div class="bulk-total">
+                    <h3>Total Order Value</h3>
+                    <div class="bulk-total-amount">${totalPrice} d</div>
+                </div>
+                <button class="btn-submit-order" onclick="submitBulkOrder()">Submit Order</button>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        function submitBulkOrder() {
+            if (userBulkOrder.length === 0) {
+                showToast('Your bulk order is empty!', 'error');
+                return;
+            }
+
+            const order = {
+                user: currentUser,
+                discord: userDiscord,
+                minecraft: userMinecraft,
+                items: [...userBulkOrder],
+                timestamp: new Date().toISOString(),
+                id: Date.now()
+            };
+
+            submittedOrders.push(order);
+            localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
+            
+            // Clear user's bulk order
+            userBulkOrder = [];
+            localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
+            
+            // Update admin view if visible
+            if (currentUser === 'FJ121') {
+                renderAdminOrders();
+                updateStats();
+            }
+            
+            renderBulkModal();
+            renderItems();
+            showToast('Order submitted successfully! The shopkeeper will contact you on Discord.', 'success');
+            
+            setTimeout(() => closeBulkModal(), 1500);
+        }
+
+        function renderAdminOrders() {
+            if (currentUser !== 'FJ121') return;
+            
+            const container = document.getElementById('adminBulkList');
+            
+            if (submittedOrders.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-orders">
+                        <div style="font-size: 4rem; margin-bottom: 20px;">📭</div>
+                        <p>No bulk orders yet...</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = submittedOrders.map(order => {
+                let itemsHtml = order.items.map(item => {
+                    const shopItem = items.find(i => i.id === item.id);
+                    const priceNum = parseFloat((shopItem?.price || '0').replace(/[^0-9.]/g, '')) || 0;
+                    const total = priceNum * 27 * item.shulkers;
+                    return `
+                        <div class="bulk-order-item">
+                            <span class="bulk-item-name">${item.name}</span>
+                            <span class="bulk-item-qty">${item.shulkers} shulkers (${total} d)</span>
+                        </div>
+                    `;
+                }).join('');
+
+                let total = order.items.reduce((sum, item) => {
+                    const shopItem = items.find(i => i.id === item.id);
+                    const priceNum = parseFloat((shopItem?.price || '0').replace(/[^0-9.]/g, '')) || 0;
+                    return sum + (priceNum * 27 * item.shulkers);
+                }, 0);
+
+                return `
+                    <div class="bulk-order-card">
+                        <div class="bulk-order-header">
+                            <div>
+                                <div class="bulk-order-user">${order.user}</div>
+                                <div style="color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-top: 5px;">
+                                    MC: ${order.minecraft} | Discord: ${order.discord}
+                                </div>
+                            </div>
+                            <div class="bulk-order-time">${new Date(order.timestamp).toLocaleString()}</div>
+                        </div>
+                        <div class="bulk-order-details">
+                            ${itemsHtml}
+                        </div>
+                        <div class="bulk-order-total">
+                            Total: ${total} d
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function clearAllOrders() {
+            if (currentUser !== 'FJ121') return;
+            if (!confirm('Clear all submitted orders? This cannot be undone.')) return;
+            
+            submittedOrders = [];
+            localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
+            renderAdminOrders();
+            updateStats();
+            showToast('All orders cleared', 'success');
+        }
+
+        // Chat Functions
+        function openGlobalChat() {
+            if (!currentUser) {
+                showToast('Please log in first', 'error');
+                return;
+            }
+            if (bannedUsers.includes(currentUser.toLowerCase())) {
+                showToast('You are banned from chat', 'error');
+                return;
+            }
+            
+            currentChat = 'global';
+            document.getElementById('globalChatOverlay').classList.add('show');
+            renderGlobalMessages();
+            scrollToBottom('globalMessages');
+            
+            // Check if muted
+            const isMuted = mutedUsers.includes(currentUser.toLowerCase());
+            document.getElementById('globalInput').disabled = isMuted;
+            document.getElementById('globalSendBtn').disabled = isMuted;
+            document.getElementById('globalMutedBanner').style.display = isMuted ? 'block' : 'none';
+        }
+
+        function openSupportChat() {
+            if (!currentUser) {
+                showToast('Please log in first', 'error');
+                return;
+            }
+            if (bannedUsers.includes(currentUser.toLowerCase())) {
+                showToast('You are banned from chat', 'error');
+                return;
+            }
+            
+            currentChat = 'support';
+            currentSupportUser = currentUser;
+            document.getElementById('supportChatOverlay').classList.add('show');
+            document.getElementById('supportChatTitle').textContent = `Support - ${currentUser}`;
+            
+            // Initialize support chat if needed
+            if (!supportChats[currentUser]) {
+                supportChats[currentUser] = [];
+            }
+            
+            renderSupportMessages();
+            scrollToBottom('supportMessages');
+            
+            const isMuted = mutedUsers.includes(currentUser.toLowerCase());
+            document.getElementById('supportInput').disabled = isMuted;
+            document.getElementById('supportSendBtn').disabled = isMuted;
+            document.getElementById('supportMutedBanner').style.display = isMuted ? 'block' : 'none';
+        }
+
+        function openStaffSupportChat(username) {
+            if (currentUser !== 'FJ121') return;
+            
+            currentChat = 'support';
+            currentSupportUser = username;
+            document.getElementById('supportChatOverlay').classList.add('show');
+            document.getElementById('supportChatTitle').textContent = `Support - ${username}`;
+            
+            if (!supportChats[username]) {
+                supportChats[username] = [];
+            }
+            
+            renderSupportMessages();
+            scrollToBottom('supportMessages');
+            
+            // Staff is never muted
+            document.getElementById('supportInput').disabled = false;
+            document.getElementById('supportSendBtn').disabled = false;
+            document.getElementById('supportMutedBanner').style.display = 'none';
+        }
+
+        function closeChat() {
+            document.getElementById('globalChatOverlay').classList.remove('show');
+            document.getElementById('supportChatOverlay').classList.remove('show');
+            currentChat = null;
+            currentSupportUser = null;
+        }
+
+        function sendGlobalMessage() {
+            const input = document.getElementById('globalInput');
+            const content = input.value.trim();
+            
+            if (!content || !currentUser) return;
+            if (mutedUsers.includes(currentUser.toLowerCase())) {
+                showToast('You are muted', 'error');
+                return;
+            }
+            
+            const message = {
+                id: Date.now(),
+                author: currentUser,
+                content: content,
+                timestamp: new Date().toISOString(),
+                deleted: false,
+                isStaff: currentUser === 'FJ121'
+            };
+            
+            globalMessages.push(message);
+            localStorage.setItem('tavernGlobalChat', JSON.stringify(globalMessages));
+            
+            input.value = '';
+            renderGlobalMessages();
+            scrollToBottom('globalMessages');
+        }
+
+        function sendSupportMessage() {
+            const input = document.getElementById('supportInput');
+            const content = input.value.trim();
+            
+            if (!content || !currentUser || !currentSupportUser) return;
+            if (mutedUsers.includes(currentUser.toLowerCase())) {
+                showToast('You are muted', 'error');
+                return;
+            }
+            
+            const message = {
+                id: Date.now(),
+                author: currentUser,
+                content: content,
+                timestamp: new Date().toISOString(),
+                deleted: false,
+                isStaff: currentUser === 'FJ121'
+            };
+            
+            if (!supportChats[currentSupportUser]) {
+                supportChats[currentSupportUser] = [];
+            }
+            
+            supportChats[currentSupportUser].push(message);
+            localStorage.setItem('tavernSupportChats', JSON.stringify(supportChats));
+            
+            input.value = '';
+            renderSupportMessages();
+            scrollToBottom('supportMessages');
+            
+            // Update support list for staff
+            if (currentUser === 'FJ121') {
+                renderSupportList();
+            }
+        }
+
+        function renderGlobalMessages() {
+            const container = document.getElementById('globalMessages');
+            container.innerHTML = globalMessages.map(msg => createMessageHTML(msg, 'global')).join('');
+        }
+
+        function renderSupportMessages() {
+            const container = document.getElementById('supportMessages');
+            if (!currentSupportUser || !supportChats[currentSupportUser]) {
+                container.innerHTML = '<p style="text-align: center; color: rgba(255,255,255,0.5); margin-top: 40px;">No messages yet. Start the conversation!</p>';
+                return;
+            }
+            
+            container.innerHTML = supportChats[currentSupportUser].map(msg => {
+                const isOwn = msg.author === currentUser;
+                const isStaff = msg.isStaff;
+                let className = 'chat-message';
+                if (msg.deleted) className += ' deleted';
+                else if (isStaff) className += ' staff-msg';
+                else if (isOwn) className += ' own';
+                else className += ' other';
+                
+                return createMessageHTML(msg, 'support', className);
+            }).join('');
+        }
+
+        function createMessageHTML(msg, type, className) {
+            const isStaff = currentUser === 'FJ121';
+            const isOwn = msg.author === currentUser;
+            const time = new Date(msg.timestamp).toLocaleTimeString();
+            const isStaffMsg = msg.isStaff || msg.author === 'FJ121';
+            
+            let actions = '';
+            if (isStaff && !msg.deleted && msg.author !== 'FJ121') {
+                actions = `
+                    <div class="message-actions">
+                        <button class="msg-btn msg-btn-delete" onclick="deleteMessage('${type}', ${msg.id})">🗑 Delete</button>
+                        <button class="msg-btn msg-btn-mute" onclick="muteUser('${msg.author}')">🔇 Mute User</button>
+                        <button class="msg-btn msg-btn-ban" onclick="banUser('${msg.author}')">🚫 Ban User</button>
+                    </div>
+                `;
+            }
+            
+            const authorClass = isStaffMsg ? 'staff' : '';
+            const staffBadge = isStaffMsg ? '<span class="staff-badge">[STAFF]</span>' : '';
+            
+            return `
+                <div class="${className || 'chat-message ' + (isOwn ? 'own' : 'other')}" data-msg-id="${msg.id}">
+                    <div class="message-header">
+                        <span class="message-author ${authorClass}">${staffBadge}${msg.author}</span>
+                        <span class="message-time">${time}</span>
+                    </div>
+                    <div class="message-content">${msg.deleted ? '<em>Message deleted by moderator</em>' : escapeHtml(msg.content)}</div>
+                    ${actions}
+                </div>
+            `;
+        }
+
+        function deleteMessage(type, msgId) {
+            if (currentUser !== 'FJ121') return;
+            
+            if (type === 'global') {
+                const msg = globalMessages.find(m => m.id === msgId);
+                if (msg) {
+                    msg.deleted = true;
+                    localStorage.setItem('tavernGlobalChat', JSON.stringify(globalMessages));
+                    renderGlobalMessages();
+                }
+            } else if (type === 'support' && currentSupportUser) {
+                const chat = supportChats[currentSupportUser];
+                const msg = chat.find(m => m.id === msgId);
+                if (msg) {
+                    msg.deleted = true;
+                    localStorage.setItem('tavernSupportChats', JSON.stringify(supportChats));
+                    renderSupportMessages();
+                }
+            }
+            showToast('Message deleted', 'success');
+        }
+
+        function muteUser(username) {
+            if (currentUser !== 'FJ121') return;
+            if (username === 'FJ121') {
+                showToast('Cannot mute yourself', 'error');
+                return;
+            }
+            
+            if (!mutedUsers.includes(username.toLowerCase())) {
+                mutedUsers.push(username.toLowerCase());
+                localStorage.setItem('tavernMuted', JSON.stringify(mutedUsers));
+                renderBannedList();
+                showToast(`${username} has been muted`, 'success');
+            }
+        }
+
+        function unmuteUser(username) {
+            if (currentUser !== 'FJ121') return;
+            
+            mutedUsers = mutedUsers.filter(u => u !== username.toLowerCase());
+            localStorage.setItem('tavernMuted', JSON.stringify(mutedUsers));
+            renderBannedList();
+            showToast(`${username} has been unmuted`, 'success');
+        }
+
+        function banUser(username) {
+            if (currentUser !== 'FJ121') return;
+            if (username === 'FJ121') {
+                showToast('Cannot ban yourself', 'error');
+                return;
+            }
+            
+            if (!bannedUsers.includes(username.toLowerCase())) {
+                bannedUsers.push(username.toLowerCase());
+                localStorage.setItem('tavernBanned', JSON.stringify(bannedUsers));
+                
+                // Also mute them
+                if (!mutedUsers.includes(username.toLowerCase())) {
+                    mutedUsers.push(username.toLowerCase());
+                    localStorage.setItem('tavernMuted', JSON.stringify(mutedUsers));
+                }
+                
+                renderBannedList();
+                showToast(`${username} has been banned`, 'success');
+            }
+        }
+
+        function unbanUser(username) {
+            if (currentUser !== 'FJ121') return;
+            
+            bannedUsers = bannedUsers.filter(u => u !== username.toLowerCase());
+            localStorage.setItem('tavernBanned', JSON.stringify(bannedUsers));
+            renderBannedList();
+            showToast(`${username} has been unbanned`, 'success');
+        }
+
+        function renderSupportList() {
+            if (currentUser !== 'FJ121') return;
+            
+            const container = document.getElementById('supportChatsContainer');
+            const users = Object.keys(supportChats).filter(u => u !== 'FJ121');
+            
+            if (users.length === 0) {
+                container.innerHTML = '<p style="color: rgba(255,255,255,0.5); text-align: center; padding: 40px;">No support tickets yet...</p>';
+                return;
+            }
+            
+            container.innerHTML = users.map(user => {
+                const messages = supportChats[user];
+                const lastMsg = messages[messages.length - 1];
+                const unread = messages.some(m => !m.isStaff && !m.read);
+                
+                return `
+                    <div class="support-chat-item ${unread ? 'unread' : ''}" onclick="openStaffSupportChat('${user}')">
+                        <div class="support-user-info">
+                            <h4>${user}</h4>
+                            <p>${lastMsg ? lastMsg.content.substring(0, 50) + '...' : 'No messages'}</p>
+                        </div>
+                        <div class="support-meta">
+                            <div class="support-time">${lastMsg ? new Date(lastMsg.timestamp).toLocaleTimeString() : ''}</div>
+                            ${unread ? '<span class="support-badge">NEW</span>' : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderBannedList() {
+            if (currentUser !== 'FJ121') return;
+            
+            const container = document.getElementById('bannedList');
+            
+            if (bannedUsers.length === 0 && mutedUsers.length === 0) {
+                container.innerHTML = '<p style="color: rgba(255,255,255,0.5); text-align: center;">No banned or muted users</p>';
+                return;
+            }
+            
+            let html = '';
+            
+            if (bannedUsers.length > 0) {
+                html += '<h4 style="color: #ff5252; margin-bottom: 15px;">🚫 Banned Users</h4>';
+                html += bannedUsers.map(user => `
+                    <div class="banned-item">
+                        <span class="banned-name">${user}</span>
+                        <button class="btn-unban" onclick="unbanUser('${user}')">Unban</button>
+                    </div>
+                `).join('');
+            }
+            
+            if (mutedUsers.length > 0) {
+                html += '<h4 style="color: #ff9800; margin: 20px 0 15px;">🔇 Muted Users</h4>';
+                html += mutedUsers.filter(u => !bannedUsers.includes(u)).map(user => `
+                    <div class="banned-item">
+                        <span class="banned-name" style="color: #ff9800;">${user}</span>
+                        <button class="btn-unban" onclick="unmuteUser('${user}')">Unmute</button>
+                    </div>
+                `).join('');
+            }
+            
+            container.innerHTML = html;
+        }
+
+        function scrollToBottom(elementId) {
+            const element = document.getElementById(elementId);
+            element.scrollTop = element.scrollHeight;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Enter key for chat
+        document.getElementById('globalInput')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendGlobalMessage();
+        });
+
+        document.getElementById('supportInput')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendSupportMessage();
+        });
+
+        function renderItems() {
+            const container = document.getElementById('itemsContainer');
+            container.innerHTML = '';
+
+            let filteredItems = items;
+            if (currentFilter === 'in') filteredItems = items.filter(item => item.stock === 'in');
+            else if (currentFilter === 'out') filteredItems = items.filter(item => item.stock === 'out');
+            else if (currentFilter === 'limited') filteredItems = items.filter(item => item.stock === 'limited');
+
+            if (filteredItems.length === 0) {
+                container.innerHTML = `<div class="empty-state" style="grid-column: 1/-1; text-align: center; padding: 60px; color: rgba(255,255,255,0.5);"><div style="font-size: 4rem; margin-bottom: 20px;">📭</div><div>No items found...</div></div>`;
+                return;
+            }
+
+            filteredItems.forEach(item => {
+                const card = createItemCard(item);
+                container.appendChild(card);
+            });
+        }
+
+        function createItemCard(item) {
+            const div = document.createElement('div');
+            div.className = 'item-card';
+            
+            const existingItem = userBulkOrder.find(bo => bo.id === item.id);
+            const isInBulk = !!existingItem;
+            const bulkBtnText = isInBulk ? '✓ Added' : 'Add to Bulk';
+            const bulkBtnClass = isInBulk ? 'added' : '';
+            const shulkerCount = existingItem ? existingItem.shulkers : 1;
+            
+            div.innerHTML = `
+                ${currentUser === 'FJ121' ? `<button class="delete-btn" onclick="deleteItem(${item.id})">×</button>` : ''}
+                <div class="item-info">
+                    <div class="item-name">${item.name}</div>
+                    <div class="tags">
+                        <span class="tag tag-item">${item.type}</span>
+                        ${item.location ? `<span class="tag tag-floor">${item.location}</span>` : ''}
+                        ${item.stock === 'limited' ? `<span class="tag tag-rarity">Limited</span>` : ''}
+                    </div>
+                </div>
+                <div class="item-details">
+                    <div class="price">${item.price}</div>
+                    <div class="stock-status ${item.stock === 'in' ? 'in-stock' : item.stock === 'limited' ? 'in-stock' : 'out-of-stock'}">
+                        ${item.stock === 'in' ? 'In Stock' : item.stock === 'limited' ? 'Limited Stock' : 'Out of Stock'}
+                    </div>
+                    ${currentUser && currentUser !== 'FJ121' ? `
+                        <div class="shulker-selector" style="display: ${isInBulk ? 'flex' : 'none'};" id="shulker-${item.id}">
+                            <span class="shulker-label">Shulkers:</span>
+                            <input type="number" class="shulker-input" value="${shulkerCount}" min="1" max="64" onchange="updateShulkers(${item.id}, this.value)">
+                        </div>
+                        <button class="add-to-bulk ${bulkBtnClass}" onclick="toggleBulkItem(${item.id}, this)">${bulkBtnText}</button>
+                    ` : ''}
+                </div>
+            `;
+            return div;
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function filterItems(type) {
+            currentFilter = type;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            renderItems();
+        }
+
+        // Close overlays on outside click
+        document.querySelectorAll('.chat-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    if (this.id === 'bulkModal') closeBulkModal();
+                    else closeChat();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
