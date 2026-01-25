@@ -357,6 +357,56 @@
             box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
         }
 
+        /* Stock Status Selector for Staff */
+        .stock-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .stock-select {
+            padding: 6px 12px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .stock-select.in-stock {
+            border-color: var(--accent-green);
+            background: rgba(105, 240, 174, 0.1);
+        }
+
+        .stock-select.out-of-stock {
+            border-color: var(--accent-red);
+            background: rgba(255, 82, 82, 0.1);
+        }
+
+        .stock-select.limited {
+            border-color: #ff9800;
+            background: rgba(255, 152, 0, 0.1);
+        }
+
+        .btn-update-stock {
+            padding: 6px 16px;
+            background: rgba(255, 215, 0, 0.2);
+            color: var(--gold-primary);
+            border: 1px solid var(--gold-primary);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-update-stock:hover {
+            background: var(--gold-primary);
+            color: #1a0b2e;
+        }
+
         /* Stats Bar */
         .stats-bar {
             display: none;
@@ -513,10 +563,18 @@
             border: 2px solid;
             text-transform: uppercase;
             letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .stock-status:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         .in-stock { background: rgba(105, 240, 174, 0.15); color: var(--accent-green); border-color: var(--accent-green); }
         .out-of-stock { background: rgba(255, 82, 82, 0.15); color: var(--accent-red); border-color: var(--accent-red); }
+        .limited { background: rgba(255, 152, 0, 0.15); color: #ff9800; border-color: #ff9800; }
 
         .delete-btn {
             position: absolute;
@@ -1333,6 +1391,7 @@
             .bulk-item-row { flex-direction: column; gap: 15px; text-align: center; }
             .support-chat-item { flex-direction: column; gap: 10px; text-align: center; }
             .support-meta { text-align: center; }
+            .stock-selector { flex-direction: column; align-items: stretch; }
         }
     </style>
 </head>
@@ -1761,6 +1820,19 @@
             showToast('Item deleted', 'success');
         }
 
+        function updateItemStock(id, newStock) {
+            if (currentUser !== 'FJ121') return;
+            
+            const item = items.find(i => i.id === id);
+            if (item) {
+                item.stock = newStock;
+                localStorage.setItem('tavernItems', JSON.stringify(items));
+                renderItems();
+                updateStats();
+                showToast(`Stock status updated to ${newStock}`, 'success');
+            }
+        }
+
         function updateStats() {
             if (currentUser !== 'FJ121') return;
             
@@ -1886,7 +1958,9 @@
                             <div class="shulker-count">
                                 <span>Shulkers:</span>
                                 <input type="number" value="${item.shulkers}" min="1" max="64" 
-                                    onchange="updateShulkers(${item.id}, this.value); renderBulkModal();">
+                                    onchange="updateShulkers(${item.id}, this.value); renderI'll continue from where I left off and complete the HTML code with the stock editing functionality for staff members.
+
+```html
                             </div>
                             <button class="btn-remove" onclick="removeFromBulk(${item.id})">Remove</button>
                         </div>
@@ -2419,6 +2493,33 @@
             const bulkBtnClass = isInBulk ? 'added' : '';
             const shulkerCount = existingItem ? existingItem.shulkers : 1;
             
+            // Stock status with editing capability for staff
+            let stockElement = '';
+            if (currentUser === 'FJ121') {
+                stockElement = `
+                    <div class="stock-status ${item.stock === 'in' ? 'in-stock' : item.stock === 'limited' ? 'in-stock' : 'out-of-stock'}">
+                        ${item.stock === 'in' ? 'In Stock' : item.stock === 'limited' ? 'Limited Stock' : 'Out of Stock'}
+                    </div>
+                    <div class="stock-selector">
+                        <select class="stock-select ${item.stock === 'in' ? 'in-stock' : item.stock === 'limited' ? 'limited' : 'out-of-stock'}" 
+                                onchange="updateItemStock(${item.id}, this.value)">
+                            <option value="in" ${item.stock === 'in' ? 'selected' : ''}>In Stock</option>
+                            <option value="out" ${item.stock === 'out' ? 'selected' : ''}>Out of Stock</option>
+                            <option value="limited" ${item.stock === 'limited' ? 'selected' : ''}>Limited</option>
+                        </select>
+                        <button class="btn-update-stock" onclick="updateItemStock(${item.id}, document.querySelector('#item-${item.id} .stock-select').value)">
+                            Update
+                        </button>
+                    </div>
+                `;
+            } else {
+                stockElement = `
+                    <div class="stock-status ${item.stock === 'in' ? 'in-stock' : item.stock === 'limited' ? 'in-stock' : 'out-of-stock'}">
+                        ${item.stock === 'in' ? 'In Stock' : item.stock === 'limited' ? 'Limited Stock' : 'Out of Stock'}
+                    </div>
+                `;
+            }
+            
             div.innerHTML = `
                 ${currentUser === 'FJ121' ? `<button class="delete-btn" onclick="deleteItem(${item.id})">×</button>` : ''}
                 <div class="item-info">
@@ -2431,9 +2532,7 @@
                 </div>
                 <div class="item-details">
                     <div class="price">${item.price}</div>
-                    <div class="stock-status ${item.stock === 'in' ? 'in-stock' : item.stock === 'limited' ? 'in-stock' : 'out-of-stock'}">
-                        ${item.stock === 'in' ? 'In Stock' : item.stock === 'limited' ? 'Limited Stock' : 'Out of Stock'}
-                    </div>
+                    ${stockElement}
                     ${currentUser && currentUser !== 'FJ121' ? `
                         <div class="shulker-selector" style="display: ${isInBulk ? 'flex' : 'none'};" id="shulker-${item.id}">
                             <span class="shulker-label">Shulkers:</span>
@@ -2443,6 +2542,10 @@
                     ` : ''}
                 </div>
             `;
+            
+            // Add ID for stock selector targeting
+            div.id = `item-${item.id}`;
+            
             return div;
         }
 
