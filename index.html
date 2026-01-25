@@ -981,6 +981,28 @@
             font-weight: 700;
         }
 
+        /* Close Ticket Button */
+        .btn-close-ticket {
+            background: rgba(255, 82, 82, 0.3);
+            color: #ff5252;
+            border: 1px solid rgba(255, 82, 82, 0.5);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+            margin-left: 10px;
+        }
+
+        .btn-close-ticket:hover {
+            background: rgba(255, 82, 82, 0.5);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
         /* Banned Users List */
         .banned-users {
             display: none;
@@ -1309,6 +1331,8 @@
             .message-actions { display: flex; }
             .admin-bulk-header { flex-direction: column; text-align: center; }
             .bulk-item-row { flex-direction: column; gap: 15px; text-align: center; }
+            .support-chat-item { flex-direction: column; gap: 10px; text-align: center; }
+            .support-meta { text-align: center; }
         }
     </style>
 </head>
@@ -2261,6 +2285,23 @@
             showToast(`${username} has been unbanned`, 'success');
         }
 
+        function closeSupportTicket(username) {
+            if (currentUser !== 'FJ121') return;
+            if (!confirm(`Close support ticket for ${username}? This will delete the entire conversation.`)) return;
+            
+            // Remove the support chat for this user
+            delete supportChats[username];
+            localStorage.setItem('tavernSupportChats', JSON.stringify(supportChats));
+            
+            // If currently viewing this chat, close it
+            if (currentSupportUser === username) {
+                closeChat();
+            }
+            
+            renderSupportList();
+            showToast(`Support ticket for ${username} has been closed`, 'success');
+        }
+
         function renderSupportList() {
             if (currentUser !== 'FJ121') return;
             
@@ -2278,14 +2319,15 @@
                 const unread = messages.some(m => !m.isStaff && !m.read);
                 
                 return `
-                    <div class="support-chat-item ${unread ? 'unread' : ''}" onclick="openStaffSupportChat('${user}')">
-                        <div class="support-user-info">
+                    <div class="support-chat-item ${unread ? 'unread' : ''}">
+                        <div class="support-user-info" onclick="openStaffSupportChat('${user}')" style="flex: 1; cursor: pointer;">
                             <h4>${user}</h4>
                             <p>${lastMsg ? lastMsg.content.substring(0, 50) + '...' : 'No messages'}</p>
                         </div>
                         <div class="support-meta">
                             <div class="support-time">${lastMsg ? new Date(lastMsg.timestamp).toLocaleTimeString() : ''}</div>
                             ${unread ? '<span class="support-badge">NEW</span>' : ''}
+                            <button class="btn-close-ticket" onclick="event.stopPropagation(); closeSupportTicket('${user}')" title="Close Ticket">✕ Close</button>
                         </div>
                     </div>
                 `;
