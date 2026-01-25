@@ -18,6 +18,8 @@
             --accent-red: #ff5252;
             --accent-green: #69f0ae;
             --chat-bg: rgba(20, 20, 30, 0.95);
+            --mod-blue: #2196f3;
+            --mod-blue-light: #64b5f6;
         }
         * {
             margin: 0;
@@ -128,7 +130,7 @@
             font-size: 1.1rem;
             letter-spacing: 2px;
             display: flex;
--align-items: center;
+            align-items: center;
             justify-content: center;
             gap: 10px;
         }
@@ -264,6 +266,15 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(105, 240, 174, 0.5);
         }
+        .btn-completed {
+            background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+        .btn-completed:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.5);
+        }
 
         /* -------------- ADMIN PANEL -------------- */
         .admin-controls {
@@ -318,6 +329,40 @@
         select:focus, input:focus {
             border-color: var(--gold-primary);
             box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+        }
+
+        /* -------------- MOD PANEL -------------- */
+        .mod-controls {
+            display: none;
+            background: rgba(33, 150, 243, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(33, 150, 243, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            animation: slideDown 0.5s ease;
+        }
+        .mod-controls.show {
+            display: block;
+        }
+        .mod-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--mod-blue);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .mod-badge {
+            background: linear-gradient(135deg, var(--mod-blue), var(--mod-blue-light));
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         /* -------------- STOCK EDITOR (STAFF ONLY) -------------- */
@@ -650,6 +695,11 @@
             color: #1a0b2e;
             font-weight: 700;
         }
+        .chat-type-badge.mod {
+            background: linear-gradient(135deg, var(--mod-blue), var(--mod-blue-light));
+            color: #fff;
+            font-weight: 700;
+        }
         .close-chat {
             background: rgba(255, 82, 82, 0.2);
             color: #ff5252;
@@ -708,6 +758,11 @@
             border: 2px solid var(--gold-primary);
             box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
         }
+        .chat-message.mod-msg {
+            background: linear-gradient(135deg, rgba(33, 150, 243, 0.2), rgba(100, 181, 246, 0.1));
+            border: 2px solid var(--mod-blue);
+            box-shadow: 0 0 20px rgba(33, 150, 243, 0.2);
+        }
         .chat-message.deleted {
             opacity: 0.5;
             font-style: italic;
@@ -732,6 +787,15 @@
         .message-author.staff {
             background: linear-gradient(135deg, #ffd700, #ffed4e);
             color: #1a0b2e;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .message-author.mod {
+            background: linear-gradient(135deg, var(--mod-blue), var(--mod-blue-light));
+            color: #fff;
             padding: 4px 12px;
             border-radius: 6px;
             font-size: 0.85rem;
@@ -951,6 +1015,36 @@
         .btn-unban:hover {
             background: var(--accent-green);
             color: #1a0b2e;
+        }
+        .btn-complete-order {
+            padding: 8px 16px;
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+            border: 1px solid #4caf50;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-left: 10px;
+        }
+        .btn-complete-order:hover {
+            background: #4caf50;
+            color: #fff;
+        }
+        .completed-order {
+            opacity: 0.5;
+            background: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid #4caf50;
+        }
+        .completed-badge {
+            background: #4caf50;
+            color: #fff;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-left: 10px;
         }
 
         /* -------------- BULK MODAL -------------- */
@@ -1217,7 +1311,20 @@
             </div>
         </div>
 
-        <!-- Support Chats List (Admin Only) -->
+        <!-- Mod Controls -->
+        <div id="modControls" class="mod-controls">
+            <div class="mod-title">
+                <span>🛡️</span>
+                <span>Moderator Panel <span class="mod-badge">[MOD]</span></span>
+            </div>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <button class="btn-chat" onclick="openGlobalChat()">💬 Global Chat</button>
+                <button class="btn-support" onclick="openSupportChat()">🎫 Support Chat</button>
+                <button class="btn-bulk" onclick="openBulkModal()">📦 My Bulk Order</button>
+            </div>
+        </div>
+
+        <!-- Support Chats List (Admin/Mod Only) -->
         <div id="supportList" class="support-list">
             <div class="support-list-header">
                 <span>🎫</span>
@@ -1228,7 +1335,7 @@
             </div>
         </div>
 
-        <!-- Banned Users (Admin Only) -->
+        <!-- Banned Users (Admin/Mod Only) -->
         <div id="bannedUsers" class="banned-users">
             <div class="banned-header">
                 <span>🚫</span>
@@ -1368,6 +1475,7 @@
         let userMinecraft = localStorage.getItem('tavernMinecraft') || '';
         let userBulkOrder = JSON.parse(localStorage.getItem('tavernBulkOrder')) || [];
         let submittedOrders = JSON.parse(localStorage.getItem('tavernSubmittedOrders')) || [];
+        let completedOrders = JSON.parse(localStorage.getItem('tavernCompletedOrders')) || [];
         let currentFilter = 'all';
         let currentChat = null;
         let currentSupportUser = null;
@@ -1403,6 +1511,7 @@
             document.getElementById('loginForm').style.display = 'none';
             document.getElementById('userInfo').classList.add('show');
             if (currentUser === 'FJ121') showStaffUI();
+            else if (currentUser === 'mod121') showModUI();
         }
 
         function login() {
@@ -1435,6 +1544,9 @@
             if (username === 'FJ121') {
                 showStaffUI();
                 showToast('Welcome, Shopkeeper!', 'success');
+            } else if (username === 'mod121') {
+                showModUI();
+                showToast('Welcome, Moderator!', 'success');
             } else {
                 showToast(`Welcome to The Tavern, ${username}!`, 'success');
             }
@@ -1459,6 +1571,7 @@
             document.getElementById('loginForm').style.display = 'grid';
             document.getElementById('userInfo').classList.remove('show');
             hideStaffUI();
+            hideModUI();
             closeChat(); closeBulkModal();
             renderItems();
             showToast('You have exited your account', 'success');
@@ -1471,6 +1584,15 @@
 
         function hideStaffUI() {
             ['adminControls', 'statsBar', 'adminBulkOrders', 'supportList', 'bannedUsers'].forEach(id => document.getElementById(id).classList.remove('show'));
+        }
+
+        function showModUI() {
+            ['modControls', 'supportList', 'bannedUsers', 'adminBulkOrders'].forEach(id => document.getElementById(id).classList.add('show'));
+            renderSupportList(); renderBannedList(); renderAdminOrders();
+        }
+
+        function hideModUI() {
+            ['modControls', 'supportList', 'bannedUsers', 'adminBulkOrders'].forEach(id => document.getElementById(id).classList.remove('show'));
         }
 
         /* =========================================================
@@ -1579,13 +1701,14 @@
                     <div class="tags">
                         <span class="tag tag-item">${item.type}</span>
                         ${item.location ? `<span class="tag tag-floor">${item.location}</span>` : ''}
+```javascript
                         ${item.stock === 'limited' ? `<span class="tag tag-rarity">Limited</span>` : ''}
                     </div>
                 </div>
                 <div class="item-details">
                     <div class="price">${item.price}</div>
                     ${stockHtml}
-                    ${currentUser && currentUser !== 'FJ121' ? `
+                    ${currentUser && currentUser !== 'FJ121' && currentUser !== 'mod121' ? `
                         <div class="shulker-selector" style="display:${inBulk ? 'flex' : 'none'};" id="shulker-${item.id}">
                             <span class="shulker-label">Shulkers:</span>
                             <input type="number" class="shulker-input" value="${shulkers}" min="1" max="64" onchange="updateShulkers(${item.id}, this.value)">
@@ -1601,7 +1724,7 @@
            4. BULK ORDER
         ========================================================= */
         function toggleBulkItem(itemId, btn) {
-            if (!currentUser || currentUser === 'FJ121') return showToast('Customers only', 'error');
+            if (!currentUser || currentUser === 'FJ121' || currentUser === 'mod121') return showToast('Customers only', 'error');
             const item = items.find(i => i.id === itemId);
             if (!item) return;
             const existing = userBulkOrder.find(b => b.id === itemId);
@@ -1631,7 +1754,7 @@
 
         function openBulkModal() {
             if (!currentUser) return showToast('Log in first', 'error');
-            if (currentUser === 'FJ121') return showToast('Staff cannot order', 'error');
+            if (currentUser === 'FJ121' || currentUser === 'mod121') return showToast('Staff cannot order', 'error');
             document.getElementById('bulkModal').classList.add('show');
             renderBulkModal();
         }
@@ -1692,7 +1815,8 @@
             if (!userBulkOrder.length) return showToast('Empty order', 'error');
             const order = {
                 user: currentUser, discord: userDiscord, minecraft: userMinecraft,
-                items: [...userBulkOrder], timestamp: new Date().toISOString(), id: Date.now()
+                items: [...userBulkOrder], timestamp: new Date().toISOString(), id: Date.now(),
+                completed: false
             };
             submittedOrders.push(order);
             localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
@@ -1700,6 +1824,20 @@
             renderBulkModal(); renderItems(); updateStats();
             showToast('Order submitted! Check Discord.', 'success');
             setTimeout(closeBulkModal, 1500);
+        }
+
+        function completeOrder(orderId) {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            const orderIndex = submittedOrders.findIndex(o => o.id === orderId);
+            if (orderIndex === -1) return;
+            
+            submittedOrders[orderIndex].completed = true;
+            submittedOrders[orderIndex].completedAt = new Date().toISOString();
+            submittedOrders[orderIndex].completedBy = currentUser;
+            
+            localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
+            renderAdminOrders(); updateStats();
+            showToast('Order marked as completed', 'success');
         }
 
         function clearAllOrders() {
@@ -1741,7 +1879,7 @@
         }
 
         function openStaffSupportChat(username) {
-            if (currentUser !== 'FJ121') return;
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
             currentChat = 'support'; currentSupportUser = username;
             document.getElementById('supportChatOverlay').classList.add('show');
             document.getElementById('supportChatTitle').textContent = `Support - ${username}`;
@@ -1763,7 +1901,15 @@
             const input = document.getElementById('globalInput');
             const content = input.value.trim();
             if (!content || !currentUser || mutedUsers.includes(currentUser.toLowerCase())) return;
-            const msg = { id: Date.now(), author: currentUser, content, timestamp: new Date().toISOString(), deleted: false, isStaff: currentUser === 'FJ121' };
+            const msg = { 
+                id: Date.now(), 
+                author: currentUser, 
+                content, 
+                timestamp: new Date().toISOString(), 
+                deleted: false, 
+                isStaff: currentUser === 'FJ121',
+                isMod: currentUser === 'mod121'
+            };
             globalMessages.push(msg);
             localStorage.setItem('tavernGlobalChat', JSON.stringify(globalMessages));
             input.value = '';
@@ -1775,14 +1921,22 @@
             const input = document.getElementById('supportInput');
             const content = input.value.trim();
             if (!content || !currentUser || !currentSupportUser || mutedUsers.includes(currentUser.toLowerCase())) return;
-            const msg = { id: Date.now(), author: currentUser, content, timestamp: new Date().toISOString(), deleted: false, isStaff: currentUser === 'FJ121' };
+            const msg = { 
+                id: Date.now(), 
+                author: currentUser, 
+                content, 
+                timestamp: new Date().toISOString(), 
+                deleted: false, 
+                isStaff: currentUser === 'FJ121',
+                isMod: currentUser === 'mod121'
+            };
             if (!supportChats[currentSupportUser]) supportChats[currentSupportUser] = [];
             supportChats[currentSupportUser].push(msg);
             localStorage.setItem('tavernSupportChats', JSON.stringify(supportChats));
             input.value = '';
             renderSupportMessages();
             scrollToBottom('supportMessages');
-            if (currentUser === 'FJ121') renderSupportList();
+            if (currentUser === 'FJ121' || currentUser === 'mod121') renderSupportList();
         }
 
         function renderGlobalMessages() {
@@ -1801,11 +1955,13 @@
 
         function createMessageHTML(msg, type, className = '') {
             const isStaffUser = currentUser === 'FJ121';
+            const isModUser = currentUser === 'mod121';
             const isOwn = msg.author === currentUser;
             const isStaffMsg = msg.isStaff || msg.author === 'FJ121';
+            const isModMsg = msg.isMod || msg.author === 'mod121';
             const time = new Date(msg.timestamp).toLocaleTimeString();
             let actions = '';
-            if (isStaffUser && !msg.deleted && msg.author !== 'FJ121') {
+            if ((isStaffUser || isModUser) && !msg.deleted && msg.author !== 'FJ121' && msg.author !== 'mod121') {
                 actions = `
                     <div class="message-actions">
                         <button class="msg-btn msg-btn-delete" onclick="deleteMessage('${type}', ${msg.id})">🗑 Delete</button>
@@ -1813,11 +1969,12 @@
                         <button class="msg-btn msg-btn-ban" onclick="banUser('${msg.author}')">🚫 Ban</button>
                     </div>`;
             }
-            const authorDisplay = isStaffMsg ? '[STAFF]' : msg.author;
-            const authorClass = isStaffMsg ? 'staff' : '';
+            const authorDisplay = isStaffMsg ? '[STAFF]' : (isModMsg ? '[MOD]' : msg.author);
+            const authorClass = isStaffMsg ? 'staff' : (isModMsg ? 'mod' : '');
             let cls = className || 'chat-message ' + (isOwn ? 'own' : 'other');
             if (msg.deleted) cls += ' deleted';
             else if (isStaffMsg) cls += ' staff-msg';
+            else if (isModMsg) cls += ' mod-msg';
             return `
                 <div class="${cls}" data-msg-id="${msg.id}">
                     <div class="message-header">
@@ -1830,7 +1987,7 @@
         }
 
         function deleteMessage(type, msgId) {
-            if (currentUser !== 'FJ121') return;
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
             if (type === 'global') {
                 const m = globalMessages.find(x => x.id === msgId);
                 if (m) { m.deleted = true; localStorage.setItem('tavernGlobalChat', JSON.stringify(globalMessages)); renderGlobalMessages(); }
@@ -1843,7 +2000,7 @@
         }
 
         function muteUser(username) {
-            if (currentUser !== 'FJ121' || username === 'FJ121') return;
+            if ((currentUser !== 'FJ121' && currentUser !== 'mod121') || username === 'FJ121' || username === 'mod121') return;
             if (!mutedUsers.includes(username.toLowerCase())) {
                 mutedUsers.push(username.toLowerCase());
                 localStorage.setItem('tavernMuted', JSON.stringify(mutedUsers));
@@ -1853,7 +2010,7 @@
         }
 
         function unmuteUser(username) {
-            if (currentUser !== 'FJ121') return;
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
             mutedUsers = mutedUsers.filter(u => u !== username.toLowerCase());
             localStorage.setItem('tavernMuted', JSON.stringify(mutedUsers));
             renderBannedList();
@@ -1861,7 +2018,7 @@
         }
 
         function banUser(username) {
-            if (currentUser !== 'FJ121' || username === 'FJ121') return;
+            if ((currentUser !== 'FJ121' && currentUser !== 'mod121') || username === 'FJ121' || username === 'mod121') return;
             if (!bannedUsers.includes(username.toLowerCase())) {
                 bannedUsers.push(username.toLowerCase());
                 localStorage.setItem('tavernBanned', JSON.stringify(bannedUsers));
@@ -1875,7 +2032,7 @@
         }
 
         function unbanUser(username) {
-            if (currentUser !== 'FJ121') return;
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
             bannedUsers = bannedUsers.filter(u => u !== username.toLowerCase());
             localStorage.setItem('tavernBanned', JSON.stringify(bannedUsers));
             renderBannedList();
@@ -1883,7 +2040,7 @@
         }
 
         function closeSupportTicket(username) {
-            if (currentUser !== 'FJ121') return;
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
             if (!confirm(`Close ticket for ${username}?`)) return;
             delete supportChats[username];
             localStorage.setItem('tavernSupportChats', JSON.stringify(supportChats));
@@ -1893,9 +2050,9 @@
         }
 
         function renderSupportList() {
-            if (currentUser !== 'FJ121') return;
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
             const cont = document.getElementById('supportChatsContainer');
-            const users = Object.keys(supportChats).filter(u => u !== 'FJ121');
+            const users = Object.keys(supportChats).filter(u => u !== 'FJ121' && u !== 'mod121');
             if (!users.length) {
                 cont.innerHTML = '<p style="color:rgba(255,255,255,0.5);text-align:center;padding:40px">No support tickets</p>';
                 return;
@@ -1903,7 +2060,7 @@
             cont.innerHTML = users.map(user => {
                 const msgs = supportChats[user];
                 const last = msgs[msgs.length - 1];
-                const unread = msgs.some(m => !m.isStaff && !m.read);
+                const unread = msgs.some(m => !m.isStaff && !m.isMod && !m.read);
                 return `
                     <div class="support-chat-item ${unread ? 'unread' : ''}">
                         <div class="support-user-info" onclick="openStaffSupportChat('${user}')" style="flex:1;cursor:pointer">
@@ -1920,7 +2077,7 @@
         }
 
         function renderBannedList() {
-            if (currentUser !== 'FJ121') return;
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
             const cont = document.getElementById('bannedList');
             const banned = bannedUsers.length;
             const mutedOnly = mutedUsers.filter(u => !bannedUsers.includes(u));
@@ -1949,7 +2106,7 @@
         }
 
         function renderAdminOrders() {
-            if (currentUser !== 'FJ121') return;
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
             const cont = document.getElementById('adminBulkList');
             if (!submittedOrders.length) {
                 cont.innerHTML = `
@@ -1976,16 +2133,22 @@
                     return sum + (priceNum * 27 * b.shulkers);
                 }, 0);
                 return `
-                    <div class="bulk-order-card">
+                    <div class="bulk-order-card ${order.completed ? 'completed-order' : ''}">
                         <div class="bulk-order-header">
                             <div>
-                                <div class="bulk-order-user">${order.user}</div>
+                                <div class="bulk-order-user">${order.user} ${order.completed ? '<span class="completed-badge">✓ COMPLETED</span>' : ''}</div>
                                 <div style="color:rgba(255,255,255,0.6);font-size:0.85rem;margin-top:5px">MC: ${order.minecraft} | Discord: ${order.discord}</div>
+                                ${order.completed ? `<div style="color:rgba(255,255,255,0.6);font-size:0.75rem;margin-top:3px">Completed by: ${order.completedBy} at ${new Date(order.completedAt).toLocaleString()}</div>` : ''}
                             </div>
                             <div class="bulk-order-time">${new Date(order.timestamp).toLocaleString()}</div>
                         </div>
                         <div class="bulk-order-details">${itemsHtml}</div>
                         <div class="bulk-order-total">Total: ${total} d</div>
+                        ${!order.completed && (currentUser === 'FJ121' || currentUser === 'mod121') ? `
+                            <div style="margin-top: 15px; text-align: right;">
+                                <button class="btn-completed" onclick="completeOrder(${order.id})">✓ Mark as Completed</button>
+                            </div>
+                        ` : ''}
                     </div>`;
             }).join('');
         }
