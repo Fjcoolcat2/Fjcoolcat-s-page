@@ -1196,9 +1196,50 @@
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* Real-time update indicators */
+        .new-message-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 8px;
+            height: 8px;
+            background: #ff5252;
+            border-radius: 50%;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .auto-update-notice {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: rgba(76, 175, 80, 0.9);
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .auto-update-notice.show {
+            transform: translateX(0);
+        }
     </style>
 </head>
 <body>
+    <!-- Auto-update notice -->
+    <div id="autoUpdateNotice" class="auto-update-notice">
+        🔄 Real-time updates active
+    </div>
+
     <!-- Location Bar -->
     <div class="location-bar">
         <div class="location-text">
@@ -1450,7 +1491,7 @@
 
     <script>
         /* =========================================================
-           0. INITIAL SETUP
+           0. INITIAL SETUP & REAL-TIME SYSTEM
         ========================================================= */
         // Particles
         function createParticles() {
@@ -1484,6 +1525,13 @@
         let bannedUsers = JSON.parse(localStorage.getItem('tavernBanned')) || [];
         let mutedUsers = JSON.parse(localStorage.getItem('tavernMuted')) || [];
 
+        // Real-time update intervals
+        let globalChatInterval = null;
+        let supportChatInterval = null;
+        let ordersInterval = null;
+        let lastMessageCount = 0;
+        let lastOrderCount = 0;
+
         /* =========================================================
            1. LOGIN / LOGOUT
         ========================================================= */
@@ -1492,18 +1540,30 @@
             setupEventListeners();
             if (currentUser) restoreLogin();
             renderItems();
+            showAutoUpdateNotice();
+            startRealTimeUpdates();
         };
 
         function setupEventListeners() {
-            // Enter Shop button click
-            document.getElementById('enterShopBtn').addEventListener('click', login);
+            // Fixed login button - multiple event listeners for reliability
+            const loginBtn = document.getElementById('enterShopBtn');
+            loginBtn.addEventListener('click', login);
+            loginBtn.addEventListener('touchend', login);
             
             // Enter key on input fields
             ['usernameInput', 'discordInput', 'minecraftInput'].forEach(id => {
-                document.getElementById(id).addEventListener('keypress', e => {
+                const input = document.getElementById(id);
+                input.addEventListener('keypress', e => {
+                    if (e.key === 'Enter') login();
+                });
+                input.addEventListener('keydown', e => {
                     if (e.key === 'Enter') login();
                 });
             });
+
+            // Prevent form submission
+            const loginForm = document.getElementById('loginForm');
+            loginForm.addEventListener('submit', e => e.preventDefault());
         }
 
         function restoreLogin() {
@@ -1552,6 +1612,7 @@
             }
             
             renderItems();
+            startRealTimeUpdates();
         }
 
         function logout() {
@@ -1573,6 +1634,7 @@
             hideStaffUI();
             hideModUI();
             closeChat(); closeBulkModal();
+            stopRealTimeUpdates();
             renderItems();
             showToast('You have exited your account', 'success');
         }
@@ -1596,7 +1658,95 @@
         }
 
         /* =========================================================
-           2. ITEMS & STOCK EDITOR
+           2. REAL-TIME UPDATE SYSTEM
+        ========================================================= */
+        function startRealTimeUpdates() {
+            if (currentUser) {
+                // Start chat updates
+                startChatUpdates();
+                // Start order updates for staff
+                if (currentUser === 'FJ121' || currentUser === 'mod121') {
+                    startOrderUpdates();
+                }
+            }
+        }
+
+        function stopRealTimeUpdates() {
+            if (globalChatInterval) clearInterval(globalChatInterval);
+            if (supportChatInterval) clearInterval(supportChatInterval);
+            if (ordersInterval) clearInterval(ordersInterval);
+        }
+
+        function startChatUpdates() {
+            // Update global chat every 1 second
+            globalChatInterval = setInterval(() => {
+                const currentMessages = JSON.parse(localStorage.getItem('tavernGlobalChat')) || [];
+                if (currentMessages.length !== lastMessageCount) {
+                    lastMessageCount = currentMessages.length;
+                    globalMessages = currentMessages;
+                    if (document.getElementById('globalChatOverlay').classList.contains('show')) {
+                        renderGlobalMessages();
+                        scrollToBottom('globalMessages');
+                    } else if (currentUser) {
+                        // Show notification for new messages
+                        showNewMessageNotification();
+                    }
+                }
+            }, 1000);
+
+            // Update support chat every 1 second
+            supportChatInterval = setInterval(() => {
+                const currentChats = JSON.parse(localStorage.getItem('tavernSupportChats')) || {};
+                supportChats = currentChats;
+                if (document.getElementById('supportChatOverlay').classList.contains('show') && currentSupportUser) {
+                    renderSupportMessages();
+                    scrollToBottom('supportMessages');
+                }
+            }, 1000);
+        }
+
+        function startOrderUpdates() {
+            // Update orders every 2 seconds
+            ordersInterval = setInterval(() => {
+                const currentOrders = JSON.parse(localStorage.getItem('tavernSubmittedOrders')) || [];
+                if (currentOrders.length !== lastOrderCount) {
+                    lastOrderCount = currentOrders.length;
+                    submittedOrders = currentOrders;
+                    renderAdminOrders();
+                    updateStats();
+                    showNewOrderNotification();
+                }
+            }, 2000);
+        }
+
+        function showAutoUpdateNotice() {
+            const notice = document.getElementById('autoUpdateNotice');
+            notice.classList.add('show');
+            setTimeout(() => notice.classList.remove('show'), 3000);
+        }
+
+        function showNewMessageNotification() {
+            // Flash the chat button or show a subtle notification
+            const chatBtn = document.querySelector('.btn-chat');
+            if (chatBtn) {
+                chatBtn.style.animation = 'pulse 0.5s 2';
+                setTimeout(() => chatBtn.style.animation = '', 1000);
+            }
+        }
+
+        function showNewOrderNotification() {
+            if (currentUser === 'FJ121' || currentUser === 'mod121') {
+                const bulkBtn = document.querySelector('.btn-bulk');
+                if (bulkBtn) {
+                    bulkBtn.style.animation = 'pulse 0.5s 2';
+                    setTimeout(() => bulkBtn.style.animation = '', 1000);
+                }
+                showToast('📦 New bulk order received!', 'success');
+            }
+        }
+
+        /* =========================================================
+           3. ITEMS & STOCK EDITOR
         ========================================================= */
         function addItem() {
             if (currentUser !== 'FJ121') return;
@@ -1653,7 +1803,7 @@
         }
 
         /* =========================================================
-           3. RENDER ITEMS (with staff-only stock editor)
+           4. RENDER ITEMS
         ========================================================= */
         function renderItems() {
             const container = document.getElementById('itemsContainer');
@@ -1701,7 +1851,6 @@
                     <div class="tags">
                         <span class="tag tag-item">${item.type}</span>
                         ${item.location ? `<span class="tag tag-floor">${item.location}</span>` : ''}
-```javascript
                         ${item.stock === 'limited' ? `<span class="tag tag-rarity">Limited</span>` : ''}
                     </div>
                 </div>
@@ -1721,7 +1870,7 @@
         }
 
         /* =========================================================
-           4. BULK ORDER
+           5. BULK ORDER
         ========================================================= */
         function toggleBulkItem(itemId, btn) {
             if (!currentUser || currentUser === 'FJ121' || currentUser === 'mod121') return showToast('Customers only', 'error');
@@ -1848,7 +1997,7 @@
         }
 
         /* =========================================================
-           5. CHAT SYSTEM
+           6. CHAT SYSTEM WITH REAL-TIME UPDATES
         ========================================================= */
         function openGlobalChat() {
             if (!currentUser) return showToast('Log in first', 'error');
@@ -1861,6 +2010,11 @@
             document.getElementById('globalInput').disabled = muted;
             document.getElementById('globalSendBtn').disabled = muted;
             document.getElementById('globalMutedBanner').style.display = muted ? 'block' : 'none';
+            
+            // Mark messages as read
+            setTimeout(() => {
+                lastMessageCount = globalMessages.length;
+            }, 100);
         }
 
         function openSupportChat() {
@@ -1915,6 +2069,9 @@
             input.value = '';
             renderGlobalMessages();
             scrollToBottom('globalMessages');
+            
+            // Broadcast to other tabs
+            broadcastUpdate('chat', msg);
         }
 
         function sendSupportMessage() {
@@ -1937,6 +2094,9 @@
             renderSupportMessages();
             scrollToBottom('supportMessages');
             if (currentUser === 'FJ121' || currentUser === 'mod121') renderSupportList();
+            
+            // Broadcast to other tabs
+            broadcastUpdate('support', { user: currentSupportUser, message: msg });
         }
 
         function renderGlobalMessages() {
@@ -2154,7 +2314,39 @@
         }
 
         /* =========================================================
-           6. FILTER & UTILS
+           7. CROSS-TAB COMMUNICATION
+        ========================================================= */
+        function broadcastUpdate(type, data) {
+            const event = new CustomEvent('tavernUpdate', { detail: { type, data, timestamp: Date.now() } });
+            window.dispatchEvent(event);
+        }
+
+        // Listen for updates from other tabs
+        window.addEventListener('tavernUpdate', (e) => {
+            const { type, data } = e.detail;
+            
+            if (type === 'chat') {
+                // New chat message from another tab
+                globalMessages = JSON.parse(localStorage.getItem('tavernGlobalChat')) || [];
+                if (document.getElementById('globalChatOverlay').classList.contains('show')) {
+                    renderGlobalMessages();
+                    scrollToBottom('globalMessages');
+                } else {
+                    showNewMessageNotification();
+                }
+            } else if (type === 'order') {
+                // New order from another tab
+                submittedOrders = JSON.parse(localStorage.getItem('tavernSubmittedOrders')) || [];
+                if (currentUser === 'FJ121' || currentUser === 'mod121') {
+                    renderAdminOrders();
+                    updateStats();
+                    showNewOrderNotification();
+                }
+            }
+        });
+
+        /* =========================================================
+           8. FILTER & UTILS
         ========================================================= */
         function filterItems(type) {
             currentFilter = type;
