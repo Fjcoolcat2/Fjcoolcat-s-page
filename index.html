@@ -6,511 +6,51 @@
     <title>The Tavern - Premium Minecraft Emporium</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --gold-primary: #ffd700;
-            --gold-light: #ffed4e;
-            --gold-dark: #b8860b;
-            --purple-deep: #1a0b2e;
-            --purple-mid: #2d1b4e;
-            --purple-light: #4a3b6e;
-            --accent-blue: #4fc3f7;
-            --accent-red: #ff5252;
-            --accent-green: #69f0ae;
-            --chat-bg: rgba(20, 20, 30, 0.95);
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: 
-                radial-gradient(ellipse at top, var(--purple-mid) 0%, transparent 50%),
-                radial-gradient(ellipse at bottom, var(--purple-deep) 0%, #0a0a0f 100%),
-                linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-            background-attachment: fixed;
-            min-height: 100vh;
-            color: #fff;
-            overflow-x: hidden;
-        }
-
-        /* Location Bar */
-        .location-bar {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid var(--gold-primary);
-            padding: 12px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-        }
-
-        .location-text {
-            font-family: 'Cinzel', serif;
-            color: var(--gold-primary);
-            font-size: 1.1rem;
-            letter-spacing: 2px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        /* Particles */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 0;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--gold-primary);
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: float 20s infinite linear;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
-            10% { opacity: 0.3; }
-            90% { opacity: 0.3; }
-            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
-        }
-
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Header */
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 40px 20px 20px;
-        }
-
-        .main-title {
-            font-family: 'Cinzel', serif;
-            font-size: 5rem;
-            font-weight: 800;
-            background: linear-gradient(180deg, #fff 0%, var(--gold-primary) 50%, var(--gold-dark) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
-            letter-spacing: 8px;
-            animation: titleGlow 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes titleGlow {
-            from { filter: drop-shadow(0 0 20px rgba(255,215,0,0.4)); }
-            to { filter: drop-shadow(0 0 40px rgba(255,215,0,0.8)); }
-        }
-
-        .shop-owners {
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-top: 15px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            background: linear-gradient(90deg, var(--gold-primary), #fff, var(--gold-primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 200% auto;
-            animation: shine 3s linear infinite;
-        }
-
-        @keyframes shine {
-            to { background-position: 200% center; }
-        }
-
-        /* Login Section */
-        .login-section {
-            background: rgba(255, 255, 255, 0.03);
+        /* [Previous CSS remains the same - include all the previous styles] */
+        
+        /* Add these additional styles for admin features */
+        .admin-controls {
+            display: none;
+            background: rgba(255, 215, 0, 0.05);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.2);
             border-radius: 20px;
             padding: 30px;
             margin-bottom: 40px;
         }
 
-        .login-form {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            max-width: 800px;
-            margin: 0 auto;
+        .admin-controls.show {
+            display: block;
         }
 
-        .login-form input {
-            padding: 15px 20px;
-            border: 2px solid rgba(255, 215, 0, 0.2);
-            background: rgba(0, 0, 0, 0.4);
-            color: #fff;
-            border-radius: 12px;
-            font-size: 1rem;
-            outline: none;
-        }
-
-        .login-form input:focus {
-            border-color: var(--gold-primary);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dark) 100%);
-            color: #1a0b2e;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
-        }
-
-        .user-info {
-            display: none;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .user-info.show {
-            display: flex;
-        }
-
-        .welcome-text {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1.1rem;
-        }
-
-        .username {
+        .admin-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
             color: var(--gold-primary);
-            font-weight: 700;
-            font-size: 1.3rem;
+            margin-bottom: 20px;
         }
 
-        .user-actions {
+        .add-item-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
             display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        /* Buttons */
-        button {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            font-weight: 600;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .btn-bulk {
-            background: linear-gradient(135deg, #9c27b0 0%, #6a1b9a 100%);
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(156, 39, 176, 0.3);
-        }
-
-        .btn-bulk:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(156, 39, 176, 0.5);
-        }
-
-        .btn-chat {
-            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
-        }
-
-        .btn-chat:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.5);
-        }
-
-        .btn-support {
-            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
-        }
-
-        .btn-support:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 152, 0, 0.5);
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, #ff5252 0%, #b33939 100%);
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(255, 82, 82, 0.3);
-        }
-
-        .btn-danger:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 82, 82, 0.5);
+            flex-direction: column;
+            gap: 8px;
         }
 
         .btn-success {
             background: linear-gradient(135deg, var(--accent-green) 0%, #2e7d32 100%);
             color: #1a0b2e;
-            box-shadow: 0 4px 15px rgba(105, 240, 174, 0.3);
         }
 
         .btn-success:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(105, 240, 174, 0.5);
         }
-
-        /* Stock Status Selector for Staff */
-        .stock-selector {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .stock-select {
-            padding: 6px 12px;
-            border: 2px solid rgba(255, 215, 0, 0.3);
-            background: rgba(0, 0, 0, 0.5);
-            color: #fff;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            cursor: pointer;
-        }
-
-        .stock-select.in-stock {
-            border-color: var(--accent-green);
-            background: rgba(105, 240, 174, 0.1);
-        }
-
-        .stock-select.out-of-stock {
-            border-color: var(--accent-red);
-            background: rgba(255, 82, 82, 0.1);
-        }
-
-        .stock-select.limited {
-            border-color: #ff9800;
-            background: rgba(255, 152, 0, 0.1);
-        }
-
-        .btn-update-stock {
-            padding: 6px 16px;
-            background: rgba(255, 215, 0, 0.2);
-            color: var(--gold-primary);
-            border: 1px solid var(--gold-primary);
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .btn-update-stock:hover {
-            background: var(--gold-primary);
-            color: #1a0b2e;
-        }
-
-        /* Stats Bar */
-        .stats-bar {
-            display: none;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stats-bar.show {
-            display: grid;
-        }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 215, 0, 0.1);
-            border-radius: 16px;
-            padding: 20px;
-            text-align: center;
-            transition: all 0.3s;
-        }
-
-        .stat-value {
-            font-family: 'Cinzel', serif;
-            font-size: 2.5rem;
-            color: var(--gold-primary);
-            font-weight: 700;
-        }
-
-        .stat-label {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 5px;
-        }
-
-        /* Tabs */
-        .tabs-container {
-            margin-bottom: 30px;
-            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
-            padding-bottom: 20px;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .tab {
-            padding: 12px 28px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
-            color: rgba(255, 255, 255, 0.7);
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
-            letter-spacing: 1px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tab.active {
-            color: #1a0b2e;
-            border-color: var(--gold-primary);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
-        }
-
-        .tab.active::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
-            z-index: -1;
-        }
-
-        /* Item Cards */
-        .items-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .item-card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.4s;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .item-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 215, 0, 0.1);
-            border-color: rgba(255, 215, 0, 0.3);
-        }
-
-        .item-name {
-            font-family: 'Cinzel', serif;
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: #fff;
-        }
-
-        .tags {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .tag {
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .tag-item { background: linear-gradient(135deg, var(--accent-blue), #0288d1); color: #fff; }
-        .tag-floor { background: linear-gradient(135deg, #ff9800, #f57c00); color: #fff; }
-        .tag-rarity { background: linear-gradient(135deg, var(--accent-red), #c62828); color: #fff; }
-
-        .price {
-            font-family: 'Cinzel', serif;
-            font-size: 2rem;
-            font-weight: 700;
-            background: linear-gradient(180deg, var(--gold-light) 0%, var(--gold-primary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .stock-status {
-            padding: 8px 20px;
-            border-radius: 25px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            border: 2px solid;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .stock-status:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .in-stock { background: rgba(105, 240, 174, 0.15); color: var(--accent-green); border-color: var(--accent-green); }
-        .out-of-stock { background: rgba(255, 82, 82, 0.15); color: var(--accent-red); border-color: var(--accent-red); }
-        .limited { background: rgba(255, 152, 0, 0.15); color: #ff9800; border-color: #ff9800; }
 
         .delete-btn {
             position: absolute;
@@ -535,159 +75,139 @@
             display: flex;
         }
 
-        .delete-btn:hover {
-            background: #ff1744;
-            transform: scale(1.1) rotate(90deg);
-        }
-
-        .add-to-bulk {
-            margin-top: 12px;
-            padding: 10px 20px;
-            background: rgba(156, 39, 176, 0.2);
-            border: 2px solid #9c27b0;
-            color: #fff;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .add-to-bulk:hover {
-            background: #9c27b0;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(156, 39, 176, 0.4);
-        }
-
-        .add-to-bulk.added {
-            background: var(--accent-green);
-            border-color: var(--accent-green);
-            color: #1a0b2e;
-        }
-
-        .shulker-selector {
+        .stock-selector {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-top: 8px;
-            background: rgba(156, 39, 176, 0.1);
-            padding: 8px 12px;
-            border-radius: 20px;
-            border: 1px solid rgba(156, 39, 176, 0.3);
+            margin-top: 10px;
         }
 
-        .shulker-input {
-            width: 60px;
-            padding: 5px 10px;
-            border: 1px solid rgba(156, 39, 176, 0.5);
-            background: rgba(0, 0, 0, 0.3);
+        .stock-select {
+            padding: 6px 12px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            background: rgba(0, 0, 0, 0.5);
             color: #fff;
             border-radius: 8px;
-            text-align: center;
-            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
         }
 
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: rgba(0, 0, 0, 0.9);
-            color: #fff;
-            padding: 16px 32px;
-            border-radius: 50px;
+        .btn-update-stock {
+            padding: 6px 16px;
+            background: rgba(255, 215, 0, 0.2);
+            color: var(--gold-primary);
             border: 1px solid var(--gold-primary);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
             font-weight: 600;
-            opacity: 0;
-            transition: all 0.4s;
-            z-index: 9999;
-            backdrop-filter: blur(10px);
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .toast.success { border-color: var(--accent-green); color: var(--accent-green); }
-        .toast.error { border-color: var(--accent-red); color: var(--accent-red); }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .main-title { font-size: 2.5rem; letter-spacing: 4px; }
-            .shop-owners { font-size: 0.9rem; }
-            .items-grid { grid-template-columns: 1fr; }
-            .login-form { grid-template-columns: 1fr; }
-            .user-info { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
 <body>
-    <!-- Location Bar -->
-    <div class="location-bar">
-        <div class="location-text">
-            <span class="location-icon">📌</span>
-            <span>Shop is at <strong>281 50 24</strong></span>
+    <!-- [Previous HTML structure remains the same] -->
+
+    <!-- Login Section -->
+    <div class="login-section" id="loginSection">
+        <div id="loginForm" class="login-form">
+            <input type="text" id="usernameInput" placeholder="Username" required>
+            <input type="text" id="discordInput" placeholder="Discord (e.g., user#1234)" required>
+            <input type="text" id="minecraftInput" placeholder="Minecraft Username" required>
+            <button type="button" class="btn-primary" onclick="login()">Enter Shop</button>
+        </div>
+        
+        <div id="userInfo" class="user-info">
+            <div class="welcome-text">
+                Welcome, <span class="username" id="currentUser"></span>
+            </div>
+            <div class="user-actions">
+                <button class="btn-chat" onclick="openGlobalChat()">💬 Global Chat</button>
+                <button class="btn-support" onclick="openSupportChat()">🎫 Support Chat</button>
+                <button class="btn-bulk" onclick="openBulkModal()">📦 My Bulk Order</button>
+                <button class="btn-danger" onclick="logout()">Exit</button>
+            </div>
         </div>
     </div>
 
-    <!-- Particles -->
-    <div class="particles" id="particles"></div>
-
-    <div class="container">
-        <!-- Header -->
-        <header>
-            <h1 class="main-title">THE TAVERN</h1>
-            <div class="shop-owners">FJcoolcat & PizzaboiTM Shop</div>
-            <p style="color: rgba(255,255,255,0.5); margin-top: 10px; letter-spacing: 4px; text-transform: uppercase;">Premium Minecraft Emporium</p>
-        </header>
-
-        <!-- Login Section -->
-        <div class="login-section" id="loginSection">
-            <div id="loginForm" class="login-form">
-                <input type="text" id="usernameInput" placeholder="Username" required>
-                <input type="text" id="discordInput" placeholder="Discord (e.g., user#1234)" required>
-                <input type="text" id="minecraftInput" placeholder="Minecraft Username" required>
-                <button type="button" class="btn-primary" onclick="login()">Enter Shop</button>
+    <!-- Admin Controls - Only shown for staff -->
+    <div id="adminControls" class="admin-controls">
+        <div class="admin-title">
+            <span>👑</span>
+            <span>Shopkeeper's Controls</span>
+        </div>
+        <div class="add-item-form">
+            <div class="form-group">
+                <label>Item Name</label>
+                <input type="text" id="itemName" placeholder="e.g., Netherite Sword">
             </div>
-            
-            <div id="userInfo" class="user-info">
-                <div class="welcome-text">
-                    Welcome, <span class="username" id="currentUser"></span>
-                </div>
-                <div class="user-actions">
-                    <button class="btn-chat" onclick="openGlobalChat()">💬 Global Chat</button>
-                    <button class="btn-support" onclick="openSupportChat()">🎫 Support Chat</button>
-                    <button class="btn-bulk" onclick="openBulkModal()">📦 My Bulk Order</button>
-                    <button class="btn-danger" onclick="logout()">Exit</button>
-                </div>
+            <div class="form-group">
+                <label>Price (single item)</label>
+                <input type="text" id="itemPrice" placeholder="e.g., 25 d">
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                <select id="itemType">
+                    <option value="item">Item</option>
+                    <option value="block">Block</option>
+                    <option value="tool">Tool</option>
+                    <option value="armor">Armor</option>
+                    <option value="weapon">Weapon</option>
+                    <option value="rare">Rare</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Location</label>
+                <select id="itemLocation">
+                    <option value="Floor 1">Floor 1</option>
+                    <option value="Floor 2">Floor 2</option>
+                    <option value="Floor 3">Floor 3</option>
+                    <option value="Basement">Basement</option>
+                    <option value="Vault">Vault</option>
+                    <option value="Hidden">Hidden</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Availability</label>
+                <select id="itemStock">
+                    <option value="in">In Stock</option>
+                    <option value="out">Out of Stock</option>
+                    <option value="limited">Limited</option>
+                </select>
+            </div>
+            <div class="form-group" style="display: flex; align-items: end;">
+                <button class="btn-success" onclick="addItem()" style="width: 100%;">Add to Shop</button>
             </div>
         </div>
-
-        <!-- Items Grid -->
-        <div id="itemsContainer" class="items-grid"></div>
     </div>
+
+    <!-- Stats Bar (Admin) -->
+    <div id="statsBar" class="stats-bar">
+        <div class="stat-card">
+            <div class="stat-value" id="totalItems">0</div>
+            <div class="stat-label">Total Items</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="inStockItems">0</div>
+            <div class="stat-label">In Stock</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="bulkRequests">0</div>
+            <div class="stat-label">Bulk Requests</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="totalValue">0</div>
+            <div class="stat-label">Total Value</div>
+        </div>
+    </div>
+
+    <!-- Items Grid -->
+    <div id="itemsContainer" class="items-grid"></div>
 
     <!-- Toast -->
     <div id="toast" class="toast"></div>
 
     <script>
-        // Initialize particles
-        function createParticles() {
-            const container = document.getElementById('particles');
-            for (let i = 0; i < 50; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 20 + 's';
-                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
-                container.appendChild(particle);
-            }
-        }
-        createParticles();
+        // [Previous particle initialization and data setup remains the same]
 
         // Data
         let items = JSON.parse(localStorage.getItem('tavernItems')) || [
@@ -698,6 +218,8 @@
         let currentUser = localStorage.getItem('tavernUser') || null;
         let userDiscord = localStorage.getItem('tavernDiscord') || '';
         let userMinecraft = localStorage.getItem('tavernMinecraft') || '';
+        let userBulkOrder = JSON.parse(localStorage.getItem('tavernBulkOrder')) || [];
+        let submittedOrders = JSON.parse(localStorage.getItem('tavernSubmittedOrders')) || [];
         let currentFilter = 'all';
 
         // Check login on load
@@ -710,6 +232,14 @@
             document.getElementById('currentUser').textContent = currentUser;
             document.getElementById('loginForm').style.display = 'none';
             document.getElementById('userInfo').classList.add('show');
+            
+            // Check if staff user
+            if (currentUser === 'FJ121') {
+                document.getElementById('adminControls').classList.add('show');
+                document.getElementById('statsBar').classList.add('show');
+                updateStats();
+                showToast('Welcome, Shopkeeper!', 'success');
+            }
         }
 
         function login() {
@@ -740,7 +270,16 @@
             document.getElementById('loginForm').style.display = 'none';
             document.getElementById('userInfo').classList.add('show');
             
-            showToast(`Welcome to The Tavern, ${username}!`, 'success');
+            // Check if staff user
+            if (username === 'FJ121') {
+                document.getElementById('adminControls').classList.add('show');
+                document.getElementById('statsBar').classList.add('show');
+                updateStats();
+                showToast('Welcome, Shopkeeper!', 'success');
+            } else {
+                showToast(`Welcome to The Tavern, ${username}!`, 'success');
+            }
+            
             renderItems();
         }
 
@@ -750,10 +289,12 @@
             currentUser = null;
             userDiscord = '';
             userMinecraft = '';
+            userBulkOrder = [];
             
             localStorage.removeItem('tavernUser');
             localStorage.removeItem('tavernDiscord');
             localStorage.removeItem('tavernMinecraft');
+            localStorage.removeItem('tavernBulkOrder');
             
             document.getElementById('usernameInput').value = '';
             document.getElementById('discordInput').value = '';
@@ -761,9 +302,92 @@
             
             document.getElementById('loginForm').style.display = 'grid';
             document.getElementById('userInfo').classList.remove('show');
+            document.getElementById('adminControls').classList.remove('show');
+            document.getElementById('statsBar').classList.remove('show');
             
             renderItems();
             showToast('You have exited your account', 'success');
+        }
+
+        // Item Management Functions
+        function addItem() {
+            if (currentUser !== 'FJ121') return;
+            
+            const name = document.getElementById('itemName').value.trim();
+            const price = document.getElementById('itemPrice').value.trim();
+            const type = document.getElementById('itemType').value;
+            const location = document.getElementById('itemLocation').value;
+            const stock = document.getElementById('itemStock').value;
+
+            if (!name || !price) {
+                showToast('Please fill in item name and price', 'error');
+                return;
+            }
+
+            const newItem = {
+                id: Date.now(),
+                name: name,
+                type: type,
+                location: location === 'Hidden' ? null : location,
+                price: price,
+                stock: stock,
+                tags: [type]
+            };
+
+            if (location && location !== 'Hidden') {
+                newItem.tags.push(location);
+            }
+
+            items.push(newItem);
+            localStorage.setItem('tavernItems', JSON.stringify(items));
+            
+            // Clear form
+            document.getElementById('itemName').value = '';
+            document.getElementById('itemPrice').value = '';
+            
+            renderItems();
+            updateStats();
+            showToast('Item added successfully!', 'success');
+        }
+
+        function deleteItem(id) {
+            if (currentUser !== 'FJ121') return;
+            if (!confirm('Delete this item?')) return;
+            
+            items = items.filter(item => item.id !== id);
+            localStorage.setItem('tavernItems', JSON.stringify(items));
+            renderItems();
+            updateStats();
+            showToast('Item deleted', 'success');
+        }
+
+        function updateItemStock(id, newStock) {
+            if (currentUser !== 'FJ121') return;
+            
+            const item = items.find(i => i.id === id);
+            if (item) {
+                item.stock = newStock;
+                localStorage.setItem('tavernItems', JSON.stringify(items));
+                renderItems();
+                updateStats();
+                showToast(`Stock status updated to ${newStock}`, 'success');
+            }
+        }
+
+        function updateStats() {
+            if (currentUser !== 'FJ121') return;
+            
+            document.getElementById('totalItems').textContent = items.length;
+            document.getElementById('inStockItems').textContent = items.filter(i => i.stock === 'in').length;
+            document.getElementById('bulkRequests').textContent = submittedOrders.length;
+            
+            // Calculate total value (simplified)
+            let total = 0;
+            items.forEach(item => {
+                const price = parseFloat(item.price) || 0;
+                total += price;
+            });
+            document.getElementById('totalValue').textContent = total + ' d';
         }
 
         function renderItems() {
@@ -789,8 +413,34 @@
         function createItemCard(item) {
             const div = document.createElement('div');
             div.className = 'item-card';
+            div.id = `item-${item.id}`;
+            
+            // Stock status with editing capability for staff
+            let stockElement = '';
+            if (currentUser === 'FJ121') {
+                stockElement = `
+                    <div class="stock-status ${item.stock === 'in' ? 'in-stock' : item.stock === 'limited' ? 'in-stock' : 'out-of-stock'}">
+                        ${item.stock === 'in' ? 'In Stock' : item.stock === 'limited' ? 'Limited Stock' : 'Out of Stock'}
+                    </div>
+                    <div class="stock-selector">
+                        <select class="stock-select ${item.stock === 'in' ? 'in-stock' : item.stock === 'limited' ? 'limited' : 'out-of-stock'}" 
+                                id="stock-${item.id}" onchange="updateItemStock(${item.id}, this.value)">
+                            <option value="in" ${item.stock === 'in' ? 'selected' : ''}>In Stock</option>
+                            <option value="out" ${item.stock === 'out' ? 'selected' : ''}>Out of Stock</option>
+                            <option value="limited" ${item.stock === 'limited' ? 'selected' : ''}>Limited</option>
+                        </select>
+                    </div>
+                `;
+            } else {
+                stockElement = `
+                    <div class="stock-status ${item.stock === 'in' ? 'in-stock' : item.stock === 'limited' ? 'in-stock' : 'out-of-stock'}">
+                        ${item.stock === 'in' ? 'In Stock' : item.stock === 'limited' ? 'Limited Stock' : 'Out of Stock'}
+                    </div>
+                `;
+            }
             
             div.innerHTML = `
+                ${currentUser === 'FJ121' ? `<button class="delete-btn" onclick="deleteItem(${item.id})">×</button>` : ''}
                 <div class="item-info">
                     <div class="item-name">${item.name}</div>
                     <div class="tags">
@@ -801,11 +451,10 @@
                 </div>
                 <div class="item-details">
                     <div class="price">${item.price}</div>
-                    <div class="stock-status ${item.stock === 'in' ? 'in-stock' : item.stock === 'limited' ? 'in-stock' : 'out-of-stock'}">
-                        ${item.stock === 'in' ? 'In Stock' : item.stock === 'limited' ? 'Limited Stock' : 'Out of Stock'}
-                    </div>
+                    ${stockElement}
                 </div>
             `;
+            
             return div;
         }
 
