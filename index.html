@@ -218,18 +218,26 @@
             align-items: center;
             position: relative;
             z-index: 1;
+            flex-wrap: wrap;
+        }
+
+        .login-form-compact {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            width: 100%;
+            max-width: 800px;
         }
 
         input[type="text"] {
-            padding: 15px 25px;
+            padding: 15px 20px;
             border: 2px solid rgba(255, 215, 0, 0.2);
             background: rgba(0, 0, 0, 0.4);
             color: #fff;
             border-radius: 12px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             outline: none;
             transition: all 0.3s;
-            min-width: 250px;
             font-family: 'Inter', sans-serif;
         }
 
@@ -240,7 +248,7 @@
         }
 
         input[type="text"]::placeholder {
-            color: rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.4);
         }
 
         /* Premium Buttons */
@@ -318,16 +326,18 @@
             box-shadow: 0 8px 25px rgba(156, 39, 176, 0.5);
         }
 
-        .btn-view-bulk {
-            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
-            margin-left: 10px;
+        .btn-exit {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            font-size: 0.9rem;
         }
 
-        .btn-view-bulk:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.5);
+        .btn-exit:hover {
+            background: rgba(255, 82, 82, 0.2);
+            border-color: rgba(255, 82, 82, 0.5);
+            color: #ff5252;
         }
 
         .user-info {
@@ -730,7 +740,36 @@
             color: #1a0b2e;
         }
 
-        /* Bulk Order Modal/Page */
+        /* Shulker Quantity Selector */
+        .shulker-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+            background: rgba(156, 39, 176, 0.1);
+            padding: 8px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(156, 39, 176, 0.3);
+        }
+
+        .shulker-label {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+        }
+
+        .shulker-input {
+            width: 60px;
+            padding: 5px 10px;
+            border: 1px solid rgba(156, 39, 176, 0.5);
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* Bulk Order Modal */
         .bulk-modal-overlay {
             display: none;
             position: fixed;
@@ -738,12 +777,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
             z-index: 1000;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            overflow-y: auto;
         }
 
         .bulk-modal-overlay.show {
@@ -752,16 +792,16 @@
 
         .bulk-modal {
             background: 
-                linear-gradient(135deg, rgba(30, 30, 40, 0.95) 0%, rgba(20, 20, 30, 0.95) 100%);
+                linear-gradient(135deg, rgba(30, 30, 40, 0.98) 0%, rgba(20, 20, 30, 0.98) 100%);
             border: 2px solid rgba(156, 39, 176, 0.5);
             border-radius: 24px;
             padding: 40px;
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
             position: relative;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9);
         }
 
         .bulk-modal-header {
@@ -803,6 +843,32 @@
             transform: rotate(90deg);
         }
 
+        .how-to-order {
+            background: rgba(156, 39, 176, 0.1);
+            border: 1px solid rgba(156, 39, 176, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .how-to-order h3 {
+            color: #e1bee7;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .how-to-order ol {
+            margin-left: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+        }
+
+        .how-to-order li {
+            margin-bottom: 8px;
+        }
+
         .bulk-items-list {
             list-style: none;
             margin-bottom: 30px;
@@ -832,8 +898,15 @@
         }
 
         .bulk-item-info .price {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--gold-primary);
+        }
+
+        .bulk-item-shulkers {
+            color: #9c27b0;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            font-weight: 600;
         }
 
         .remove-item-btn {
@@ -939,7 +1012,7 @@
             margin-bottom: 20px;
         }
 
-        /* Admin Bulk Orders View */
+        /* Admin Bulk Orders View - Collapsible */
         .admin-bulk-orders {
             display: none;
             background: rgba(156, 39, 176, 0.05);
@@ -969,64 +1042,216 @@
             color: #e1bee7;
         }
 
-        .customer-order {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(156, 39, 176, 0.2);
+        .order-summary-bar {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(156, 39, 176, 0.4);
             border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 20px;
-        }
-
-        .customer-order-header {
+            padding: 20px 25px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
+        }
+
+        .order-summary-bar:hover {
+            background: rgba(156, 39, 176, 0.1);
+            transform: translateX(10px);
+        }
+
+        .order-summary-bar.active {
+            background: rgba(156, 39, 176, 0.2);
+            border-color: #9c27b0;
+        }
+
+        .order-customer-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            color: var(--gold-primary);
+            font-weight: 600;
+        }
+
+        .order-meta {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .order-item-count {
+            background: rgba(156, 39, 176, 0.3);
+            color: #fff;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .order-total-preview {
+            color: var(--gold-primary);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .expand-icon {
+            font-size: 1.5rem;
+            color: #9c27b0;
+            transition: transform 0.3s;
+        }
+
+        .order-summary-bar.active .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .order-details {
+            display: none;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(156, 39, 176, 0.2);
+            border-top: none;
+            border-radius: 0 0 16px 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            animation: slideDown 0.3s ease;
+        }
+
+        .order-details.show {
+            display: block;
+        }
+
+        .customer-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
             border-bottom: 1px solid rgba(156, 39, 176, 0.2);
         }
 
-        .customer-name {
-            font-family: 'Cinzel', serif;
-            font-size: 1.3rem;
-            color: var(--gold-primary);
+        .info-box {
+            background: rgba(156, 39, 176, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(156, 39, 176, 0.2);
         }
 
-        .order-time {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.9rem;
+        .info-label {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
         }
 
-        .customer-items {
+        .info-value {
+            font-size: 1.1rem;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .customer-items-list {
             list-style: none;
+            margin-bottom: 20px;
         }
 
-        .customer-item {
+        .detail-item {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
-            color: rgba(255, 255, 255, 0.8);
+            align-items: center;
+            padding: 12px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .customer-item:last-child {
+        .detail-item:last-child {
             border-bottom: none;
         }
 
-        .delete-order-btn {
-            background: rgba(255, 82, 82, 0.2);
-            color: #ff5252;
-            border: 1px solid rgba(255, 82, 82, 0.5);
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
+        .detail-item-name {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-item-title {
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .detail-item-shulkers {
             font-size: 0.85rem;
+            color: #9c27b0;
+            margin-top: 3px;
+        }
+
+        .detail-item-price {
+            color: var(--gold-primary);
+            font-weight: 700;
+        }
+
+        .order-total-bar {
+            background: rgba(156, 39, 176, 0.2);
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .order-total-label {
+            font-size: 1.2rem;
+            color: #fff;
+        }
+
+        .order-total-value {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            color: var(--gold-primary);
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-view-order {
+            flex: 1;
+            padding: 15px;
+            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
             transition: all 0.3s;
         }
 
-        .delete-order-btn:hover {
+        .btn-view-order:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(33, 150, 243, 0.4);
+        }
+
+        .btn-delete-order {
+            flex: 1;
+            padding: 15px;
+            background: rgba(255, 82, 82, 0.2);
+            color: #ff5252;
+            border: 2px solid rgba(255, 82, 82, 0.5);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-delete-order:hover {
             background: rgba(255, 82, 82, 0.4);
             color: #fff;
+        }
+
+        .empty-orders {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(255, 255, 255, 0.4);
         }
 
         /* Toast Notification */
@@ -1098,6 +1323,67 @@
             margin-top: 5px;
         }
 
+        /* Fullscreen Order View */
+        .fullscreen-order {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 15, 0.98);
+            z-index: 2000;
+            padding: 40px;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .fullscreen-order.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fullscreen-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(156, 39, 176, 0.5);
+        }
+
+        .fullscreen-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            color: var(--gold-primary);
+        }
+
+        .close-fullscreen {
+            background: rgba(255, 82, 82, 0.2);
+            color: #ff5252;
+            border: 2px solid rgba(255, 82, 82, 0.5);
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .close-fullscreen:hover {
+            background: rgba(255, 82, 82, 0.4);
+            color: #fff;
+        }
+
+        .fullscreen-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .main-title {
@@ -1122,55 +1408,28 @@
                 text-align: center;
             }
             
-            .login-form {
-                width: 100%;
-                flex-direction: column;
+            .login-form-compact {
+                grid-template-columns: 1fr;
             }
             
-            input[type="text"] {
-                width: 100%;
-            }
-
             .bulk-modal {
                 padding: 20px;
             }
-
+            
             .bulk-actions {
                 flex-direction: column;
             }
-        }
 
-        /* Loading Animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 215, 0, 0.3);
-            border-radius: 50%;
-            border-top-color: var(--gold-primary);
-            animation: spin 1s ease-in-out infinite;
-        }
+            .order-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: rgba(255, 255, 255, 0.4);
-        }
-
-        .empty-state-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            opacity: 0.5;
-        }
-
-        .empty-state-text {
-            font-size: 1.2rem;
-            font-style: italic;
+            .order-summary-bar {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
         }
     </style>
 </head>
@@ -1201,10 +1460,14 @@
         <!-- Login Section -->
         <div class="login-section">
             <div id="loginForm" class="login-form">
-                <input type="text" id="usernameInput" placeholder="Enter your username">
-                <button class="btn-primary" onclick="login()">
-                    <span>Enter</span>
-                </button>
+                <div class="login-form-compact">
+                    <input type="text" id="usernameInput" placeholder="Username">
+                    <input type="text" id="discordInput" placeholder="Discord User (e.g., user#1234)">
+                    <input type="text" id="minecraftInput" placeholder="Minecraft Username">
+                    <button class="btn-primary" onclick="login()" style="grid-column: 1 / -1;">
+                        Enter Shop
+                    </button>
+                </div>
             </div>
             
             <div id="userInfo" class="user-info">
@@ -1213,6 +1476,7 @@
                 <div class="notification-badge" id="notifBadge">
                     <span class="badge-count" id="badgeCount">0</span>
                 </div>
+                <button class="btn-exit" onclick="exitAccount()">Exit Account</button>
             </div>
         </div>
 
@@ -1296,8 +1560,8 @@
                 <button class="btn-clear-bulk" onclick="clearAllOrders()">Clear All Orders</button>
             </div>
             <div id="adminBulkList">
-                <div class="empty-bulk">
-                    <div class="empty-bulk-icon">📭</div>
+                <div class="empty-orders">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">📭</div>
                     <p>No bulk orders yet...</p>
                 </div>
             </div>
@@ -1306,7 +1570,7 @@
         <!-- Tabs -->
         <div class="tabs-container">
             <div class="tabs">
-                <button class="tab active" onclick="filterItems('all')">All Wares</button>
+                <button class="tab active" onclick="filterItems('all')">All Items</button>
                 <button class="tab" onclick="filterItems('in')">Available Now</button>
                 <button class="tab" onclick="filterItems('out')">Out of Stock</button>
                 <button class="tab" onclick="filterItems('limited')">Limited Edition</button>
@@ -1330,6 +1594,17 @@
                 <button class="close-modal" onclick="closeBulkModal()">×</button>
             </div>
             
+            <div class="how-to-order">
+                <h3><span>📋</span> How to Order</h3>
+                <ol>
+                    <li>Add items to your bulk order using the "Add to Bulk" buttons in the shop</li>
+                    <li>Specify how many <strong>shulkers</strong> you want for each item (1 shulker = 27 stacks)</li>
+                    <li>Review your order and total price below</li>
+                    <li>Click <strong>"Submit Order"</strong> to send it to the shopkeeper</li>
+                    <li>The shopkeeper will contact you on Discord to arrange pickup/delivery</li>
+                </ol>
+            </div>
+            
             <div id="bulkModalContent">
                 <div class="empty-bulk">
                     <div class="empty-bulk-icon">🛒</div>
@@ -1337,6 +1612,17 @@
                     <p style="font-size: 0.9rem; margin-top: 10px; opacity: 0.6;">Add items from the shop to get started</p>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Fullscreen Order View -->
+    <div id="fullscreenOrder" class="fullscreen-order">
+        <div class="fullscreen-header">
+            <div class="fullscreen-title" id="fullscreenTitle">Order Details</div>
+            <button class="close-fullscreen" onclick="closeFullscreenOrder()">Close View</button>
+        </div>
+        <div class="fullscreen-content" id="fullscreenContent">
+            <!-- Content loaded here -->
         </div>
     </div>
 
@@ -1381,6 +1667,8 @@
         ];
 
         let currentUser = localStorage.getItem('tavernUser') || null;
+        let userDiscord = localStorage.getItem('tavernDiscord') || '';
+        let userMinecraft = localStorage.getItem('tavernMinecraft') || '';
         let userBulkOrder = JSON.parse(localStorage.getItem('tavernBulkOrder')) || [];
         let submittedOrders = JSON.parse(localStorage.getItem('tavernSubmittedOrders')) || [];
         let currentFilter = 'all';
@@ -1443,9 +1731,11 @@
             const div = document.createElement('div');
             div.className = 'item-card';
             
-            const isInBulk = userBulkOrder.some(bo => bo.id === item.id);
+            const existingItem = userBulkOrder.find(bo => bo.id === item.id);
+            const isInBulk = !!existingItem;
             const bulkBtnText = isInBulk ? '✓ Added' : 'Add to Bulk';
             const bulkBtnClass = isInBulk ? 'added' : '';
+            const shulkerCount = existingItem ? existingItem.shulkers : 1;
             
             div.innerHTML = `
                 ${currentUser === 'FJ121' ? `<button class="delete-btn" onclick="deleteItem(${item.id})">×</button>` : ''}
@@ -1463,7 +1753,12 @@
                         ${item.stock === 'in' ? 'In Stock' : item.stock === 'limited' ? 'Limited Stock' : 'Out of Stock'}
                     </div>
                     ${currentUser && currentUser !== 'FJ121' ? `
-                        <button class="add-to-bulk ${bulkBtnClass}" onclick="toggleBulkItem(${item.id}, this)">
+                        <div class="shulker-selector" style="display: ${isInBulk ? 'flex' : 'none'};" id="shulker-${item.id}">
+                            <span class="shulker-label">Shulkers:</span>
+                            <input type="number" class="shulker-input" value="${shulkerCount}" min="1" max="64" 
+                                onchange="updateShulkers(${item.id}, this.value)">
+                        </div>
+                        <button class="add-to-bulk ${bulkBtnClass}" onclick="toggleBulkItem(${item.id}, this)" data-item-id="${item.id}">
                             ${bulkBtnText}
                         </button>
                     ` : ''}
@@ -1472,16 +1767,24 @@
             return div;
         }
 
-        // Login system - NO LOGOUT
+        // Login system
         function login() {
             const username = document.getElementById('usernameInput').value.trim();
-            if (!username) {
-                showToast('Please enter your username', 'error');
+            const discord = document.getElementById('discordInput').value.trim();
+            const minecraft = document.getElementById('minecraftInput').value.trim();
+
+            if (!username || !discord || !minecraft) {
+                showToast('Please fill in all fields', 'error');
                 return;
             }
 
             currentUser = username;
+            userDiscord = discord;
+            userMinecraft = minecraft;
+            
             localStorage.setItem('tavernUser', currentUser);
+            localStorage.setItem('tavernDiscord', userDiscord);
+            localStorage.setItem('tavernMinecraft', userMinecraft);
             
             document.getElementById('currentUser').textContent = username;
             document.getElementById('loginForm').classList.add('hidden');
@@ -1502,6 +1805,35 @@
             
             renderItems();
             updateBulkModal();
+        }
+
+        function exitAccount() {
+            if (confirm('Exit your account? You will need to log in again.')) {
+                currentUser = null;
+                userDiscord = '';
+                userMinecraft = '';
+                userBulkOrder = [];
+                
+                localStorage.removeItem('tavernUser');
+                localStorage.removeItem('tavernDiscord');
+                localStorage.removeItem('tavernMinecraft');
+                localStorage.removeItem('tavernBulkOrder');
+                
+                document.getElementById('usernameInput').value = '';
+                document.getElementById('discordInput').value = '';
+                document.getElementById('minecraftInput').value = '';
+                
+                document.getElementById('loginForm').classList.remove('hidden');
+                document.getElementById('userInfo').classList.remove('show');
+                document.getElementById('adminControls').classList.remove('show');
+                document.getElementById('statsBar').classList.remove('show');
+                document.getElementById('notifBadge').classList.remove('show');
+                document.getElementById('adminBulkOrders').classList.remove('show');
+                document.getElementById('bulkBtn').style.display = 'none';
+                
+                renderItems();
+                showToast('You have exited your account', 'success');
+            }
         }
 
         // Admin functions
@@ -1554,21 +1886,37 @@
             if (!item) return;
 
             const existingIndex = userBulkOrder.findIndex(bo => bo.id === id);
+            const shulkerDiv = document.getElementById(`shulker-${id}`);
             
             if (existingIndex !== -1) {
                 userBulkOrder.splice(existingIndex, 1);
                 btn.textContent = 'Add to Bulk';
                 btn.classList.remove('added');
+                if (shulkerDiv) shulkerDiv.style.display = 'none';
                 showToast('Removed from bulk order', 'success');
             } else {
-                userBulkOrder.push({...item, addedAt: new Date().toISOString()});
+                userBulkOrder.push({
+                    ...item, 
+                    shulkers: 1,
+                    addedAt: new Date().toISOString()
+                });
                 btn.textContent = '✓ Added';
                 btn.classList.add('added');
+                if (shulkerDiv) shulkerDiv.style.display = 'flex';
                 showToast('Added to bulk order!', 'success');
             }
             
             saveBulkOrder();
             updateBulkModal();
+        }
+
+        function updateShulkers(id, value) {
+            const item = userBulkOrder.find(bo => bo.id === id);
+            if (item) {
+                item.shulkers = parseInt(value) || 1;
+                saveBulkOrder();
+                updateBulkModal();
+            }
         }
 
         function saveBulkOrder() {
@@ -1601,12 +1949,14 @@
             let total = 0;
             const itemsHtml = userBulkOrder.map(item => {
                 const price = parseInt(item.price) || 0;
-                total += price;
+                const itemTotal = price * item.shulkers;
+                total += itemTotal;
                 return `
                     <li class="bulk-item-card">
                         <div class="bulk-item-info">
                             <h3>${item.name}</h3>
-                            <div class="price">${item.price}</div>
+                            <div class="price">${item.price} each</div>
+                            <div class="bulk-item-shulkers">📦 ${item.shulkers} shulker${item.shulkers > 1 ? 's' : ''} (${item.shulkers * 27} stacks)</div>
                         </div>
                         <button class="remove-item-btn" onclick="removeFromBulk(${item.id})">Remove</button>
                     </li>
@@ -1657,6 +2007,8 @@
             const order = {
                 id: Date.now(),
                 customer: currentUser,
+                discord: userDiscord,
+                minecraft: userMinecraft,
                 items: [...userBulkOrder],
                 submittedAt: new Date().toISOString(),
                 totalItems: userBulkOrder.length
@@ -1678,7 +2030,7 @@
             }
             
             closeBulkModal();
-            showToast('✓ Order submitted successfully! The shopkeeper will review it soon.', 'success');
+            showToast('✓ Order submitted successfully! The shopkeeper will contact you on Discord.', 'success');
         }
 
         // Admin order management
@@ -1687,8 +2039,8 @@
             
             if (submittedOrders.length === 0) {
                 container.innerHTML = `
-                    <div class="empty-bulk">
-                        <div class="empty-bulk-icon">📭</div>
+                    <div class="empty-orders">
+                        <div style="font-size: 4rem; margin-bottom: 20px;">📭</div>
                         <p>No bulk orders yet...</p>
                     </div>
                 `;
@@ -1696,100 +2048,19 @@
             }
 
             container.innerHTML = submittedOrders.map(order => {
-                const itemsHtml = order.items.map(item => `
-                    <li class="customer-item">
-                        <span>${item.name}</span>
-                        <span style="color: var(--gold-primary);">${item.price}</span>
-                    </li>
-                `).join('');
-                
-                const total = order.items.reduce((sum, item) => sum + (parseInt(item.price) || 0), 0);
+                const total = order.items.reduce((sum, item) => {
+                    return sum + ((parseInt(item.price) || 0) * item.shulkers);
+                }, 0);
                 
                 return `
-                    <div class="customer-order">
-                        <div class="customer-order-header">
-                            <div>
-                                <div class="customer-name">${order.customer}</div>
-                                <div class="order-time">${new Date(order.submittedAt).toLocaleString()}</div>
+                    <div class="order-wrapper" data-order-id="${order.id}">
+                        <div class="order-summary-bar" onclick="toggleOrderDetails(${order.id})">
+                            <div class="order-customer-name">${order.customer}'s Order</div>
+                            <div class="order-meta">
+                                <span class="order-item-count">${order.totalItems} items</span>
+                                <span class="order-total-preview">${total} d</span>
+                                <span class="expand-icon">▼</span>
                             </div>
-                            <button class="delete-order-btn" onclick="deleteOrder(${order.id})">Delete Order</button>
                         </div>
-                        <ul class="customer-items">
-                            ${itemsHtml}
-                        </ul>
-                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(156, 39, 176, 0.2); text-align: right; color: var(--gold-primary); font-weight: bold;">
-                            Total: ${total} d
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function deleteOrder(orderId) {
-            submittedOrders = submittedOrders.filter(o => o.id !== orderId);
-            localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
-            renderAdminOrders();
-            updateStats();
-            showToast('Order deleted', 'success');
-        }
-
-        function clearAllOrders() {
-            if (submittedOrders.length === 0) return;
-            if (confirm('Delete ALL customer orders? This cannot be undone.')) {
-                submittedOrders = [];
-                localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
-                renderAdminOrders();
-                updateStats();
-                showToast('All orders cleared', 'success');
-            }
-        }
-
-        function updateStats() {
-            document.getElementById('totalItems').textContent = items.length;
-            document.getElementById('inStockItems').textContent = items.filter(i => i.stock === 'in').length;
-            document.getElementById('bulkRequests').textContent = submittedOrders.reduce((sum, o) => sum + o.totalItems, 0);
-            
-            const total = submittedOrders.reduce((sum, order) => {
-                return sum + order.items.reduce((itemSum, item) => itemSum + (parseInt(item.price) || 0), 0);
-            }, 0);
-            document.getElementById('totalValue').textContent = total + ' d';
-            
-            // Update badge
-            const badge = document.getElementById('badgeCount');
-            badge.textContent = submittedOrders.length;
-            badge.style.display = submittedOrders.length > 0 ? 'flex' : 'none';
-        }
-
-        function filterItems(type) {
-            currentFilter = type;
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            renderItems();
-        }
-
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = `toast ${type} show`;
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
-        // Enter key support
-        document.getElementById('usernameInput')?.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') login();
-        });
-
-        document.getElementById('itemPrice')?.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') addItem();
-        });
-
-        // Close modal on outside click
-        document.getElementById('bulkModal').addEventListener('click', function(e) {
-            if (e.target === this) closeBulkModal();
-        });
-    </script>
-</body>
-</html>
+                        <div class="order-details" id="order-details-${order.id}">
+                            <div
