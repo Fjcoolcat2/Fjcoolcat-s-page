@@ -6,7 +6,7 @@
     <title>The Tavern - Premium Minecraft Emporium</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* [ORIGINAL CSS - PRESERVED EXACTLY] */
+        /* -------------- ROOT & THEME -------------- */
         :root {
             --gold-primary: #ffd700;
             --gold-light: #ffed4e;
@@ -37,7 +37,7 @@
             overflow-x: hidden;
         }
 
-        /* ROLE DISPLAY SYSTEM */
+        /* -------------- ROLE DISPLAY SYSTEM -------------- */
         .role-display {
             display: inline-block;
             padding: 2px 6px;
@@ -52,20 +52,214 @@
             background: #ff9800;
             color: #1a0b2e;
         }
-        .role-display.rich-buyer {
-            background: #e91e63;
-            color: #fff;
+        .role-display.massive {
+            background: #4caf50;
+            color: #1a0b2e;
         }
         .role-display.rich {
             background: #e91e63;
             color: #fff;
         }
         .role-display.friend {
-            background: #e91e63;
+            background: #9c27b0;
             color: #fff;
         }
 
-        /* ORIGINAL CSS CONTINUES... */
+        /* -------------- ROLE MANAGER WITH SEARCH -------------- */
+        .role-manager {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            animation: slideDown 0.5s ease;
+        }
+        .role-manager.show {
+            display: block;
+        }
+        .role-manager-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+        .role-manager-header h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-primary);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .close-role-panel {
+            background: rgba(255, 82, 82, 0.2);
+            color: #ff5252;
+            border: 2px solid rgba(255, 82, 82, 0.5);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .close-role-panel:hover {
+            background: rgba(255, 82, 82, 0.4);
+            color: #fff;
+            transform: rotate(90deg);
+        }
+        .role-search-container {
+            margin-bottom: 20px;
+        }
+        .role-search-input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            background: rgba(0, 0, 0, 0.4);
+            color: #fff;
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+            margin-bottom: 15px;
+        }
+        .role-search-input:focus {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+        }
+        .role-controls {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .role-user-selector {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .role-user-select {
+            padding: 10px 15px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border-radius: 8px;
+            font-size: 1rem;
+            min-width: 200px;
+        }
+        .role-assign-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dark) 100%);
+            color: #1a0b2e;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+        .role-assign-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+        .current-roles {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+        .current-roles h4 {
+            color: var(--gold-primary);
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .role-tags-display {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .role-tag-display {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .role-tag-display.buyer {
+            background: #ff9800;
+            color: #1a0b2e;
+        }
+        .role-tag-display.massive {
+            background: #4caf50;
+            color: #1a0b2e;
+        }
+        .role-tag-display.rich {
+            background: #e91e63;
+            color: #fff;
+        }
+        .role-tag-display.friend {
+            background: #9c27b0;
+            color: #fff;
+        }
+        .role-remove-btn {
+            margin-left: 8px;
+            background: rgba(255, 82, 82, 0.8);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .role-remove-btn:hover {
+            background: #ff5252;
+        }
+        .user-list-container {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .user-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        .user-card:hover {
+            transform: translateX(5px);
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+        .user-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        .user-roles {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* -------------- PARTICLES -------------- */
         .particles {
             position: fixed;
             top: 0;
@@ -92,6 +286,7 @@
             100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
         }
 
+        /* -------------- LAYOUT -------------- */
         .container {
             position: relative;
             z-index: 1;
@@ -100,6 +295,7 @@
             padding: 20px;
         }
 
+        /* -------------- HEADER -------------- */
         header {
             text-align: center;
             margin-bottom: 30px;
@@ -138,6 +334,7 @@
             to { background-position: 200% center; }
         }
 
+        /* -------------- LOCATION BAR -------------- */
         .location-bar {
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(10px);
@@ -160,6 +357,7 @@
             gap: 10px;
         }
 
+        /* -------------- LOGIN SECTION -------------- */
         .login-section {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(20px);
@@ -216,6 +414,7 @@
             flex-wrap: wrap;
         }
 
+        /* -------------- BUTTONS -------------- */
         button {
             padding: 12px 25px;
             border: none;
@@ -274,7 +473,7 @@
             box-shadow: 0 8px 25px rgba(255, 82, 82, 0.5);
         }
 
-        /* ADMIN PANEL - FIXED */
+        /* -------------- ADMIN PANEL -------------- */
         .admin-controls {
             display: none;
             background: rgba(255, 215, 0, 0.05);
@@ -286,7 +485,7 @@
             animation: slideDown 0.5s ease;
         }
         .admin-controls.show {
-            display: block !important;
+            display: block;
         }
         .admin-title {
             font-family: 'Cinzel', serif;
@@ -329,7 +528,7 @@
             box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
         }
 
-        /* MOD PANEL - FIXED */
+        /* -------------- MOD PANEL -------------- */
         .mod-controls {
             display: none;
             background: rgba(33, 150, 243, 0.05);
@@ -341,7 +540,7 @@
             animation: slideDown 0.5s ease;
         }
         .mod-controls.show {
-            display: block !important;
+            display: block;
         }
         .mod-title {
             font-family: 'Cinzel', serif;
@@ -363,102 +562,239 @@
             letter-spacing: 1px;
         }
 
-        /* STAFF PANELS - FIXED */
-        .support-list, .banned-users, .admin-bulk-orders, .bulk-logs {
+        /* -------------- SUPPORT CHAT LIST -------------- */
+        .support-list {
             display: none;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 152, 0, 0.05);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 152, 0, 0.3);
             border-radius: 20px;
             padding: 30px;
             margin-bottom: 40px;
-            animation: slideDown 0.5s ease;
+            max-height: 400px;
+            overflow-y: auto;
         }
-        .support-list.show, .banned-users.show, .admin-bulk-orders.show, .bulk-logs.show {
-            display: block !important;
+        .support-list.show {
+            display: block;
         }
-
-        .support-list-header, .banned-header, .logs-header {
+        .support-list-header {
             font-family: 'Cinzel', serif;
             font-size: 1.5rem;
+            color: #ff9800;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        .support-list-header { color: #ff9800; }
-        .banned-header { color: #ff5252; }
-        .logs-header { color: var(--gold-primary); }
-
-        /* ROLE MANAGER PANEL */
-        .role-manager {
-            display: none;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 40px;
-            animation: slideDown 0.5s ease;
-        }
-        .role-manager.show {
-            display: block !important;
-        }
-        .role-manager-header {
+        .support-chat-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.3s;
+            cursor: pointer;
         }
-        .role-manager-header h3 {
+        .support-chat-item:hover {
+            transform: translateX(10px);
+            border-left: 4px solid #ff9800;
+        }
+        .support-user-info h4 {
+            color: #ff9800;
+            margin-bottom: 5px;
+        }
+        .support-time {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+        }
+        .btn-close-ticket {
+            padding: 8px 16px;
+            background: rgba(255, 82, 82, 0.3);
+            color: #ff5252;
+            border: 1px solid rgba(255, 82, 82, 0.5);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+            margin-left: 10px;
+        }
+        .btn-close-ticket:hover {
+            background: rgba(255, 82, 82, 0.5);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* -------------- BANNED USERS -------------- */
+        .banned-users {
+            display: none;
+            background: rgba(255, 82, 82, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 82, 82, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+        .banned-users.show {
+            display: block;
+        }
+        .banned-header {
             font-family: 'Cinzel', serif;
-            color: var(--gold-primary);
             font-size: 1.5rem;
+            color: #ff5252;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        .close-role-panel {
-            background: rgba(255, 82, 82, 0.2);
+        .banned-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .banned-name {
+            font-weight: 700;
             color: #ff5252;
-            border: 2px solid rgba(255, 82, 82, 0.5);
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
+        }
+        .btn-unban {
+            padding: 6px 12px;
+            background: rgba(105, 240, 174, 0.2);
+            color: var(--accent-green);
+            border: 1px solid var(--accent-green);
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 1.3rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .btn-unban:hover {
+            background: var(--accent-green);
+            color: #1a0b2e;
+        }
+
+        /* -------------- ADMIN BULK ORDERS -------------- */
+        .admin-bulk-orders {
+            display: none;
+            background: rgba(156, 39, 176, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(156, 39, 176, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+        .admin-bulk-orders.show {
+            display: block;
+        }
+        .admin-bulk-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .admin-bulk-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: #e1bee7;
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 10px;
+        }
+        .bulk-order-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
             transition: all 0.3s;
         }
-        .close-role-panel:hover {
-            background: rgba(255, 82, 82, 0.4);
-            color: #fff;
-            transform: rotate(90deg);
+        .bulk-order-card:hover {
+            transform: translateX(10px);
+            border-left: 4px solid #9c27b0;
         }
-        .role-user-selector {
+        .bulk-order-header {
             display: flex;
-            gap: 15px;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        .bulk-order-user {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #e1bee7;
+        }
+        .bulk-order-time {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+        }
+        .bulk-order-details {
+            margin-bottom: 15px;
+        }
+        .bulk-order-item {
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .role-user-select {
-            padding: 10px 15px;
-            border: 2px solid rgba(255, 215, 0, 0.3);
-            background: rgba(0, 0, 0, 0.5);
+        .bulk-order-item:last-child {
+            border-bottom: none;
+        }
+        .bulk-item-name {
+            font-weight: 600;
             color: #fff;
-            border-radius: 8px;
-            font-size: 1rem;
-            min-width: 200px;
         }
-        .role-assign-btn {
+        .bulk-item-qty {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+        .bulk-order-total {
+            color: var(--gold-primary);
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        .btn-view-order, .btn-completed {
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+            margin-left: 10px;
+        }
+        .btn-view-order {
+            background: rgba(96, 125, 139, 0.2);
+            color: #607d8b;
+            border: 1px solid #607d8b;
+        }
+        .btn-view-order:hover {
+            background: #607d8b;
+            color: #fff;
+        }
+        .btn-completed {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+            border: 1px solid #4caf50;
+        }
+        .btn-completed:hover {
+            background: #4caf50;
+            color: #fff;
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #ff5252 0%, #b33939 100%);
+            color: #fff;
             padding: 10px 20px;
-            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dark) 100%);
-            color: #1a0b2e;
             border: none;
             border-radius: 8px;
             cursor: pointer;
@@ -467,82 +803,103 @@
             letter-spacing: 1px;
             transition: all 0.3s;
         }
-        .role-assign-btn:hover {
+        .btn-danger:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+            box-shadow: 0 8px 25px rgba(255, 82, 82, 0.5);
         }
-        .user-list-container {
-            max-height: 400px;
-            overflow-y: auto;
-            margin-top: 20px;
+
+        /* -------------- BULK ORDER LOGS -------------- */
+        .bulk-logs {
+            display: none;
+            background: rgba(255, 215, 0, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
         }
-        .user-card {
+        .bulk-logs.show {
+            display: block;
+        }
+        .logs-header {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--gold-primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .log-entry {
             background: rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s;
         }
-        .user-card:hover {
-            transform: translateX(5px);
-            border-color: rgba(255, 215, 0, 0.3);
+        .log-customer {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--gold-primary);
+            margin-bottom: 10px;
         }
-        .user-name {
+        .log-details {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        .log-total {
+            color: var(--gold-primary);
+            font-weight: 700;
             font-size: 1.1rem;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 5px;
-        }
-        .user-roles {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .role-tag-display {
-            padding: 4px 10px;
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        .role-tag-display.buyer {
-            background: #ff9800;
-            color: #1a0b2e;
-        }
-        .role-tag-display.rich-buyer {
-            background: #e91e63;
-            color: #fff;
-        }
-        .role-tag-display.rich {
-            background: #e91e63;
-            color: #fff;
-        }
-        .role-tag-display.friend {
-            background: #e91e63;
-            color: #fff;
-        }
-        .role-remove-btn {
-            margin-left: 8px;
-            background: rgba(255, 82, 82, 0.8);
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 10px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .role-remove-btn:hover {
-            background: #ff5252;
+            margin-top: 10px;
         }
 
+        /* -------------- STOCK EDITOR -------------- */
+        .stock-editor {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .stock-select {
+            padding: 6px 12px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .stock-select.in-stock {
+            border-color: var(--accent-green);
+            background: rgba(105, 240, 174, 0.1);
+        }
+        .stock-select.out-of-stock {
+            border-color: var(--accent-red);
+            background: rgba(255, 82, 82, 0.1);
+        }
+        .stock-select.limited {
+            border-color: #ff9800;
+            background: rgba(255, 152, 0, 0.1);
+        }
+        .btn-update-stock {
+            padding: 6px 16px;
+            background: rgba(255, 215, 0, 0.2);
+            color: var(--gold-primary);
+            border: 1px solid var(--gold-primary);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-update-stock:hover {
+            background: var(--gold-primary);
+            color: #1a0b2e;
+        }
+
+        /* -------------- ITEMS GRID -------------- */
         .items-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
@@ -575,6 +932,22 @@
             margin-bottom: 12px;
             color: #fff;
         }
+        .tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .tag {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .tag-item { background: linear-gradient(135deg, var(--accent-blue), #0288d1); color: #fff; }
+        .tag-floor { background: linear-gradient(135deg, #ff9800, #f57c00); color: #fff; }
+        .tag-rarity { background: linear-gradient(135deg, var(--accent-red), #c62828); color: #fff; }
         .price {
             font-family: 'Cinzel', serif;
             font-size: 2rem;
@@ -594,9 +967,38 @@
             cursor: pointer;
             transition: all 0.3s;
         }
+        .stock-status:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
         .in-stock { background: rgba(105, 240, 174, 0.15); color: var(--accent-green); border-color: var(--accent-green); }
         .out-of-stock { background: rgba(255, 82, 82, 0.15); color: var(--accent-red); border-color: var(--accent-red); }
         .limited { background: rgba(255, 152, 0, 0.15); color: #ff9800; border-color: #ff9800; }
+        .delete-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 82, 82, 0.9);
+            color: #fff;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+        .item-card:hover .delete-btn {
+            display: flex;
+        }
+        .delete-btn:hover {
+            background: #ff1744;
+            transform: scale(1.1) rotate(90deg);
+        }
         .add-to-bulk {
             margin-top: 12px;
             padding: 10px 20px;
@@ -616,6 +1018,108 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(156, 39, 176, 0.4);
         }
+        .add-to-bulk.added {
+            background: var(--accent-green);
+            border-color: var(--accent-green);
+            color: #1a0b2e;
+        }
+        .shulker-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+            background: rgba(156, 39, 176, 0.1);
+            padding: 8px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(156, 39, 176, 0.3);
+        }
+        .shulker-input {
+            width: 60px;
+            padding: 5px 10px;
+            border: 1px solid rgba(156, 39, 176, 0.5);
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* -------------- TABS -------------- */
+        .tabs-container {
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+            padding-bottom: 20px;
+        }
+        .tabs {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .tab {
+            padding: 12px 28px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        .tab.active {
+            color: #1a0b2e;
+            border-color: var(--gold-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
+        }
+        .tab.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+            z-index: -1;
+        }
+
+        /* -------------- TOAST -------------- */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            padding: 16px 32px;
+            border-radius: 50px;
+            border: 1px solid var(--gold-primary);
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.4s;
+            z-index: 9999;
+            backdrop-filter: blur(10px);
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .toast.success { border-color: var(--accent-green); color: var(--accent-green); }
+        .toast.error { border-color: var(--accent-red); color: var(--accent-red); }
+
+        /* -------------- RESPONSIVE -------------- */
+        @media (max-width: 768px) {
+            .main-title { font-size: 2.5rem; letter-spacing: 4px; }
+            .shop-owners { font-size: 0.9rem; }
+            .items-grid { grid-template-columns: 1fr; }
+            .login-form { grid-template-columns: 1fr; }
+            .user-info { flex-direction: column; text-align: center; }
+            .role-user-selector { flex-direction: column; align-items: stretch; }
+            .add-item-form { grid-template-columns: 1fr; }
+        }
 
         @keyframes slideDown {
             from { opacity: 0; transform: translateY(-20px); }
@@ -624,6 +1128,7 @@
     </style>
 </head>
 <body>
+    <!-- Location Bar -->
     <div class="location-bar">
         <div class="location-text">
             <span class="location-icon">📌</span>
@@ -634,6 +1139,7 @@
     <div class="particles" id="particles"></div>
 
     <div class="container">
+        <!-- Header -->
         <header>
             <h1 class="main-title">THE TAVERN</h1>
             <div class="shop-owners">FJcoolcat & PizzaboiTM Shop</div>
@@ -669,18 +1175,31 @@
                 <button class="close-role-panel" onclick="toggleRolePanel()">×</button>
             </div>
             
-            <div class="role-user-selector">
-                <select class="role-user-select" id="roleUserSelect">
-                    <option value="">Select User...</option>
-                </select>
-                <select class="role-user-select" id="roleTypeSelect">
-                    <option value="">Select Role...</option>
-                    <option value="buyer">[Buyer] - Orange</option>
-                    <option value="rich-buyer">[Rich Buyer] - Pink</option>
-                    <option value="rich">[🤑Really Rich] - Pink</option>
-                    <option value="friend">[Friend] - Pink</option>
-                </select>
-                <button class="role-assign-btn" onclick="assignRole()">Assign Role</button>
+            <div class="role-search-container">
+                <input type="text" class="role-search-input" id="roleSearchInput" placeholder="Search users..." onkeyup="searchUsers()">
+            </div>
+            
+            <div class="role-controls">
+                <div class="role-user-selector">
+                    <select class="role-user-select" id="roleUserSelect">
+                        <option value="">Select User...</option>
+                    </select>
+                    <select class="role-user-select" id="roleTypeSelect">
+                        <option value="">Select Role...</option>
+                        <option value="buyer">[Buyer] - Orange</option>
+                        <option value="massive">[Massive Buyer] - Green</option>
+                        <option value="rich">[🤑Really Rich] - Pink</option>
+                        <option value="friend">[Friend] - Purple</option>
+                    </select>
+                    <button class="role-assign-btn" onclick="assignRole()">Assign Role</button>
+                </div>
+                
+                <div class="current-roles" id="currentRoles">
+                    <h4>Current Roles:</h4>
+                    <div class="role-tags-display" id="currentRoleTags">
+                        <p style="color: rgba(255,255,255,0.5);">No user selected</p>
+                    </div>
+                </div>
             </div>
             
             <div class="user-list-container" id="userListContainer">
@@ -780,17 +1299,6 @@
             </div>
         </div>
 
-        <!-- Order Logs (FJ121 Only) -->
-        <div id="orderLogs" class="bulk-logs">
-            <div class="logs-header">
-                <span>📋</span>
-                <span>Order Logs</span>
-            </div>
-            <div id="orderLogsContainer">
-                <p style="color: rgba(255,255,255,0.5); text-align: center;">No order logs yet...</p>
-            </div>
-        </div>
-
         <!-- Bulk Order Logs (FJ121 Only) -->
         <div id="bulkLogs" class="bulk-logs">
             <div class="logs-header">
@@ -799,6 +1307,16 @@
             </div>
             <div id="logsContainer">
                 <p style="color: rgba(255,255,255,0.5); text-align: center;">No completed orders yet...</p>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab active" onclick="filterItems('all')">All Items</button>
+                <button class="tab" onclick="filterItems('in')">Available Now</button>
+                <button class="tab" onclick="filterItems('out')">Out of Stock</button>
+                <button class="tab" onclick="filterItems('limited')">Limited Edition</button>
             </div>
         </div>
 
@@ -898,7 +1416,9 @@
     <div id="toast" class="toast"></div>
 
     <script>
-        /* DATA & STATE MANAGEMENT */
+        /* =========================================================
+           DATA & STATE MANAGEMENT
+        ========================================================= */
         let items = JSON.parse(localStorage.getItem('tavernItems')) || [
             { id: 1, name: "Elytra", type: "item", location: "Floor 1", price: "40 d", stock: "in" },
             { id: 2, name: "Heavy Core", type: "item", location: null, price: "18 db", stock: "out" }
@@ -910,6 +1430,8 @@
         let submittedOrders = JSON.parse(localStorage.getItem('tavernSubmittedOrders')) || [];
         let completedOrders = JSON.parse(localStorage.getItem('tavernCompletedOrders')) || [];
         let currentFilter = 'all';
+        let currentChat = null;
+        let currentSupportUser = null;
         let globalMessages = JSON.parse(localStorage.getItem('tavernGlobalChat')) || [];
         let supportChats = JSON.parse(localStorage.getItem('tavernSupportChats')) || {};
         let bannedUsers = JSON.parse(localStorage.getItem('tavernBanned')) || [];
@@ -917,10 +1439,18 @@
         let userRoles = JSON.parse(localStorage.getItem('tavernUserRoles')) || {};
         let allUsers = JSON.parse(localStorage.getItem('tavernAllUsers')) || [];
         let bulkOrderLogs = JSON.parse(localStorage.getItem('tavernBulkLogs')) || [];
-        let orderLogs = JSON.parse(localStorage.getItem('tavernOrderLogs')) || [];
         let currentViewingOrder = null;
 
-        /* INITIALIZATION */
+        // Real-time update intervals
+        let globalChatInterval = null;
+        let supportChatInterval = null;
+        let ordersInterval = null;
+        let lastMessageCount = 0;
+        let lastOrderCount = 0;
+
+        /* =========================================================
+           INITIALIZATION
+        ========================================================= */
         window.onload = () => {
             createParticles();
             setupEventListeners();
@@ -957,12 +1487,15 @@
             }
         }
 
-        /* LOGIN / LOGOUT / ROLE MANAGEMENT */
+        /* =========================================================
+           LOGIN / LOGOUT / ROLE MANAGEMENT
+        ========================================================= */
         function restoreLogin() {
             document.getElementById('currentUser').textContent = currentUser;
             document.getElementById('loginForm').style.display = 'none';
             document.getElementById('userInfo').classList.add('show');
             
+            // Show appropriate UI based on user role
             if (currentUser === 'FJ121') {
                 showStaffUI();
             } else if (currentUser === 'mod121') {
@@ -993,6 +1526,7 @@
             localStorage.setItem('tavernDiscord', userDiscord);
             localStorage.setItem('tavernMinecraft', userMinecraft);
             
+            // Track user for role manager
             if (!allUsers.includes(currentUser)) {
                 allUsers.push(currentUser);
                 localStorage.setItem('tavernAllUsers', JSON.stringify(allUsers));
@@ -1003,11 +1537,11 @@
             document.getElementById('userInfo').classList.add('show');
             
             if (username === 'FJ121') {
-                showToast('Welcome, Shopkeeper!', 'success');
                 showStaffUI();
+                showToast('Welcome, Shopkeeper!', 'success');
             } else if (username === 'mod121') {
-                showToast('Welcome, Moderator!', 'success');
                 showModUI();
+                showToast('Welcome, Moderator!', 'success');
             } else {
                 showToast(`Welcome to The Tavern, ${username}!`, 'success');
             }
@@ -1033,47 +1567,27 @@
             document.getElementById('loginForm').style.display = 'grid';
             document.getElementById('userInfo').classList.remove('show');
             
-            document.querySelectorAll('#adminControls, #modControls, #supportList, #bannedUsers, #adminBulkOrders, #bulkLogs, #roleManagerPanel, #orderLogs').forEach(el => {
-                el.classList.remove('show');
-            });
+            // Hide all staff elements
+            document.querySelectorAll('.staff-only, .mod-only').forEach(el => el.classList.remove('show'));
             
             renderItems();
             showToast('You have exited your account', 'success');
         }
 
         function showStaffUI() {
-            document.getElementById('adminControls').classList.add('show');
-            document.getElementById('supportList').classList.add('show');
-            document.getElementById('bannedUsers').classList.add('show');
-            document.getElementById('adminBulkOrders').classList.add('show');
-            document.getElementById('bulkLogs').classList.add('show');
-            document.getElementById('orderLogs').classList.add('show');
-            document.getElementById('modControls').classList.remove('show');
-            
+            document.querySelectorAll('.staff-only').forEach(el => el.classList.add('show'));
+            document.querySelectorAll('.mod-only').forEach(el => el.classList.remove('show'));
             updateRoleSelector();
-            renderSupportList();
-            renderBannedList();
-            renderAdminOrders();
-            renderBulkLogs();
-            renderOrderLogs();
         }
 
         function showModUI() {
-            document.getElementById('modControls').classList.add('show');
-            document.getElementById('supportList').classList.add('show');
-            document.getElementById('bannedUsers').classList.add('show');
-            document.getElementById('adminBulkOrders').classList.add('show');
-            document.getElementById('adminControls').classList.remove('show');
-            document.getElementById('bulkLogs').classList.remove('show');
-            document.getElementById('orderLogs').classList.remove('show');
-            document.getElementById('roleManagerPanel').classList.remove('show');
-            
-            renderSupportList();
-            renderBannedList();
-            renderAdminOrders();
+            document.querySelectorAll('.mod-only').forEach(el => el.classList.add('show'));
+            document.querySelectorAll('.staff-only').forEach(el => el.classList.remove('show'));
         }
 
-        /* ROLE MANAGEMENT */
+        /* =========================================================
+           ROLE MANAGEMENT WITH SEARCH (FJ121 ONLY)
+        ========================================================= */
         function updateRoleSelector() {
             if (currentUser !== 'FJ121') return;
             
@@ -1100,10 +1614,16 @@
             }
         }
 
-        function renderUserList() {
+        function searchUsers() {
+            const searchTerm = document.getElementById('roleSearchInput').value.toLowerCase();
+            renderUserList(searchTerm);
+        }
+
+        function renderUserList(searchTerm = '') {
             const container = document.getElementById('userListContainer');
             let filteredUsers = allUsers.filter(user => 
-                user !== 'FJ121' && user !== 'mod121'
+                user !== 'FJ121' && user !== 'mod121' && 
+                (searchTerm === '' || user.toLowerCase().includes(searchTerm))
             );
 
             if (filteredUsers.length === 0) {
@@ -1119,7 +1639,7 @@
                     roleTags = roles.map(role => {
                         const roleData = {
                             buyer: { tag: '[Buyer]', class: 'buyer' },
-                            'rich-buyer': { tag: '[Rich Buyer]', class: 'rich-buyer' },
+                            massive: { tag: '[Massive Buyer]', class: 'massive' },
                             rich: { tag: '[🤑Really Rich]', class: 'rich' },
                             friend: { tag: '[Friend]', class: 'friend' }
                         }[role];
@@ -1164,9 +1684,9 @@
             localStorage.setItem('tavernUserRoles', JSON.stringify(userRoles));
             
             renderUserList();
-            renderItems();
             showToast(`Assigned ${role} role to ${username}`, 'success');
             
+            // Reset selects
             userSelect.value = '';
             roleSelect.value = '';
         }
@@ -1178,12 +1698,24 @@
                 delete userRoles[username];
                 localStorage.setItem('tavernUserRoles', JSON.stringify(userRoles));
                 renderUserList();
-                renderItems();
                 showToast(`Removed all roles from ${username}`, 'success');
             }
         }
 
-        /* ITEMS MANAGEMENT */
+        function removeRole(username, role) {
+            if (currentUser !== 'FJ121') return;
+            
+            if (userRoles[username]) {
+                userRoles[username] = userRoles[username].filter(r => r !== role);
+                localStorage.setItem('tavernUserRoles', JSON.stringify(userRoles));
+                updateCurrentRoles();
+                showToast(`Removed ${role} role from ${username}`, 'success');
+            }
+        }
+
+        /* =========================================================
+           ITEMS MANAGEMENT + DELETE FUNCTION
+        ========================================================= */
         function addItem() {
             if (currentUser !== 'FJ121') return;
             const name = document.getElementById('itemName').value.trim();
@@ -1246,6 +1778,7 @@
             const div = document.createElement('div');
             div.className = 'item-card';
             
+            // Determine which actions to show based on user role
             const isStaff = currentUser === 'FJ121';
             const isCustomer = currentUser && currentUser !== 'FJ121' && currentUser !== 'mod121';
 
@@ -1297,7 +1830,7 @@
             return roles.map(role => {
                 const roleData = {
                     buyer: { tag: '[Buyer]', class: 'buyer' },
-                    'rich-buyer': { tag: '[Rich Buyer]', class: 'rich-buyer' },
+                    massive: { tag: '[Massive Buyer]', class: 'massive' },
                     rich: { tag: '[🤑Really Rich]', class: 'rich' },
                     friend: { tag: '[Friend]', class: 'friend' }
                 }[role];
@@ -1306,7 +1839,16 @@
             }).join('');
         }
 
-        /* BULK ORDER SYSTEM */
+        function filterItems(type) {
+            currentFilter = type;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            renderItems();
+        }
+
+        /* =========================================================
+           BULK ORDER SYSTEM (FIXED)
+        ========================================================= */
         function openEnhancedBulkModal(itemId) {
             if (!currentUser || currentUser === 'FJ121' || currentUser === 'mod121') return;
             
@@ -1590,24 +2132,14 @@
             order.completedAt = new Date().toISOString();
             order.completedBy = currentUser;
             
-            // Add to order logs
-            const logEntry = {
-                ...order,
-                action: 'confirmed',
-                timestamp: order.completedAt,
-                performedBy: currentUser
-            };
-            orderLogs.push(logEntry);
-            localStorage.setItem('tavernOrderLogs', JSON.stringify(orderLogs));
-            
-            // Add to bulk logs
+            // Add to logs
             bulkOrderLogs.push({
                 ...order,
                 confirmedAt: order.completedAt,
                 confirmedBy: currentUser
             });
-            localStorage.setItem('tavernBulkLogs', JSON.stringify(bulkOrderLogs));
             
+            localStorage.setItem('tavernBulkLogs', JSON.stringify(bulkOrderLogs));
             localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
             
             // Remove from active orders
@@ -1616,48 +2148,8 @@
             
             renderAdminOrders();
             renderBulkLogs();
-            renderOrderLogs();
             closeOrderView();
             showToast('Order confirmed and logged!', 'success');
-        }
-
-        function renderOrderLogs() {
-            if (currentUser !== 'FJ121') return;
-            
-            const container = document.getElementById('orderLogsContainer');
-            if (!orderLogs.length) {
-                container.innerHTML = '<p style="color:rgba(255,255,255,0.5);text-align:center">No order logs yet...</p>';
-                return;
-            }
-            
-            container.innerHTML = orderLogs.slice().reverse().map(log => {
-                let itemsHtml = log.items.map(item => {
-                    let unit = 'items';
-                    let multiplier = 1;
-                    
-                    switch(item.type) {
-                        case 'stacks': unit = 'stacks'; multiplier = 64; break;
-                        case 'shulkers': unit = 'shulkers'; multiplier = 27 * 64; break;
-                    }
-                    
-                    const totalItems = multiplier * item.quantity;
-                    return `<div>• ${item.name}: ${item.quantity} ${unit} (${totalItems.toLocaleString()} items)</div>`;
-                }).join('');
-                
-                const actionColor = log.action === 'confirmed' ? '#4caf50' : '#ff5252';
-                const actionIcon = log.action === 'confirmed' ? '✓' : '✗';
-                
-                return `
-                    <div class="log-entry" style="border-left: 4px solid ${actionColor};">
-                        <div class="log-customer">${log.user} ${actionIcon} ${log.action}</div>
-                        <div class="log-details">
-                            <div><strong>Discord:</strong> ${log.discord}</div>
-                            <div><strong>Items:</strong></div>
-                            ${itemsHtml}
-                            <div><strong>Performed by:</strong> ${log.performedBy} at ${new Date(log.timestamp).toLocaleString()}</div>
-                        </div>
-                    </div>`;
-            }).join('');
         }
 
         function renderBulkLogs() {
@@ -1665,7 +2157,6 @@
             
             const container = document.getElementById('logsContainer');
             if (!bulkOrderLogs.length) {
-                container.innerHTML = '<p style="color:rgba(255,255,255,0.5);text-align```html
                 container.innerHTML = '<p style="color:rgba(255,255,255,0.5);text-align:center">No completed orders yet...</p>';
                 return;
             }
@@ -1699,25 +2190,15 @@
 
         function clearAllOrders() {
             if (!confirm('Clear ALL submitted orders?')) return;
-            
-            // Log the action
-            const logEntry = {
-                action: 'cleared',
-                timestamp: new Date().toISOString(),
-                performedBy: currentUser,
-                orderCount: submittedOrders.length
-            };
-            orderLogs.push(logEntry);
-            localStorage.setItem('tavernOrderLogs', JSON.stringify(orderLogs));
-            
             submittedOrders = []; 
             localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
             renderAdminOrders();
-            renderOrderLogs();
             showToast('All orders cleared', 'success');
         }
 
-        /* CHAT SYSTEM */
+        /* =========================================================
+           CHAT SYSTEM
+        ========================================================= */
         function openGlobalChat() {
             if (!currentUser) return showToast('Log in first', 'error');
             if (bannedUsers.includes(currentUser.toLowerCase())) return showToast('Banned from chat', 'error');
@@ -1744,6 +2225,19 @@
             document.getElementById('supportInput').disabled = muted;
             document.getElementById('supportSendBtn').disabled = muted;
             document.getElementById('supportMutedBanner').style.display = muted ? 'block' : 'none';
+        }
+
+        function openStaffSupportChat(username) {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            currentChat = 'support'; currentSupportUser = username;
+            document.getElementById('supportChatOverlay').classList.add('show');
+            document.getElementById('supportChatTitle').textContent = `Support - ${username}`;
+            if (!supportChats[username]) supportChats[username] = [];
+            renderSupportMessages();
+            scrollToBottom('supportMessages');
+            document.getElementById('supportInput').disabled = false;
+            document.getElementById('supportSendBtn').disabled = false;
+            document.getElementById('supportMutedBanner').style.display = 'none';
         }
 
         function closeChat() {
@@ -1793,6 +2287,284 @@
             scrollToBottom('supportMessages');
         }
 
+        function deleteMessage(type, msgId) {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            if (type === 'global') {
+                const m = globalMessages.find(x => x.id === msgId);
+                if (m) { m.deleted = true; localStorage.setItem('tavernGlobalChat', JSON.stringify(globalMessages)); renderGlobalMessages(); }
+            } else if (type === 'support' && currentSupportUser) {
+                const chat = supportChats[currentSupportUser];
+                const m = chat.find(x => x.id === msgId);
+                if (m) { m.deleted = true; localStorage.setItem('tavernSupportChats', JSON.stringify(supportChats)); renderSupportMessages(); }
+            }
+            showToast('Message deleted', 'success');
+        }
+
+        function muteUser(username) {
+            if ((currentUser !== 'FJ121' && currentUser !== 'mod121') || username === 'FJ121' || username === 'mod121') return;
+            if (!mutedUsers.includes(username.toLowerCase())) {
+                mutedUsers.push(username.toLowerCase());
+                localStorage.setItem('tavernMuted', JSON.stringify(mutedUsers));
+                showToast(`${username} muted`, 'success');
+            }
+        }
+
+        function banUser(username) {
+            if ((currentUser !== 'FJ121' && currentUser !== 'mod121') || username === 'FJ121' || username === 'mod121') return;
+            if (!bannedUsers.includes(username.toLowerCase())) {
+                bannedUsers.push(username.toLowerCase());
+                localStorage.setItem('tavernBanned', JSON.stringify(bannedUsers));
+                if (!mutedUsers.includes(username.toLowerCase())) {
+                    mutedUsers.push(username.toLowerCase());
+                    localStorage.setItem('tavernMuted', JSON.stringify(mutedUsers));
+                }
+                showToast(`${username} banned`, 'success');
+            }
+        }
+
+        function unbanUser(username) {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            bannedUsers = bannedUsers.filter(u => u !== username.toLowerCase());
+            localStorage.setItem('tavernBanned', JSON.stringify(bannedUsers));
+            showToast(`${username} unbanned`, 'success');
+        }
+
+        function unmuteUser(username) {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            mutedUsers = mutedUsers.filter(u => u !== username.toLowerCase());
+            localStorage.setItem('tavernMuted', JSON.stringify(mutedUsers));
+            showToast(`${username} unmuted`, 'success');
+        }
+
+        function renderGlobalMessages() {
+            const box = document.getElementById('globalMessages');
+            box.innerHTML = globalMessages.map(m => createMessageHTML(m, 'global')).join('');
+        }
+
+        function renderSupportMessages() {
+            const box = document.getElementById('supportMessages');
+            if (!currentSupportUser || !supportChats[currentSupportUser]) {
+                box.innerHTML = '<p style="text-align:center;color:rgba(255,255,255,0.5);margin-top:40px">No messages yet. Start the conversation!</p>';
+                return;
+            }
+            box.innerHTML = supportChats[currentSupportUser].map(m => createMessageHTML(m, 'support')).join('');
+        }
+
+        function createMessageHTML(msg, type, className = '') {
+            const isStaffUser = currentUser === 'FJ121';
+            const isModUser = currentUser === 'mod121';
+            const isOwn = msg.author === currentUser;
+            const isOwnerMsg = msg.isOwner || msg.author === 'FJ121';
+            const isModMsg = msg.isMod || msg.author === 'mod121';
+            const time = new Date(msg.timestamp).toLocaleTimeString();
+            let actions = '';
+            if ((isStaffUser || isModUser) && !msg.deleted && msg.author !== 'FJ121' && msg.author !== 'mod121') {
+                actions = `
+                    <div class="message-actions">
+                        <button class="msg-btn msg-btn-delete" onclick="deleteMessage('${type}', ${msg.id})">🗑 Delete</button>
+                        <button class="msg-btn msg-btn-mute" onclick="muteUser('${msg.author}')">🔇 Mute</button>
+                        <button class="msg-btn msg-btn-ban" onclick="banUser('${msg.author}')">🚫 Ban</button>
+                    </div>`;
+            }
+            const authorDisplay = isOwnerMsg ? '[OWNER]' : (isModMsg ? '[MOD]' : msg.author);
+            const authorClass = isOwnerMsg ? 'owner' : (isModMsg ? 'mod' : '');
+            let cls = className || 'chat-message ' + (isOwn ? 'own' : 'other');
+            if (msg.deleted) cls += ' deleted';
+            else if (isOwnerMsg) cls += ' owner-msg';
+            else if (isModMsg) cls += ' mod-msg';
+            return `
+                <div class="${cls}" data-msg-id="${msg.id}">
+                    <div class="message-header">
+                        <span class="message-author ${authorClass}">${authorDisplay}</span>
+                        <span class="message-time">${time}</span>
+                    </div>
+                    <div class="message-content">${msg.deleted ? '<em>Message deleted by moderator</em>' : escapeHtml(msg.content)}</div>
+                    ${actions}
+                </div>`;
+        }
+
+        /* =========================================================
+           ADMIN/MOD FUNCTIONS
+        ========================================================= */
+        function renderSupportList() {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            const cont = document.getElementById('supportChatsContainer');
+            const users = Object.keys(supportChats).filter(u => u !== 'FJ121' && u !== 'mod121');
+            if (!users.length) {
+                cont.innerHTML = '<p style="color:rgba(255,255,255,0.5);text-align:center;padding:40px">No support tickets</p>';
+                return;
+            }
+            cont.innerHTML = users.map(user => {
+                const msgs = supportChats[user];
+                const last = msgs[msgs.length - 1];
+                return `
+                    <div class="support-chat-item" onclick="openStaffSupportChat('${user}')" style="cursor:pointer">
+                        <div class="support-user-info">
+                            <h4>${user}</h4>
+                            <p>${last ? last.content.substring(0, 50) + '...' : 'No messages'}</p>
+                        </div>
+                        <div class="support-meta">
+                            <div class="support-time">${last ? new Date(last.timestamp).toLocaleTimeString() : ''}</div>
+                            <button class="btn-close-ticket" onclick="event.stopPropagation(); closeSupportTicket('${user}')" title="Close Ticket">✕ Close</button>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function renderBannedList() {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            const cont = document.getElementById('bannedList');
+            const banned = bannedUsers.length;
+            const mutedOnly = mutedUsers.filter(u => !bannedUsers.includes(u));
+            if (!banned && !mutedOnly.length) {
+                cont.innerHTML = '<p style="color:rgba(255,255,255,0.5);text-align:center">No banned or muted users</p>';
+                return;
+            }
+            let html = '';
+            if (banned) {
+                html += '<h4 style="color:#ff5252;margin-bottom:15px">🚫 Banned</h4>';
+                html += bannedUsers.map(u => `
+                    <div class="banned-item">
+                        <span class="banned-name">${u}</span>
+                        <button class="btn-unban" onclick="unbanUser('${u}')">Unban</button>
+                    </div>`).join('');
+            }
+            if (mutedOnly.length) {
+                html += '<h4 style="color:#ff9800;margin:20px 0 15px">🔇 Muted Only</h4>';
+                html += mutedOnly.map(u => `
+                    <div class="banned-item">
+                        <span class="banned-name" style="color:#ff9800">${u}</span>
+                        <button class="btn-unban" onclick="unmuteUser('${u}')">Unmute</button>
+                    </div>`).join('');
+            }
+            cont.innerHTML = html;
+        }
+
+        function renderAdminOrders() {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            const cont = document.getElementById('adminBulkList');
+            if (!submittedOrders.length) {
+                cont.innerHTML = `
+                    <div class="empty-orders">
+                        <div style="font-size:4rem;margin-bottom:20px">📭</div>
+                        <p>No bulk orders yet</p>
+                    </div>`;
+                return;
+            }
+            cont.innerHTML = submittedOrders.map(order => {
+                let itemsHtml = order.items.map(b => {
+                    let unit = 'items';
+                    let multiplier = 1;
+                    
+                    switch(b.type) {
+                        case 'stacks': multiplier = 64; unit = 'stacks'; break;
+                        case 'shulkers': multiplier = 27 * 64; unit = 'shulkers'; break;
+                    }
+                    
+                    const totalItems = multiplier * b.quantity;
+                    return `
+                        <div class="bulk-order-item">
+                            <span class="bulk-item-name">${b.name}</span>
+                            <span class="bulk-item-qty">${b.quantity} ${unit} (${totalItems.toLocaleString()} items)</span>
+                        </div>`;
+                }).join('');
+                
+                const total = order.items.reduce((sum, b) => {
+                    const shop = items.find(i => i.id === b.id);
+                    const priceNum = parseFloat((shop?.price || '0').replace(/[^0-9.]/g, '')) || 0;
+                    let multiplier = 1;
+                    
+                    switch(b.type) {
+                        case 'stacks': multiplier = 64; break;
+                        case 'shulkers': multiplier = 27 * 64; break;
+                    }
+                    
+                    return sum + (priceNum * multiplier * b.quantity);
+                }, 0);
+                
+                return `
+                    <div class="bulk-order-card">
+                        <div class="bulk-order-header">
+                            <div>
+                                <div class="bulk-order-user">${order.user}</div>
+                                <div style="color:rgba(255,255,255,0.6);font-size:0.85rem;margin-top:5px">MC: ${order.minecraft} | Discord: ${order.discord}</div>
+                            </div>
+                            <div class="bulk-order-time">${new Date(order.timestamp).toLocaleString()}</div>
+                        </div>
+                        <div class="bulk-order-details">${itemsHtml}</div>
+                        <div class="bulk-order-total">Total: ${total} d</div>
+                        <div style="margin-top: 15px; display: flex; justify-content: flex-end; gap: 10px;">
+                            <button class="btn-view-order" onclick="viewOrderDetails(${order.id})">👁️ View Details</button>
+                            <button class="btn-completed" onclick="confirmOrder(${order.id})">✓ Confirm Order</button>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function clearAllOrders() {
+            if (!confirm('Clear ALL submitted orders?')) return;
+            submittedOrders = []; 
+            localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
+            renderAdminOrders();
+            showToast('All orders cleared', 'success');
+        }
+
+        function closeSupportTicket(username) {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            if (!confirm(`Close ticket for ${username}?`)) return;
+            delete supportChats[username];
+            localStorage.setItem('tavernSupportChats', JSON.stringify(supportChats));
+            if (currentSupportUser === username) closeChat();
+            renderSupportList();
+            showToast('Ticket closed', 'success');
+        }
+
+        /* =========================================================
+           REAL-TIME UPDATES
+        ========================================================= */
+        function startRealTimeUpdates() {
+            if (currentUser) {
+                // Update global chat every 100ms for ultra-fast updates
+                globalChatInterval = setInterval(() => {
+                    const currentMessages = JSON.parse(localStorage.getItem('tavernGlobalChat')) || [];
+                    if (currentMessages.length !== lastMessageCount) {
+                        lastMessageCount = currentMessages.length;
+                        globalMessages = currentMessages;
+                        if (document.getElementById('globalChatOverlay').classList.contains('show')) {
+                            renderGlobalMessages();
+                            scrollToBottom('globalMessages');
+                        }
+                    }
+                }, 100);
+
+                // Update support chat every 100ms
+                supportChatInterval = setInterval(() => {
+                    const currentChats = JSON.parse(localStorage.getItem('tavernSupportChats')) || {};
+                    supportChats = currentChats;
+                    if (document.getElementById('supportChatOverlay').classList.contains('show') && currentSupportUser) {
+                        renderSupportMessages();
+                        scrollToBottom('supportMessages');
+                    }
+                }, 100);
+
+                // Update orders every 100ms for staff
+                if (currentUser === 'FJ121' || currentUser === 'mod121') {
+                    ordersInterval = setInterval(() => {
+                        const currentOrders = JSON.parse(localStorage.getItem('tavernSubmittedOrders')) || [];
+                        if (currentOrders.length !== lastOrderCount) {
+                            lastOrderCount = currentOrders.length;
+                            submittedOrders = currentOrders;
+                            renderAdminOrders();
+                            showToast('📦 New bulk order received!', 'success');
+                        }
+                    }, 100);
+                }
+            }
+        }
+
+        /* =========================================================
+           UTILITIES
+        ========================================================= */
         function showToast(msg, type = 'success') {
             const toast = document.getElementById('toast');
             toast.textContent = msg;
@@ -1805,15 +2577,10 @@
             el.scrollTop = el.scrollHeight;
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .main-title { font-size: 2.5rem; letter-spacing: 4px; }
-            .shop-owners { font-size: 0.9rem; }
-            .items-grid { grid-template-columns: 1fr; }
-            .login-form { grid-template-columns: 1fr; }
-            .user-info { flex-direction: column; text-align: center; }
-            .role-user-selector { flex-direction: column; align-items: stretch; }
-            .add-item-form { grid-template-columns: 1fr; }
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
     </script>
 </body>
