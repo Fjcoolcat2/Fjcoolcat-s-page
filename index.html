@@ -38,121 +38,62 @@
             overflow-x: hidden;
         }
 
-        /* ROLE DISPLAY SYSTEM */
-        .role-display {
-            display: inline-block;
-            padding: 2px 6px;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-left: 5px;
+        /* PANELS - FIXED DISPLAY */
+        .admin-controls, .mod-controls, .role-manager, .support-list, .banned-users, .admin-bulk-orders, .bulk-logs, .order-logs {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            animation: slideDown 0.5s ease;
         }
-        .role-display.buyer { background: #ff9800; color: #1a0b2e; }
-        .role-display.rich-buyer { background: #e91e63; color: #fff; }
-        .role-display.rich { background: #e91e63; color: #fff; }
-        .role-display.friend { background: #e91e63; color: #fff; }
-
-        /* PARTICLES */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 0;
-        }
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--gold-primary);
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: float 20s infinite linear;
-        }
-        @keyframes float {
-            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
-            10% { opacity: 0.3; }
-            90% { opacity: 0.3; }
-            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+        .admin-controls.show, .mod-controls.show, .role-manager.show, .support-list.show, .banned-users.show, .admin-bulk-orders.show, .bulk-logs.show, .order-logs.show {
+            display: block !important;
         }
 
-        /* LAYOUT */
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
+        /* ADMIN PANEL */
+        .admin-controls {
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
         }
-
-        /* HEADER */
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 40px 20px 20px;
-        }
-        .main-title {
+        .admin-title {
             font-family: 'Cinzel', serif;
-            font-size: 5rem;
-            font-weight: 800;
-            background: linear-gradient(180deg, #fff 0%, var(--gold-primary) 50%, var(--gold-dark) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
-            letter-spacing: 8px;
-            animation: titleGlow 3s ease-in-out infinite alternate;
-        }
-        @keyframes titleGlow {
-            from { filter: drop-shadow(0 0 20px rgba(255,215,0,0.4)); }
-            to { filter: drop-shadow(0 0 40px rgba(255,215,0,0.8)); }
-        }
-        .shop-owners {
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-top: 15px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            background: linear-gradient(90deg, var(--gold-primary), #fff, var(--gold-primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 200% auto;
-            animation: shine 3s linear infinite;
-        }
-        @keyframes shine {
-            to { background-position: 200% center; }
-        }
-
-        /* LOCATION BAR */
-        .location-bar {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid var(--gold-primary);
-            padding: 12px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-        }
-        .location-text {
-            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
             color: var(--gold-primary);
-            font-size: 1.1rem;
-            letter-spacing: 2px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 10px;
         }
 
-        /* LOGIN SECTION - FIXED */
+        /* MOD PANEL */
+        .mod-controls {
+            background: rgba(33, 150, 243, 0.05);
+            border: 1px solid rgba(33, 150, 243, 0.2);
+        }
+        .mod-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--mod-blue);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .mod-badge {
+            background: linear-gradient(135deg, var(--mod-blue), var(--mod-blue-light));
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* LOGIN SECTION */
         .login-section {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(20px);
@@ -192,21 +133,10 @@
         .user-info.show {
             display: block;
         }
-        .welcome-text {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-        }
         .username {
             color: var(--gold-primary);
             font-weight: 700;
             font-size: 1.3rem;
-        }
-        .user-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
         }
 
         /* BUTTONS */
@@ -220,128 +150,13 @@
             transition: all 0.3s;
             text-transform: uppercase;
             letter-spacing: 1px;
-            font-family: 'Inter', sans-serif;
         }
         .btn-primary {
             background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dark) 100%);
             color: #1a0b2e;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
         }
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
-        }
-        .btn-chat {
-            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
-        }
-        .btn-chat:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.5);
-        }
-        .btn-bulk {
-            background: linear-gradient(135deg, #9c27b0 0%, #6a1b9a 100%);
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(156, 39, 176, 0.3);
-        }
-        .btn-bulk:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(156, 39, 176, 0.5);
-        }
-        .btn-support {
-            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
-        }
-        .btn-support:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 152, 0, 0.5);
-        }
-        .btn-danger {
-            background: linear-gradient(135deg, #ff5252 0%, #b33939 100%);
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(255, 82, 82, 0.3);
-        }
-        .btn-danger:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 82, 82, 0.5);
-        }
-
-        /* PANELS */
-        .admin-controls, .mod-controls, .role-manager, .support-list, .banned-users, .admin-bulk-orders, .bulk-logs, .order-logs {
-            display: none;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 40px;
-            animation: slideDown 0.5s ease;
-        }
-        .admin-controls.show, .mod-controls.show, .role-manager.show, .support-list.show, .banned-users.show, .admin-bulk-orders.show, .bulk-logs.show, .order-logs.show {
-            display: block !important;
-        }
-
-        /* ITEMS GRID */
-        .items-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-        .item-card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.4s;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        }
-        .item-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 215, 0, 0.1);
-            border-color: rgba(255, 215, 0, 0.3);
-        }
-        .item-name {
-            font-family: 'Cinzel', serif;
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: #fff;
-        }
-        .price {
-            font-family: 'Cinzel', serif;
-            font-size: 2rem;
-            font-weight: 700;
-            background: linear-gradient(180deg, var(--gold-light) 0%, var(--gold-primary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .add-to-bulk {
-            margin-top: 12px;
-            padding: 10px 20px;
-            background: rgba(156, 39, 176, 0.2);
-            border: 2px solid #9c27b0;
-            color: #fff;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .add-to-bulk:hover {
-            background: #9c27b0;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(156, 39, 176, 0.4);
         }
 
         /* TOAST */
@@ -359,19 +174,10 @@
             opacity: 0;
             transition: all 0.4s;
             z-index: 9999;
-            backdrop-filter: blur(10px);
         }
         .toast.show {
             opacity: 1;
             transform: translateX(-50%) translateY(0);
-        }
-        .toast.success {
-            border-color: var(--accent-green);
-            color: var(--accent-green);
-        }
-        .toast.error {
-            border-color: var(--accent-red);
-            color: var(--accent-red);
         }
     </style>
 </head>
@@ -394,7 +200,7 @@
             <p style="color: rgba(255,255,255,0.5); margin-top: 10px; letter-spacing: 4px; text-transform: uppercase;">Premium Minecraft Emporium</p>
         </header>
 
-        <!-- LOGIN SECTION - FIXED WITH WORKING BUTTON -->
+        <!-- LOGIN SECTION - FIXED -->
         <div class="login-section" id="loginSection">
             <div id="loginForm" class="login-form">
                 <input type="text" id="usernameInput" placeholder="Username" required>
@@ -406,11 +212,54 @@
                 <div class="welcome-text">
                     Welcome, <span class="username" id="currentUser"></span>
                 </div>
-                <div class="user-actions">
-                    <button class="btn-chat" onclick="openGlobalChat()">💬 Global Chat</button>
-                    <button class="btn-support" onclick="openSupportChat()">🎫 Support Chat</button>
-                    <button class="btn-bulk" onclick="openBulkModal()">📦 My Bulk Order</button>
-                    <button class="btn-danger" onclick="logout()">Exit</button>
+                <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+                    <button class="btn-primary" onclick="logout()">Exit</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MOD CONTROLS (mod121 only) -->
+        <div id="modControls" class="mod-controls">
+            <div class="mod-title">
+                <span>🛡️</span>
+                <span>Moderator Panel <span class="mod-badge">[MOD]</span></span>
+            </div>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
+                <button class="btn-primary" onclick="openGlobalChat()">💬 Global Chat</button>
+                <button class="btn-primary" onclick="openSupportChat()">🎫 Support Chat</button>
+                <button class="btn-primary" onclick="openBulkModal()">📦 Bulk Orders</button>
+            </div>
+            <div style="background: rgba(0,0,0,0.3); border-radius: 12px; padding: 20px; margin-top: 15px;">
+                <h4 style="color: var(--mod-blue); margin-bottom: 15px;">🚫 Banned Users</h4>
+                <div id="bannedList">
+                    <p style="color: rgba(255,255,255,0.5);">No banned users</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADMIN CONTROLS (FJ121 only) -->
+        <div id="adminControls" class="admin-controls">
+            <div class="admin-title">
+                <span>👑</span>
+                <span>Shopkeeper's Controls</span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                <button class="btn-primary" onclick="openGlobalChat()">💬 Global Chat</button>
+                <button class="btn-primary" onclick="openSupportChat()">🎫 Support Chat</button>
+                <button class="btn-primary" onclick="openBulkModal()">📦 Bulk Orders</button>
+                <button class="btn-primary" onclick="showRoleManager()">👑 Role Manager</button>
+            </div>
+            <div style="background: rgba(0,0,0,0.3); border-radius: 12px; padding: 20px; margin-top: 15px;">
+                <h4 style="color: var(--gold-primary); margin-bottom: 15px;">⚙️ Shop Management</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+                    <input type="text" id="itemName" placeholder="Item Name" style="padding: 10px; border: 2px solid rgba(255,215,0,0.3); background: rgba(0,0,0,0.5); color: #fff; border-radius: 8px;">
+                    <input type="text" id="itemPrice" placeholder="Price (e.g., 25 d)" style="padding: 10px; border: 2px solid rgba(255,215,0,0.3); background: rgba(0,0,0,0.5); color: #fff; border-radius: 8px;">
+                    <select id="itemStock" style="padding: 10px; border: 2px solid rgba(255,215,0,0.3); background: rgba(0,0,0,0.5); color: #fff; border-radius: 8px;">
+                        <option value="in">In Stock</option>
+                        <option value="out">Out of Stock</option>
+                        <option value="limited">Limited</option>
+                    </select>
+                    <button class="btn-primary" onclick="addItem()">Add Item</button>
                 </div>
             </div>
         </div>
@@ -432,6 +281,8 @@
         let userDiscord = localStorage.getItem('tavernDiscord') || '';
         let userMinecraft = localStorage.getItem('tavernMinecraft') || '';
         let userBulkOrder = JSON.parse(localStorage.getItem('tavernBulkOrder')) || [];
+        let bannedUsers = JSON.parse(localStorage.getItem('tavernBanned')) || [];
+        let mutedUsers = JSON.parse(localStorage.getItem('tavernMuted')) || [];
 
         /* INITIALIZATION */
         window.onload = () => {
@@ -439,6 +290,7 @@
             setupEventListeners();
             if (currentUser) restoreLogin();
             renderItems();
+            renderBannedList();
         };
 
         function createParticles() {
@@ -454,7 +306,6 @@
         }
 
         function setupEventListeners() {
-            // Enter key support for all input fields
             ['usernameInput', 'discordInput', 'minecraftInput'].forEach(id => {
                 const input = document.getElementById(id);
                 input.addEventListener('keypress', e => {
@@ -474,6 +325,11 @@
                 return;
             }
             
+            if (bannedUsers.includes(username.toLowerCase())) {
+                showToast('You are banned from this shop', 'error');
+                return;
+            }
+            
             currentUser = username;
             userDiscord = discord;
             userMinecraft = minecraft;
@@ -486,8 +342,18 @@
             document.getElementById('loginForm').style.display = 'none';
             document.getElementById('userInfo').classList.add('show');
             
-            showToast(`Welcome to The Tavern, ${username}!`, 'success');
+            if (username === 'FJ121') {
+                showToast('Welcome, Shopkeeper!', 'success');
+                showStaffUI();
+            } else if (username === 'mod121') {
+                showToast('Welcome, Moderator!', 'success');
+                showModUI();
+            } else {
+                showToast(`Welcome to The Tavern, ${username}!`, 'success');
+            }
+            
             renderItems();
+            renderBannedList();
         }
 
         function logout() {
@@ -506,7 +372,11 @@
             document.getElementById('loginForm').style.display = 'grid';
             document.getElementById('userInfo').classList.remove('show');
             
+            document.getElementById('adminControls').classList.remove('show');
+            document.getElementById('modControls').classList.remove('show');
+            
             renderItems();
+            renderBannedList();
             showToast('You have exited your account', 'success');
         }
 
@@ -514,6 +384,26 @@
             document.getElementById('currentUser').textContent = currentUser;
             document.getElementById('loginForm').style.display = 'none';
             document.getElementById('userInfo').classList.add('show');
+            
+            if (currentUser === 'FJ121') {
+                showStaffUI();
+            } else if (currentUser === 'mod121') {
+                showModUI();
+            }
+        }
+
+        function showStaffUI() {
+            document.getElementById('adminControls').classList.add('show');
+            document.getElementById('modControls').classList.remove('show');
+        }
+
+        function showModUI() {
+            document.getElementById('modControls').classList.add('show');
+            document.getElementById('adminControls').classList.remove('show');
+        }
+
+        function showRoleManager() {
+            showToast('Role Manager - Feature coming soon!', 'success');
         }
 
         /* ITEMS MANAGEMENT */
@@ -530,32 +420,93 @@
                 const div = document.createElement('div');
                 div.className = 'item-card';
                 
+                const isStaff = currentUser === 'FJ121';
+                const isMod = currentUser === 'mod121';
                 const isCustomer = currentUser && currentUser !== 'FJ121' && currentUser !== 'mod121';
+                
+                let stockEditor = '';
+                if (isStaff) {
+                    stockEditor = `
+                        <div style="margin-top: 10px;">
+                            <select onchange="updateItemStock(${item.id}, this.value)" style="padding: 8px; border: 2px solid rgba(255,215,0,0.3); background: rgba(0,0,0,0.5); color: #fff; border-radius: 8px; font-size: 0.9rem;">
+                                <option value="in" ${item.stock === 'in' ? 'selected' : ''}>In Stock</option>
+                                <option value="out" ${item.stock === 'out' ? 'selected' : ''}>Out of Stock</option>
+                                <option value="limited" ${item.stock === 'limited' ? 'selected' : ''}>Limited</option>
+                            </select>
+                        </div>`;
+                }
                 
                 div.innerHTML = `
                     <div class="item-info">
                         <div class="item-name">${item.name}</div>
-                        <div class="tags">
-                            <span class="tag tag-item">${item.type}</span>
-                            ${item.stock === 'limited' ? '<span class="tag tag-rarity">Limited</span>' : ''}
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <span style="padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; background: linear-gradient(135deg, var(--accent-blue), #0288d1); color: #fff;">${item.type}</span>
+                            ${item.stock === 'limited' ? '<span style="padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; background: linear-gradient(135deg, var(--accent-red), #c62828); color: #fff;">Limited</span>' : ''}
                         </div>
                     </div>
                     <div class="item-details">
                         <div class="price">${item.price}</div>
-                        <div class="stock-status ${item.stock === 'in' ? 'in-stock' : item.stock === 'limited' ? 'limited' : 'out-of-stock'}">
+                        <div style="padding: 8px 20px; border-radius: 25px; font-size: 0.95rem; font-weight: 600; border: 2px solid; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s;" 
+                             class="${item.stock === 'in' ? 'in-stock' : item.stock === 'limited' ? 'limited' : 'out-of-stock'}">
                             ${item.stock === 'in' ? '✓ In Stock' : item.stock === 'limited' ? '⚠ Limited Stock' : '✗ Out of Stock'}
                         </div>
+                        ${stockEditor}
                         ${isCustomer ? `<button class="add-to-bulk" onclick="addToBulk(${item.id})">📦 Add to Bulk Order</button>` : ''}
                     </div>
+                    ${isStaff ? `<button onclick="deleteItem(${item.id})" style="position: absolute; top: 15px; right: 15px; background: rgba(255,82,82,0.9); color: #fff; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; font-weight: bold; font-size: 1.2rem;">×</button>` : ''}
                 `;
                 
                 container.appendChild(div);
             });
         }
 
-        /* BULK ORDER SYSTEM */
+        function addItem() {
+            if (currentUser !== 'FJ121') return;
+            
+            const name = document.getElementById('itemName').value.trim();
+            const price = document.getElementById('itemPrice').value.trim();
+            const stock = document.getElementById('itemStock').value;
+            
+            if (!name || !price) {
+                showToast('Please fill in item name and price', 'error');
+                return;
+            }
+            
+            const newItem = { id: Date.now(), name, type: 'item', location: null, price, stock };
+            items.push(newItem);
+            localStorage.setItem('tavernItems', JSON.stringify(items));
+            
+            document.getElementById('itemName').value = '';
+            document.getElementById('itemPrice').value = '';
+            
+            renderItems();
+            showToast('Item added to shop!', 'success');
+        }
+
+        function deleteItem(id) {
+            if (currentUser !== 'FJ121') return;
+            if (!confirm('Delete this item from the shop?')) return;
+            
+            items = items.filter(i => i.id !== id);
+            localStorage.setItem('tavernItems', JSON.stringify(items));
+            renderItems();
+            showToast('Item removed from shop', 'success');
+        }
+
+        function updateItemStock(id, newStock) {
+            if (currentUser !== 'FJ121') return;
+            const item = items.find(i => i.id === id);
+            if (!item) return;
+            
+            item.stock = newStock;
+            localStorage.setItem('tavernItems', JSON.stringify(items));
+            renderItems();
+            showToast(`Stock updated to ${newStock}`, 'success');
+        }
+
         function addToBulk(itemId) {
             if (!currentUser) return showToast('Log in first', 'error');
+            if (currentUser === 'FJ121' || currentUser === 'mod121') return showToast('Staff cannot order', 'error');
             
             const item = items.find(i => i.id === itemId);
             if (!item) return;
@@ -576,17 +527,17 @@
             
             const modal = document.createElement('div');
             modal.className = 'chat-overlay show';
-            modal.style.display = 'flex';
+            modal.style.cssText = 'display: flex; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 1000; align-items: center; justify-content: center;';
             modal.innerHTML = `
-                <div class="chat-container" style="max-width: 500px;">
-                    <div class="chat-header">
-                        <div class="chat-title">
+                <div style="background: var(--chat-bg); border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 20px; width: 90%; max-width: 600px; max-height: 80vh; display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                        <div style="display: flex; align-items: center; gap: 10px; font-family: Cinzel, serif; font-size: 1.2rem; color: var(--gold-primary);">
                             <span>📦</span>
-                            <span>Your Bulk Order</span>
+                            <span>${currentUser === 'FJ121' || currentUser === 'mod121' ? 'Customer Bulk Orders' : 'Your Bulk Order'}</span>
                         </div>
-                        <button class="close-chat" onclick="this.closest('.chat-overlay').remove()">×</button>
+                        <button onclick="this.closest('.chat-overlay').remove()" style="background: none; border: none; color: rgba(255, 255, 255, 0.5); font-size: 1.5rem; cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">×</button>
                     </div>
-                    <div style="padding: 30px;">
+                    <div style="flex: 1; padding: 30px; overflow-y: auto;">
                         ${userBulkOrder.length ? `
                             <div style="margin-bottom: 20px;">
                                 ${userBulkOrder.map(b => `
@@ -598,7 +549,7 @@
                                     </div>
                                 `).join('')}
                             </div>
-                            <button class="btn-confirm-order" onclick="submitBulkOrder()" style="width: 100%; margin-top: 15px;">Submit Order</button>
+                            <button onclick="submitBulkOrder()" style="width: 100%; padding: 12px 24px; background: linear-gradient(135deg, var(--accent-green) 0%, #2e7d32 100%); color: #1a0b2e; border: none; border-radius: 12px; cursor: pointer; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Submit Order</button>
                         ` : `
                             <div style="text-align: center; padding: 40px; color: rgba(255,255,255,0.5);">
                                 <div style="font-size: 3rem; margin-bottom: 15px;">📭</div>
@@ -617,10 +568,21 @@
             if (!userBulkOrder.length) return showToast('Empty order', 'error');
             
             // Here you would normally send to Discord webhook
+            const order = {
+                user: currentUser,
+                discord: userDiscord,
+                minecraft: userMinecraft,
+                items: [...userBulkOrder],
+                timestamp: new Date().toISOString(),
+                id: Date.now()
+            };
+            
             showToast('Order submitted! Check Discord for confirmation.', 'success');
             
-            userBulkOrder = [];
-            localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') {
+                userBulkOrder = [];
+                localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
+            }
             
             setTimeout(() => {
                 document.querySelector('.chat-overlay').remove();
@@ -633,22 +595,22 @@
             
             const modal = document.createElement('div');
             modal.className = 'chat-overlay show';
-            modal.style.display = 'flex';
+            modal.style.cssText = 'display: flex; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 1000; align-items: center; justify-content: center;';
             modal.innerHTML = `
-                <div class="chat-container">
-                    <div class="chat-header">
-                        <div class="chat-title">
+                <div style="background: var(--chat-bg); border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 20px; width: 90%; max-width: 600px; max-height: 80vh; display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                        <div style="display: flex; align-items: center; gap: 10px; font-family: Cinzel, serif; font-size: 1.2rem; color: var(--gold-primary);">
                             <span>💬</span>
                             <span>Global Chat</span>
                         </div>
-                        <button class="close-chat" onclick="this.closest('.chat-overlay').remove()">×</button>
+                        <button onclick="this.closest('.chat-overlay').remove()" style="background: none; border: none; color: rgba(255, 255, 255, 0.5); font-size: 1.5rem; cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">×</button>
                     </div>
-                    <div class="chat-messages" style="padding: 20px; max-height: 300px; overflow-y: auto;">
+                    <div style="flex: 1; padding: 20px; overflow-y: auto; max-height: 300px;">
                         <p style="text-align: center; color: rgba(255,255,255,0.5); margin-top: 40px;">Start the conversation!</p>
                     </div>
-                    <div class="chat-input-area">
-                        <input type="text" class="chat-input" placeholder="Type your message..." maxlength="200">
-                        <button class="btn-send" onclick="sendChatMessage(this)">Send</button>
+                    <div style="display: flex; padding: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); gap: 10px;">
+                        <input type="text" style="flex: 1; padding: 12px 20px; border: 2px solid rgba(255, 215, 0, 0.2); background: rgba(0, 0, 0, 0.4); color: #fff; border-radius: 25px; outline: none;" placeholder="Type your message..." maxlength="200">
+                        <button onclick="sendChatMessage(this)" style="padding: 12px 24px; background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dark) 100%); color: #1a0b2e; border: none; border-radius: 25px; cursor: pointer; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Send</button>
                     </div>
                 </div>
             `;
@@ -661,22 +623,22 @@
             
             const modal = document.createElement('div');
             modal.className = 'chat-overlay show';
-            modal.style.display = 'flex';
+            modal.style.cssText = 'display: flex; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 1000; align-items: center; justify-content: center;';
             modal.innerHTML = `
-                <div class="chat-container">
-                    <div class="chat-header">
-                        <div class="chat-title">
+                <div style="background: var(--chat-bg); border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 20px; width: 90%; max-width: 600px; max-height: 80vh; display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                        <div style="display: flex; align-items: center; gap: 10px; font-family: Cinzel, serif; font-size: 1.2rem; color: var(--gold-primary);">
                             <span>🎫</span>
                             <span>Support Chat</span>
                         </div>
-                        <button class="close-chat" onclick="this.closest('.chat-overlay').remove()">×</button>
+                        <button onclick="this.closest('.chat-overlay').remove()" style="background: none; border: none; color: rgba(255, 255, 255, 0.5); font-size: 1.5rem; cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">×</button>
                     </div>
-                    <div class="chat-messages" style="padding: 20px; max-height: 300px; overflow-y: auto;">
+                    <div style="flex: 1; padding: 20px; overflow-y: auto; max-height: 300px;">
                         <p style="text-align: center; color: rgba(255,255,255,0.5); margin-top: 40px;">How can we help you today?</p>
                     </div>
-                    <div class="chat-input-area">
-                        <input type="text" class="chat-input" placeholder="Describe your issue..." maxlength="200">
-                        <button class="btn-send" onclick="sendChatMessage(this)">Send</button>
+                    <div style="display: flex; padding: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); gap: 10px;">
+                        <input type="text" style="flex: 1; padding: 12px 20px; border: 2px solid rgba(255, 215, 0, 0.2); background: rgba(0, 0, 0, 0.4); color: #fff; border-radius: 25px; outline: none;" placeholder="Describe your issue..." maxlength="200">
+                        <button onclick="sendChatMessage(this)" style="padding: 12px 24px; background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dark) 100%); color: #1a0b2e; border: none; border-radius: 25px; cursor: pointer; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Send</button>
                     </div>
                 </div>
             `;
@@ -690,7 +652,7 @@
             
             if (!content) return;
             
-            const messagesContainer = button.closest('.chat-container').querySelector('.chat-messages');
+            const messagesContainer = button.closest('.chat-container').querySelector('div[style*="overflow-y: auto"]');
             const msgDiv = document.createElement('div');
             msgDiv.style.cssText = 'margin-bottom: 10px; text-align: right;';
             msgDiv.innerHTML = `
@@ -703,6 +665,54 @@
             messagesContainer.appendChild(msgDiv);
             input.value = '';
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        /* BANNED USERS */
+        function renderBannedList() {
+            if (!currentUser) return;
+            const container = document.getElementById('bannedList');
+            
+            if (!bannedUsers.length && !mutedUsers.length) {
+                container.innerHTML = '<p style="color:rgba(255,255,255,0.5);">No banned or muted users</p>';
+                return;
+            }
+            
+            let html = '';
+            if (bannedUsers.length) {
+                html += '<h4 style="color:#ff5252;margin-bottom:10px;font-size:0.9rem;">🚫 Banned</h4>';
+                html += bannedUsers.map(u => `
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px; background: rgba(255,82,82,0.1); border: 1px solid rgba(255,82,82,0.3); border-radius: 6px; margin-bottom: 5px;">
+                        <span style="color: #ff5252; font-weight: 500;">${u}</span>
+                        <button onclick="unbanUser('${u}')" style="padding: 4px 8px; background: rgba(255,82,82,0.2); color: #ff5252; border: 1px solid #ff5252; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">Unban</button>
+                    </div>`).join('');
+            }
+            
+            if (mutedUsers.length) {
+                html += '<h4 style="color:#ff9800;margin:15px 0 10px;font-size:0.9rem;">🔇 Muted</h4>';
+                html += mutedUsers.map(u => `
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px; background: rgba(255,152,0,0.1); border: 1px solid rgba(255,152,0,0.3); border-radius: 6px; margin-bottom: 5px;">
+                        <span style="color: #ff9800; font-weight: 500;">${u}</span>
+                        <button onclick="unmuteUser('${u}')" style="padding: 4px 8px; background: rgba(255,152,0,0.2); color: #ff9800; border: 1px solid #ff9800; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">Unmute</button>
+                    </div>`).join('');
+            }
+            
+            container.innerHTML = html;
+        }
+
+        function unbanUser(username) {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            bannedUsers = bannedUsers.filter(u => u !== username.toLowerCase());
+            localStorage.setItem('tavernBanned', JSON.stringify(bannedUsers));
+            renderBannedList();
+            showToast(`${username} unbanned`, 'success');
+        }
+
+        function unmuteUser(username) {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            mutedUsers = mutedUsers.filter(u => u !== username.toLowerCase());
+            localStorage.setItem('tavernMuted', JSON.stringify(mutedUsers));
+            renderBannedList();
+            showToast(`${username} unmuted`, 'success');
         }
 
         /* UTILITY FUNCTIONS */
