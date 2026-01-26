@@ -6,7 +6,7 @@
     <title>The Tavern - Premium Minecraft Emporium</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* [ORIGINAL CSS - PRESERVED EXACTLY AS BEFORE] */
+        /* [ORIGINAL CSS - PRESERVED EXACTLY] */
         :root {
             --gold-primary: #ffd700;
             --gold-light: #ffed4e;
@@ -37,7 +37,7 @@
             overflow-x: hidden;
         }
 
-        /* -------------- ROLE DISPLAY SYSTEM -------------- */
+        /* ROLE DISPLAY SYSTEM */
         .role-display {
             display: inline-block;
             padding: 2px 6px;
@@ -52,20 +52,20 @@
             background: #ff9800;
             color: #1a0b2e;
         }
-        .role-display.massive {
-            background: #4caf50;
-            color: #1a0b2e;
+        .role-display.rich-buyer {
+            background: #e91e63;
+            color: #fff;
         }
         .role-display.rich {
             background: #e91e63;
             color: #fff;
         }
         .role-display.friend {
-            background: #9c27b0;
+            background: #e91e63;
             color: #fff;
         }
 
-        /* [REST OF ORIGINAL CSS - EXACT COPY] */
+        /* ORIGINAL CSS CONTINUES... */
         .particles {
             position: fixed;
             top: 0;
@@ -274,7 +274,7 @@
             box-shadow: 0 8px 25px rgba(255, 82, 82, 0.5);
         }
 
-        /* ADMIN PANEL - FIXED DISPLAY */
+        /* ADMIN PANEL - FIXED */
         .admin-controls {
             display: none;
             background: rgba(255, 215, 0, 0.05);
@@ -288,8 +288,48 @@
         .admin-controls.show {
             display: block !important;
         }
+        .admin-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--gold-primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .add-item-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        select, input[type="text"], input[type="number"] {
+            padding: 12px 15px;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            background: rgba(0, 0, 0, 0.4);
+            color: #fff;
+            border-radius: 10px;
+            outline: none;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+        select:focus, input:focus {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+        }
 
-        /* MOD PANEL - FIXED DISPLAY */
+        /* MOD PANEL - FIXED */
         .mod-controls {
             display: none;
             background: rgba(33, 150, 243, 0.05);
@@ -303,8 +343,206 @@
         .mod-controls.show {
             display: block !important;
         }
+        .mod-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--mod-blue);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .mod-badge {
+            background: linear-gradient(135deg, var(--mod-blue), var(--mod-blue-light));
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-        /* REST OF ORIGINAL CSS ... */
+        /* STAFF PANELS - FIXED */
+        .support-list, .banned-users, .admin-bulk-orders, .bulk-logs {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            animation: slideDown 0.5s ease;
+        }
+        .support-list.show, .banned-users.show, .admin-bulk-orders.show, .bulk-logs.show {
+            display: block !important;
+        }
+
+        .support-list-header, .banned-header, .logs-header {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .support-list-header { color: #ff9800; }
+        .banned-header { color: #ff5252; }
+        .logs-header { color: var(--gold-primary); }
+
+        /* ROLE MANAGER PANEL */
+        .role-manager {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            animation: slideDown 0.5s ease;
+        }
+        .role-manager.show {
+            display: block !important;
+        }
+        .role-manager-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+        .role-manager-header h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-primary);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .close-role-panel {
+            background: rgba(255, 82, 82, 0.2);
+            color: #ff5252;
+            border: 2px solid rgba(255, 82, 82, 0.5);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .close-role-panel:hover {
+            background: rgba(255, 82, 82, 0.4);
+            color: #fff;
+            transform: rotate(90deg);
+        }
+        .role-user-selector {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .role-user-select {
+            padding: 10px 15px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border-radius: 8px;
+            font-size: 1rem;
+            min-width: 200px;
+        }
+        .role-assign-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dark) 100%);
+            color: #1a0b2e;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+        .role-assign-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+        .user-list-container {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        .user-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        .user-card:hover {
+            transform: translateX(5px);
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+        .user-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        .user-roles {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .role-tag-display {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .role-tag-display.buyer {
+            background: #ff9800;
+            color: #1a0b2e;
+        }
+        .role-tag-display.rich-buyer {
+            background: #e91e63;
+            color: #fff;
+        }
+        .role-tag-display.rich {
+            background: #e91e63;
+            color: #fff;
+        }
+        .role-tag-display.friend {
+            background: #e91e63;
+            color: #fff;
+        }
+        .role-remove-btn {
+            margin-left: 8px;
+            background: rgba(255, 82, 82, 0.8);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .role-remove-btn:hover {
+            background: #ff5252;
+        }
+
         .items-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
@@ -379,21 +617,6 @@
             box-shadow: 0 5px 15px rgba(156, 39, 176, 0.4);
         }
 
-        /* ADD MISSING CSS FOR STAFF PANELS */
-        .support-list, .banned-users, .admin-bulk-orders, .bulk-logs {
-            display: none;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 40px;
-            animation: slideDown 0.5s ease;
-        }
-        .support-list.show, .banned-users.show, .admin-bulk-orders.show, .bulk-logs.show {
-            display: block !important;
-        }
-
         @keyframes slideDown {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -401,7 +624,6 @@
     </style>
 </head>
 <body>
-    <!-- [ORIGINAL HTML STRUCTURE - PRESERVED EXACTLY] -->
     <div class="location-bar">
         <div class="location-text">
             <span class="location-icon">📌</span>
@@ -437,6 +659,32 @@
                     <button class="btn-bulk" onclick="openBulkModal()">📦 My Bulk Order</button>
                     <button class="btn-danger" onclick="logout()">Exit</button>
                 </div>
+            </div>
+        </div>
+
+        <!-- Role Manager Panel (FJ121 only) -->
+        <div id="roleManagerPanel" class="role-manager">
+            <div class="role-manager-header">
+                <h3>👑 Role Manager</h3>
+                <button class="close-role-panel" onclick="toggleRolePanel()">×</button>
+            </div>
+            
+            <div class="role-user-selector">
+                <select class="role-user-select" id="roleUserSelect">
+                    <option value="">Select User...</option>
+                </select>
+                <select class="role-user-select" id="roleTypeSelect">
+                    <option value="">Select Role...</option>
+                    <option value="buyer">[Buyer] - Orange</option>
+                    <option value="rich-buyer">[Rich Buyer] - Pink</option>
+                    <option value="rich">[🤑Really Rich] - Pink</option>
+                    <option value="friend">[Friend] - Pink</option>
+                </select>
+                <button class="role-assign-btn" onclick="assignRole()">Assign Role</button>
+            </div>
+            
+            <div class="user-list-container" id="userListContainer">
+                <!-- Users will appear here -->
             </div>
         </div>
 
@@ -476,6 +724,9 @@
                 </div>
                 <div class="form-group" style="display: flex; align-items: end;">
                     <button class="btn-success" onclick="addItem()" style="width: 100%;">Add to Shop</button>
+                </div>
+                <div class="form-group" style="display: flex; align-items: end;">
+                    <button class="btn-primary" onclick="toggleRolePanel()" style="width: 100%; background: linear-gradient(135deg, #9c27b0, #6a1b9a);">👑 Role Manager</button>
                 </div>
             </div>
         </div>
@@ -529,6 +780,17 @@
             </div>
         </div>
 
+        <!-- Order Logs (FJ121 Only) -->
+        <div id="orderLogs" class="bulk-logs">
+            <div class="logs-header">
+                <span>📋</span>
+                <span>Order Logs</span>
+            </div>
+            <div id="orderLogsContainer">
+                <p style="color: rgba(255,255,255,0.5); text-align: center;">No order logs yet...</p>
+            </div>
+        </div>
+
         <!-- Bulk Order Logs (FJ121 Only) -->
         <div id="bulkLogs" class="bulk-logs">
             <div class="logs-header">
@@ -544,15 +806,99 @@
         <div id="itemsContainer" class="items-grid"></div>
     </div>
 
-    <!-- [ORIGINAL MODAL STRUCTURES - PRESERVED] -->
+    <!-- Global Chat Overlay -->
+    <div id="globalChatOverlay" class="chat-overlay">
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="chat-title">
+                    <span>💬</span>
+                    <span>Global Chat</span>
+                    <span class="chat-type-badge">Public</span>
+                </div>
+                <button class="close-chat" onclick="closeChat()">×</button>
+            </div>
+            <div class="chat-messages" id="globalMessages"></div>
+            <div id="globalMutedBanner" class="muted-banner" style="display: none;">
+                🔇 You are muted and cannot send messages
+            </div>
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" id="globalInput" placeholder="Type your message..." maxlength="500">
+                <button class="btn-send" id="globalSendBtn" onclick="sendGlobalMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Support Chat Overlay -->
+    <div id="supportChatOverlay" class="chat-overlay">
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="chat-title">
+                    <span>🎫</span>
+                    <span id="supportChatTitle">Support Chat</span>
+                    <span class="chat-type-badge support">Private</span>
+                </div>
+                <button class="close-chat" onclick="closeChat()">×</button>
+            </div>
+            <div class="chat-messages" id="supportMessages"></div>
+            <div id="supportMutedBanner" class="muted-banner" style="display: none;">
+                🔇 You are muted and cannot send messages
+            </div>
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" id="supportInput" placeholder="Describe your issue or question..." maxlength="500">
+                <button class="btn-send" id="supportSendBtn" onclick="sendSupportMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced Bulk Order Modal -->
+    <div id="bulkModal" class="chat-overlay">
+        <div class="chat-container" style="max-width: 900px;">
+            <div class="chat-header">
+                <div class="chat-title">
+                    <span>📦</span>
+                    <span>Your Bulk Order</span>
+                </div>
+                <button class="close-chat" onclick="closeBulkModal()">×</button>
+            </div>
+            <div style="padding: 30px; overflow-y: auto; flex: 1;">
+                <div class="how-to-order" style="background: rgba(156, 39, 176, 0.1); border: 1px solid rgba(156, 39, 176, 0.3); border-radius: 16px; padding: 25px; margin-bottom: 30px;">
+                    <h3 style="color: #e1bee7; margin-bottom: 15px;">📋 How to Order</h3>
+                    <ol style="margin-left: 20px; color: rgba(255, 255, 255, 0.8); line-height: 1.8;">
+                        <li>Add items to your bulk order using the "Add to Bulk" buttons in the shop</li>
+                        <li>Choose between <strong>Items</strong>, <strong>Stacks</strong>, or <strong>Shulkers</strong></li>
+                        <li>Enter the quantity you want</li>
+                        <li><strong>1 Shulker = 27 stacks</strong> of the item</li>
+                        <li><strong>1 Stack = 64 items</strong> (or 16 for some items)</li>
+                        <li>Review your order - prices are automatically calculated</li>
+                        <li>Click <strong>"Submit Order"</strong> to send it to the shopkeeper</li>
+                    </ol>
+                </div>
+                <div id="bulkModalContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order View Modal -->
+    <div id="orderViewModal" class="order-view-modal">
+        <div class="order-view-container">
+            <div class="order-view-header">
+                <div class="chat-title">
+                    <span>📋</span>
+                    <span>Order Details</span>
+                </div>
+                <button class="close-chat" onclick="closeOrderView()">×</button>
+            </div>
+            <div class="order-view-content" id="orderViewContent">
+                <!-- Order details will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
     <div id="toast" class="toast"></div>
 
     <script>
-        /* [ORIGINAL JAVASCRIPT - MINIMAL CHANGES ONLY] */
-
-        /* =========================================================
-           DATA & STATE MANAGEMENT
-        ========================================================= */
+        /* DATA & STATE MANAGEMENT */
         let items = JSON.parse(localStorage.getItem('tavernItems')) || [
             { id: 1, name: "Elytra", type: "item", location: "Floor 1", price: "40 d", stock: "in" },
             { id: 2, name: "Heavy Core", type: "item", location: null, price: "18 db", stock: "out" }
@@ -562,20 +908,61 @@
         let userMinecraft = localStorage.getItem('tavernMinecraft') || '';
         let userBulkOrder = JSON.parse(localStorage.getItem('tavernBulkOrder')) || [];
         let submittedOrders = JSON.parse(localStorage.getItem('tavernSubmittedOrders')) || [];
+        let completedOrders = JSON.parse(localStorage.getItem('tavernCompletedOrders')) || [];
         let currentFilter = 'all';
         let globalMessages = JSON.parse(localStorage.getItem('tavernGlobalChat')) || [];
         let supportChats = JSON.parse(localStorage.getItem('tavernSupportChats')) || {};
         let bannedUsers = JSON.parse(localStorage.getItem('tavernBanned')) || [];
         let mutedUsers = JSON.parse(localStorage.getItem('tavernMuted')) || [];
+        let userRoles = JSON.parse(localStorage.getItem('tavernUserRoles')) || {};
+        let allUsers = JSON.parse(localStorage.getItem('tavernAllUsers')) || [];
+        let bulkOrderLogs = JSON.parse(localStorage.getItem('tavernBulkLogs')) || [];
+        let orderLogs = JSON.parse(localStorage.getItem('tavernOrderLogs')) || [];
+        let currentViewingOrder = null;
 
-        /* [ORIGINAL FUNCTIONS - MINIMAL CHANGES] */
+        /* INITIALIZATION */
+        window.onload = () => {
+            createParticles();
+            setupEventListeners();
+            if (currentUser) restoreLogin();
+            renderItems();
+            startRealTimeUpdates();
+            updateRoleSelector();
+        };
 
+        function setupEventListeners() {
+            const loginBtn = document.getElementById('enterShopBtn');
+            loginBtn.addEventListener('click', login);
+            
+            ['usernameInput', 'discordInput', 'minecraftInput'].forEach(id => {
+                const input = document.getElementById(id);
+                input.addEventListener('keypress', e => {
+                    if (e.key === 'Enter') login();
+                });
+            });
+
+            const loginForm = document.getElementById('loginForm');
+            loginForm.addEventListener('submit', e => e.preventDefault());
+        }
+
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDelay = Math.random() * 20 + 's';
+                p.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(p);
+            }
+        }
+
+        /* LOGIN / LOGOUT / ROLE MANAGEMENT */
         function restoreLogin() {
             document.getElementById('currentUser').textContent = currentUser;
             document.getElementById('loginForm').style.display = 'none';
             document.getElementById('userInfo').classList.add('show');
             
-            // FIXED: Proper panel display logic
             if (currentUser === 'FJ121') {
                 showStaffUI();
             } else if (currentUser === 'mod121') {
@@ -606,11 +993,15 @@
             localStorage.setItem('tavernDiscord', userDiscord);
             localStorage.setItem('tavernMinecraft', userMinecraft);
             
+            if (!allUsers.includes(currentUser)) {
+                allUsers.push(currentUser);
+                localStorage.setItem('tavernAllUsers', JSON.stringify(allUsers));
+            }
+            
             document.getElementById('currentUser').textContent = username;
             document.getElementById('loginForm').style.display = 'none';
             document.getElementById('userInfo').classList.add('show');
             
-            // FIXED: Proper panel display logic
             if (username === 'FJ121') {
                 showToast('Welcome, Shopkeeper!', 'success');
                 showStaffUI();
@@ -622,6 +1013,7 @@
             }
             
             renderItems();
+            updateRoleSelector();
         }
 
         function logout() {
@@ -641,8 +1033,7 @@
             document.getElementById('loginForm').style.display = 'grid';
             document.getElementById('userInfo').classList.remove('show');
             
-            // FIXED: Hide all staff panels on logout
-            document.querySelectorAll('#adminControls, #modControls, #supportList, #bannedUsers, #adminBulkOrders, #bulkLogs').forEach(el => {
+            document.querySelectorAll('#adminControls, #modControls, #supportList, #bannedUsers, #adminBulkOrders, #bulkLogs, #roleManagerPanel, #orderLogs').forEach(el => {
                 el.classList.remove('show');
             });
             
@@ -650,32 +1041,191 @@
             showToast('You have exited your account', 'success');
         }
 
-        // FIXED: Panel display functions
         function showStaffUI() {
-            // Show admin controls
             document.getElementById('adminControls').classList.add('show');
             document.getElementById('supportList').classList.add('show');
             document.getElementById('bannedUsers').classList.add('show');
             document.getElementById('adminBulkOrders').classList.add('show');
             document.getElementById('bulkLogs').classList.add('show');
-            
-            // Hide mod controls
+            document.getElementById('orderLogs').classList.add('show');
             document.getElementById('modControls').classList.remove('show');
+            
+            updateRoleSelector();
+            renderSupportList();
+            renderBannedList();
+            renderAdminOrders();
+            renderBulkLogs();
+            renderOrderLogs();
         }
 
         function showModUI() {
-            // Show mod controls
             document.getElementById('modControls').classList.add('show');
             document.getElementById('supportList').classList.add('show');
             document.getElementById('bannedUsers').classList.add('show');
             document.getElementById('adminBulkOrders').classList.add('show');
-            
-            // Hide admin controls and bulk logs
             document.getElementById('adminControls').classList.remove('show');
             document.getElementById('bulkLogs').classList.remove('show');
+            document.getElementById('orderLogs').classList.remove('show');
+            document.getElementById('roleManagerPanel').classList.remove('show');
+            
+            renderSupportList();
+            renderBannedList();
+            renderAdminOrders();
         }
 
-        /* [REST OF ORIGINAL JAVASCRIPT - UNCHANGED] */
+        /* ROLE MANAGEMENT */
+        function updateRoleSelector() {
+            if (currentUser !== 'FJ121') return;
+            
+            const select = document.getElementById('roleUserSelect');
+            select.innerHTML = '<option value="">Select User...</option>';
+            
+            allUsers.forEach(user => {
+                if (user !== 'FJ121' && user !== 'mod121') {
+                    const option = document.createElement('option');
+                    option.value = user;
+                    option.textContent = user;
+                    select.appendChild(option);
+                }
+            });
+        }
+
+        function toggleRolePanel() {
+            const panel = document.getElementById('roleManagerPanel');
+            if (panel.classList.contains('show')) {
+                panel.classList.remove('show');
+            } else {
+                panel.classList.add('show');
+                renderUserList();
+            }
+        }
+
+        function renderUserList() {
+            const container = document.getElementById('userListContainer');
+            let filteredUsers = allUsers.filter(user => 
+                user !== 'FJ121' && user !== 'mod121'
+            );
+
+            if (filteredUsers.length === 0) {
+                container.innerHTML = '<p style="text-align:center;color:rgba(255,255,255,0.5);padding:20px;">No users found</p>';
+                return;
+            }
+            
+            container.innerHTML = filteredUsers.map(user => {
+                const roles = userRoles[user] || [];
+                let roleTags = '';
+                
+                if (roles.length > 0) {
+                    roleTags = roles.map(role => {
+                        const roleData = {
+                            buyer: { tag: '[Buyer]', class: 'buyer' },
+                            'rich-buyer': { tag: '[Rich Buyer]', class: 'rich-buyer' },
+                            rich: { tag: '[🤑Really Rich]', class: 'rich' },
+                            friend: { tag: '[Friend]', class: 'friend' }
+                        }[role];
+                        
+                        return `<span class="role-tag-display ${roleData.class}">${roleData.tag}</span>`;
+                    }).join('');
+                }
+                
+                return `
+                    <div class="user-card" data-username="${user}">
+                        <div>
+                            <div class="user-name">${user}</div>
+                            <div class="user-roles">${roleTags}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <button class="role-remove-btn" onclick="removeAllRoles('${user}')" title="Remove all roles" style="margin-left: 0;">×</button>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function assignRole() {
+            const userSelect = document.getElementById('roleUserSelect');
+            const roleSelect = document.getElementById('roleTypeSelect');
+            
+            const username = userSelect.value;
+            const role = roleSelect.value;
+            
+            if (!username || !role) {
+                showToast('Please select both user and role', 'error');
+                return;
+            }
+            
+            if (!userRoles[username]) userRoles[username] = [];
+            
+            if (userRoles[username].includes(role)) {
+                showToast('User already has this role', 'error');
+                return;
+            }
+            
+            userRoles[username].push(role);
+            localStorage.setItem('tavernUserRoles', JSON.stringify(userRoles));
+            
+            renderUserList();
+            renderItems();
+            showToast(`Assigned ${role} role to ${username}`, 'success');
+            
+            userSelect.value = '';
+            roleSelect.value = '';
+        }
+
+        function removeAllRoles(username) {
+            if (currentUser !== 'FJ121') return;
+            
+            if (userRoles[username]) {
+                delete userRoles[username];
+                localStorage.setItem('tavernUserRoles', JSON.stringify(userRoles));
+                renderUserList();
+                renderItems();
+                showToast(`Removed all roles from ${username}`, 'success');
+            }
+        }
+
+        /* ITEMS MANAGEMENT */
+        function addItem() {
+            if (currentUser !== 'FJ121') return;
+            const name = document.getElementById('itemName').value.trim();
+            const price = document.getElementById('itemPrice').value.trim();
+            const type = document.getElementById('itemType').value;
+            const stock = document.getElementById('itemStock').value;
+            
+            if (!name || !price) return showToast('Name and price required', 'error');
+
+            const newItem = {
+                id: Date.now(),
+                name, type,
+                location: null,
+                price, stock
+            };
+
+            items.push(newItem);
+            localStorage.setItem('tavernItems', JSON.stringify(items));
+            document.getElementById('itemName').value = '';
+            document.getElementById('itemPrice').value = '';
+            renderItems();
+            showToast('Item added to shop', 'success');
+        }
+
+        function deleteItem(id) {
+            if (currentUser !== 'FJ121') return;
+            if (!confirm('Delete this item from the shop?')) return;
+            items = items.filter(i => i.id !== id);
+            localStorage.setItem('tavernItems', JSON.stringify(items));
+            renderItems();
+            showToast('Item removed from shop', 'success');
+        }
+
+        function updateItemStock(id, newStock) {
+            if (currentUser !== 'FJ121') return;
+            const item = items.find(i => i.id === id);
+            if (!item) return;
+            item.stock = newStock;
+            localStorage.setItem('tavernItems', JSON.stringify(items));
+            renderItems();
+            showToast(`Stock updated to ${newStock}`, 'success');
+        }
 
         function renderItems() {
             const container = document.getElementById('itemsContainer');
@@ -699,9 +1249,25 @@
             const isStaff = currentUser === 'FJ121';
             const isCustomer = currentUser && currentUser !== 'FJ121' && currentUser !== 'mod121';
 
+            // Get user roles for display
+            const userRolesDisplay = getUserRolesDisplay(currentUser);
+
+            // Stock editor for staff
+            let stockHtml = '';
+            if (isStaff) {
+                stockHtml = `
+                    <div class="stock-editor">
+                        <select class="stock-select ${item.stock}" onchange="updateItemStock(${item.id}, this.value)">
+                            <option value="in" ${item.stock === 'in' ? 'selected' : ''}>In Stock</option>
+                            <option value="out" ${item.stock === 'out' ? 'selected' : ''}>Out of Stock</option>
+                            <option value="limited" ${item.stock === 'limited' ? 'selected' : ''}>Limited</option>
+                        </select>
+                    </div>`;
+            }
+
             div.innerHTML = `
                 <div class="item-info">
-                    <div class="item-name">${item.name}</div>
+                    <div class="item-name">${item.name} ${userRolesDisplay}</div>
                     <div class="tags">
                         <span class="tag tag-item">${item.type}</span>
                         ${item.stock === 'limited' ? '<span class="tag tag-rarity">Limited</span>' : ''}
@@ -712,13 +1278,519 @@
                     <div class="stock-status ${item.stock === 'in' ? 'in-stock' : item.stock === 'limited' ? 'limited' : 'out-of-stock'}">
                         ${item.stock === 'in' ? '✓ In Stock' : item.stock === 'limited' ? '⚠ Limited Stock' : '✗ Out of Stock'}
                     </div>
+                    ${stockHtml}
                     ${isCustomer ? `
-                        <button class="add-to-bulk" onclick="openBulkModal()">📦 Add to Bulk Order</button>
+                        <button class="add-to-bulk" onclick="openEnhancedBulkModal(${item.id})">📦 Add to Bulk Order</button>
                     ` : ''}
                 </div>
                 ${isStaff ? `<button class="delete-btn" onclick="deleteItem(${item.id})">×</button>` : ''}
             `;
             return div;
+        }
+
+        function getUserRolesDisplay(username) {
+            if (!username || !userRoles[username]) return '';
+            
+            const roles = userRoles[username];
+            if (roles.length === 0) return '';
+            
+            return roles.map(role => {
+                const roleData = {
+                    buyer: { tag: '[Buyer]', class: 'buyer' },
+                    'rich-buyer': { tag: '[Rich Buyer]', class: 'rich-buyer' },
+                    rich: { tag: '[🤑Really Rich]', class: 'rich' },
+                    friend: { tag: '[Friend]', class: 'friend' }
+                }[role];
+                
+                return `<span class="role-display ${roleData.class}">${roleData.tag}</span>`;
+            }).join('');
+        }
+
+        /* BULK ORDER SYSTEM */
+        function openEnhancedBulkModal(itemId) {
+            if (!currentUser || currentUser === 'FJ121' || currentUser === 'mod121') return;
+            
+            const item = items.find(i => i.id === itemId);
+            if (!item) return;
+
+            const modal = document.createElement('div');
+            modal.className = 'chat-overlay show';
+            modal.style.display = 'flex';
+            modal.innerHTML = `
+                <div class="chat-container" style="max-width: 500px;">
+                    <div class="chat-header">
+                        <div class="chat-title">
+                            <span>📦</span>
+                            <span>Add ${item.name} to Order</span>
+                        </div>
+                        <button class="close-chat" onclick="this.closest('.chat-overlay').remove()">×</button>
+                    </div>
+                    <div style="padding: 30px;">
+                        <div style="margin-bottom: 20px; text-align: center;">
+                            <h3 style="color: var(--gold-primary); margin-bottom: 10px;">${item.name}</h3>
+                            <div style="color: rgba(255,255,255,0.7); font-size: 1.1rem;">${item.price} per item</div>
+                        </div>
+                        
+                        <div class="bulk-quantity-selector">
+                            <select class="bulk-type-select" id="bulkType">
+                                <option value="items">Items</option>
+                                <option value="stacks">Stacks (64 items)</option>
+                                <option value="shulkers">Shulkers (27 stacks)</option>
+                            </select>
+                            <input type="number" class="bulk-quantity-input" id="bulkQuantity" value="1" min="1" max="64">
+                        </div>
+                        
+                        <div style="margin: 20px 0; padding: 15px; background: rgba(156,39,176,0.1); border-radius: 12px; text-align: center;">
+                            <div style="color: #e1bee7; font-size: 1.1rem;">
+                                Total: <span id="bulkTotal">1</span> items
+                            </div>
+                        </div>
+                        
+                        <button class="btn-confirm-order" onclick="addToEnhancedBulk(${item.id})">Add to Order</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+            // Real-time calculation
+            const typeSelect = modal.querySelector('#bulkType');
+            const quantityInput = modal.querySelector('#bulkQuantity');
+            const totalDisplay = modal.querySelector('#bulkTotal');
+
+            function calculateTotal() {
+                const type = typeSelect.value;
+                const quantity = parseInt(quantityInput.value) || 0;
+                let total = quantity;
+                
+                switch(type) {
+                    case 'stacks': total = quantity * 64; break;
+                    case 'shulkers': total = quantity * 27 * 64; break;
+                }
+                
+                totalDisplay.textContent = total.toLocaleString();
+            }
+
+            typeSelect.addEventListener('change', calculateTotal);
+            quantityInput.addEventListener('input', calculateTotal);
+            calculateTotal();
+        }
+
+        function addToEnhancedBulk(itemId) {
+            const modal = document.querySelector('.chat-overlay[style*="flex"]');
+            const type = modal.querySelector('#bulkType').value;
+            const quantity = parseInt(modal.querySelector('#bulkQuantity').value) || 0;
+            
+            if (quantity < 1) return showToast('Please enter a valid quantity', 'error');
+            
+            const item = items.find(i => i.id === itemId);
+            if (!item) return;
+
+            // Remove existing entry if present
+            userBulkOrder = userBulkOrder.filter(b => b.id !== itemId);
+            
+            userBulkOrder.push({
+                id: itemId,
+                name: item.name,
+                price: item.price,
+                type: type,
+                quantity: quantity
+            });
+            
+            localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
+            modal.remove();
+            showToast('Added to bulk order!', 'success');
+        }
+
+        function openBulkModal() {
+            if (!currentUser) return showToast('Log in first', 'error');
+            if (currentUser === 'FJ121' || currentUser === 'mod121') return showToast('Staff cannot order', 'error');
+            document.getElementById('bulkModal').classList.add('show');
+            renderEnhancedBulkModal();
+        }
+
+        function closeBulkModal() {
+            document.getElementById('bulkModal').classList.remove('show');
+        }
+
+        function renderEnhancedBulkModal() {
+            const cont = document.getElementById('bulkModalContent');
+            if (!userBulkOrder.length) {
+                cont.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px; color: rgba(255,255,255,0.5);">
+                        <div style="font-size: 4rem; margin-bottom: 20px;">📭</div>
+                        <p>Your bulk order is empty</p>
+                        <p style="font-size: 0.9rem; margin-top: 10px;">Add items from the shop to get started!</p>
+                    </div>`;
+                return;
+            }
+            
+            let total = 0, html = '';
+            userBulkOrder.forEach(b => {
+                const shop = items.find(i => i.id === b.id);
+                if (!shop) return;
+                const priceNum = parseFloat(shop.price.replace(/[^0-9.]/g, '')) || 0;
+                let multiplier = 1;
+                let unit = 'items';
+                
+                switch(b.type) {
+                    case 'stacks': multiplier = 64; unit = 'stacks'; break;
+                    case 'shulkers': multiplier = 27 * 64; unit = 'shulkers'; break;
+                }
+                
+                const sub = priceNum * multiplier * b.quantity;
+                total += sub;
+                
+                html += `
+                    <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(156,39,176,0.3); border-radius: 12px; padding: 20px; margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <h4 style="color: #fff; margin: 0;">${b.name}</h4>
+                            <span style="color: #e1bee7; font-size: 0.9rem;">${b.quantity} ${unit}</span>
+                        </div>
+                        <div style="color: rgba(255,255,255,0.7); margin-bottom: 15px;">
+                            ${shop.price} per item × ${multiplier} × ${b.quantity} ${unit} = ${sub} d
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: var(--gold-primary);">≈ ${(multiplier * b.quantity).toLocaleString()} items total</span>
+                            <button class="btn-remove" onclick="removeFromBulk(${b.id})" style="padding: 6px 12px; background: rgba(255,82,82,0.2); color: #ff5252; border: 1px solid #ff5252; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">Remove</button>
+                        </div>
+                    </div>`;
+            });
+            
+            html += `
+                <div style="background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,215,0,0.05)); border: 2px solid var(--gold-primary); border-radius: 16px; padding: 25px; text-align: center; margin-top: 25px;">
+                    <h3 style="color: var(--gold-primary); margin-bottom: 10px;">Total Order Value</h3>
+                    <div style="font-size: 2.5rem; font-weight: 700; color: #fff;">${total} d</div>
+                </div>
+                <button class="btn-confirm-order" onclick="submitEnhancedBulkOrder()" style="width: 100%; margin-top: 20px; padding: 15px; background: linear-gradient(135deg, var(--accent-green) 0%, #2e7d32 100%); color: #1a0b2e; border: none; border-radius: 12px; cursor: pointer; font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Submit Order</button>`;
+            
+            cont.innerHTML = html;
+        }
+
+        function removeFromBulk(id) {
+            userBulkOrder = userBulkOrder.filter(b => b.id !== id);
+            localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
+            renderEnhancedBulkModal();
+        }
+
+        function submitEnhancedBulkOrder() {
+            if (!userBulkOrder.length) return showToast('Empty order', 'error');
+            
+            const order = {
+                user: currentUser,
+                discord: userDiscord,
+                minecraft: userMinecraft,
+                items: [...userBulkOrder],
+                timestamp: new Date().toISOString(),
+                id: Date.now(),
+                completed: false
+            };
+            
+            submittedOrders.push(order);
+            localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
+            userBulkOrder = [];
+            localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
+            
+            renderEnhancedBulkModal();
+            showToast('Order submitted! Check Discord.', 'success');
+            setTimeout(closeBulkModal, 1500);
+        }
+
+        function viewOrderDetails(orderId) {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            
+            const order = submittedOrders.find(o => o.id === orderId);
+            if (!order) return;
+            
+            currentViewingOrder = order;
+            renderOrderView(order);
+            document.getElementById('orderViewModal').classList.add('show');
+        }
+
+        function closeOrderView() {
+            document.getElementById('orderViewModal').classList.remove('show');
+            currentViewingOrder = null;
+        }
+
+        function renderOrderView(order) {
+            const content = document.getElementById('orderViewContent');
+            
+            let itemsHtml = '';
+            let total = 0;
+            
+            order.items.forEach(item => {
+                const shop = items.find(i => i.id === item.id);
+                if (!shop) return;
+                
+                const priceNum = parseFloat(shop.price.replace(/[^0-9.]/g, '')) || 0;
+                let multiplier = 1;
+                let unit = 'items';
+                
+                switch(item.type) {
+                    case 'stacks': multiplier = 64; unit = 'stacks'; break;
+                    case 'shulkers': multiplier = 27 * 64; unit = 'shulkers'; break;
+                }
+                
+                const subtotal = priceNum * multiplier * item.quantity;
+                total += subtotal;
+                
+                itemsHtml += `
+                    <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(156,39,176,0.3); border-radius: 12px; padding: 20px; margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <h4 style="color: #fff; margin: 0;">${item.name}</h4>
+                            <span style="color: #e1bee7; font-size: 0.9rem;">${item.quantity} ${unit}</span>
+                        </div>
+                        <div style="color: rgba(255,255,255,0.7); margin-bottom: 15px;">
+                            ${shop.price} per item × ${multiplier} × ${item.quantity} ${unit} = ${subtotal} d
+                        </div>
+                        <div style="color: var(--gold-primary);">
+                            ≈ ${(multiplier * item.quantity).toLocaleString()} items total
+                        </div>
+                    </div>`;
+            });
+            
+            content.innerHTML = `
+                <div style="margin-bottom: 30px;">
+                    <h3 style="color: var(--gold-primary); margin-bottom: 15px;">Customer Information</h3>
+                    <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 12px;">
+                        <div style="margin-bottom: 10px;"><strong>Username:</strong> ${order.user}</div>
+                        <div style="margin-bottom: 10px;"><strong>Discord:</strong> ${order.discord}</div>
+                        <div style="margin-bottom: 10px;"><strong>Minecraft:</strong> ${order.minecraft}</div>
+                        <div><strong>Order Date:</strong> ${new Date(order.timestamp).toLocaleString()}</div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 30px;">
+                    <h3 style="color: var(--gold-primary); margin-bottom: 15px;">Order Items</h3>
+                    ${itemsHtml}
+                </div>
+                
+                <div style="background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,215,0,0.05)); border: 2px solid var(--gold-primary); border-radius: 16px; padding: 25px; text-align: center;">
+                    <h3>Total Order Value</h3>
+                    <div style="font-size: 2.5rem; font-weight: 700; color: #fff;">${total} d</div>
+                </div>
+                
+                ${!order.completed ? `
+                    <button class="btn-confirm-order" onclick="confirmOrder(${order.id})">✓ Confirm Order</button>
+                ` : `
+                    <div style="text-align: center; padding: 20px; background: rgba(76, 175, 80, 0.1); border: 2px solid #4caf50; border-radius: 12px; color: #4caf50; font-weight: 700;">
+                        ✓ Order Confirmed
+                    </div>
+                `}
+            `;
+        }
+
+        function confirmOrder(orderId) {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            
+            const orderIndex = submittedOrders.findIndex(o => o.id === orderId);
+            if (orderIndex === -1) return;
+            
+            const order = submittedOrders[orderIndex];
+            order.completed = true;
+            order.completedAt = new Date().toISOString();
+            order.completedBy = currentUser;
+            
+            // Add to order logs
+            const logEntry = {
+                ...order,
+                action: 'confirmed',
+                timestamp: order.completedAt,
+                performedBy: currentUser
+            };
+            orderLogs.push(logEntry);
+            localStorage.setItem('tavernOrderLogs', JSON.stringify(orderLogs));
+            
+            // Add to bulk logs
+            bulkOrderLogs.push({
+                ...order,
+                confirmedAt: order.completedAt,
+                confirmedBy: currentUser
+            });
+            localStorage.setItem('tavernBulkLogs', JSON.stringify(bulkOrderLogs));
+            
+            localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
+            
+            // Remove from active orders
+            submittedOrders.splice(orderIndex, 1);
+            localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
+            
+            renderAdminOrders();
+            renderBulkLogs();
+            renderOrderLogs();
+            closeOrderView();
+            showToast('Order confirmed and logged!', 'success');
+        }
+
+        function renderOrderLogs() {
+            if (currentUser !== 'FJ121') return;
+            
+            const container = document.getElementById('orderLogsContainer');
+            if (!orderLogs.length) {
+                container.innerHTML = '<p style="color:rgba(255,255,255,0.5);text-align:center">No order logs yet...</p>';
+                return;
+            }
+            
+            container.innerHTML = orderLogs.slice().reverse().map(log => {
+                let itemsHtml = log.items.map(item => {
+                    let unit = 'items';
+                    let multiplier = 1;
+                    
+                    switch(item.type) {
+                        case 'stacks': unit = 'stacks'; multiplier = 64; break;
+                        case 'shulkers': unit = 'shulkers'; multiplier = 27 * 64; break;
+                    }
+                    
+                    const totalItems = multiplier * item.quantity;
+                    return `<div>• ${item.name}: ${item.quantity} ${unit} (${totalItems.toLocaleString()} items)</div>`;
+                }).join('');
+                
+                const actionColor = log.action === 'confirmed' ? '#4caf50' : '#ff5252';
+                const actionIcon = log.action === 'confirmed' ? '✓' : '✗';
+                
+                return `
+                    <div class="log-entry" style="border-left: 4px solid ${actionColor};">
+                        <div class="log-customer">${log.user} ${actionIcon} ${log.action}</div>
+                        <div class="log-details">
+                            <div><strong>Discord:</strong> ${log.discord}</div>
+                            <div><strong>Items:</strong></div>
+                            ${itemsHtml}
+                            <div><strong>Performed by:</strong> ${log.performedBy} at ${new Date(log.timestamp).toLocaleString()}</div>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function renderBulkLogs() {
+            if (currentUser !== 'FJ121') return;
+            
+            const container = document.getElementById('logsContainer');
+            if (!bulkOrderLogs.length) {
+                container.innerHTML = '<p style="color:rgba(255,255,255,0.5);text-align```html
+                container.innerHTML = '<p style="color:rgba(255,255,255,0.5);text-align:center">No completed orders yet...</p>';
+                return;
+            }
+            
+            container.innerHTML = bulkOrderLogs.slice().reverse().map(log => {
+                let itemsHtml = log.items.map(item => {
+                    let unit = 'items';
+                    let multiplier = 1;
+                    
+                    switch(item.type) {
+                        case 'stacks': unit = 'stacks'; multiplier = 64; break;
+                        case 'shulkers': unit = 'shulkers'; multiplier = 27 * 64; break;
+                    }
+                    
+                    const totalItems = multiplier * item.quantity;
+                    return `<div>• ${item.name}: ${item.quantity} ${unit} (${totalItems.toLocaleString()} items)</div>`;
+                }).join('');
+                
+                return `
+                    <div class="log-entry">
+                        <div class="log-customer">${log.user}</div>
+                        <div class="log-details">
+                            <div><strong>Discord:</strong> ${log.discord}</div>
+                            <div><strong>Items:</strong></div>
+                            ${itemsHtml}
+                            <div><strong>Confirmed by:</strong> ${log.confirmedBy} at ${new Date(log.confirmedAt).toLocaleString()}</div>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function clearAllOrders() {
+            if (!confirm('Clear ALL submitted orders?')) return;
+            
+            // Log the action
+            const logEntry = {
+                action: 'cleared',
+                timestamp: new Date().toISOString(),
+                performedBy: currentUser,
+                orderCount: submittedOrders.length
+            };
+            orderLogs.push(logEntry);
+            localStorage.setItem('tavernOrderLogs', JSON.stringify(orderLogs));
+            
+            submittedOrders = []; 
+            localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
+            renderAdminOrders();
+            renderOrderLogs();
+            showToast('All orders cleared', 'success');
+        }
+
+        /* CHAT SYSTEM */
+        function openGlobalChat() {
+            if (!currentUser) return showToast('Log in first', 'error');
+            if (bannedUsers.includes(currentUser.toLowerCase())) return showToast('Banned from chat', 'error');
+            currentChat = 'global'; currentSupportUser = null;
+            document.getElementById('globalChatOverlay').classList.add('show');
+            renderGlobalMessages();
+            scrollToBottom('globalMessages');
+            const muted = mutedUsers.includes(currentUser.toLowerCase());
+            document.getElementById('globalInput').disabled = muted;
+            document.getElementById('globalSendBtn').disabled = muted;
+            document.getElementById('globalMutedBanner').style.display = muted ? 'block' : 'none';
+        }
+
+        function openSupportChat() {
+            if (!currentUser) return showToast('Log in first', 'error');
+            if (bannedUsers.includes(currentUser.toLowerCase())) return showToast('Banned from chat', 'error');
+            currentChat = 'support'; currentSupportUser = currentUser;
+            document.getElementById('supportChatOverlay').classList.add('show');
+            document.getElementById('supportChatTitle').textContent = `Support - ${currentUser}`;
+            if (!supportChats[currentUser]) supportChats[currentUser] = [];
+            renderSupportMessages();
+            scrollToBottom('supportMessages');
+            const muted = mutedUsers.includes(currentUser.toLowerCase());
+            document.getElementById('supportInput').disabled = muted;
+            document.getElementById('supportSendBtn').disabled = muted;
+            document.getElementById('supportMutedBanner').style.display = muted ? 'block' : 'none';
+        }
+
+        function closeChat() {
+            document.getElementById('globalChatOverlay').classList.remove('show');
+            document.getElementById('supportChatOverlay').classList.remove('show');
+            currentChat = null; currentSupportUser = null;
+        }
+
+        function sendGlobalMessage() {
+            const input = document.getElementById('globalInput');
+            const content = input.value.trim();
+            if (!content || !currentUser || mutedUsers.includes(currentUser.toLowerCase())) return;
+            const msg = { 
+                id: Date.now(), 
+                author: currentUser, 
+                content, 
+                timestamp: new Date().toISOString(), 
+                deleted: false, 
+                isOwner: currentUser === 'FJ121',
+                isMod: currentUser === 'mod121'
+            };
+            globalMessages.push(msg);
+            localStorage.setItem('tavernGlobalChat', JSON.stringify(globalMessages));
+            input.value = '';
+            renderGlobalMessages();
+            scrollToBottom('globalMessages');
+        }
+
+        function sendSupportMessage() {
+            const input = document.getElementById('supportInput');
+            const content = input.value.trim();
+            if (!content || !currentUser || !currentSupportUser || mutedUsers.includes(currentUser.toLowerCase())) return;
+            const msg = { 
+                id: Date.now(), 
+                author: currentUser, 
+                content, 
+                timestamp: new Date().toISOString(), 
+                deleted: false, 
+                isOwner: currentUser === 'FJ121',
+                isMod: currentUser === 'mod121'
+            };
+            if (!supportChats[currentSupportUser]) supportChats[currentSupportUser] = [];
+            supportChats[currentSupportUser].push(msg);
+            localStorage.setItem('tavernSupportChats', JSON.stringify(supportChats));
+            input.value = '';
+            renderSupportMessages();
+            scrollToBottom('supportMessages');
         }
 
         function showToast(msg, type = 'success') {
@@ -728,14 +1800,21 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        /* [ORIGINAL BULK ORDER, CHAT, AND OTHER FUNCTIONS - UNCHANGED] */
+        function scrollToBottom(id) {
+            const el = document.getElementById(id);
+            el.scrollTop = el.scrollHeight;
+        }
 
-        // Initialize
-        window.onload = () => {
-            createParticles();
-            if (currentUser) restoreLogin();
-            renderItems();
-        };
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .main-title { font-size: 2.5rem; letter-spacing: 4px; }
+            .shop-owners { font-size: 0.9rem; }
+            .items-grid { grid-template-columns: 1fr; }
+            .login-form { grid-template-columns: 1fr; }
+            .user-info { flex-direction: column; text-align: center; }
+            .role-user-selector { flex-direction: column; align-items: stretch; }
+            .add-item-form { grid-template-columns: 1fr; }
+        }
     </script>
 </body>
 </html>
