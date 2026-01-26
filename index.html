@@ -1,458 +1,717 @@
-<!-- Add this inside the admin-controls div, after the "Add to Shop" button -->
-<div class="form-group" style="display: flex; align-items: end;">
-    <button class="btn-primary" onclick="toggleRolePanel()" style="width: 100%; background: linear-gradient(135deg, #9c27b0, #6a1b9a);">👥 Role Manager</button>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Tavern - Premium Minecraft Emporium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold-primary: #ffd700;
+            --gold-light: #ffed4e;
+            --gold-dark: #b8860b;
+            --purple-deep: #1a0b2e;
+            --purple-mid: #2d1b4e;
+            --purple-light: #4a3b6e;
+            --accent-blue: #4fc3f7;
+            --accent-red: #ff5252;
+            --accent-green: #69f0ae;
+            --chat-bg: rgba(20, 20, 30, 0.95);
+            --mod-blue: #2196f3;
+            --mod-blue-light: #64b5f6;
+        }
 
-<!-- Add this new section after the admin-controls div -->
-<div id="roleManagerPanel" class="role-manager" style="display: none;">
-    <div class="role-manager-header">
-        <h3>👥 User Role Manager</h3>
-        <button class="close-role-panel" onclick="toggleRolePanel()">×</button>
-    </div>
-    
-    <div class="role-search-section">
-        <input type="text" id="userSearchInput" placeholder="Search users..." onkeyup="searchUsers()">
-        <div class="role-filter-buttons">
-            <button class="role-filter-btn active" onclick="filterRole('all')">All Users</button>
-            <button class="role-filter-btn" onclick="filterRole('buyer')">Buyers</button>
-            <button class="role-filter-btn" onclick="filterRole('massive')">Massive Buyers</button>
-            <button class="role-filter-btn" onclick="filterRole('rich')">Really Rich</button>
-            <button class="role-filter-btn" onclick="filterRole('friend')">Friends</button>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(ellipse at top, var(--purple-mid) 0%, transparent 50%),
+                        radial-gradient(ellipse at bottom, var(--purple-deep) 0%, #0a0a0f 100%),
+                        linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* ROLE DISPLAY SYSTEM */
+        .role-display {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 5px;
+        }
+        .role-display.buyer { background: #ff9800; color: #1a0b2e; }
+        .role-display.rich-buyer { background: #e91e63; color: #fff; }
+        .role-display.rich { background: #e91e63; color: #fff; }
+        .role-display.friend { background: #e91e63; color: #fff; }
+
+        /* PARTICLES */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--gold-primary);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 20s infinite linear;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+        }
+
+        /* LAYOUT */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* HEADER */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 40px 20px 20px;
+        }
+        .main-title {
+            font-family: 'Cinzel', serif;
+            font-size: 5rem;
+            font-weight: 800;
+            background: linear-gradient(180deg, #fff 0%, var(--gold-primary) 50%, var(--gold-dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            letter-spacing: 8px;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+        @keyframes titleGlow {
+            from { filter: drop-shadow(0 0 20px rgba(255,215,0,0.4)); }
+            to { filter: drop-shadow(0 0 40px rgba(255,215,0,0.8)); }
+        }
+        .shop-owners {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 15px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, var(--gold-primary), #fff, var(--gold-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shine 3s linear infinite;
+        }
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        /* LOCATION BAR */
+        .location-bar {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--gold-primary);
+            padding: 12px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+        .location-text {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-primary);
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* LOGIN SECTION - FIXED */
+        .login-section {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .login-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .login-form input {
+            padding: 15px 20px;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            background: rgba(0, 0, 0, 0.4);
+            color: #fff;
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+        .login-form input:focus {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+        }
+        .user-info {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+        }
+        .user-info.show {
+            display: block;
+        }
+        .welcome-text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+        .username {
+            color: var(--gold-primary);
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+        .user-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* BUTTONS */
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dark) 100%);
+            color: #1a0b2e;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+        }
+        .btn-chat {
+            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+        }
+        .btn-chat:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.5);
+        }
+        .btn-bulk {
+            background: linear-gradient(135deg, #9c27b0 0%, #6a1b9a 100%);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(156, 39, 176, 0.3);
+        }
+        .btn-bulk:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(156, 39, 176, 0.5);
+        }
+        .btn-support {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+        }
+        .btn-support:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 152, 0, 0.5);
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #ff5252 0%, #b33939 100%);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(255, 82, 82, 0.3);
+        }
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 82, 82, 0.5);
+        }
+
+        /* PANELS */
+        .admin-controls, .mod-controls, .role-manager, .support-list, .banned-users, .admin-bulk-orders, .bulk-logs, .order-logs {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            animation: slideDown 0.5s ease;
+        }
+        .admin-controls.show, .mod-controls.show, .role-manager.show, .support-list.show, .banned-users.show, .admin-bulk-orders.show, .bulk-logs.show, .order-logs.show {
+            display: block !important;
+        }
+
+        /* ITEMS GRID */
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        .item-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .item-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 215, 0, 0.1);
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+        .item-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+        .price {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(180deg, var(--gold-light) 0%, var(--gold-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .add-to-bulk {
+            margin-top: 12px;
+            padding: 10px 20px;
+            background: rgba(156, 39, 176, 0.2);
+            border: 2px solid #9c27b0;
+            color: #fff;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .add-to-bulk:hover {
+            background: #9c27b0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(156, 39, 176, 0.4);
+        }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            padding: 16px 32px;
+            border-radius: 50px;
+            border: 1px solid var(--gold-primary);
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.4s;
+            z-index: 9999;
+            backdrop-filter: blur(10px);
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .toast.success {
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+        .toast.error {
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+        }
+    </style>
+</head>
+<body>
+    <!-- Location Bar -->
+    <div class="location-bar">
+        <div class="location-text">
+            <span class="location-icon">📌</span>
+            <span>Shop is at <strong>281 50 24</strong></span>
         </div>
     </div>
+
+    <div class="particles" id="particles"></div>
     
-    <div id="userListContainer" class="user-list-container">
-        <!-- Users will be populated here -->
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1 class="main-title">THE TAVERN</h1>
+            <div class="shop-owners">FJcoolcat & PizzaboiTM Shop</div>
+            <p style="color: rgba(255,255,255,0.5); margin-top: 10px; letter-spacing: 4px; text-transform: uppercase;">Premium Minecraft Emporium</p>
+        </header>
+
+        <!-- LOGIN SECTION - FIXED WITH WORKING BUTTON -->
+        <div class="login-section" id="loginSection">
+            <div id="loginForm" class="login-form">
+                <input type="text" id="usernameInput" placeholder="Username" required>
+                <input type="text" id="discordInput" placeholder="Discord (e.g., user#1234)" required>
+                <input type="text" id="minecraftInput" placeholder="Minecraft Username" required>
+                <button type="button" class="btn-primary" id="enterShopBtn" onclick="login()">Enter Shop</button>
+            </div>
+            <div id="userInfo" class="user-info">
+                <div class="welcome-text">
+                    Welcome, <span class="username" id="currentUser"></span>
+                </div>
+                <div class="user-actions">
+                    <button class="btn-chat" onclick="openGlobalChat()">💬 Global Chat</button>
+                    <button class="btn-support" onclick="openSupportChat()">🎫 Support Chat</button>
+                    <button class="btn-bulk" onclick="openBulkModal()">📦 My Bulk Order</button>
+                    <button class="btn-danger" onclick="logout()">Exit</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Items Grid -->
+        <div id="itemsContainer" class="items-grid"></div>
     </div>
-</div>
 
-<!-- Add the CSS for the role manager -->
-<style>
-.role-manager {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 215, 0, 0.2);
-    border-radius: 20px;
-    padding: 30px;
-    margin-bottom: 40px;
-    animation: slideDown 0.5s ease;
-}
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
 
-.role-manager-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid rgba(255, 215, 0, 0.2);
-}
+    <script>
+        /* DATA & STATE MANAGEMENT */
+        let items = JSON.parse(localStorage.getItem('tavernItems')) || [
+            { id: 1, name: "Elytra", type: "item", location: null, price: "40 d", stock: "in" },
+            { id: 2, name: "Heavy Core", type: "item", location: null, price: "18 db", stock: "out" }
+        ];
+        let currentUser = localStorage.getItem('tavernUser') || null;
+        let userDiscord = localStorage.getItem('tavernDiscord') || '';
+        let userMinecraft = localStorage.getItem('tavernMinecraft') || '';
+        let userBulkOrder = JSON.parse(localStorage.getItem('tavernBulkOrder')) || [];
 
-.role-manager-header h3 {
-    font-family: 'Cinzel', serif;
-    color: var(--gold-primary);
-    font-size: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+        /* INITIALIZATION */
+        window.onload = () => {
+            createParticles();
+            setupEventListeners();
+            if (currentUser) restoreLogin();
+            renderItems();
+        };
 
-.close-role-panel {
-    background: rgba(255, 82, 82, 0.2);
-    color: #ff5252;
-    border: 2px solid rgba(255, 82, 82, 0.5);
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 1.3rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s;
-}
-
-.close-role-panel:hover {
-    background: rgba(255, 82, 82, 0.4);
-    color: #fff;
-    transform: rotate(90deg);
-}
-
-.role-search-section {
-    margin-bottom: 25px;
-}
-
-#userSearchInput {
-    width: 100%;
-    padding: 15px 20px;
-    border: 2px solid rgba(255, 215, 0, 0.2);
-    background: rgba(0, 0, 0, 0.4);
-    color: #fff;
-    border-radius: 12px;
-    font-size: 1rem;
-    margin-bottom: 15px;
-    outline: none;
-}
-
-#userSearchInput:focus {
-    border-color: var(--gold-primary);
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
-}
-
-.role-filter-buttons {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.role-filter-btn {
-    padding: 8px 16px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: rgba(255, 255, 255, 0.7);
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-weight: 600;
-    transition: all 0.3s;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.role-filter-btn.active,
-.role-filter-btn:hover {
-    color: #1a0b2e;
-    border-color: var(--gold-primary);
-    background: var(--gold-primary);
-}
-
-.user-list-container {
-    max-height: 500px;
-    overflow-y: auto;
-    padding-right: 10px;
-}
-
-.user-list-container::-webkit-scrollbar {
-    width: 8px;
-}
-
-.user-list-container::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 4px;
-}
-
-.user-list-container::-webkit-scrollbar-thumb {
-    background: var(--gold-primary);
-    border-radius: 4px;
-}
-
-.user-card {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: all 0.3s;
-}
-
-.user-card:hover {
-    transform: translateX(5px);
-    border-color: rgba(255, 215, 0, 0.3);
-}
-
-.user-info-section {
-    flex: 1;
-}
-
-.user-name {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 5px;
-}
-
-.user-details {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.6);
-}
-
-.user-roles-section {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-.role-tag {
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    cursor: pointer;
-    transition: all 0.3s;
-    border: 2px solid transparent;
-}
-
-.role-tag.buyer {
-    background: rgba(255, 152, 0, 0.2);
-    color: #ff9800;
-    border-color: #ff9800;
-}
-
-.role-tag.buyer:hover,
-.role-tag.buyer.active {
-    background: #ff9800;
-    color: #1a0b2e;
-}
-
-.role-tag.massive {
-    background: rgba(76, 175, 80, 0.2);
-    color: #4caf50;
-    border-color: #4caf50;
-}
-
-.role-tag.massive:hover,
-.role-tag.massive.active {
-    background: #4caf50;
-    color: #1a0b2e;
-}
-
-.role-tag.rich {
-    background: rgba(233, 30, 99, 0.2);
-    color: #e91e63;
-    border-color: #e91e63;
-}
-
-.role-tag.rich:hover,
-.role-tag.rich.active {
-    background: #e91e63;
-    color: #1a0b2e;
-}
-
-.role-tag.friend {
-    background: rgba(156, 39, 176, 0.2);
-    color: #9c27b0;
-    border-color: #9c27b0;
-}
-
-.role-tag.friend:hover,
-.role-tag.friend.active {
-    background: #9c27b0;
-    color: #1a0b2e;
-}
-
-.role-tag.disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-}
-
-.no-users-found {
-    text-align: center;
-    padding: 40px;
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.no-users-found-icon {
-    font-size: 3rem;
-    margin-bottom: 15px;
-    opacity: 0.5;
-}
-</style>
-
-<!-- Add the JavaScript functionality -->
-<script>
-// Role management data structure
-let userRoles = JSON.parse(localStorage.getItem('tavernUserRoles')) || {};
-let allUsers = JSON.parse(localStorage.getItem('tavernAllUsers')) || [];
-
-// Add to the login function to track users
-function login() {
-    // ... existing login code ...
-    
-    // Track the user
-    if (currentUser && !allUsers.includes(currentUser)) {
-        allUsers.push(currentUser);
-        localStorage.setItem('tavernAllUsers', JSON.stringify(allUsers));
-    }
-    
-    // ... rest of login code ...
-}
-
-// Toggle role panel visibility
-function toggleRolePanel() {
-    const panel = document.getElementById('roleManagerPanel');
-    if (panel.style.display === 'none' || !panel.style.display) {
-        panel.style.display = 'block';
-        renderUserList();
-    } else {
-        panel.style.display = 'none';
-    }
-}
-
-// Render user list with roles
-function renderUserList(filter = 'all', searchTerm = '') {
-    const container = document.getElementById('userListContainer');
-    let filteredUsers = [...allUsers];
-    
-    // Apply search filter
-    if (searchTerm) {
-        filteredUsers = filteredUsers.filter(user => 
-            user.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-    }
-    
-    // Apply role filter
-    if (filter !== 'all') {
-        filteredUsers = filteredUsers.filter(user => {
-            const roles = userRoles[user] || [];
-            switch(filter) {
-                case 'buyer': return roles.includes('buyer');
-                case 'massive': return roles.includes('massive');
-                case 'rich': return roles.includes('rich');
-                case 'friend': return roles.includes('friend');
-                default: return true;
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDelay = Math.random() * 20 + 's';
+                p.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(p);
             }
-        });
-    }
-    
-    if (!filteredUsers.length) {
-        container.innerHTML = `
-            <div class="no-users-found">
-                <div class="no-users-found-icon">👤</div>
-                <p>${searchTerm ? 'No users match your search' : 'No users found'}</p>
-            </div>`;
-        return;
-    }
-    
-    container.innerHTML = filteredUsers.map(user => {
-        const userDiscord = localStorage.getItem(`tavernDiscord_${user}`) || 'N/A';
-        const userMinecraft = localStorage.getItem(`tavernMinecraft_${user}`) || 'N/A';
-        const roles = userRoles[user] || [];
-        
-        return `
-            <div class="user-card" data-username="${user}">
-                <div class="user-info-section">
-                    <div class="user-name">${user}</div>
-                    <div class="user-details">Discord: ${userDiscord} | MC: ${userMinecraft}</div>
-                </div>
-                <div class="user-roles-section">
-                    <div class="role-tag buyer ${roles.includes('buyer') ? 'active' : ''}" 
-                         onclick="toggleUserRole('${user}', 'buyer')"
-                         title="[Buyer] - Orange">
-                        Buyer
-                    </div>
-                    <div class="role-tag massive ${roles.includes('massive') ? 'active' : ''}" 
-                         onclick="toggleUserRole('${user}', 'massive')"
-                         title="[Massive Buyer] - Green">
-                        Massive
-                    </div>
-                    <div class="role-tag rich ${roles.includes('rich') ? 'active' : ''}" 
-                         onclick="toggleUserRole('${user}', 'rich')"
-                         title="[🤑Really Rich] - Pink">
-                        🤑 Rich
-                    </div>
-                    <div class="role-tag friend ${roles.includes('friend') ? 'active' : ''}" 
-                         onclick="toggleUserRole('${user}', 'friend')"
-                         title="[Friend] - Purple">
-                        Friend
-                    </div>
-                </div>
-            </div>`;
-    }).join('');
-}
-
-// Toggle user role
-function toggleUserRole(username, role) {
-    if (currentUser !== 'FJ121') return;
-    
-    if (!userRoles[username]) userRoles[username] = [];
-    
-    const roles = userRoles[username];
-    const index = roles.indexOf(role);
-    
-    if (index > -1) {
-        // Remove role
-        roles.splice(index, 1);
-        showToast(`Removed ${role} role from ${username}`, 'success');
-    } else {
-        // Add role
-        roles.push(role);
-        showToast(`Added ${role} role to ${username}`, 'success');
-    }
-    
-    localStorage.setItem('tavernUserRoles', JSON.stringify(userRoles));
-    renderUserList();
-    
-    // Update displayed roles in chat if user is currently viewing
-    updateUserDisplayRoles(username);
-}
-
-// Search users
-function searchUsers() {
-    const searchTerm = document.getElementById('userSearchInput').value;
-    const activeFilter = document.querySelector('.role-filter-btn.active').dataset.filter || 'all';
-    renderUserList(activeFilter, searchTerm);
-}
-
-// Filter by role
-function filterRole(role) {
-    // Update active button
-    document.querySelectorAll('.role-filter-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
-    
-    const searchTerm = document.getElementById('userSearchInput').value;
-    renderUserList(role, searchTerm);
-}
-
-// Update user display roles (for chat and other areas)
-function updateUserDisplayRoles(username) {
-    // This can be extended to update chat displays, etc.
-    // For now, just re-render if the user is in the current view
-    if (document.getElementById('roleManagerPanel').style.display === 'block') {
-        renderUserList();
-    }
-}
-
-// Get user roles for display
-function getUserRoles(username) {
-    const roles = userRoles[username] || [];
-    return roles.map(role => {
-        switch(role) {
-            case 'buyer': return { tag: '[Buyer]', color: '#ff9800' };
-            case 'massive': return { tag: '[Massive Buyer]', color: '#4caf50' };
-            case 'rich': return { tag: '[🤑Really Rich]', color: '#e91e63' };
-            case 'friend': return { tag: '[Friend]', color: '#9c27b0' };
-            default: return null;
         }
-    }).filter(Boolean);
-}
 
-// Store Discord and Minecraft info per user
-// Modify the login function to store this info
-const originalLogin = login;
-login = function() {
-    const result = originalLogin.call(this);
-    if (currentUser) {
-        localStorage.setItem(`tavernDiscord_${currentUser}`, userDiscord);
-        localStorage.setItem(`tavernMinecraft_${currentUser}`, userMinecraft);
-    }
-    return result;
-};
+        function setupEventListeners() {
+            // Enter key support for all input fields
+            ['usernameInput', 'discordInput', 'minecraftInput'].forEach(id => {
+                const input = document.getElementById(id);
+                input.addEventListener('keypress', e => {
+                    if (e.key === 'Enter') login();
+                });
+            });
+        }
 
-// Initialize role panel
-document.addEventListener('DOMContentLoaded', function() {
-    // Add data-filter attributes to filter buttons
-    const filterButtons = document.querySelectorAll('.role-filter-btn');
-    filterButtons.forEach(btn => {
-        if (btn.textContent === 'All Users') btn.dataset.filter = 'all';
-        else if (btn.textContent === 'Buyers') btn.dataset.filter = 'buyer';
-        else if (btn.textContent === 'Massive Buyers') btn.dataset.filter = 'massive';
-        else if (btn.textContent === 'Really Rich') btn.dataset.filter = 'rich';
-        else if (btn.textContent === 'Friends') btn.dataset.filter = 'friend';
-    });
-});
-</script>
+        /* LOGIN / LOGOUT */
+        function login() {
+            const username = document.getElementById('usernameInput').value.trim();
+            const discord = document.getElementById('discordInput').value.trim();
+            const minecraft = document.getElementById('minecraftInput').value.trim();
+            
+            if (!username || !discord || !minecraft) {
+                showToast('Please fill in all fields', 'error');
+                return;
+            }
+            
+            currentUser = username;
+            userDiscord = discord;
+            userMinecraft = minecraft;
+            
+            localStorage.setItem('tavernUser', currentUser);
+            localStorage.setItem('tavernDiscord', userDiscord);
+            localStorage.setItem('tavernMinecraft', userMinecraft);
+            
+            document.getElementById('currentUser').textContent = username;
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('userInfo').classList.add('show');
+            
+            showToast(`Welcome to The Tavern, ${username}!`, 'success');
+            renderItems();
+        }
+
+        function logout() {
+            if (!confirm('Exit your account? You will need to log in again.')) return;
+            
+            currentUser = null;
+            userDiscord = '';
+            userMinecraft = '';
+            userBulkOrder = [];
+            
+            ['tavernUser', 'tavernDiscord', 'tavernMinecraft', 'tavernBulkOrder'].forEach(k => localStorage.removeItem(k));
+            
+            document.getElementById('usernameInput').value = '';
+            document.getElementById('discordInput').value = '';
+            document.getElementById('minecraftInput').value = '';
+            document.getElementById('loginForm').style.display = 'grid';
+            document.getElementById('userInfo').classList.remove('show');
+            
+            renderItems();
+            showToast('You have exited your account', 'success');
+        }
+
+        function restoreLogin() {
+            document.getElementById('currentUser').textContent = currentUser;
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('userInfo').classList.add('show');
+        }
+
+        /* ITEMS MANAGEMENT */
+        function renderItems() {
+            const container = document.getElementById('itemsContainer');
+            container.innerHTML = '';
+            
+            if (!items.length) {
+                container.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px;color:rgba(255,255,255,0.5)"><div style="font-size:4rem;margin-bottom:20px">📭</div><p>No items found</p></div>`;
+                return;
+            }
+            
+            items.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'item-card';
+                
+                const isCustomer = currentUser && currentUser !== 'FJ121' && currentUser !== 'mod121';
+                
+                div.innerHTML = `
+                    <div class="item-info">
+                        <div class="item-name">${item.name}</div>
+                        <div class="tags">
+                            <span class="tag tag-item">${item.type}</span>
+                            ${item.stock === 'limited' ? '<span class="tag tag-rarity">Limited</span>' : ''}
+                        </div>
+                    </div>
+                    <div class="item-details">
+                        <div class="price">${item.price}</div>
+                        <div class="stock-status ${item.stock === 'in' ? 'in-stock' : item.stock === 'limited' ? 'limited' : 'out-of-stock'}">
+                            ${item.stock === 'in' ? '✓ In Stock' : item.stock === 'limited' ? '⚠ Limited Stock' : '✗ Out of Stock'}
+                        </div>
+                        ${isCustomer ? `<button class="add-to-bulk" onclick="addToBulk(${item.id})">📦 Add to Bulk Order</button>` : ''}
+                    </div>
+                `;
+                
+                container.appendChild(div);
+            });
+        }
+
+        /* BULK ORDER SYSTEM */
+        function addToBulk(itemId) {
+            if (!currentUser) return showToast('Log in first', 'error');
+            
+            const item = items.find(i => i.id === itemId);
+            if (!item) return;
+            
+            userBulkOrder.push({
+                id: itemId,
+                name: item.name,
+                price: item.price,
+                quantity: 1
+            });
+            
+            localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
+            showToast('Added to bulk order!', 'success');
+        }
+
+        function openBulkModal() {
+            if (!currentUser) return showToast('Log in first', 'error');
+            
+            const modal = document.createElement('div');
+            modal.className = 'chat-overlay show';
+            modal.style.display = 'flex';
+            modal.innerHTML = `
+                <div class="chat-container" style="max-width: 500px;">
+                    <div class="chat-header">
+                        <div class="chat-title">
+                            <span>📦</span>
+                            <span>Your Bulk Order</span>
+                        </div>
+                        <button class="close-chat" onclick="this.closest('.chat-overlay').remove()">×</button>
+                    </div>
+                    <div style="padding: 30px;">
+                        ${userBulkOrder.length ? `
+                            <div style="margin-bottom: 20px;">
+                                ${userBulkOrder.map(b => `
+                                    <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(156,39,176,0.3); border-radius: 12px; padding: 15px; margin-bottom: 10px;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <span style="color: #fff;">${b.name}</span>
+                                            <span style="color: #e1bee7;">${b.price}</span>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <button class="btn-confirm-order" onclick="submitBulkOrder()" style="width: 100%; margin-top: 15px;">Submit Order</button>
+                        ` : `
+                            <div style="text-align: center; padding: 40px; color: rgba(255,255,255,0.5);">
+                                <div style="font-size: 3rem; margin-bottom: 15px;">📭</div>
+                                <p>Your bulk order is empty</p>
+                                <p style="font-size: 0.9rem; margin-top: 10px;">Add items from the shop to get started!</p>
+                            </div>
+                        `}
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function submitBulkOrder() {
+            if (!userBulkOrder.length) return showToast('Empty order', 'error');
+            
+            // Here you would normally send to Discord webhook
+            showToast('Order submitted! Check Discord for confirmation.', 'success');
+            
+            userBulkOrder = [];
+            localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
+            
+            setTimeout(() => {
+                document.querySelector('.chat-overlay').remove();
+            }, 1500);
+        }
+
+        /* CHAT FUNCTIONS */
+        function openGlobalChat() {
+            if (!currentUser) return showToast('Log in first', 'error');
+            
+            const modal = document.createElement('div');
+            modal.className = 'chat-overlay show';
+            modal.style.display = 'flex';
+            modal.innerHTML = `
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <div class="chat-title">
+                            <span>💬</span>
+                            <span>Global Chat</span>
+                        </div>
+                        <button class="close-chat" onclick="this.closest('.chat-overlay').remove()">×</button>
+                    </div>
+                    <div class="chat-messages" style="padding: 20px; max-height: 300px; overflow-y: auto;">
+                        <p style="text-align: center; color: rgba(255,255,255,0.5); margin-top: 40px;">Start the conversation!</p>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" class="chat-input" placeholder="Type your message..." maxlength="200">
+                        <button class="btn-send" onclick="sendChatMessage(this)">Send</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function openSupportChat() {
+            if (!currentUser) return showToast('Log in first', 'error');
+            
+            const modal = document.createElement('div');
+            modal.className = 'chat-overlay show';
+            modal.style.display = 'flex';
+            modal.innerHTML = `
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <div class="chat-title">
+                            <span>🎫</span>
+                            <span>Support Chat</span>
+                        </div>
+                        <button class="close-chat" onclick="this.closest('.chat-overlay').remove()">×</button>
+                    </div>
+                    <div class="chat-messages" style="padding: 20px; max-height: 300px; overflow-y: auto;">
+                        <p style="text-align: center; color: rgba(255,255,255,0.5); margin-top: 40px;">How can we help you today?</p>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" class="chat-input" placeholder="Describe your issue..." maxlength="200">
+                        <button class="btn-send" onclick="sendChatMessage(this)">Send</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function sendChatMessage(button) {
+            const input = button.previousElementSibling;
+            const content = input.value.trim();
+            
+            if (!content) return;
+            
+            const messagesContainer = button.closest('.chat-container').querySelector('.chat-messages');
+            const msgDiv = document.createElement('div');
+            msgDiv.style.cssText = 'margin-bottom: 10px; text-align: right;';
+            msgDiv.innerHTML = `
+                <div style="background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.2); border-radius: 15px; padding: 10px 15px; display: inline-block; max-width: 80%;">
+                    ${content}
+                </div>
+                <div style="color: rgba(255,255,255,0.5); font-size: 0.8rem; margin-top: 5px;">${new Date().toLocaleTimeString()}</div>
+            `;
+            
+            messagesContainer.appendChild(msgDiv);
+            input.value = '';
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        /* UTILITY FUNCTIONS */
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.className = `toast ${type} show`;
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>
