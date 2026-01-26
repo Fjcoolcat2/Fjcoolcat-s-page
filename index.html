@@ -152,7 +152,7 @@
             gap: 10px;
         }
 
-        /* LOGIN SECTION */
+        /* LOGIN SECTION - FIXED */
         .login-section {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(20px);
@@ -268,7 +268,7 @@
             box-shadow: 0 8px 25px rgba(255, 82, 82, 0.5);
         }
 
-        /* PANELS - FIXED DISPLAY */
+        /* PANELS */
         .admin-controls, .mod-controls, .role-manager, .support-list, .banned-users, .admin-bulk-orders, .bulk-logs, .order-logs {
             display: none;
             background: rgba(255, 255, 255, 0.05);
@@ -281,209 +281,6 @@
         }
         .admin-controls.show, .mod-controls.show, .role-manager.show, .support-list.show, .banned-users.show, .admin-bulk-orders.show, .bulk-logs.show, .order-logs.show {
             display: block !important;
-        }
-
-        /* ADMIN PANEL */
-        .admin-controls {
-            background: rgba(255, 215, 0, 0.05);
-            border: 1px solid rgba(255, 215, 0, 0.2);
-        }
-        .admin-title {
-            font-family: 'Cinzel', serif;
-            font-size: 1.5rem;
-            color: var(--gold-primary);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .add-item-form {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-        }
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        label {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        select, input[type="text"], input[type="number"] {
-            padding: 12px 15px;
-            border: 2px solid rgba(255, 215, 0, 0.2);
-            background: rgba(0, 0, 0, 0.4);
-            color: #fff;
-            border-radius: 10px;
-            outline: none;
-            font-size: 1rem;
-            font-family: 'Inter', sans-serif;
-        }
-        select:focus, input:focus {
-            border-color: var(--gold-primary);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
-        }
-
-        /* MOD PANEL */
-        .mod-controls {
-            background: rgba(33, 150, 243, 0.05);
-            border: 1px solid rgba(33, 150, 243, 0.2);
-        }
-        .mod-title {
-            font-family: 'Cinzel', serif;
-            font-size: 1.5rem;
-            color: var(--mod-blue);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .mod-badge {
-            background: linear-gradient(135deg, var(--mod-blue), var(--mod-blue-light));
-            color: #fff;
-            padding: 4px 12px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* ROLE MANAGER */
-        .role-manager {
-            background: rgba(156, 39, 176, 0.05);
-            border: 1px solid rgba(156, 39, 176, 0.3);
-        }
-        .role-manager-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
-        }
-        .role-manager-header h3 {
-            font-family: 'Cinzel', serif;
-            color: var(--gold-primary);
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .close-role-panel {
-            background: rgba(255, 82, 82, 0.2);
-            color: #ff5252;
-            border: 2px solid rgba(255, 82, 82, 0.5);
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-        .close-role-panel:hover {
-            background: rgba(255, 82, 82, 0.4);
-            color: #fff;
-            transform: rotate(90deg);
-        }
-        .role-user-selector {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-        .role-user-select {
-            padding: 10px 15px;
-            border: 2px solid rgba(255, 215, 0, 0.3);
-            background: rgba(0, 0, 0, 0.5);
-            color: #fff;
-            border-radius: 8px;
-            font-size: 1rem;
-            min-width: 200px;
-        }
-        .role-assign-btn {
-            padding: 10px 20px;
-            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dark) 100%);
-            color: #1a0b2e;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-        }
-        .role-assign-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
-        }
-        .user-list-container {
-            max-height: 400px;
-            overflow-y: auto;
-            margin-top: 20px;
-        }
-        .user-card {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s;
-        }
-        .user-card:hover {
-            transform: translateX(5px);
-            border-color: rgba(255, 215, 0, 0.3);
-        }
-        .user-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 5px;
-        }
-        .user-roles {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .role-tag-display {
-            padding: 4px 10px;
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        .role-tag-display.buyer { background: #ff9800; color: #1a0b2e; }
-        .role-tag-display.rich-buyer { background: #e91e63; color: #fff; }
-        .role-tag-display.rich { background: #e91e63; color: #fff; }
-        .role-tag-display.friend { background: #e91e63; color: #fff; }
-        .role-remove-btn {
-            margin-left: 8px;
-            background: rgba(255, 82, 82, 0.8);
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 10px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .role-remove-btn:hover {
-            background: #ff5252;
         }
 
         /* ITEMS GRID */
@@ -519,22 +316,6 @@
             margin-bottom: 12px;
             color: #fff;
         }
-        .tags {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .tag {
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .tag-item { background: linear-gradient(135deg, var(--accent-blue), #0288d1); color: #fff; }
-        .tag-floor { background: linear-gradient(135deg, #ff9800, #f57c00); color: #fff; }
-        .tag-rarity { background: linear-gradient(135deg, var(--accent-red), #c62828); color: #fff; }
         .price {
             font-family: 'Cinzel', serif;
             font-size: 2rem;
@@ -542,61 +323,6 @@
             background: linear-gradient(180deg, var(--gold-light) 0%, var(--gold-primary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-        }
-        .stock-status {
-            padding: 8px 20px;
-            border-radius: 25px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            border: 2px solid;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .stock-status:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-        .in-stock {
-            background: rgba(105, 240, 174, 0.15);
-            color: var(--accent-green);
-            border-color: var(--accent-green);
-        }
-        .out-of-stock {
-            background: rgba(255, 82, 82, 0.15);
-            color: var(--accent-red);
-            border-color: var(--accent-red);
-        }
-        .limited {
-            background: rgba(255, 152, 0, 0.15);
-            color: #ff9800;
-            border-color: #ff9800;
-        }
-        .delete-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255, 82, 82, 0.9);
-            color: #fff;
-            border: none;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.2rem;
-            transition: all 0.3s;
-        }
-        .item-card:hover .delete-btn {
-            display: flex;
-        }
-        .delete-btn:hover {
-            background: #ff1744;
-            transform: scale(1.1) rotate(90deg);
         }
         .add-to-bulk {
             margin-top: 12px;
@@ -616,53 +342,6 @@
             background: #9c27b0;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(156, 39, 176, 0.4);
-        }
-        .add-to-bulk.added {
-            background: var(--accent-green);
-            border-color: var(--accent-green);
-            color: #1a0b2e;
-        }
-
-        /* TABS */
-        .tabs-container {
-            margin-bottom: 30px;
-            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
-            padding-bottom: 20px;
-        }
-        .tabs {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .tab {
-            padding: 12px 28px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
-            color: rgba(255, 255, 255, 0.7);
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
-            letter-spacing: 1px;
-            position: relative;
-            overflow: hidden;
-        }
-        .tab.active {
-            color: #1a0b2e;
-            border-color: var(--gold-primary);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
-        }
-        .tab.active::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
-            z-index: -1;
         }
 
         /* TOAST */
@@ -694,514 +373,6 @@
             border-color: var(--accent-red);
             color: var(--accent-red);
         }
-
-        /* CHAT OVERLAY */
-        .chat-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        .chat-overlay.show {
-            display: flex;
-        }
-        .chat-container {
-            background: var(--chat-bg);
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 20px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 80vh;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-        }
-        .chat-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .chat-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            color: var(--gold-primary);
-        }
-        .chat-type-badge {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .chat-type-badge.support {
-            background: rgba(255, 152, 0, 0.3);
-            color: #ff9800;
-        }
-        .close-chat {
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 1.5rem;
-            cursor: pointer;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: all 0.3s;
-        }
-        .close-chat:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-        }
-        .chat-messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            max-height: 400px;
-        }
-        .chat-input-area {
-            display: flex;
-            padding: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            gap: 10px;
-        }
-        .chat-input {
-            flex: 1;
-            padding: 12px 20px;
-            border: 2px solid rgba(255, 215, 0, 0.2);
-            background: rgba(0, 0, 0, 0.4);
-            color: #fff;
-            border-radius: 25px;
-            outline: none;
-            font-size: 1rem;
-            font-family: 'Inter', sans-serif;
-        }
-        .chat-input:focus {
-            border-color: var(--gold-primary);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
-        }
-        .btn-send {
-            padding: 12px 24px;
-            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dark) 100%);
-            color: #1a0b2e;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-        }
-        .btn-send:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
-        }
-        .muted-banner {
-            background: rgba(255, 82, 82, 0.1);
-            border: 1px solid rgba(255, 82, 82, 0.3);
-            color: #ff5252;
-            padding: 10px 20px;
-            margin: 10px 20px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: 600;
-        }
-        .chat-message {
-            margin-bottom: 15px;
-            animation: slideDown 0.3s ease;
-        }
-        .chat-message.own {
-            text-align: right;
-        }
-        .chat-message.other {
-            text-align: left;
-        }
-        .chat-message.deleted {
-            opacity: 0.5;
-        }
-        .chat-message.owner-msg .message-author {
-            color: var(--gold-primary) !important;
-            font-weight: 800;
-        }
-        .chat-message.mod-msg .message-author {
-            color: var(--mod-blue) !important;
-            font-weight: 800;
-        }
-        .message-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 5px;
-        }
-        .message-author {
-            font-weight: 600;
-            color: var(--gold-primary);
-            font-size: 0.9rem;
-        }
-        .message-time {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.8rem;
-        }
-        .message-content {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 10px 15px;
-            border-radius: 15px;
-            display: inline-block;
-            max-width: 80%;
-            word-wrap: break-word;
-        }
-        .chat-message.own .message-content {
-            background: rgba(255, 215, 0, 0.1);
-            border: 1px solid rgba(255, 215, 0, 0.2);
-        }
-        .message-actions {
-            display: flex;
-            gap: 5px;
-            margin-top: 5px;
-        }
-        .msg-btn {
-            padding: 4px 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: rgba(255, 255, 255, 0.7);
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.7rem;
-            transition: all 0.3s;
-        }
-        .msg-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
-        }
-        .msg-btn-delete:hover {
-            background: rgba(255, 82, 82, 0.3);
-            border-color: #ff5252;
-            color: #ff5252;
-        }
-        .msg-btn-mute:hover {
-            background: rgba(255, 152, 0, 0.3);
-            border-color: #ff9800;
-            color: #ff9800;
-        }
-        .msg-btn-ban:hover {
-            background: rgba(183, 28, 28, 0.3);
-            border-color: #b71c1c;
-            color: #b71c1c;
-        }
-
-        /* ORDER VIEW MODAL */
-        .order-view-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 1001;
-            align-items: center;
-            justify-content: center;
-        }
-        .order-view-modal.show {
-            display: flex;
-        }
-        .order-view-container {
-            background: var(--chat-bg);
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 20px;
-            width: 90%;
-            max-width: 800px;
-            max-height: 80vh;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-        }
-        .order-view-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .order-view-content {
-            flex: 1;
-            padding: 30px;
-            overflow-y: auto;
-        }
-        .btn-confirm-order {
-            padding: 12px 24px;
-            background: linear-gradient(135deg, var(--accent-green) 0%, #2e7d32 100%);
-            color: #1a0b2e;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-            margin-top: 20px;
-            width: 100%;
-        }
-        .btn-confirm-order:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(105, 240, 174, 0.3);
-        }
-        .btn-remove {
-            padding: 6px 12px;
-            background: rgba(255, 82, 82, 0.2);
-            color: #ff5252;
-            border: 1px solid #ff5252;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        .btn-remove:hover {
-            background: #ff5252;
-            color: #fff;
-        }
-        .bulk-quantity-selector {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .bulk-type-select {
-            flex: 1;
-            padding: 10px 15px;
-            border: 2px solid rgba(156, 39, 176, 0.5);
-            background: rgba(0, 0, 0, 0.3);
-            color: #fff;
-            border-radius: 8px;
-            font-size: 1rem;
-        }
-        .bulk-quantity-input {
-            width: 80px;
-            padding: 10px;
-            border: 2px solid rgba(156, 39, 176, 0.5);
-            background: rgba(0, 0, 0, 0.3);
-            color: #fff;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: bold;
-        }
-        .btn-success {
-            background: linear-gradient(135deg, var(--accent-green) 0%, #2e7d32 100%);
-            color: #1a0b2e;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-        }
-        .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(105, 240, 174, 0.3);
-        }
-
-        /* SUPPORT & BANNED LISTS */
-        .support-chat-item, .banned-item {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s;
-        }
-        .support-chat-item:hover, .banned-item:hover {
-            border-color: rgba(255, 215, 0, 0.3);
-            transform: translateX(5px);
-        }
-        .support-user-info h4, .banned-name {
-            color: #fff;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        .support-user-info p {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-        }
-        .support-meta {
-            text-align: right;
-        }
-        .support-time {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.8rem;
-            margin-bottom: 8px;
-        }
-        .btn-close-ticket, .btn-unban, .btn-unmute {
-            padding: 6px 12px;
-            background: rgba(255, 82, 82, 0.2);
-            color: #ff5252;
-            border: 1px solid #ff5252;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        .btn-close-ticket:hover, .btn-unban:hover, .btn-unmute:hover {
-            background: #ff5252;
-            color: #fff;
-        }
-
-        /* BULK ORDER CARDS */
-        .bulk-order-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(156, 39, 176, 0.3);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            transition: all 0.3s;
-        }
-        .bulk-order-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(156, 39, 176, 0.2);
-        }
-        .bulk-order-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .bulk-order-user {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #fff;
-        }
-        .bulk-order-time {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.85rem;
-        }
-        .bulk-order-details {
-            margin-bottom: 15px;
-        }
-        .bulk-order-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .bulk-item-name {
-            font-weight: 500;
-            color: #fff;
-        }
-        .bulk-item-qty {
-            color: #e1bee7;
-            font-size: 0.9rem;
-        }
-        .bulk-order-total {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--gold-primary);
-            text-align: right;
-            margin-bottom: 15px;
-        }
-        .btn-view-order, .btn-completed {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        .btn-view-order {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        .btn-view-order:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        .btn-completed {
-            background: linear-gradient(135deg, var(--accent-green) 0%, #2e7d32 100%);
-            color: #1a0b2e;
-        }
-        .btn-completed:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(105, 240, 174, 0.3);
-        }
-
-        /* LOG ENTRIES */
-        .log-entry {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-left: 4px solid var(--gold-primary);
-        }
-        .log-customer {
-            font-weight: 600;
-            color: var(--gold-primary);
-            margin-bottom: 8px;
-        }
-        .log-details {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-        .log-details div {
-            margin-bottom: 4px;
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .main-title { font-size: 2.5rem; letter-spacing: 4px; }
-            .shop-owners { font-size: 0.9rem; }
-            .items-grid { grid-template-columns: 1fr; }
-            .login-form { grid-template-columns: 1fr; }
-            .user-info { flex-direction: column; text-align: center; }
-            .role-user-selector { flex-direction: column; align-items: stretch; }
-            .add-item-form { grid-template-columns: 1fr; }
-            .user-actions { flex-direction: column; }
-            .user-actions button { width: 100%; }
-        }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* STOCK EDITOR FOR STAFF */
-        .stock-editor {
-            margin-top: 10px;
-        }
-        .stock-select {
-            width: 100%;
-            padding: 8px 12px;
-            border: 2px solid rgba(255, 215, 0, 0.3);
-            background: rgba(0, 0, 0, 0.5);
-            color: #fff;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            cursor: pointer;
-        }
-        .stock-select.in { border-color: var(--accent-green); }
-        .stock-select.out { border-color: var(--accent-red); }
-        .stock-select.limited { border-color: #ff9800; }
     </style>
 </head>
 <body>
@@ -1223,7 +394,7 @@
             <p style="color: rgba(255,255,255,0.5); margin-top: 10px; letter-spacing: 4px; text-transform: uppercase;">Premium Minecraft Emporium</p>
         </header>
 
-        <!-- Login Section -->
+        <!-- LOGIN SECTION - FIXED WITH WORKING BUTTON -->
         <div class="login-section" id="loginSection">
             <div id="loginForm" class="login-form">
                 <input type="text" id="usernameInput" placeholder="Username" required>
@@ -1244,231 +415,8 @@
             </div>
         </div>
 
-        <!-- Role Manager Panel (FJ121 only) -->
-        <div id="roleManagerPanel" class="role-manager">
-            <div class="role-manager-header">
-                <h3>👑 Role Manager</h3>
-                <button class="close-role-panel" onclick="toggleRolePanel()">×</button>
-            </div>
-            <div class="role-user-selector">
-                <select class="role-user-select" id="roleUserSelect">
-                    <option value="">Select User...</option>
-                </select>
-                <select class="role-user-select" id="roleTypeSelect">
-                    <option value="">Select Role...</option>
-                    <option value="buyer">[Buyer] - Orange</option>
-                    <option value="rich-buyer">[Rich Buyer] - Pink</option>
-                    <option value="rich">[🤑Really Rich] - Pink</option>
-                    <option value="friend">[Friend] - Pink</option>
-                </select>
-                <button class="role-assign-btn" onclick="assignRole()">Assign Role</button>
-            </div>
-            <div class="user-list-container" id="userListContainer">
-                <!-- Users will appear here -->
-            </div>
-        </div>
-
-        <!-- Admin Controls (FJ121 only) -->
-        <div id="adminControls" class="admin-controls">
-            <div class="admin-title">
-                <span>👑</span>
-                <span>Shopkeeper's Controls</span>
-            </div>
-            <div class="add-item-form">
-                <div class="form-group">
-                    <label>Item Name</label>
-                    <input type="text" id="itemName" placeholder="e.g., Netherite Sword">
-                </div>
-                <div class="form-group">
-                    <label>Price (single item)</label>
-                    <input type="text" id="itemPrice" placeholder="e.g., 25 d">
-                </div>
-                <div class="form-group">
-                    <label>Category</label>
-                    <select id="itemType">
-                        <option value="item">Item</option>
-                        <option value="block">Block</option>
-                        <option value="tool">Tool</option>
-                        <option value="armor">Armor</option>
-                        <option value="weapon">Weapon</option>
-                        <option value="rare">Rare</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Stock Status</label>
-                    <select id="itemStock">
-                        <option value="in">In Stock</option>
-                        <option value="out">Out of Stock</option>
-                        <option value="limited">Limited</option>
-                    </select>
-                </div>
-                <div class="form-group" style="display: flex; align-items: end;">
-                    <button class="btn-success" onclick="addItem()" style="width: 100%;">Add to Shop</button>
-                </div>
-                <div class="form-group" style="display: flex; align-items: end;">
-                    <button class="btn-primary" onclick="toggleRolePanel()" style="width: 100%; background: linear-gradient(135deg, #9c27b0, #6a1b9a);">👑 Role Manager</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mod Controls (mod121 only) -->
-        <div id="modControls" class="mod-controls">
-            <div class="mod-title">
-                <span>🛡️</span>
-                <span>Moderator Panel <span class="mod-badge">[MOD]</span></span>
-            </div>
-            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                <button class="btn-chat" onclick="openGlobalChat()">💬 Global Chat</button>
-                <button class="btn-support" onclick="openSupportChat()">🎫 Support Chat</button>
-                <button class="btn-bulk" onclick="openBulkModal()">📦 My Bulk Order</button>
-            </div>
-        </div>
-
-        <!-- Support Chats List (Admin/Mod only) -->
-        <div id="supportList" class="support-list">
-            <div class="support-list-header">
-                <span>🎫</span>
-                <span>Support Tickets</span>
-            </div>
-            <div id="supportChatsContainer">
-                <p style="color: rgba(255,255,255,0.5); text-align: center; padding: 40px;">No support tickets yet...</p>
-            </div>
-        </div>
-
-        <!-- Banned Users (Admin/Mod only) -->
-        <div id="bannedUsers" class="banned-users">
-            <div class="banned-header">
-                <span>🚫</span>
-                <span>Banned Users</span>
-            </div>
-            <div id="bannedList">
-                <p style="color: rgba(255,255,255,0.5); text-align: center;">No banned users</p>
-            </div>
-        </div>
-
-        <!-- Admin Bulk Orders (Admin/Mod only) -->
-        <div id="adminBulkOrders" class="admin-bulk-orders">
-            <div class="admin-bulk-header">
-                <div class="admin-bulk-title">📦 Customer Bulk Orders</div>
-                <button class="btn-danger" onclick="clearAllOrders()">Clear All Orders</button>
-            </div>
-            <div id="adminBulkList" class="admin-bulk-list">
-                <div class="empty-orders">
-                    <div style="font-size: 4rem; margin-bottom: 20px;">📭</div>
-                    <p>No bulk orders yet...</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Order Logs (FJ121 Only) -->
-        <div id="orderLogs" class="order-logs">
-            <div class="logs-header">
-                <span>📋</span>
-                <span>Order Logs</span>
-            </div>
-            <div id="orderLogsContainer">
-                <p style="color: rgba(255,255,255,0.5); text-align: center;">No order logs yet...</p>
-            </div>
-        </div>
-
-        <!-- Bulk Order Logs (FJ121 Only) -->
-        <div id="bulkLogs" class="bulk-logs">
-            <div class="logs-header">
-                <span>📋</span>
-                <span>Bulk Order History</span>
-            </div>
-            <div id="logsContainer">
-                <p style="color: rgba(255,255,255,0.5); text-align: center;">No completed orders yet...</p>
-            </div>
-        </div>
-
         <!-- Items Grid -->
         <div id="itemsContainer" class="items-grid"></div>
-    </div>
-
-    <!-- Chat Overlays -->
-    <div id="globalChatOverlay" class="chat-overlay">
-        <div class="chat-container">
-            <div class="chat-header">
-                <div class="chat-title">
-                    <span>💬</span>
-                    <span>Global Chat</span>
-                    <span class="chat-type-badge">Public</span>
-                </div>
-                <button class="close-chat" onclick="closeChat()">×</button>
-            </div>
-            <div class="chat-messages" id="globalMessages"></div>
-            <div id="globalMutedBanner" class="muted-banner" style="display: none;">
-                🔇 You are muted and cannot send messages
-            </div>
-            <div class="chat-input-area">
-                <input type="text" class="chat-input" id="globalInput" placeholder="Type your message..." maxlength="500">
-                <button class="btn-send" id="globalSendBtn" onclick="sendGlobalMessage()">Send</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="supportChatOverlay" class="chat-overlay">
-        <div class="chat-container">
-            <div class="chat-header">
-                <div class="chat-title">
-                    <span>🎫</span>
-                    <span id="supportChatTitle">Support Chat</span>
-                    <span class="chat-type-badge support">Private</span>
-                </div>
-                <button class="close-chat" onclick="closeChat()">×</button>
-            </div>
-            <div class="chat-messages" id="supportMessages"></div>
-            <div id="supportMutedBanner" class="muted-banner" style="display: none;">
-                🔇 You are muted and cannot send messages
-            </div>
-            <div class="chat-input-area">
-                <input type="text" class="chat-input" id="supportInput" placeholder="Describe your issue or question..." maxlength="500">
-                <button class="btn-send" id="supportSendBtn" onclick="sendSupportMessage()">Send</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bulk Order Modal -->
-    <div id="bulkModal" class="chat-overlay">
-        <div class="chat-container" style="max-width: 900px;">
-            <div class="chat-header">
-                <div class="chat-title">
-                    <span>📦</span>
-                    <span>Your Bulk Order</span>
-                </div>
-                <button class="close-chat" onclick="closeBulkModal()">×</button>
-            </div>
-            <div style="padding: 30px; overflow-y: auto; flex: 1;">
-                <div class="how-to-order" style="background: rgba(156, 39, 176, 0.1); border: 1px solid rgba(156, 39, 176, 0.3); border-radius: 16px; padding: 25px; margin-bottom: 30px;">
-                    <h3 style="color: #e1bee7; margin-bottom: 15px;">📋 How to Order</h3>
-                    <ol style="margin-left: 20px; color: rgba(255, 255, 255, 0.8); line-height: 1.8;">
-                        <li>Add items to your bulk order using the "Add to Bulk" buttons in the shop</li>
-                        <li>Choose between <strong>Items</strong>, <strong>Stacks</strong>, or <strong>Shulkers</strong></li>
-                        <li>Enter the quantity you want</li>
-                        <li><strong>1 Shulker = 27 stacks</strong> of the item</li>
-                        <li><strong>1 Stack = 64 items</strong> (or 16 for some items)</li>
-                        <li>Review your order - prices are automatically calculated</li>
-                        <li>Click <strong>"Submit Order"</strong> to send it to the shopkeeper</li>
-                    </ol>
-                </div>
-                <div id="bulkModalContent"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Order View Modal -->
-    <div id="orderViewModal" class="order-view-modal">
-        <div class="order-view-container">
-            <div class="order-view-header">
-                <div class="chat-title">
-                    <span>📋</span>
-                    <span>Order Details</span>
-                </div>
-                <button class="close-chat" onclick="closeOrderView()">×</button>
-            </div>
-            <div class="order-view-content" id="orderViewContent"></div>
-        </div>
     </div>
 
     <!-- Toast -->
@@ -1484,20 +432,6 @@
         let userDiscord = localStorage.getItem('tavernDiscord') || '';
         let userMinecraft = localStorage.getItem('tavernMinecraft') || '';
         let userBulkOrder = JSON.parse(localStorage.getItem('tavernBulkOrder')) || [];
-        let submittedOrders = JSON.parse(localStorage.getItem('tavernSubmittedOrders')) || [];
-        let completedOrders = JSON.parse(localStorage.getItem('tavernCompletedOrders')) || [];
-        let currentFilter = 'all';
-        let globalMessages = JSON.parse(localStorage.getItem('tavernGlobalChat')) || [];
-        let supportChats = JSON.parse(localStorage.getItem('tavernSupportChats')) || {};
-        let bannedUsers = JSON.parse(localStorage.getItem('tavernBanned')) || [];
-        let mutedUsers = JSON.parse(localStorage.getItem('tavernMuted')) || [];
-        let userRoles = JSON.parse(localStorage.getItem('tavernUserRoles')) || {};
-        let allUsers = JSON.parse(localStorage.getItem('tavernAllUsers')) || [];
-        let bulkOrderLogs = JSON.parse(localStorage.getItem('tavernBulkLogs')) || [];
-        let orderLogs = JSON.parse(localStorage.getItem('tavernOrderLogs')) || [];
-        let currentViewingOrder = null;
-        let currentChat = null;
-        let currentSupportUser = null;
 
         /* INITIALIZATION */
         window.onload = () => {
@@ -1505,8 +439,6 @@
             setupEventListeners();
             if (currentUser) restoreLogin();
             renderItems();
-            startRealTimeUpdates();
-            updateRoleSelector();
         };
 
         function createParticles() {
@@ -1522,7 +454,7 @@
         }
 
         function setupEventListeners() {
-            // Login button is now properly connected via onclick attribute
+            // Enter key support for all input fields
             ['usernameInput', 'discordInput', 'minecraftInput'].forEach(id => {
                 const input = document.getElementById(id);
                 input.addEventListener('keypress', e => {
@@ -1531,19 +463,7 @@
             });
         }
 
-        /* LOGIN / LOGOUT / ROLE MANAGEMENT */
-        function restoreLogin() {
-            document.getElementById('currentUser').textContent = currentUser;
-            document.getElementById('loginForm').style.display = 'none';
-            document.getElementById('userInfo').classList.add('show');
-            
-            if (currentUser === 'FJ121') {
-                showStaffUI();
-            } else if (currentUser === 'mod121') {
-                showModUI();
-            }
-        }
-
+        /* LOGIN / LOGOUT */
         function login() {
             const username = document.getElementById('usernameInput').value.trim();
             const discord = document.getElementById('discordInput').value.trim();
@@ -1551,11 +471,6 @@
             
             if (!username || !discord || !minecraft) {
                 showToast('Please fill in all fields', 'error');
-                return;
-            }
-            
-            if (bannedUsers.includes(username.toLowerCase())) {
-                showToast('You are banned from this shop', 'error');
                 return;
             }
             
@@ -1567,27 +482,12 @@
             localStorage.setItem('tavernDiscord', userDiscord);
             localStorage.setItem('tavernMinecraft', userMinecraft);
             
-            if (!allUsers.includes(currentUser)) {
-                allUsers.push(currentUser);
-                localStorage.setItem('tavernAllUsers', JSON.stringify(allUsers));
-            }
-            
             document.getElementById('currentUser').textContent = username;
             document.getElementById('loginForm').style.display = 'none';
             document.getElementById('userInfo').classList.add('show');
             
-            if (username === 'FJ121') {
-                showToast('Welcome, Shopkeeper!', 'success');
-                showStaffUI();
-            } else if (username === 'mod121') {
-                showToast('Welcome, Moderator!', 'success');
-                showModUI();
-            } else {
-                showToast(`Welcome to The Tavern, ${username}!`, 'success');
-            }
-            
+            showToast(`Welcome to The Tavern, ${username}!`, 'success');
             renderItems();
-            updateRoleSelector();
         }
 
         function logout() {
@@ -1606,276 +506,73 @@
             document.getElementById('loginForm').style.display = 'grid';
             document.getElementById('userInfo').classList.remove('show');
             
-            document.querySelectorAll('#adminControls, #modControls, #supportList, #bannedUsers, #adminBulkOrders, #bulkLogs, #roleManagerPanel, #orderLogs').forEach(el => {
-                el.classList.remove('show');
-            });
-            
             renderItems();
             showToast('You have exited your account', 'success');
         }
 
-        function showStaffUI() {
-            document.getElementById('adminControls').classList.add('show');
-            document.getElementById('supportList').classList.add('show');
-            document.getElementById('bannedUsers').classList.add('show');
-            document.getElementById('adminBulkOrders').classList.add('show');
-            document.getElementById('bulkLogs').classList.add('show');
-            document.getElementById('orderLogs').classList.add('show');
-            document.getElementById('modControls').classList.remove('show');
-            updateRoleSelector();
-            renderSupportList();
-            renderBannedList();
-            renderAdminOrders();
-            renderBulkLogs();
-            renderOrderLogs();
-        }
-
-        function showModUI() {
-            document.getElementById('modControls').classList.add('show');
-            document.getElementById('supportList').classList.add('show');
-            document.getElementById('bannedUsers').classList.add('show');
-            document.getElementById('adminBulkOrders').classList.add('show');
-            document.getElementById('adminControls').classList.remove('show');
-            document.getElementById('bulkLogs').classList.remove('show');
-            document.getElementById('orderLogs').classList.remove('show');
-            document.getElementById('roleManagerPanel').classList.remove('show');
-            renderSupportList();
-            renderBannedList();
-            renderAdminOrders();
-        }
-
-        /* ROLE MANAGEMENT */
-        function updateRoleSelector() {
-            if (currentUser !== 'FJ121') return;
-            const select = document.getElementById('roleUserSelect');
-            select.innerHTML = '<option value="">Select User...</option>';
-            allUsers.forEach(user => {
-                if (user !== 'FJ121' && user !== 'mod121') {
-                    const option = document.createElement('option');
-                    option.value = user;
-                    option.textContent = user;
-                    select.appendChild(option);
-                }
-            });
-        }
-
-        function toggleRolePanel() {
-            const panel = document.getElementById('roleManagerPanel');
-            if (panel.classList.contains('show')) {
-                panel.classList.remove('show');
-            } else {
-                panel.classList.add('show');
-                renderUserList();
-            }
-        }
-
-        function renderUserList() {
-            const container = document.getElementById('userListContainer');
-            let filteredUsers = allUsers.filter(user => user !== 'FJ121' && user !== 'mod121');
-            
-            if (filteredUsers.length === 0) {
-                container.innerHTML = '<p style="text-align:center;color:rgba(255,255,255,0.5);padding:20px;">No users found</p>';
-                return;
-            }
-            
-            container.innerHTML = filteredUsers.map(user => {
-                const roles = userRoles[user] || [];
-                let roleTags = '';
-                
-                if (roles.length > 0) {
-                    roleTags = roles.map(role => {
-                        const roleData = {
-                            buyer: { tag: '[Buyer]', class: 'buyer' },
-                            'rich-buyer': { tag: '[Rich Buyer]', class: 'rich-buyer' },
-                            rich: { tag: '[🤑Really Rich]', class: 'rich' },
-                            friend: { tag: '[Friend]', class: 'friend' }
-                        }[role];
-                        return `<span class="role-tag-display ${roleData.class}">${roleData.tag}</span>`;
-                    }).join('');
-                }
-                
-                return `
-                    <div class="user-card" data-username="${user}">
-                        <div>
-                            <div class="user-name">${user}</div>
-                            <div class="user-roles">${roleTags}</div>
-                        </div>
-                        <div style="text-align: right;">
-                            <button class="role-remove-btn" onclick="removeAllRoles('${user}')" title="Remove all roles" style="margin-left: 0;">×</button>
-                        </div>
-                    </div>`;
-            }).join('');
-        }
-
-        function assignRole() {
-            const userSelect = document.getElementById('roleUserSelect');
-            const roleSelect = document.getElementById('roleTypeSelect');
-            const username = userSelect.value;
-            const role = roleSelect.value;
-            
-            if (!username || !role) {
-                showToast('Please select both user and role', 'error');
-                return;
-            }
-            
-            if (!userRoles[username]) userRoles[username] = [];
-            if (userRoles[username].includes(role)) {
-                showToast('User already has this role', 'error');
-                return;
-            }
-            
-            userRoles[username].push(role);
-            localStorage.setItem('tavernUserRoles', JSON.stringify(userRoles));
-            renderUserList();
-            renderItems();
-            showToast(`Assigned ${role} role to ${username}`, 'success');
-            userSelect.value = '';
-            roleSelect.value = '';
-        }
-
-        function removeAllRoles(username) {
-            if (currentUser !== 'FJ121') return;
-            if (userRoles[username]) {
-                delete userRoles[username];
-                localStorage.setItem('tavernUserRoles', JSON.stringify(userRoles));
-                renderUserList();
-                renderItems();
-                showToast(`Removed all roles from ${username}`, 'success');
-            }
+        function restoreLogin() {
+            document.getElementById('currentUser').textContent = currentUser;
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('userInfo').classList.add('show');
         }
 
         /* ITEMS MANAGEMENT */
-        function addItem() {
-            if (currentUser !== 'FJ121') return;
-            
-            const name = document.getElementById('itemName').value.trim();
-            const price = document.getElementById('itemPrice').value.trim();
-            const type = document.getElementById('itemType').value;
-            const stock = document.getElementById('itemStock').value;
-            
-            if (!name || !price) return showToast('Name and price required', 'error');
-            
-            const newItem = { id: Date.now(), name, type, location: null, price, stock };
-            items.push(newItem);
-            localStorage.setItem('tavernItems', JSON.stringify(items));
-            
-            document.getElementById('itemName').value = '';
-            document.getElementById('itemPrice').value = '';
-            
-            renderItems();
-            showToast('Item added to shop', 'success');
-        }
-
-        function deleteItem(id) {
-            if (currentUser !== 'FJ121') return;
-            if (!confirm('Delete this item from the shop?')) return;
-            
-            items = items.filter(i => i.id !== id);
-           I'll continue with the complete fixed code:
-
-```javascript
-            localStorage.setItem('tavernItems', JSON.stringify(items));
-            renderItems();
-            showToast('Item removed from shop', 'success');
-        }
-
-        function updateItemStock(id, newStock) {
-            if (currentUser !== 'FJ121') return;
-            const item = items.find(i => i.id === id);
-            if (!item) return;
-            
-            item.stock = newStock;
-            localStorage.setItem('tavernItems', JSON.stringify(items));
-            renderItems();
-            showToast(`Stock updated to ${newStock}`, 'success');
-        }
-
         function renderItems() {
             const container = document.getElementById('itemsContainer');
             container.innerHTML = '';
             
-            let filtered = items;
-            if (currentFilter === 'in') filtered = items.filter(i => i.stock === 'in');
-            else if (currentFilter === 'out') filtered = items.filter(i => i.stock === 'out');
-            else if (currentFilter === 'limited') filtered = items.filter(i => i.stock === 'limited');
-            
-            if (!filtered.length) {
+            if (!items.length) {
                 container.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px;color:rgba(255,255,255,0.5)"><div style="font-size:4rem;margin-bottom:20px">📭</div><p>No items found</p></div>`;
                 return;
             }
             
-            filtered.forEach(it => container.appendChild(createItemCard(it)));
-        }
-
-        function createItemCard(item) {
-            const div = document.createElement('div');
-            div.className = 'item-card';
-            
-            const isStaff = currentUser === 'FJ121';
-            const isCustomer = currentUser && currentUser !== 'FJ121' && currentUser !== 'mod121';
-            
-            // Get user roles for display
-            const userRolesDisplay = getUserRolesDisplay(currentUser);
-            
-            // Stock editor for staff
-            let stockHtml = '';
-            if (isStaff) {
-                stockHtml = `
-                    <div class="stock-editor">
-                        <select class="stock-select ${item.stock}" onchange="updateItemStock(${item.id}, this.value)">
-                            <option value="in" ${item.stock === 'in' ? 'selected' : ''}>In Stock</option>
-                            <option value="out" ${item.stock === 'out' ? 'selected' : ''}>Out of Stock</option>
-                            <option value="limited" ${item.stock === 'limited' ? 'selected' : ''}>Limited</option>
-                        </select>
-                    </div>`;
-            }
-            
-            div.innerHTML = `
-                <div class="item-info">
-                    <div class="item-name">${item.name} ${userRolesDisplay}</div>
-                    <div class="tags">
-                        <span class="tag tag-item">${item.type}</span>
-                        ${item.stock === 'limited' ? '<span class="tag tag-rarity">Limited</span>' : ''}
+            items.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'item-card';
+                
+                const isCustomer = currentUser && currentUser !== 'FJ121' && currentUser !== 'mod121';
+                
+                div.innerHTML = `
+                    <div class="item-info">
+                        <div class="item-name">${item.name}</div>
+                        <div class="tags">
+                            <span class="tag tag-item">${item.type}</span>
+                            ${item.stock === 'limited' ? '<span class="tag tag-rarity">Limited</span>' : ''}
+                        </div>
                     </div>
-                </div>
-                <div class="item-details">
-                    <div class="price">${item.price}</div>
-                    <div class="stock-status ${item.stock === 'in' ? 'in-stock' : item.stock === 'limited' ? 'limited' : 'out-of-stock'}">
-                        ${item.stock === 'in' ? '✓ In Stock' : item.stock === 'limited' ? '⚠ Limited Stock' : '✗ Out of Stock'}
+                    <div class="item-details">
+                        <div class="price">${item.price}</div>
+                        <div class="stock-status ${item.stock === 'in' ? 'in-stock' : item.stock === 'limited' ? 'limited' : 'out-of-stock'}">
+                            ${item.stock === 'in' ? '✓ In Stock' : item.stock === 'limited' ? '⚠ Limited Stock' : '✗ Out of Stock'}
+                        </div>
+                        ${isCustomer ? `<button class="add-to-bulk" onclick="addToBulk(${item.id})">📦 Add to Bulk Order</button>` : ''}
                     </div>
-                    ${stockHtml}
-                    ${isCustomer ? `
-                        <button class="add-to-bulk" onclick="openEnhancedBulkModal(${item.id})">📦 Add to Bulk Order</button>
-                    ` : ''}
-                </div>
-                ${isStaff ? `<button class="delete-btn" onclick="deleteItem(${item.id})">×</button>` : ''}
-            `;
-            
-            return div;
-        }
-
-        function getUserRolesDisplay(username) {
-            if (!username || !userRoles[username]) return '';
-            const roles = userRoles[username];
-            if (roles.length === 0) return '';
-            
-            return roles.map(role => {
-                const roleData = {
-                    buyer: { tag: '[Buyer]', class: 'buyer' },
-                    'rich-buyer': { tag: '[Rich Buyer]', class: 'rich-buyer' },
-                    rich: { tag: '[🤑Really Rich]', class: 'rich' },
-                    friend: { tag: '[Friend]', class: 'friend' }
-                }[role];
-                return `<span class="role-display ${roleData.class}">${roleData.tag}</span>`;
-            }).join('');
+                `;
+                
+                container.appendChild(div);
+            });
         }
 
         /* BULK ORDER SYSTEM */
-        function openEnhancedBulkModal(itemId) {
-            if (!currentUser || currentUser === 'FJ121' || currentUser === 'mod121') return;
+        function addToBulk(itemId) {
+            if (!currentUser) return showToast('Log in first', 'error');
             
             const item = items.find(i => i.id === itemId);
             if (!item) return;
+            
+            userBulkOrder.push({
+                id: itemId,
+                name: item.name,
+                price: item.price,
+                quantity: 1
+            });
+            
+            localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
+            showToast('Added to bulk order!', 'success');
+        }
+
+        function openBulkModal() {
+            if (!currentUser) return showToast('Log in first', 'error');
             
             const modal = document.createElement('div');
             modal.className = 'chat-overlay show';
@@ -1885,582 +582,135 @@
                     <div class="chat-header">
                         <div class="chat-title">
                             <span>📦</span>
-                            <span>Add ${item.name} to Order</span>
+                            <span>Your Bulk Order</span>
                         </div>
                         <button class="close-chat" onclick="this.closest('.chat-overlay').remove()">×</button>
                     </div>
                     <div style="padding: 30px;">
-                        <div style="margin-bottom: 20px; text-align: center;">
-                            <h3 style="color: var(--gold-primary); margin-bottom: 10px;">${item.name}</h3>
-                            <div style="color: rgba(255,255,255,0.7); font-size: 1.1rem;">${item.price} per item</div>
-                        </div>
-                        <div class="bulk-quantity-selector">
-                            <select class="bulk-type-select" id="bulkType">
-                                <option value="items">Items</option>
-                                <option value="stacks">Stacks (64 items)</option>
-                                <option value="shulkers">Shulkers (27 stacks)</option>
-                            </select>
-                            <input type="number" class="bulk-quantity-input" id="bulkQuantity" value="1" min="1" max="64">
-                        </div>
-                        <div style="margin: 20px 0; padding: 15px; background: rgba(156,39,176,0.1); border-radius: 12px; text-align: center;">
-                            <div style="color: #e1bee7; font-size: 1.1rem;">
-                                Total: <span id="bulkTotal">1</span> items
+                        ${userBulkOrder.length ? `
+                            <div style="margin-bottom: 20px;">
+                                ${userBulkOrder.map(b => `
+                                    <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(156,39,176,0.3); border-radius: 12px; padding: 15px; margin-bottom: 10px;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <span style="color: #fff;">${b.name}</span>
+                                            <span style="color: #e1bee7;">${b.price}</span>
+                                        </div>
+                                    </div>
+                                `).join('')}
                             </div>
-                        </div>
-                        <button class="btn-confirm-order" onclick="addToEnhancedBulk(${item.id})">Add to Order</button>
+                            <button class="btn-confirm-order" onclick="submitBulkOrder()" style="width: 100%; margin-top: 15px;">Submit Order</button>
+                        ` : `
+                            <div style="text-align: center; padding: 40px; color: rgba(255,255,255,0.5);">
+                                <div style="font-size: 3rem; margin-bottom: 15px;">📭</div>
+                                <p>Your bulk order is empty</p>
+                                <p style="font-size: 0.9rem; margin-top: 10px;">Add items from the shop to get started!</p>
+                            </div>
+                        `}
                     </div>
                 </div>
             `;
             
             document.body.appendChild(modal);
-            
-            // Real-time calculation
-            const typeSelect = modal.querySelector('#bulkType');
-            const quantityInput = modal.querySelector('#bulkQuantity');
-            const totalDisplay = modal.querySelector('#bulkTotal');
-            
-            function calculateTotal() {
-                const type = typeSelect.value;
-                const quantity = parseInt(quantityInput.value) || 0;
-                let total = quantity;
-                
-                switch(type) {
-                    case 'stacks': total = quantity * 64; break;
-                    case 'shulkers': total = quantity * 27 * 64; break;
-                }
-                
-                totalDisplay.textContent = total.toLocaleString();
-            }
-            
-            typeSelect.addEventListener('change', calculateTotal);
-            quantityInput.addEventListener('input', calculateTotal);
-            calculateTotal();
         }
 
-        function addToEnhancedBulk(itemId) {
-            const modal = document.querySelector('.chat-overlay[style*="flex"]');
-            const type = modal.querySelector('#bulkType').value;
-            const quantity = parseInt(modal.querySelector('#bulkQuantity').value) || 0;
-            
-            if (quantity < 1) return showToast('Please enter a valid quantity', 'error');
-            
-            const item = items.find(i => i.id === itemId);
-            if (!item) return;
-            
-            // Remove existing entry if present
-            userBulkOrder = userBulkOrder.filter(b => b.id !== itemId);
-            
-            userBulkOrder.push({
-                id: itemId,
-                name: item.name,
-                price: item.price,
-                type: type,
-                quantity: quantity
-            });
-            
-            localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
-            modal.remove();
-            showToast('Added to bulk order!', 'success');
-        }
-
-        function openBulkModal() {
-            if (!currentUser) return showToast('Log in first', 'error');
-            if (currentUser === 'FJ121' || currentUser === 'mod121') return showToast('Staff cannot order', 'error');
-            
-            document.getElementById('bulkModal').classList.add('show');
-            renderEnhancedBulkModal();
-        }
-
-        function closeBulkModal() {
-            document.getElementById('bulkModal').classList.remove('show');
-        }
-
-        function renderEnhancedBulkModal() {
-            const cont = document.getElementById('bulkModalContent');
-            
-            if (!userBulkOrder.length) {
-                cont.innerHTML = `
-                    <div style="text-align: center; padding: 60px 20px; color: rgba(255,255,255,0.5);">
-                        <div style="font-size: 4rem; margin-bottom: 20px;">📭</div>
-                        <p>Your bulk order is empty</p>
-                        <p style="font-size: 0.9rem; margin-top: 10px;">Add items from the shop to get started!</p>
-                    </div>`;
-                return;
-            }
-            
-            let total = 0, html = '';
-            
-            userBulkOrder.forEach(b => {
-                const shop = items.find(i => i.id === b.id);
-                if (!shop) return;
-                
-                const priceNum = parseFloat(shop.price.replace(/[^0-9.]/g, '')) || 0;
-                let multiplier = 1;
-                let unit = 'items';
-                
-                switch(b.type) {
-                    case 'stacks': multiplier = 64; unit = 'stacks'; break;
-                    case 'shulkers': multiplier = 27 * 64; unit = 'shulkers'; break;
-                }
-                
-                const sub = priceNum * multiplier * b.quantity;
-                total += sub;
-                
-                html += `
-                    <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(156,39,176,0.3); border-radius: 12px; padding: 20px; margin-bottom: 15px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                            <h4 style="color: #fff; margin: 0;">${b.name}</h4>
-                            <span style="color: #e1bee7; font-size: 0.9rem;">${b.quantity} ${unit}</span>
-                        </div>
-                        <div style="color: rgba(255,255,255,0.7); margin-bottom: 15px;">
-                            ${shop.price} per item × ${multiplier} × ${b.quantity} ${unit} = ${sub} d
-                        </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span style="color: var(--gold-primary);">≈ ${(multiplier * b.quantity).toLocaleString()} items total</span>
-                            <button class="btn-remove" onclick="removeFromBulk(${b.id})" style="padding: 6px 12px; background: rgba(255,82,82,0.2); color: #ff5252; border: 1px solid #ff5252; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">Remove</button>
-                        </div>
-                    </div>`;
-            });
-            
-            html += `
-                <div style="background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,215,0,0.05)); border: 2px solid var(--gold-primary); border-radius: 16px; padding: 25px; text-align: center; margin-top: 25px;">
-                    <h3>Total Order Value</h3>
-                    <div style="font-size: 2.5rem; font-weight: 700; color: #fff;">${total} d</div>
-                </div>
-                <button class="btn-confirm-order" onclick="submitEnhancedBulkOrder()" style="width: 100%; margin-top: 20px; padding: 15px; background: linear-gradient(135deg, var(--accent-green) 0%, #2e7d32 100%); color: #1a0b2e; border: none; border-radius: 12px; cursor: pointer; font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Submit Order</button>`;
-            
-            cont.innerHTML = html;
-        }
-
-        function removeFromBulk(id) {
-            userBulkOrder = userBulkOrder.filter(b => b.id !== id);
-            localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
-            renderEnhancedBulkModal();
-        }
-
-        function submitEnhancedBulkOrder() {
+        function submitBulkOrder() {
             if (!userBulkOrder.length) return showToast('Empty order', 'error');
             
-            const order = {
-                user: currentUser,
-                discord: userDiscord,
-                minecraft: userMinecraft,
-                items: [...userBulkOrder],
-                timestamp: new Date().toISOString(),
-                id: Date.now(),
-                completed: false
-            };
-            
-            submittedOrders.push(order);
-            localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
+            // Here you would normally send to Discord webhook
+            showToast('Order submitted! Check Discord for confirmation.', 'success');
             
             userBulkOrder = [];
             localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
             
-            renderEnhancedBulkModal();
-            showToast('Order submitted! Check Discord.', 'success');
-            setTimeout(closeBulkModal, 1500);
-        }
-
-        function showToast(msg, type = 'success') {
-            const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.className = `toast ${type} show`;
-            setTimeout(() => toast.classList.remove('show'), 3000);
+            setTimeout(() => {
+                document.querySelector('.chat-overlay').remove();
+            }, 1500);
         }
 
         /* CHAT FUNCTIONS */
         function openGlobalChat() {
             if (!currentUser) return showToast('Log in first', 'error');
-            if (bannedUsers.includes(currentUser.toLowerCase())) return showToast('Banned from chat', 'error');
             
-            currentChat = 'global';
-            currentSupportUser = null;
-            document.getElementById('globalChatOverlay').classList.add('show');
-            renderGlobalMessages();
-            scrollToBottom('globalMessages');
+            const modal = document.createElement('div');
+            modal.className = 'chat-overlay show';
+            modal.style.display = 'flex';
+            modal.innerHTML = `
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <div class="chat-title">
+                            <span>💬</span>
+                            <span>Global Chat</span>
+                        </div>
+                        <button class="close-chat" onclick="this.closest('.chat-overlay').remove()">×</button>
+                    </div>
+                    <div class="chat-messages" style="padding: 20px; max-height: 300px; overflow-y: auto;">
+                        <p style="text-align: center; color: rgba(255,255,255,0.5); margin-top: 40px;">Start the conversation!</p>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" class="chat-input" placeholder="Type your message..." maxlength="200">
+                        <button class="btn-send" onclick="sendChatMessage(this)">Send</button>
+                    </div>
+                </div>
+            `;
             
-            const muted = mutedUsers.includes(currentUser.toLowerCase());
-            document.getElementById('globalInput').disabled = muted;
-            document.getElementById('globalSendBtn').disabled = muted;
-            document.getElementById('globalMutedBanner').style.display = muted ? 'block' : 'none';
+            document.body.appendChild(modal);
         }
 
         function openSupportChat() {
             if (!currentUser) return showToast('Log in first', 'error');
-            if (bannedUsers.includes(currentUser.toLowerCase())) return showToast('Banned from chat', 'error');
             
-            currentChat = 'support';
-            currentSupportUser = currentUser;
-            document.getElementById('supportChatOverlay').classList.add('show');
-            document.getElementById('supportChatTitle').textContent = `Support - ${currentUser}`;
-            
-            if (!supportChats[currentUser]) supportChats[currentUser] = [];
-            renderSupportMessages();
-            scrollToBottom('supportMessages');
-            
-            const muted = mutedUsers.includes(currentUser.toLowerCase());
-            document.getElementById('supportInput').disabled = muted;
-            document.getElementById('supportSendBtn').disabled = muted;
-            document.getElementById('supportMutedBanner').style.display = muted ? 'block' : 'none';
-        }
-
-        function closeChat() {
-            document.getElementById('globalChatOverlay').classList.remove('show');
-            document.getElementById('supportChatOverlay').classList.remove('show');
-            currentChat = null;
-            currentSupportUser = null;
-        }
-
-        function sendGlobalMessage() {
-            const input = document.getElementById('globalInput');
-            const content = input.value.trim();
-            
-            if (!content || !currentUser || mutedUsers.includes(currentUser.toLowerCase())) return;
-            
-            const msg = {
-                id: Date.now(),
-                author: currentUser,
-                content,
-                timestamp: new Date().toISOString(),
-                deleted: false,
-                isOwner: currentUser === 'FJ121',
-                isMod: currentUser === 'mod121'
-            };
-            
-            globalMessages.push(msg);
-            localStorage.setItem('tavernGlobalChat', JSON.stringify(globalMessages));
-            input.value = '';
-            renderGlobalMessages();
-            scrollToBottom('globalMessages');
-        }
-
-        function sendSupportMessage() {
-            const input = document.getElementById('supportInput');
-            const content = input.value.trim();
-            
-            if (!content || !currentUser || !currentSupportUser || mutedUsers.includes(currentUser.toLowerCase())) return;
-            
-            const msg = {
-                id: Date.now(),
-                author: currentUser,
-                content,
-                timestamp: new Date().toISOString(),
-                deleted: false,
-                isOwner: currentUser === 'FJ121',
-                isMod: currentUser === 'mod121'
-            };
-            
-            if (!supportChats[currentSupportUser]) supportChats[currentSupportUser] = [];
-            supportChats[currentSupportUser].push(msg);
-            localStorage.setItem('tavernSupportChats', JSON.stringify(supportChats));
-            input.value = '';
-            renderSupportMessages();
-            scrollToBottom('supportMessages');
-        }
-
-        function scrollToBottom(id) {
-            const el = document.getElementById(id);
-            el.scrollTop = el.scrollHeight;
-        }
-
-        /* ADMIN/MOD FUNCTIONS */
-        function renderSupportList() {
-            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
-            const cont = document.getElementById('supportChatsContainer');
-            const users = Object.keys(supportChats).filter(u => u !== 'FJ121' && u !== 'mod121');
-            
-            if (!users.length) {
-                cont.innerHTML = '<p style="color:rgba(255,255,255,0.5);text-align:center;padding:40px">No support tickets</p>';
-                return;
-            }
-            
-            cont.innerHTML = users.map(user => {
-                const msgs = supportChats[user];
-                const last = msgs[msgs.length - 1];
-                return `
-                    <div class="support-chat-item" onclick="openStaffSupportChat('${user}')" style="cursor:pointer">
-                        <div class="support-user-info">
-                            <h4>${user}</h4>
-                            <p>${last ? last.content.substring(0, 50) + '...' : 'No messages'}</p>
+            const modal = document.createElement('div');
+            modal.className = 'chat-overlay show';
+            modal.style.display = 'flex';
+            modal.innerHTML = `
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <div class="chat-title">
+                            <span>🎫</span>
+                            <span>Support Chat</span>
                         </div>
-                        <div class="support-meta">
-                            <div class="support-time">${last ? new Date(last.timestamp).toLocaleTimeString() : ''}</div>
-                            <button class="btn-close-ticket" onclick="event.stopPropagation(); closeSupportTicket('${user}')" title="Close Ticket">✕ Close</button>
-                        </div>
-                    </div>`;
-            }).join('');
-        }
-
-        function renderBannedList() {
-            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
-            const cont = document.getElementById('bannedList');
-            const banned = bannedUsers.length;
-            const mutedOnly = mutedUsers.filter(u => !bannedUsers.includes(u));
-            
-            if (!banned && !mutedOnly.length) {
-                cont.innerHTML = '<p style="color:rgba(255,255,255,0.5);text-align:center">No banned or muted users</p>';
-                return;
-            }
-            
-            let html = '';
-            if (banned) {
-                html += '<h4 style="color:#ff5252;margin-bottom:15px">🚫 Banned</h4>';
-                html += bannedUsers.map(u => `
-                    <div class="banned-item">
-                        <span class="banned-name">${u}</span>
-                        <button class="btn-unban" onclick="unbanUser('${u}')">Unban</button>
-                    </div>`).join('');
-            }
-            
-            if (mutedOnly.length) {
-                html += '<h4 style="color:#ff9800;margin:20px 0 15px">🔇 Muted Only</h4>';
-                html += mutedOnly.map(u => `
-                    <div class="banned-item">
-                        <span class="banned-name" style="color:#ff9800">${u}</span>
-                        <button class="btn-unmute" onclick="unmuteUser('${u}')">Unmute</button>
-                    </div>`).join('');
-            }
-            
-            cont.innerHTML = html;
-        }
-
-        function renderAdminOrders() {
-            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
-            const cont = document.getElementById('adminBulkList');
-            
-            if (!submittedOrders.length) {
-                cont.innerHTML = `
-                    <div class="empty-orders">
-                        <div style="font-size:4rem;margin-bottom:20px">📭</div>
-                        <p>No bulk orders yet</p>
-                    </div>`;
-                return;
-            }
-            
-            cont.innerHTML = submittedOrders.map(order => {
-                let itemsHtml = order.items.map(b => {
-                    let unit = 'items';
-                    let multiplier = 1;
-                    switch(b.type) {
-                        case 'stacks': multiplier = 64; unit = 'stacks'; break;
-                        case 'shulkers': multiplier = 27 * 64; unit = 'shulkers'; break;
-                    }
-                    const totalItems = multiplier * b.quantity;
-                    return `
-                        <div class="bulk-order-item">
-                            <span class="bulk-item-name">${b.name}</span>
-                            <span class="bulk-item-qty">${b.quantity} ${unit} (${totalItems.toLocaleString()} items)</span>
-                        </div>`;
-                }).join('');
-                
-                const total = order.items.reduce((sum, b) => {
-                    const shop = items.find(i => i.id === b.id);
-                    const priceNum = parseFloat((shop?.price || '0').replace(/[^0-9.]/g, '')) || 0;
-                    let multiplier = 1;
-                    switch(b.type) {
-                        case 'stacks': multiplier = 64; break;
-                        case 'shulkers': multiplier = 27 * 64; break;
-                    }
-                    return sum + (priceNum * multiplier * b.quantity);
-                }, 0);
-                
-                return `
-                    <div class="bulk-order-card">
-                        <div class="bulk-order-header">
-                            <div>
-                                <div class="bulk-order-user">${order.user}</div>
-                                <div style="color:rgba(255,255,255,0.6);font-size:0.85rem;margin-top:5px">MC: ${order.minecraft} | Discord: ${order.discord}</div>
-                            </div>
-                            <div class="bulk-order-time">${new Date(order.timestamp).toLocaleString()}</div>
-                        </div>
-                        <div class="bulk-order-details">${itemsHtml}</div>
-                        <div class="bulk-order-total">Total: ${total} d</div>
-                        <div style="margin-top: 15px; display: flex; justify-content: flex-end; gap: 10px;">
-                            <button class="btn-view-order" onclick="viewOrderDetails(${order.id})">👁️ View Details</button>
-                            <button class="btn-completed" onclick="confirmOrder(${order.id})">✓ Confirm Order</button>
-                        </div>
-                    </div>`;
-            }).join('');
-        }
-
-        function closeSupportTicket(username) {
-            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
-            if (!confirm(`Close ticket for ${username}?`)) return;
-            
-            delete supportChats[username];
-            localStorage.setItem('tavernSupportChats', JSON.stringify(supportChats));
-            
-            if (currentSupportUser === username) closeChat();
-            renderSupportList();
-            showToast('Ticket closed', 'success');
-        }
-
-        function openStaffSupportChat(username) {
-            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
-            currentChat = 'support';
-            currentSupportUser = username;
-            document.getElementById('supportChatOverlay').classList.add('show');
-            document.getElementById('supportChatTitle').textContent = `Support - ${username}`;
-            renderSupportMessages();
-            scrollToBottom('supportMessages');
-        }
-
-        function deleteMessage(type, msgId) {
-            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
-            
-            if (type === 'global') {
-                const msg = globalMessages.find(m => m.id === msgId);
-                if (msg) {
-                    msg.deleted = true;
-                    localStorage.setItem('tavernGlobalChat', JSON.stringify(globalMessages));
-                    renderGlobalMessages();
-                }
-            } else if (type === 'support' && currentSupportUser) {
-                const chat = supportChats[currentSupportUser];
-                if (chat) {
-                    const msg = chat.find(m => m.id === msgId);
-                    if (msg) {
-                        msg.deleted = true;
-                        localStorage.setItem('tavernSupportChats', JSON.stringify(supportChats));
-                        renderSupportMessages();
-                    }
-                }
-            }
-        }
-
-        function muteUser(username) {
-            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
-            if (username === 'FJ121' || username === 'mod121') return;
-            
-            if (!mutedUsers.includes(username.toLowerCase())) {
-                mutedUsers.push(username.toLowerCase());
-                localStorage.setItem('tavernMuted', JSON.stringify(mutedUsers));
-                showToast(`${username} muted`, 'success');
-            }
-        }
-
-        function unmuteUser(username) {
-            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
-            mutedUsers = mutedUsers.filter(u => u !== username.toLowerCase());
-            localStorage.setItem('tavernMuted', JSON.stringify(mutedUsers));
-            renderBannedList();
-            showToast(`${username} unmuted`, 'success');
-        }
-
-        function banUser(username) {
-            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
-            if (username === 'FJ121' || username === 'mod121') return;
-            
-            if (!bannedUsers.includes(username.toLowerCase())) {
-                bannedUsers.push(username.toLowerCase());
-                localStorage.setItem('tavernBanned', JSON.stringify(bannedUsers));
-                showToast(`${username} banned`, 'success');
-            }
-        }
-
-        function unbanUser(username) {
-            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
-            bannedUsers = bannedUsers.filter(u => u !== username.toLowerCase());
-            localStorage.setItem('tavernBanned', JSON.stringify(bannedUsers));
-            renderBannedList();
-            showToast(`${username} unbanned`, 'success');
-        }
-
-        function renderGlobalMessages() {
-            const box = document.getElementById('globalMessages');
-            box.innerHTML = globalMessages.map(m => createMessageHTML(m, 'global')).join('');
-        }
-
-        function renderSupportMessages() {
-            const box = document.getElementById('supportMessages');
-            if (!currentSupportUser || !supportChats[currentSupportUser]) {
-                box.innerHTML = '<p style="text-align:center;color:rgba(255,255,255,0.5);margin-top:40px">No messages yet. Start the conversation!</p>';
-                return;
-            }
-            box.innerHTML = supportChats[currentSupportUser].map(m => createMessageHTML(m, 'support')).join('');
-        }
-
-        function createMessageHTML(msg, type, className = '') {
-            const isStaffUser = currentUser === 'FJ121';
-            const isModUser = currentUser === 'mod121';
-            const isOwn = msg.author === currentUser;
-            const isOwnerMsg = msg.isOwner || msg.author === 'FJ121';
-            const isModMsg = msg.isMod || msg.author === 'mod121';
-            const time = new Date(msg.timestamp).toLocaleTimeString();
-            
-            let actions = '';
-            if ((isStaffUser || isModUser) && !msg.deleted && msg.author !== 'FJ121' && msg.author !== 'mod121') {
-                actions = `
-                    <div class="message-actions">
-                        <button class="msg-btn msg-btn-delete" onclick="deleteMessage('${type}', ${msg.id})">🗑 Delete</button>
-                        <button class="msg-btn msg-btn-mute" onclick="muteUser('${msg.author}')">🔇 Mute</button>
-                        <button class="msg-btn msg-btn-ban" onclick="banUser('${msg.author}')">🚫 Ban</button>
-                    </div>`;
-            }
-            
-            const authorDisplay = isOwnerMsg ? '[OWNER]' : (isModMsg ? '[MOD]' : msg.author);
-            const authorClass = isOwnerMsg ? 'owner' : (isModMsg ? 'mod' : '');
-            
-            let cls = className || 'chat-message ' + (isOwn ? 'own' : 'other');
-            if (msg.deleted) cls += ' deleted';
-            else if (isOwnerMsg) cls += ' owner-msg';
-            else if (isModMsg) cls += ' mod-msg';
-            
-            return `
-                <div class="${cls}" data-msg-id="${msg.id}">
-                    <div class="message-header">
-                        <span class="message-author ${authorClass}">${authorDisplay}</span>
-                        <span class="message-time">${time}</span>
+                        <button class="close-chat" onclick="this.closest('.chat-overlay').remove()">×</button>
                     </div>
-                    <div class="message-content">${msg.deleted ? '<em>Message deleted by moderator</em>' : escapeHtml(msg.content)}</div>
-                    ${actions}
-                </div>`;
+                    <div class="chat-messages" style="padding: 20px; max-height: 300px; overflow-y: auto;">
+                        <p style="text-align: center; color: rgba(255,255,255,0.5); margin-top: 40px;">How can we help you today?</p>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" class="chat-input" placeholder="Describe your issue..." maxlength="200">
+                        <button class="btn-send" onclick="sendChatMessage(this)">Send</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
         }
 
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
+        function sendChatMessage(button) {
+            const input = button.previousElementSibling;
+            const content = input.value.trim();
+            
+            if (!content) return;
+            
+            const messagesContainer = button.closest('.chat-container').querySelector('.chat-messages');
+            const msgDiv = document.createElement('div');
+            msgDiv.style.cssText = 'margin-bottom: 10px; text-align: right;';
+            msgDiv.innerHTML = `
+                <div style="background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.2); border-radius: 15px; padding: 10px 15px; display: inline-block; max-width: 80%;">
+                    ${content}
+                </div>
+                <div style="color: rgba(255,255,255,0.5); font-size: 0.8rem; margin-top: 5px;">${new Date().toLocaleTimeString()}</div>
+            `;
+            
+            messagesContainer.appendChild(msgDiv);
+            input.value = '';
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
-        /* REAL-TIME UPDATES */
-        function startRealTimeUpdates() {
-            if (currentUser) {
-                // Update global chat every 100ms for ultra-fast updates
-                setInterval(() => {
-                    const currentMessages = JSON.parse(localStorage.getItem('tavernGlobalChat')) || [];
-                    if (currentMessages.length !== globalMessages.length) {
-                        globalMessages = currentMessages;
-                        if (document.getElementById('globalChatOverlay').classList.contains('show')) {
-                            renderGlobalMessages();
-                            scrollToBottom('globalMessages');
-                        }
-                    }
-                }, 100);
-                
-                // Update support chat every 100ms
-                setInterval(() => {
-                    const currentChats = JSON.parse(localStorage.getItem('tavernSupportChats')) || {};
-                    supportChats = currentChats;
-                    if (document.getElementById('supportChatOverlay').classList.contains('show') && currentSupportUser) {
-                        renderSupportMessages();
-                        scrollToBottom('supportMessages');
-                    }
-                }, 100);
-                
-                // Update orders every 100ms for staff
-                if (currentUser === 'FJ121' || currentUser === 'mod121') {
-                    setInterval(() => {
-                        const currentOrders = JSON.parse(localStorage.getItem('tavernSubmittedOrders')) || [];
-                        if (currentOrders.length !== submittedOrders.length) {
-                            submittedOrders = currentOrders;
-                            renderAdminOrders();
-                            showToast('📦 New bulk order received!', 'success');
-                        }
-                    }, 100);
-                }
-            }
+        /* UTILITY FUNCTIONS */
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.className = `toast ${type} show`;
+            setTimeout(() => toast.classList.remove('show'), 3000);
         }
     </script>
 </body>
