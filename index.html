@@ -38,25 +38,6 @@
             overflow-x: hidden;
         }
 
-        /* REAL-TIME UPDATE INDICATORS */
-        .update-indicator {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 255, 0, 0.8);
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: 9999;
-        }
-        .update-indicator.show {
-            opacity: 1;
-        }
-
         /* ROLE DISPLAY SYSTEM */
         .role-display {
             display: inline-block;
@@ -642,190 +623,46 @@
             color: #1a0b2e;
         }
 
-        /* BULK ORDER MODAL */
-        .bulk-order-modal {
-            position: fixed;
+        /* TABS */
+        .tabs-container {
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+            padding-bottom: 20px;
+        }
+        .tabs {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .tab {
+            padding: 12px 28px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        .tab.active {
+            color: #1a0b2e;
+            border-color: var(--gold-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
+        }
+        .tab.active::before {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-        .bulk-order-modal.show {
-            display: flex;
-        }
-        .bulk-order-content {
-            background: var(--chat-bg);
-            border: 2px solid var(--gold-primary);
-            border-radius: 20px;
-            padding: 30px;
-            width: 90%;
-            max-width: 800px;
-            max-height: 80vh;
-            overflow-y: auto;
-            position: relative;
-        }
-        .bulk-order-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
-        }
-        .bulk-order-title {
-            font-family: 'Cinzel', serif;
-            font-size: 1.5rem;
-            color: var(--gold-primary);
-        }
-        .bulk-order-close {
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 1.5rem;
-            cursor: pointer;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: all 0.3s;
-        }
-        .bulk-order-close:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-        }
-        .bulk-order-item {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(156, 39, 176, 0.3);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s;
-        }
-        .bulk-order-item:hover {
-            border-color: rgba(255, 215, 0, 0.3);
-        }
-        .bulk-item-info {
-            flex: 1;
-        }
-        .bulk-item-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 5px;
-        }
-        .bulk-item-details {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-        }
-        .bulk-item-price {
-            color: var(--gold-primary);
-            font-weight: 600;
-        }
-        .bulk-item-remove {
-            background: rgba(255, 82, 82, 0.2);
-            color: #ff5252;
-            border: 1px solid #ff5252;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        .bulk-item-remove:hover {
-            background: #ff5252;
-            color: #fff;
-        }
-        .bulk-order-total {
-            background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,215,0,0.05));
-            border: 2px solid var(--gold-primary);
-            border-radius: 16px;
-            padding: 20px;
-            text-align: center;
-            margin: 20px 0;
-        }
-        .bulk-order-total h3 {
-            color: var(--gold-primary);
-            margin-bottom: 10px;
-        }
-        .bulk-total-amount {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #fff;
-        }
-        .bulk-order-actions {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-        }
-        .bulk-order-type-selector {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .bulk-type-select {
-            flex: 1;
-            padding: 10px 15px;
-            border: 2px solid rgba(156, 39, 176, 0.5);
-            background: rgba(0, 0, 0, 0.3);
-            color: #fff;
-            border-radius: 8px;
-            font-size: 1rem;
-        }
-        .bulk-quantity-input {
-            width: 80px;
-            padding: 10px;
-            border: 2px solid rgba(156, 39, 176, 0.5);
-            background: rgba(0, 0, 0, 0.3);
-            color: #fff;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: bold;
-        }
-        .btn-confirm-order {
-            padding: 12px 24px;
-            background: linear-gradient(135deg, var(--accent-green) 0%, #2e7d32 100%);
-            color: #1a0b2e;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-            flex: 1;
-        }
-        .btn-confirm-order:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(105, 240, 174, 0.3);
-        }
-        .btn-cancel-order {
-            padding: 12px 24px;
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.3s;
-            flex: 1;
-        }
-        .btn-cancel-order:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+            z-index: -1;
         }
 
         /* TOAST */
@@ -1368,9 +1205,6 @@
     </style>
 </head>
 <body>
-    <!-- Update Indicator -->
-    <div id="updateIndicator" class="update-indicator">🔄 Updating...</div>
-
     <!-- Location Bar -->
     <div class="location-bar">
         <div class="location-text">
@@ -1389,7 +1223,7 @@
             <p style="color: rgba(255,255,255,0.5); margin-top: 10px; letter-spacing: 4px; text-transform: uppercase;">Premium Minecraft Emporium</p>
         </header>
 
-        <!-- LOGIN SECTION -->
+        <!-- LOGIN SECTION - FIXED -->
         <div class="login-section" id="loginSection">
             <div id="loginForm" class="login-form">
                 <input type="text" id="usernameInput" placeholder="Username" required>
@@ -1595,7 +1429,7 @@
         </div>
     </div>
 
-    <!-- Enhanced Bulk Order Modal -->
+    <!-- Bulk Order Modal -->
     <div id="bulkModal" class="chat-overlay">
         <div class="chat-container" style="max-width: 900px;">
             <div class="chat-header">
@@ -1662,4 +1496,1178 @@
         let bulkOrderLogs = JSON.parse(localStorage.getItem('tavernBulkLogs')) || [];
         let orderLogs = JSON.parse(localStorage.getItem('tavernOrderLogs')) || [];
         let currentViewingOrder = null;
-        let currentChat
+        let currentChat = null;
+        let currentSupportUser = null;
+
+        /* INITIALIZATION */
+        window.onload = () => {
+            createParticles();
+            setupEventListeners();
+            if (currentUser) restoreLogin();
+            renderItems();
+            startRealTimeUpdates();
+            updateRoleSelector();
+        };
+
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDelay = Math.random() * 20 + 's';
+                p.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(p);
+            }
+        }
+
+        function setupEventListeners() {
+            const loginBtn = document.getElementById('enterShopBtn');
+            loginBtn.addEventListener('click', login);
+            
+            ['usernameInput', 'discordInput', 'minecraftInput'].forEach(id => {
+                const input = document.getElementById(id);
+                input.addEventListener('keypress', e => {
+                    if (e.key === 'Enter') login();
+                });
+            });
+        }
+
+        /* LOGIN / LOGOUT / ROLE MANAGEMENT */
+        function restoreLogin() {
+            document.getElementById('currentUser').textContent = currentUser;
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('userInfo').classList.add('show');
+            
+            if (currentUser === 'FJ121') {
+                showStaffUI();
+            } else if (currentUser === 'mod121') {
+                showModUI();
+            }
+        }
+
+        function login() {
+            const username = document.getElementById('usernameInput').value.trim();
+            const discord = document.getElementById('discordInput').value.trim();
+            const minecraft = document.getElementById('minecraftInput').value.trim();
+            
+            if (!username || !discord || !minecraft) {
+                showToast('Please fill in all fields', 'error');
+                return;
+            }
+            
+            if (bannedUsers.includes(username.toLowerCase())) {
+                showToast('You are banned from this shop', 'error');
+                return;
+            }
+            
+            currentUser = username;
+            userDiscord = discord;
+            userMinecraft = minecraft;
+            
+            localStorage.setItem('tavernUser', currentUser);
+            localStorage.setItem('tavernDiscord', userDiscord);
+            localStorage.setItem('tavernMinecraft', userMinecraft);
+            
+            if (!allUsers.includes(currentUser)) {
+                allUsers.push(currentUser);
+                localStorage.setItem('tavernAllUsers', JSON.stringify(allUsers));
+            }
+            
+            document.getElementById('currentUser').textContent = username;
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('userInfo').classList.add('show');
+            
+            if (username === 'FJ121') {
+                showToast('Welcome, Shopkeeper!', 'success');
+                showStaffUI();
+            } else if (username === 'mod121') {
+                showToast('Welcome, Moderator!', 'success');
+                showModUI();
+            } else {
+                showToast(`Welcome to The Tavern, ${username}!`, 'success');
+            }
+            
+            renderItems();
+            updateRoleSelector();
+        }
+
+        function logout() {
+            if (!confirm('Exit your account? You will need to log in again.')) return;
+            
+            currentUser = null;
+            userDiscord = '';
+            userMinecraft = '';
+            userBulkOrder = [];
+            
+            ['tavernUser', 'tavernDiscord', 'tavernMinecraft', 'tavernBulkOrder'].forEach(k => localStorage.removeItem(k));
+            
+            document.getElementById('usernameInput').value = '';
+            document.getElementById('discordInput').value = '';
+            document.getElementById('minecraftInput').value = '';
+            document.getElementById('loginForm').style.display = 'grid';
+            document.getElementById('userInfo').classList.remove('show');
+            
+            document.querySelectorAll('#adminControls, #modControls, #supportList, #bannedUsers, #adminBulkOrders, #bulkLogs, #roleManagerPanel, #orderLogs').forEach(el => {
+                el.classList.remove('show');
+            });
+            
+            renderItems();
+            showToast('You have exited your account', 'success');
+        }
+
+        function showStaffUI() {
+            document.getElementById('adminControls').classList.add('show');
+            document.getElementById('supportList').classList.add('show');
+            document.getElementById('bannedUsers').classList.add('show');
+            document.getElementById('adminBulkOrders').classList.add('show');
+            document.getElementById('bulkLogs').classList.add('show');
+            document.getElementById('orderLogs').classList.add('show');
+            document.getElementById('modControls').classList.remove('show');
+            updateRoleSelector();
+            renderSupportList();
+            renderBannedList();
+            renderAdminOrders();
+            renderBulkLogs();
+            renderOrderLogs();
+        }
+
+        function showModUI() {
+            document.getElementById('modControls').classList.add('show');
+            document.getElementById('supportList').classList.add('show');
+            document.getElementById('bannedUsers').classList.add('show');
+            document.getElementById('adminBulkOrders').classList.add('show');
+            document.getElementById('adminControls').classList.remove('show');
+            document.getElementById('bulkLogs').classList.remove('show');
+            document.getElementById('orderLogs').classList.remove('show');
+            document.getElementById('roleManagerPanel').classList.remove('show');
+            renderSupportList();
+            renderBannedList();
+            renderAdminOrders();
+        }
+
+        /* ROLE MANAGEMENT */
+        function updateRoleSelector() {
+            if (currentUser !== 'FJ121') return;
+            const select = document.getElementById('roleUserSelect');
+            select.innerHTML = '<option value="">Select User...</option>';
+            allUsers.forEach(user => {
+                if (user !== 'FJ121' && user !== 'mod121') {
+                    const option = document.createElement('option');
+                    option.value = user;
+                    option.textContent = user;
+                    select.appendChild(option);
+                }
+            });
+        }
+
+        function toggleRolePanel() {
+            const panel = document.getElementById('roleManagerPanel');
+            if (panel.classList.contains('show')) {
+                panel.classList.remove('show');
+            } else {
+                panel.classList.add('show');
+                renderUserList();
+            }
+        }
+
+        function renderUserList() {
+            const container = document.getElementById('userListContainer');
+            let filteredUsers = allUsers.filter(user => user !== 'FJ121' && user !== 'mod121');
+            
+            if (filteredUsers.length === 0) {
+                container.innerHTML = '<p style="text-align:center;color:rgba(255,255,255,0.5);padding:20px;">No users found</p>';
+                return;
+            }
+            
+            container.innerHTML = filteredUsers.map(user => {
+                const roles = userRoles[user] || [];
+                let roleTags = '';
+                
+                if (roles.length > 0) {
+                    roleTags = roles.map(role => {
+                        const roleData = {
+                            buyer: { tag: '[Buyer]', class: 'buyer' },
+                            'rich-buyer': { tag: '[Rich Buyer]', class: 'rich-buyer' },
+                            rich: { tag: '[🤑Really Rich]', class: 'rich' },
+                            friend: { tag: '[Friend]', class: 'friend' }
+                        }[role];
+                        return `<span class="role-tag-display ${roleData.class}">${roleData.tag}</span>`;
+                    }).join('');
+                }
+                
+                return `
+                    <div class="user-card" data-username="${user}">
+                        <div>
+                            <div class="user-name">${user}</div>
+                            <div class="user-roles">${roleTags}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <button class="role-remove-btn" onclick="removeAllRoles('${user}')" title="Remove all roles" style="margin-left: 0;">×</button>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function assignRole() {
+            const userSelect = document.getElementById('roleUserSelect');
+            const roleSelect = document.getElementById('roleTypeSelect');
+            const username = userSelect.value;
+            const role = roleSelect.value;
+            
+            if (!username || !role) {
+                showToast('Please select both user and role', 'error');
+                return;
+            }
+            
+            if (!userRoles[username]) userRoles[username] = [];
+            if (userRoles[username].includes(role)) {
+                showToast('User already has this role', 'error');
+                return;
+            }
+            
+            userRoles[username].push(role);
+            localStorage.setItem('tavernUserRoles', JSON.stringify(userRoles));
+            renderUserList();
+            renderItems();
+            showToast(`Assigned ${role} role to ${username}`, 'success');
+            userSelect.value = '';
+            roleSelect.value = '';
+        }
+
+        function removeAllRoles(username) {
+            if (currentUser !== 'FJ121') return;
+            if (userRoles[username]) {
+                delete userRoles[username];
+                localStorage.setItem('tavernUserRoles', JSON.stringify(userRoles));
+                renderUserList();
+                renderItems();
+                showToast(`Removed all roles from ${username}`, 'success');
+            }
+        }
+
+        /* ITEMS MANAGEMENT */
+        function addItem() {
+            if (currentUser !== 'FJ121') return;
+            
+            const name = document.getElementById('itemName').value.trim();
+            const price = document.getElementById('itemPrice').value.trim();
+            const type = document.getElementById('itemType').value;
+            const stock = document.getElementById('itemStock').value;
+            
+            if (!name || !price) return showToast('Name and price required', 'error');
+            
+            const newItem = { id: Date.now(), name, type, location: null, price, stock };
+            items.push(newItem);
+            localStorage.setItem('tavernItems', JSON.stringify(items));
+            
+            document.getElementById('itemName').value = '';
+            document.getElementById('itemPrice').value = '';
+            
+            renderItems();
+            showToast('Item added to shop', 'success');
+        }
+
+        function deleteItem(id) {
+            if (currentUser !== 'FJ121') return;
+            if (!confirm('Delete this item from the shop?')) return;
+            
+            items = items.filter(i => i.id !== id);
+            localStorage.setItem('tavernItems', JSON.stringify(items));
+            renderItems();
+            showToast('Item removed from shop', 'success');
+        }
+
+        function updateItemStock(id, newStock) {
+            if (currentUser !== 'FJ121') return;
+            const item = items.find(i => i.id === id);
+            if (!item) return;
+            
+            item.stock = newStock;
+            localStorage.setItem('tavernItems', JSON.stringify(items));
+            renderItems();
+            showToast(`Stock updated to ${newStock}`, 'success');
+        }
+
+        function renderItems() {
+            const container = document.getElementById('itemsContainer');
+            container.innerHTML = '';
+            
+            let filtered = items;
+            if (currentFilter === 'in') filtered = items.filter(i => i.stock === 'in');
+            else if (currentFilter === 'out') filtered = items.filter(i => i.stock === 'out');
+            else if (currentFilter === 'limited') filtered = items.filter(i => i.stock === 'limited');
+            
+            if (!filtered.length) {
+                container.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px;color:rgba(255,255,255,0.5)"><div style="font-size:4rem;margin-bottom:20px">📭</div><p>No items found</p></div>`;
+                return;
+            }
+            
+            filtered.forEach(it => container.appendChild(createItemCard(it)));
+        }
+
+        function createItemCard(item) {
+            const div = document.createElement('div');
+            div.className = 'item-card';
+            
+            const isStaff = currentUser === 'FJ121';
+            const isMod = currentUser === 'mod121';
+            const isCustomer = currentUser && currentUser !== 'FJ121' && currentUser !== 'mod121';
+            
+            // Get user roles for display
+            const userRolesDisplay = getUserRolesDisplay(currentUser);
+            
+            // Stock editor for staff
+            let stockHtml = '';
+            if (isStaff) {
+                stockHtml = `
+                    <div class="stock-editor">
+                        <select class="stock-select ${item.stock}" onchange="updateItemStock(${item.id}, this.value)">
+                            <option value="in" ${item.stock === 'in' ? 'selected' : ''}>In Stock</option>
+                            <option value="out" ${item.stock === 'out' ? 'selected' : ''}>Out of Stock</option>
+                            <option value="limited" ${item.stock === 'limited' ? 'selected' : ''}>Limited</option>
+                        </select>
+                    </div>`;
+            }
+            
+            div.innerHTML = `
+                <div class="item-info">
+                    <div class="item-name">${item.name} ${userRolesDisplay}</div>
+                    <div class="tags">
+                        <span class="tag tag-item">${item.type}</span>
+                        ${item.stock === 'limited' ? '<span class="tag tag-rarity">Limited</span>' : ''}
+                    </div>
+                </div>
+                <div class="item-details">
+                    <div class="price">${item.price}</div>
+                    <div class="stock-status ${item.stock === 'in' ? 'in-stock' : item.stock === 'limited' ? 'limited' : 'out-of-stock'}">
+                        ${item.stock === 'in' ? '✓ In Stock' : item.stock === 'limited' ? '⚠ Limited Stock' : '✗ Out of Stock'}
+                    </div>
+                    ${stockHtml}
+                    ${isCustomer ? `
+                        <button class="add-to-bulk" onclick="openEnhancedBulkModal(${item.id})">📦 Add to Bulk Order</button>
+                    ` : ''}
+                </div>
+                ${isStaff ? `<button class="delete-btn" onclick="deleteItem(${item.id})">×</button>` : ''}
+            `;
+            
+            return div;
+        }
+
+        function getUserRolesDisplay(username) {
+            if (!username || !userRoles[username]) return '';
+            const roles = userRoles[username];
+            if (roles.length === 0) return '';
+            
+            return roles.map(role => {
+                const roleData = {
+                    buyer: { tag: '[Buyer]', class: 'buyer' },
+                    'rich-buyer': { tag: '[Rich Buyer]', class: 'rich-buyer' },
+                    rich: { tag: '[🤑Really Rich]', class: 'rich' },
+                    friend: { tag: '[Friend]', class: 'friend' }
+                }[role];
+                return `<span class="role-display ${roleData.class}">${roleData.tag}</span>`;
+            }).join('');
+        }
+
+        function filterItems(type) {
+            currentFilter = type;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            renderItems();
+        }
+
+        /* BULK ORDER SYSTEM */
+        function openEnhancedBulkModal(itemId) {
+            if (!currentUser || currentUser === 'FJ121' || currentUser === 'mod121') return;
+            
+            const item = items.find(i => i.id === itemId);
+            if (!item) return;
+            
+            const modal = document.createElement('div');
+            modal.className = 'chat-overlay show';
+            modal.style.display = 'flex';
+            modal.innerHTML = `
+                <div class="chat-container" style="max-width: 500px;">
+                    <div class="chat-header">
+                        <div class="chat-title">
+                            <span>📦</span>
+                            <span>Add ${item.name} to Order</span>
+                        </div>
+                        <button class="close-chat" onclick="this.closest('.chat-overlay').remove()">×</button>
+                    </div>
+                    <div style="padding: 30px;">
+                        <div style="margin-bottom: 20px; text-align: center;">
+                            <h3 style="color: var(--gold-primary); margin-bottom: 10px;">${item.name}</h3>
+                            <div style="color: rgba(255,255,255,0.7); font-size: 1.1rem;">${item.price} per item</div>
+                        </div>
+                        <div class="bulk-quantity-selector">
+                            <select class="bulk-type-select" id="bulkType">
+                                <option value="items">Items</option>
+                                <option value="stacks">Stacks (64 items)</option>
+                                <option value="shulkers">Shulkers (27 stacks)</option>
+                            </select>
+                            <input type="number" class="bulk-quantity-input" id="bulkQuantity" value="1" min="1" max="64">
+                        </div>
+                        <div style="margin: 20px 0; padding: 15px; background: rgba(156,39,176,0.1); border-radius: 12px; text-align: center;">
+                            <div style="color: #e1bee7; font-size: 1.1rem;">
+                                Total: <span id="bulkTotal">1</span> items
+                            </div>
+                        </div>
+                        <button class="btn-confirm-order" onclick="addToEnhancedBulk(${item.id})">Add to Order</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Real-time calculation
+            const typeSelect = modal.querySelector('#bulkType');
+            const quantityInput = modal.querySelector('#bulkQuantity');
+            const totalDisplay = modal.querySelector('#bulkTotal');
+            
+            function calculateTotal() {
+                const type = typeSelect.value;
+                const quantity = parseInt(quantityInput.value) || 0;
+                let total = quantity;
+                
+                switch(type) {
+                    case 'stacks': total = quantity * 64; break;
+                    case 'shulkers': total = quantity * 27 * 64; break;
+                }
+                
+                totalDisplay.textContent = total.toLocaleString();
+            }
+            
+            typeSelect.addEventListener('change', calculateTotal);
+            quantityInput.addEventListener('input', calculateTotal);
+            calculateTotal();
+        }
+
+        function addToEnhancedBulk(itemId) {
+            const modal = document.querySelector('.chat-overlay[style*="flex"]');
+            const type = modal.querySelector('#bulkType').value;
+            const quantity = parseInt(modal.querySelector('#bulkQuantity').value) || 0;
+            
+            if (quantity < 1) return showToast('Please enter a valid quantity', 'error');
+            
+            const item = items.find(i => i.id === itemId);
+            if (!item) return;
+            
+            // Remove existing entry if present
+            userBulkOrder = userBulkOrder.filter(b => b.id !== itemId);
+            
+            userBulkOrder.push({
+                id: itemId,
+                name: item.name,
+                price: item.price,
+                type: type,
+                quantity: quantity
+            });
+            
+            localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
+            modal.remove();
+            showToast('Added to bulk order!', 'success');
+        }
+
+        function openBulkModal() {
+            if (!currentUser) return showToast('Log in first', 'error');
+            if (currentUser === 'FJ121' || currentUser === 'mod121') return showToast('Staff cannot order', 'error');
+            
+            document.getElementById('bulkModal').classList.add('show');
+            renderEnhancedBulkModal();
+        }
+
+        function closeBulkModal() {
+            document.getElementById('bulkModal').classList.remove('show');
+        }
+
+        function renderEnhancedBulkModal() {
+            const cont = document.getElementById('bulkModalContent');
+            
+            if (!userBulkOrder.length) {
+                cont.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px; color: rgba(255,255,255,0.5);">
+                        <div style="font-size: 4rem; margin-bottom: 20px;">📭</div>
+                        <p>Your bulk order is empty</p>
+                        <p style="font-size: 0.9rem; margin-top: 10px;">Add items from the shop to get started!</p>
+                    </div>`;
+                return;
+            }
+            
+            let total = 0, html = '';
+            
+            userBulkOrder.forEach(b => {
+                const shop = items.find(i => i.id === b.id);
+                if (!shop) return;
+                
+                const priceNum = parseFloat(shop.price.replace(/[^0-9.]/g, '')) || 0;
+                let multiplier = 1;
+                let unit = 'items';
+                
+                switch(b.type) {
+                    case 'stacks': multiplier = 64; unit = 'stacks'; break;
+                    case 'shulkers': multiplier = 27 * 64; unit = 'shulkers'; break;
+                }
+                
+                const sub = priceNum * multiplier * b.quantity;
+                total += sub;
+                
+                html += `
+                    <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(156,39,176,0.3); border-radius: 12px; padding: 20px; margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <h4 style="color: #fff; margin: 0;">${b.name}</h4>
+                            <span style="color: #e1bee7; font-size: 0.9rem;">${b.quantity} ${unit}</span>
+                        </div>
+                        <div style="color: rgba(255,255,255,0.7); margin-bottom: 15px;">
+                            ${shop.price} per item × ${multiplier} × ${b.quantity} ${unit} = ${sub} d
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: var(--gold-primary);">≈ ${(multiplier * b.quantity).toLocaleString()} items total</span>
+                            <button class="btn-remove" onclick="removeFromBulk(${b.id})" style="padding: 6px 12px; background: rgba(255,82,82,0.2); color: #ff5252; border: 1px solid #ff5252; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">Remove</button>
+                        </div>
+                    </div>`;
+            });
+            
+            html += `
+                <div style="background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,215,0,0.05)); border: 2px solid var(--gold-primary); border-radius: 16px; padding: 25px; text-align: center; margin-top: 25px;">
+                    <h3>Total Order Value</h3>
+                    <div style="font-size: 2.5rem; font-weight: 700; color: #fff;">${total} d</div>
+                </div>
+                <button class="btn-confirm-order" onclick="submitEnhancedBulkOrder()" style="width: 100%; margin-top: 20px; padding: 15px; background: linear-gradient(135deg, var(--accent-green) 0%, #2e7d32 100%); color: #1a0b2e; border: none; border-radius: 12px; cursor: pointer; font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Submit Order</button>`;
+            
+            cont.innerHTML = html;
+        }
+
+        function removeFromBulk(id) {
+            userBulkOrder = userBulkOrder.filter(b => b.id !== id);
+            localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
+            renderEnhancedBulkModal();
+        }
+
+        function submitEnhancedBulkOrder() {
+            if (!userBulkOrder.length) return showToast('Empty order', 'error');
+            
+            const order = {
+                user: currentUser,
+                discord: userDiscord,
+                minecraft: userMinecraft,
+                items: [...userBulkOrder],
+                timestamp: new Date().toISOString(),
+                id: Date.now(),
+                completed: false
+            };
+            
+            submittedOrders.push(order);
+            localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
+            
+            userBulkOrder = [];
+            localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
+            
+            renderEnhancedBulkModal();
+            showToast('Order submitted! Check Discord.', 'success');
+            setTimeout(closeBulkModal, 1500);
+        }
+
+        function viewOrderDetails(orderId) {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            const order = submittedOrders.find(o => o.id === orderId);
+            if (!order) return;
+            
+            currentViewingOrder = order;
+            renderOrderView(order);
+            document.getElementById('orderViewModal').classList.add('show');
+        }
+
+        function closeOrderView() {
+            document.getElementById('orderViewModal').classList.remove('show');
+            currentViewingOrder = null;
+        }
+
+        function renderOrderView(order) {
+            const content = document.getElementById('orderViewContent');
+            let itemsHtml = '';
+            let total = 0;
+            
+            order.items.forEach(item => {
+                const shop = items.find(i => i.id === item.id);
+                if (!shop) return;
+                
+                const priceNum = parseFloat(shop.price.replace(/[^0-9.]/g, '')) || 0;
+                let multiplier = 1;
+                let unit = 'items';
+                
+                switch(item.type) {
+                    case 'stacks': multiplier = 64; unit = 'stacks'; break;
+                    case 'shulkers': multiplier = 27 * 64; unit = 'shulkers'; break;
+                }
+                
+                const subtotal = priceNum * multiplier * item.quantity;
+                total += subtotal;
+                
+                itemsHtml += `
+                    <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(156,39,176,0.3); border-radius: 12px; padding: 20px; margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <h4 style="color: #fff; margin: 0;">${item.name}</h4>
+                            <span style="color: #e1bee7; font-size: 0.9rem;">${item.quantity} ${unit}</span>
+                        </div>
+                        <div style="color: rgba(255,255,255,0.7); margin-bottom: 15px;">
+                            ${shop.price} per item × ${multiplier} × ${item.quantity} ${unit} = ${subtotal} d
+                        </div>
+                        <div style="color: var(--gold-primary);">
+                            ≈ ${(multiplier * item.quantity).toLocaleString()} items total
+                        </div>
+                    </div>`;
+            });
+            
+            content.innerHTML = `
+                <div style="margin-bottom: 30px;">
+                    <h3 style="color: var(--gold-primary); margin-bottom: 15px;">Customer Information</h3>
+                    <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 12px;">
+                        <div style="margin-bottom: 10px;"><strong>Username:</strong> ${order.user}</div>
+                        <div style="margin-bottom: 10px;"><strong>Discord:</strong> ${order.discord}</div>
+                        <div style="margin-bottom: 10px;"><strong>Minecraft:</strong> ${order.minecraft}</div>
+                        <div><strong>Order Date:</strong> ${new Date(order.timestamp).toLocaleString()}</div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 30px;">
+                    <h3 style="color: var(--gold-primary); margin-bottom: 15px;">Order Items</h3>
+                    ${itemsHtml}
+                </div>
+                <div style="background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,215,0,0.05)); border: 2px solid var(--gold-primary); border-radius: 16px; padding: 25px; text-align: center;">
+                    <h3>Total Order Value</h3>
+                    <div style="font-size: 2.5rem; font-weight: 700; color: #fff;">${total} d</div>
+                </div>
+                ${!order.completed ? `
+                    <button class="btn-confirm-order" onclick="confirmOrder(${order.id})">✓ Confirm Order</button>
+                ` : `
+                    <div style="text-align: center; padding: 20px; background: rgba(76, 175, 80, 0.1); border: 2px solid #4caf50; border-radius: 12px; color: #4caf50; font-weight: 700;">
+                        ✓ Order Confirmed
+                    </div>
+                `}
+            `;
+        }
+
+        function confirmOrder(orderId) {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            
+            const orderIndex = submittedOrders.findIndex(o => o.id === orderId);
+            if (orderIndex === -1) return;
+            
+            const order = submittedOrders[orderIndex];
+            order.completed = true;
+            order.completedAt = new Date().toISOString();
+            order.completedBy = currentUser;
+            
+            // Add to order logs
+            const logEntry = { ...order, action: 'confirmed', timestamp: order.completedAt, performedBy: currentUser };
+            orderLogs.push(logEntry);
+            localStorage.setItem('tavernOrderLogs', JSON.stringify(orderLogs));
+            
+            // Add to bulk logs
+            bulkOrderLogs.push({ ...order, confirmedAt: order.completedAt, confirmedBy: currentUser });
+            localStorage.setItem('tavernBulkLogs', JSON.stringify(bulkOrderLogs));
+            
+            localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
+            
+            // Remove from active orders
+            submittedOrders.splice(orderIndex, 1);
+            localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
+            
+            renderAdminOrders();
+            renderBulkLogs();
+            renderOrderLogs();
+            closeOrderView();
+            showToast('Order confirmed and logged!', 'success');
+        }
+
+        function renderOrderLogs() {
+            if (currentUser !== 'FJ121') return;
+            const container = document.getElementById('orderLogsContainer');
+            
+            if (!orderLogs.length) {
+                container.innerHTML = '<p style="color:rgba(255,255,255,0.5);text-align:center">No order logs yet...</p>';
+                return;
+            }
+            
+            container.innerHTML = orderLogs.slice().reverse().map(log => {
+                let itemsHtml = log.items.map(item => {
+                    let unit = 'items';
+                    let multiplier = 1;
+                    switch(item.type) {
+                        case 'stacks': unit = 'stacks'; multiplier = 64; break;
+                        case 'shulkers': unit = 'shulkers'; multiplier = 27 * 64; break;
+                    }
+                    const totalItems = multiplier * item.quantity;
+                    return `<div>• ${item.name}: ${item.quantity} ${unit} (${totalItems.toLocaleString()} items)</div>`;
+                }).join('');
+                
+                const actionColor = log.action === 'confirmed' ? '#4caf50' : '#ff5252';
+                const actionIcon = log.action === 'confirmed' ? '✓' : '✗';
+                
+                return `
+                    <div class="log-entry" style="border-left: 4px solid ${actionColor};">
+                        <div class="log-customer">${log.user} ${actionIcon} ${log.action}</div>
+                        <div class="log-details">
+                            <div><strong>Discord:</strong> ${log.discord}</div>
+                            <div><strong>Items:</strong></div>
+                            ${itemsHtml}
+                            <div><strong>Performed by:</strong> ${log.performedBy} at ${new Date(log.timestamp).toLocaleString()}</div>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function renderBulkLogs() {
+            if (currentUser !== 'FJ121') return;
+            const container = document.getElementById('logsContainer');
+            
+            if (!bulkOrderLogs.length) {
+                container.innerHTML = '<p style="color:rgba(255,255,255,0.5);text-align:center">No completed orders yet...</p>';
+                return;
+            }
+            
+            container.innerHTML = bulkOrderLogs.slice().reverse().map(log => {
+                let itemsHtml = log.items.map(item => {
+                    let unit = 'items';
+                    let multiplier = 1;
+                    switch(item.type) {
+                        case 'stacks': unit = 'stacks'; multiplier = 64; break;
+                        case 'shulkers': unit = 'shulkers'; multiplier = 27 * 64; break;
+                    }
+                    const totalItems = multiplier * item.quantity;
+                    return `<div>• ${item.name}: ${item.quantity} ${unit} (${totalItems.toLocaleString()} items)</div>`;
+                }).join('');
+                
+                return `
+                    <div class="log-entry">
+                        <div class="log-customer">${log.user}</div>
+                        <div class="log-details">
+                            <div><strong>Discord:</strong> ${log.discord}</div>
+                            <div><strong>Items:</strong></div>
+                            ${itemsHtml}
+                            <div><strong>Confirmed by:</strong> ${log.confirmedBy} at ${new Date(log.confirmedAt).toLocaleString()}</div>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function clearAllOrders() {
+            if (!confirm('Clear ALL submitted orders?')) return;
+            
+            // Log the action
+            const logEntry = { action: 'cleared', timestamp: new Date().toISOString(), performedBy: currentUser, orderCount: submittedOrders.length };
+            orderLogs.push(logEntry);
+            localStorage.setItem('tavernOrderLogs', JSON.stringify(orderLogs));
+            
+            submittedOrders = [];
+            localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
+            
+            renderAdminOrders();
+            renderOrderLogs();
+            showToast('All orders cleared', 'success');
+        }
+
+        /* CHAT SYSTEM */
+        function openGlobalChat() {
+            if (!currentUser) return showToast('Log in first', 'error');
+            if (bannedUsers.includes(currentUser.toLowerCase())) return showToast('Banned from chat', 'error');
+            
+            currentChat = 'global';
+            currentSupportUser = null;
+            document.getElementById('globalChatOverlay').classList.add('show');
+            renderGlobalMessages();
+            scrollToBottom('globalMessages');
+            
+            const muted = mutedUsers.includes(currentUser.toLowerCase());
+            document.getElementById('globalInput').disabled = muted;
+            document.getElementById('globalSendBtn').disabled = muted;
+            document.getElementById('globalMutedBanner').style.display = muted ? 'block' : 'none';
+        }
+
+        function openSupportChat() {
+            if (!currentUser) return showToast('Log in first', 'error');
+            if (bannedUsers.includes(currentUser.toLowerCase())) return showToast('Banned from chat', 'error');
+            
+            currentChat = 'support';
+            currentSupportUser = currentUser;
+            document.getElementById('supportChatOverlay').classList.add('show');
+            document.getElementById('supportChatTitle').textContent = `Support - ${currentUser}`;
+            
+            if (!supportChats[currentUser]) supportChats[currentUser] = [];
+            renderSupportMessages();
+            scrollToBottom('supportMessages');
+            
+            const muted = mutedUsers.includes(currentUser.toLowerCase());
+            document.getElementById('supportInput').disabled = muted;
+            document.getElementById('supportSendBtn').disabled = muted;
+            document.getElementById('supportMutedBanner').style.display = muted ? 'block' : 'none';
+        }
+
+        function closeChat() {
+            document.getElementById('globalChatOverlay').classList.remove('show');
+            document.getElementById('supportChatOverlay').classList.remove('show');
+            currentChat = null;
+            currentSupportUser = null;
+        }
+
+        function sendGlobalMessage() {
+            const input = document.getElementById('globalInput');
+            const content = input.value.trim();
+            
+            if (!content || !currentUser || mutedUsers.includes(currentUser.toLowerCase())) return;
+            
+            const msg = {
+                id: Date.now(),
+                author: currentUser,
+                content,
+                timestamp: new Date().toISOString(),
+                deleted: false,
+                isOwner: currentUser === 'FJ121',
+                isMod: currentUser === 'mod121'
+            };
+            
+            globalMessages.push(msg);
+            localStorage.setItem('tavernGlobalChat', JSON.stringify(globalMessages));
+            input.value = '';
+            renderGlobalMessages();
+            scrollToBottom('globalMessages');
+        }
+
+        function sendSupportMessage() {
+            const input = document.getElementById('supportInput');
+            const content = input.value.trim();
+            
+            if (!content || !currentUser || !currentSupportUser || mutedUsers.includes(currentUser.toLowerCase())) return;
+            
+            const msg = {
+                id: Date.now(),
+                author: currentUser,
+                content,
+                timestamp: new Date().toISOString(),
+                deleted: false,
+                isOwner: currentUser === 'FJ121',
+                isMod: currentUser === 'mod121'
+            };
+            
+            if (!supportChats[currentSupportUser]) supportChats[currentSupportUser] = [];
+            supportChats[currentSupportUser].push(msg);
+            localStorage.setItem('tavernSupportChats', JSON.stringify(supportChats));
+            input.value = '';
+            renderSupportMessages();
+            scrollToBottom('supportMessages');
+        }
+
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.className = `toast ${type} show`;
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function scrollToBottom(id) {
+            const el = document.getElementById(id);
+            el.scrollTop = el.scrollHeight;
+        }
+
+        /* ADMIN/MOD FUNCTIONS */
+        function renderSupportList() {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            const cont = document.getElementById('supportChatsContainer');
+            const users = Object.keys(supportChats).filter(u => u !== 'FJ121' && u !== 'mod121');
+            
+            if (!users.length) {
+                cont.innerHTML = '<p style="color:rgba(255,255,255,0.5);text-align:center;padding:40px">No support tickets</p>';
+                return;
+            }
+            
+            cont.innerHTML = users.map(user => {
+                const msgs = supportChats[user];
+                const last = msgs[msgs.length - 1];
+                return `
+                    <div class="support-chat-item" onclick="openStaffSupportChat('${user}')" style="cursor:pointer">
+                        <div class="support-user-info">
+                            <h4>${user}</h4>
+                            <p>${last ? last.content.substring(0, 50) + '...' : 'No messages'}</p>
+                        </div>
+                        <div class="support-meta">
+                            <div class="support-time">${last ? new Date(last.timestamp).toLocaleTimeString() : ''}</div>
+                            <button class="btn-close-ticket" onclick="event.stopPropagation(); closeSupportTicket('${user}')" title="Close Ticket">✕ Close</button>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function renderBannedList() {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            const cont = document.getElementById('bannedList');
+            const banned = bannedUsers.length;
+            const mutedOnly = mutedUsers.filter(u => !bannedUsers.includes(u));
+            
+            if (!banned && !mutedOnly.length) {
+                cont.innerHTML = '<p style="color:rgba(255,255,255,0.5);text-align:center">No banned or muted users</p>';
+                return;
+            }
+            
+            let html = '';
+            if (banned) {
+                html += '<h4 style="color:#ff5252;margin-bottom:15px">🚫 Banned</h4>';
+                html += bannedUsers.map(u => `
+                    <div class="banned-item">
+                        <span class="banned-name">${u}</span>
+                        <button class="btn-unban" onclick="unbanUser('${u}')">Unban</button>
+                    </div>`).join('');
+            }
+            
+            if (mutedOnly.length) {
+                html += '<h4 style="color:#ff9800;margin:20px 0 15px">🔇 Muted Only</h4>';
+                html += mutedOnly.map(u => `
+                    <div class="banned-item">
+                        <span class="banned-name" style="color:#ff9800">${u}</span>
+                        <button class="btn-unmute" onclick="unmuteUser('${u}')">Unmute</button>
+                    </div>`).join('');
+            }
+            
+            cont.innerHTML = html;
+        }
+
+        function renderAdminOrders() {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            const cont = document.getElementById('adminBulkList');
+            
+            if (!submittedOrders.length) {
+                cont.innerHTML = `
+                    <div class="empty-orders">
+                        <div style="font-size:4rem;margin-bottom:20px">📭</div>
+                        <p>No bulk orders yet</p>
+                    </div>`;
+                return;
+            }
+            
+            cont.innerHTML = submittedOrders.map(order => {
+                let itemsHtml = order.items.map(b => {
+                    let unit = 'items';
+                    let multiplier = 1;
+                    switch(b.type) {
+                        case 'stacks': multiplier = 64; unit = 'stacks'; break;
+                        case 'shulkers': multiplier = 27 * 64; unit = 'shulkers'; break;
+                    }
+                    const totalItems = multiplier * b.quantity;
+                    return `
+                        <div class="bulk-order-item">
+                            <span class="bulk-item-name">${b.name}</span>
+                            <span class="bulk-item-qty">${b.quantity} ${unit} (${totalItems.toLocaleString()} items)</span>
+                        </div>`;
+                }).join('');
+                
+                const total = order.items.reduce((sum, b) => {
+                    const shop = items.find(i => i.id === b.id);
+                    const priceNum = parseFloat((shop?.price || '0').replace(/[^0-9.]/g, '')) || 0;
+                    let multiplier = 1;
+                    switch(b.type) {
+                        case 'stacks': multiplier = 64; break;
+                        case 'shulkers': multiplier = 27 * 64; break;
+                    }
+                    return sum + (priceNum * multiplier * b.quantity);
+                }, 0);
+                
+                return `
+                    <div class="bulk-order-card">
+                        <div class="bulk-order-header">
+                            <div>
+                                <div class="bulk-order-user">${order.user}</div>
+                                <div style="color:rgba(255,255,255,0.6);font-size:0.85rem;margin-top:5px">MC: ${order.minecraft} | Discord: ${order.discord}</div>
+                            </div>
+                            <div class="bulk-order-time">${new Date(order.timestamp).toLocaleString()}</div>
+                        </div>
+                        <div class="bulk-order-details">${itemsHtml}</div>
+                        <div class="bulk-order-total">Total: ${total} d</div>
+                        <div style="margin-top: 15px; display: flex; justify-content: flex-end; gap: 10px;">
+                            <button class="btn-view-order" onclick="viewOrderDetails(${order.id})">👁️ View Details</button>
+                            <button class="btn-completed" onclick="confirmOrder(${order.id})">✓ Confirm Order</button>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function closeSupportTicket(username) {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            if (!confirm(`Close ticket for ${username}?`)) return;
+            
+            delete supportChats[username];
+            localStorage.setItem('tavernSupportChats', JSON.stringify(supportChats));
+            
+            if (currentSupportUser === username) closeChat();
+            renderSupportList();
+            showToast('Ticket closed', 'success');
+        }
+
+        function openStaffSupportChat(username) {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            currentChat = 'support';
+            currentSupportUser = username;
+            document.getElementById('supportChatOverlay').classList.add('show');
+            document.getElementById('supportChatTitle').textContent = `Support - ${username}`;
+            renderSupportMessages();
+            scrollToBottom('supportMessages');
+        }
+
+        function deleteMessage(type, msgId) {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            
+            if (type === 'global') {
+                const msg = globalMessages.find(m => m.id === msgId);
+                if (msg) {
+                    msg.deleted = true;
+                    localStorage.setItem('tavernGlobalChat', JSON.stringify(globalMessages));
+                    renderGlobalMessages();
+                }
+            } else if (type === 'support' && currentSupportUser) {
+                const chat = supportChats[currentSupportUser];
+                if (chat) {
+                    const msg = chat.find(m => m.id === msgId);
+                    if (msg) {
+                        msg.deleted = true;
+                        localStorage.setItem('tavernSupportChats', JSON.stringify(supportChats));
+                        renderSupportMessages();
+                    }
+                }
+            }
+        }
+
+        function muteUser(username) {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            if (username === 'FJ121' || username === 'mod121') return;
+            
+            if (!mutedUsers.includes(username.toLowerCase())) {
+                mutedUsers.push(username.toLowerCase());
+                localStorage.setItem('tavernMuted', JSON.stringify(mutedUsers));
+                showToast(`${username} muted`, 'success');
+            }
+        }
+
+        function unmuteUser(username) {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            mutedUsers = mutedUsers.filter(u => u !== username.toLowerCase());
+            localStorage.setItem('tavernMuted', JSON.stringify(mutedUsers));
+            renderBannedList();
+            showToast(`${username} unmuted`, 'success');
+        }
+
+        function banUser(username) {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            if (username === 'FJ121' || username === 'mod121') return;
+            
+            if (!bannedUsers.includes(username.toLowerCase())) {
+                bannedUsers.push(username.toLowerCase());
+                localStorage.setItem('tavernBanned', JSON.stringify(bannedUsers));
+                showToast(`${username} banned`, 'success');
+            }
+        }
+
+        function unbanUser(username) {
+            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+            bannedUsers = bannedUsers.filter(u => u !== username.toLowerCase());
+            localStorage.setItem('tavernBanned', JSON.stringify(bannedUsers));
+            renderBannedList();
+            showToast(`${username} unbanned`, 'success');
+        }
+
+        function renderGlobalMessages() {
+            const box = document.getElementById('globalMessages');
+            box.innerHTML = globalMessages.map(m => createMessageHTML(m, 'global')).join('');
+        }
+
+        function renderSupportMessages() {
+            const box = document.getElementById('supportMessages');
+            if (!currentSupportUser || !supportChats[currentSupportUser]) {
+                box.innerHTML = '<p style="text-align:center;color:rgba(255,255,255,0.5);margin-top:40px">No messages yet. Start the conversation!</p>';
+                return;
+            }
+            box.innerHTML = supportChats[currentSupportUser].map(m => createMessageHTML(m, 'support')).join('');
+        }
+
+        function createMessageHTML(msg, type, className = '') {
+            const isStaffUser = currentUser === 'FJ121';
+            const isModUser = currentUser === 'mod121';
+            const isOwn = msg.author === currentUser;
+            const isOwnerMsg = msg.isOwner || msg.author === 'FJ121';
+            const isModMsg = msg.isMod || msg.author === 'mod121';
+            const time = new Date(msg.timestamp).toLocaleTimeString();
+            
+            let actions = '';
+            if ((isStaffUser || isModUser) && !msg.deleted && msg.author !== 'FJ121' && msg.author !== 'mod121') {
+                actions = `
+                    <div class="message-actions">
+                        <button class="msg-btn msg-btn-delete" onclick="deleteMessage('${type}', ${msg.id})">🗑 Delete</button>
+                        <button class="msg-btn msg-btn-mute" onclick="muteUser('${msg.author}')">🔇 Mute</button>
+                        <button class="msg-btn msg-btn-ban" onclick="banUser('${msg.author}')">🚫 Ban</button>
+                    </div>`;
+            }
+            
+            const authorDisplay = isOwnerMsg ? '[OWNER]' : (isModMsg ? '[MOD]' : msg.author);
+            const authorClass = isOwnerMsg ? 'owner' : (isModMsg ? 'mod' : '');
+            
+            let cls = className || 'chat-message ' + (isOwn ? 'own' : 'other');
+            if (msg.deleted) cls += ' deleted';
+            else if (isOwnerMsg) cls += ' owner-msg';
+            else if (isModMsg) cls += ' mod-msg';
+            
+            return `
+                <div class="${cls}" data-msg-id="${msg.id}">
+                    <div class="message-header">
+                        <span class="message-author ${authorClass}">${authorDisplay}</span>
+                        <span class="message-time">${time}</span>
+                    </div>
+                    <div class="message-content">${msg.deleted ? '<em>Message deleted by moderator</em>' : escapeHtml(msg.content)}</div>
+                    ${actions}
+                </div>`;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        /* REAL-TIME UPDATES */
+        function startRealTimeUpdates() {
+            if (currentUser) {
+                // Update global chat every 100ms for ultra-fast updates
+                setInterval(() => {
+                    const currentMessages = JSON.parse(localStorage.getItem('tavernGlobalChat')) || [];
+                    if (currentMessages.length !== globalMessages.length) {
+                        globalMessages = currentMessages;
+                        if (document.getElementById('globalChatOverlay').classList.contains('show')) {
+                            renderGlobalMessages();
+                            scrollToBottom('globalMessages');
+                        }
+                    }
+                }, 100);
+                
+                // Update support chat every 100ms
+                setInterval(() => {
+                    const currentChats = JSON.parse(localStorage.getItem('tavernSupportChats')) || {};
+                    supportChats = currentChats;
+                    if (document.getElementById('supportChatOverlay').classList.contains('show') && currentSupportUser) {
+                        renderSupportMessages();
+                        scrollToBottom('supportMessages');
+                    }
+                }, 100);
+                
+                // Update orders every 100ms for staff
+                if (currentUser === 'FJ121' || currentUser === 'mod121') {
+                    setInterval(() => {
+                        const currentOrders = JSON.parse(localStorage.getItem('tavernSubmittedOrders')) || [];
+                        if (currentOrders.length !== submittedOrders.length) {
+                            submittedOrders = currentOrders;
+                            renderAdminOrders();
+                            showToast('📦 New bulk order received!', 'success');
+                        }
+                    }, 100);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
