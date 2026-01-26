@@ -38,7 +38,7 @@
             overflow-x: hidden;
         }
 
-        /* ROLE DISPLAY SYSTEM */
+        /* ROLE DISPLAY SYSTEM - ENHANCED FOR CHAT */
         .role-display {
             display: inline-block;
             padding: 2px 6px;
@@ -53,6 +53,23 @@
         .role-display.rich-buyer { background: #e91e63; color: #fff; }
         .role-display.rich { background: #e91e63; color: #fff; }
         .role-display.friend { background: #e91e63; color: #fff; }
+
+        /* Chat role display */
+        .chat-role-display {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        .chat-role-display.buyer { background: #ff9800; color: #1a0b2e; }
+        .chat-role-display.rich-buyer { background: #e91e63; color: #fff; }
+        .chat-role-display.rich { background: #e91e63; color: #fff; }
+        .chat-role-display.friend { background: #e91e63; color: #fff; }
 
         /* PARTICLES */
         .particles {
@@ -1063,7 +1080,7 @@
             color: #fff;
         }
 
-        /* BULK ORDER CARDS */
+        /* BULK ORDER CARDS - CONSOLIDATED VIEW */
         .bulk-order-card {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(156, 39, 176, 0.3);
@@ -1244,7 +1261,7 @@
             </div>
         </div>
 
-        <!-- ROLE MANAGER PANEL (FJ121 only) -->
+        <!-- ROLE MANAGER PANEL (FJ121 only) - FIXED TO HIDE CURRENT USER -->
         <div id="roleManagerPanel" class="role-manager">
             <div class="role-manager-header">
                 <h3>👑 Role Manager</h3>
@@ -1346,7 +1363,7 @@
             </div>
         </div>
 
-        <!-- ADMIN BULK ORDERS (Admin/Mod only) -->
+        <!-- ADMIN BULK ORDERS (Admin/Mod only) - CONSOLIDATED VIEW -->
         <div id="adminBulkOrders" class="admin-bulk-orders">
             <div class="admin-bulk-header">
                 <div class="admin-bulk-title">📦 Customer Bulk Orders</div>
@@ -1646,13 +1663,14 @@
             renderAdminOrders();
         }
 
-        /* ROLE MANAGEMENT */
+        /* ROLE MANAGEMENT - FIXED TO HIDE CURRENT USER */
         function updateRoleSelector() {
             if (currentUser !== 'FJ121') return;
             const select = document.getElementById('roleUserSelect');
             select.innerHTML = '<option value="">Select User...</option>';
             allUsers.forEach(user => {
-                if (user !== 'FJ121' && user !== 'mod121') {
+                // HIDE CURRENT USER FROM ROLE MANAGER
+                if (user !== 'FJ121' && user !== 'mod121' && user !== currentUser) {
                     const option = document.createElement('option');
                     option.value = user;
                     option.textContent = user;
@@ -1673,7 +1691,8 @@
 
         function renderUserList() {
             const container = document.getElementById('userListContainer');
-            let filteredUsers = allUsers.filter(user => user !== 'FJ121' && user !== 'mod121');
+            // HIDE CURRENT USER FROM USER LIST
+            let filteredUsers = allUsers.filter(user => user !== 'FJ121' && user !== 'mod121' && user !== currentUser);
             
             if (filteredUsers.length === 0) {
                 container.innerHTML = '<p style="text-align:center;color:rgba(255,255,255,0.5);padding:20px;">No users found</p>';
@@ -1867,6 +1886,22 @@
                     friend: { tag: '[Friend]', class: 'friend' }
                 }[role];
                 return `<span class="role-display ${roleData.class}">${roleData.tag}</span>`;
+            }).join('');
+        }
+
+        function getChatRoleDisplay(username) {
+            if (!username || !userRoles[username]) return '';
+            const roles = userRoles[username];
+            if (roles.length === 0) return '';
+            
+            return roles.map(role => {
+                const roleData = {
+                    buyer: { tag: '[Buyer]', class: 'buyer' },
+                    'rich-buyer': { tag: '[Rich Buyer]', class: 'rich-buyer' },
+                    rich: { tag: '[🤑Really Rich]', class: 'rich' },
+                    friend: { tag: '[Friend]', class: 'friend' }
+                }[role];
+                return `<span class="chat-role-display ${roleData.class}">${roleData.tag}</span>`;
             }).join('');
         }
 
@@ -2089,7 +2124,18 @@
             let itemsHtml = '';
             let total = 0;
             
+            // CONSOLIDATE MULTIPLE ITEMS FROM SAME ORDER
+            const consolidatedItems = {};
             order.items.forEach(item => {
+                const key = `${item.id}-${item.type}`;
+                if (consolidatedItems[key]) {
+                    consolidatedItems[key].quantity += item.quantity;
+                } else {
+                    consolidatedItems[key] = { ...item };
+                }
+            });
+            
+            Object.values(consolidatedItems).forEach(item => {
                 const shop = items.find(i => i.id === item.id);
                 if (!shop) return;
                 
@@ -2268,7 +2314,7 @@
             showToast('All orders cleared', 'success');
         }
 
-        /* CHAT SYSTEM */
+        /* CHAT SYSTEM - ENHANCED WITH ROLES */
         function openGlobalChat() {
             if (!currentUser) return showToast('Log in first', 'error');
             if (bannedUsers.includes(currentUser.toLowerCase())) return showToast('Banned from chat', 'error');
@@ -2294,7 +2340,7 @@
             document.getElementById('supportChatOverlay').classList.add('show');
             document.getElementById('supportChatTitle').textContent = `Support - ${currentUser}`;
             
-            if (!supportChats[currentUser]) supportChats[currentUser] = [];
+            if (!supportChats[currentSupportUser]) supportChats[currentSupportUser] = [];
             renderSupportMessages();
             scrollToBottom('supportMessages');
             
@@ -2445,7 +2491,18 @@
             }
             
             cont.innerHTML = submittedOrders.map(order => {
-                let itemsHtml = order.items.map(b => {
+                // CONSOLIDATE MULTIPLE ITEMS FROM SAME ORDER
+                const consolidatedItems = {};
+                order.items.forEach(item => {
+                    const key = `${item.id}-${item.type}`;
+                    if (consolidatedItems[key]) {
+                        consolidatedItems[key].quantity += item.quantity;
+                    } else {
+                        consolidatedItems[key] = { ...item };
+                    }
+                });
+                
+                let itemsHtml = Object.values(consolidatedItems).map(b => {
                     let unit = 'items';
                     let multiplier = 1;
                     switch(b.type) {
@@ -2460,7 +2517,7 @@
                         </div>`;
                 }).join('');
                 
-                const total = order.items.reduce((sum, b) => {
+                const total = Object.values(consolidatedItems).reduce((sum, b) => {
                     const shop = items.find(i => i.id === b.id);
                     const priceNum = parseFloat((shop?.price || '0').replace(/[^0-9.]/g, '')) || 0;
                     let multiplier = 1;
@@ -2595,6 +2652,9 @@
             const isModMsg = msg.isMod || msg.author === 'mod121';
             const time = new Date(msg.timestamp).toLocaleTimeString();
             
+            // GET CHAT ROLE DISPLAY - FIXED TO SHOW IN FRONT OF NAME
+            const chatRoleDisplay = getChatRoleDisplay(msg.author);
+            
             let actions = '';
             if ((isStaffUser || isModUser) && !msg.deleted && msg.author !== 'FJ121' && msg.author !== 'mod121') {
                 actions = `
@@ -2616,7 +2676,7 @@
             return `
                 <div class="${cls}" data-msg-id="${msg.id}">
                     <div class="message-header">
-                        <span class="message-author ${authorClass}">${authorDisplay}</span>
+                        <span class="message-author ${authorClass}">${chatRoleDisplay}${authorDisplay}</span>
                         <span class="message-time">${time}</span>
                     </div>
                     <div class="message-content">${msg.deleted ? '<em>Message deleted by moderator</em>' : escapeHtml(msg.content)}</div>
@@ -2630,7 +2690,7 @@
             return div.innerHTML;
         }
 
-        /* REAL-TIME UPDATES */
+        /* REAL-TIME UPDATES - ENHANCED FOR ALL COMPONENTS */
         function startRealTimeUpdates() {
             if (currentUser) {
                 // Update global chat every 100ms for ultra-fast updates
@@ -2666,9 +2726,44 @@
                         }
                     }, 100);
                 }
+                
+                // Update role manager every 100ms
+                if (currentUser === 'FJ121') {
+                    setInterval(() => {
+                        const currentUsers = JSON.parse(localStorage.getItem('tavernAllUsers')) || [];
+                        if (currentUsers.length !== allUsers.length) {
+                            allUsers = currentUsers;
+                            updateRoleSelector();
+                            renderUserList();
+                        }
+                    }, 100);
+                }
+                
+                // Update items every 100ms
+                setInterval(() => {
+                    const currentItems = JSON.parse(localStorage.getItem('tavernItems')) || [];
+                    if (JSON.stringify(currentItems) !== JSON.stringify(items)) {
+                        items = currentItems;
+                        renderItems();
+                    }
+                }, 100);
+                
+                // Update user roles every 100ms
+                setInterval(() => {
+                    const currentRoles = JSON.parse(localStorage.getItem('tavernUserRoles')) || {};
+                    if (JSON.stringify(currentRoles) !== JSON.stringify(userRoles)) {
+                        userRoles = currentRoles;
+                        renderItems();
+                        if (document.getElementById('globalChatOverlay').classList.contains('show')) {
+                            renderGlobalMessages();
+                        }
+                        if (document.getElementById('supportChatOverlay').classList.contains('show')) {
+                            renderSupportMessages();
+                        }
+                    }
+                }, 100);
             }
         }
     </script>
 </body>
 </html>
-
