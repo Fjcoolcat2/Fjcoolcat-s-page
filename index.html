@@ -1229,7 +1229,7 @@
                 <input type="text" id="usernameInput" placeholder="Username" required>
                 <input type="text" id="discordInput" placeholder="Discord (e.g., user#1234)" required>
                 <input type="text" id="minecraftInput" placeholder="Minecraft Username" required>
-                <button type="button" class="btn-primary" id="enterShopBtn">Enter Shop</button>
+                <button type="button" class="btn-primary" id="enterShopBtn" onclick="login()">Enter Shop</button>
             </div>
             <div id="userInfo" class="user-info">
                 <div class="welcome-text">
@@ -1522,18 +1522,13 @@
         }
 
         function setupEventListeners() {
-            const loginBtn = document.getElementById('enterShopBtn');
-            loginBtn.addEventListener('click', login);
-            
+            // Login button is now properly connected via onclick attribute
             ['usernameInput', 'discordInput', 'minecraftInput'].forEach(id => {
                 const input = document.getElementById(id);
                 input.addEventListener('keypress', e => {
                     if (e.key === 'Enter') login();
                 });
             });
-
-            const loginForm = document.getElementById('loginForm');
-            loginForm.addEventListener('submit', e => e.preventDefault());
         }
 
         /* LOGIN / LOGOUT / ROLE MANAGEMENT */
@@ -1772,14 +1767,13 @@
         }
 
         function deleteItem(id) {
-I'll continue with the complete fixed code:
-
-```javascript
-        function deleteItem(id) {
             if (currentUser !== 'FJ121') return;
             if (!confirm('Delete this item from the shop?')) return;
             
             items = items.filter(i => i.id !== id);
+           I'll continue with the complete fixed code:
+
+```javascript
             localStorage.setItem('tavernItems', JSON.stringify(items));
             renderItems();
             showToast('Item removed from shop', 'success');
@@ -1874,13 +1868,6 @@ I'll continue with the complete fixed code:
                 }[role];
                 return `<span class="role-display ${roleData.class}">${roleData.tag}</span>`;
             }).join('');
-        }
-
-        function filterItems(type) {
-            currentFilter = type;
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            renderItems();
         }
 
         /* BULK ORDER SYSTEM */
@@ -2075,206 +2062,14 @@ I'll continue with the complete fixed code:
             setTimeout(closeBulkModal, 1500);
         }
 
-        function viewOrderDetails(orderId) {
-            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
-            const order = submittedOrders.find(o => o.id === orderId);
-            if (!order) return;
-            
-            currentViewingOrder = order;
-            renderOrderView(order);
-            document.getElementById('orderViewModal').classList.add('show');
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.className = `toast ${type} show`;
+            setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        function closeOrderView() {
-            document.getElementById('orderViewModal').classList.remove('show');
-            currentViewingOrder = null;
-        }
-
-        function renderOrderView(order) {
-            const content = document.getElementById('orderViewContent');
-            let itemsHtml = '';
-            let total = 0;
-            
-            order.items.forEach(item => {
-                const shop = items.find(i => i.id === item.id);
-                if (!shop) return;
-                
-                const priceNum = parseFloat(shop.price.replace(/[^0-9.]/g, '')) || 0;
-                let multiplier = 1;
-                let unit = 'items';
-                
-                switch(item.type) {
-                    case 'stacks': multiplier = 64; unit = 'stacks'; break;
-                    case 'shulkers': multiplier = 27 * 64; unit = 'shulkers'; break;
-                }
-                
-                const subtotal = priceNum * multiplier * item.quantity;
-                total += subtotal;
-                
-                itemsHtml += `
-                    <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(156,39,176,0.3); border-radius: 12px; padding: 20px; margin-bottom: 15px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                            <h4 style="color: #fff; margin: 0;">${item.name}</h4>
-                            <span style="color: #e1bee7; font-size: 0.9rem;">${item.quantity} ${unit}</span>
-                        </div>
-                        <div style="color: rgba(255,255,255,0.7); margin-bottom: 15px;">
-                            ${shop.price} per item × ${multiplier} × ${item.quantity} ${unit} = ${subtotal} d
-                        </div>
-                        <div style="color: var(--gold-primary);">
-                            ≈ ${(multiplier * item.quantity).toLocaleString()} items total
-                        </div>
-                    </div>`;
-            });
-            
-            content.innerHTML = `
-                <div style="margin-bottom: 30px;">
-                    <h3 style="color: var(--gold-primary); margin-bottom: 15px;">Customer Information</h3>
-                    <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 12px;">
-                        <div style="margin-bottom: 10px;"><strong>Username:</strong> ${order.user}</div>
-                        <div style="margin-bottom: 10px;"><strong>Discord:</strong> ${order.discord}</div>
-                        <div style="margin-bottom: 10px;"><strong>Minecraft:</strong> ${order.minecraft}</div>
-                        <div><strong>Order Date:</strong> ${new Date(order.timestamp).toLocaleString()}</div>
-                    </div>
-                </div>
-                <div style="margin-bottom: 30px;">
-                    <h3 style="color: var(--gold-primary); margin-bottom: 15px;">Order Items</h3>
-                    ${itemsHtml}
-                </div>
-                <div style="background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,215,0,0.05)); border: 2px solid var(--gold-primary); border-radius: 16px; padding: 25px; text-align: center;">
-                    <h3>Total Order Value</h3>
-                    <div style="font-size: 2.5rem; font-weight: 700; color: #fff;">${total} d</div>
-                </div>
-                ${!order.completed ? `
-                    <button class="btn-confirm-order" onclick="confirmOrder(${order.id})">✓ Confirm Order</button>
-                ` : `
-                    <div style="text-align: center; padding: 20px; background: rgba(76, 175, 80, 0.1); border: 2px solid #4caf50; border-radius: 12px; color: #4caf50; font-weight: 700;">
-                        ✓ Order Confirmed
-                    </div>
-                `}
-            `;
-        }
-
-        function confirmOrder(orderId) {
-            if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
-            
-            const orderIndex = submittedOrders.findIndex(o => o.id === orderId);
-            if (orderIndex === -1) return;
-            
-            const order = submittedOrders[orderIndex];
-            order.completed = true;
-            order.completedAt = new Date().toISOString();
-            order.completedBy = currentUser;
-            
-            // Add to order logs
-            const logEntry = { ...order, action: 'confirmed', timestamp: order.completedAt, performedBy: currentUser };
-            orderLogs.push(logEntry);
-            localStorage.setItem('tavernOrderLogs', JSON.stringify(orderLogs));
-            
-            // Add to bulk logs
-            bulkOrderLogs.push({ ...order, confirmedAt: order.completedAt, confirmedBy: currentUser });
-            localStorage.setItem('tavernBulkLogs', JSON.stringify(bulkOrderLogs));
-            
-            localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
-            
-            // Remove from active orders
-            submittedOrders.splice(orderIndex, 1);
-            localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
-            
-            renderAdminOrders();
-            renderBulkLogs();
-            renderOrderLogs();
-            closeOrderView();
-            showToast('Order confirmed and logged!', 'success');
-        }
-
-        function renderOrderLogs() {
-            if (currentUser !== 'FJ121') return;
-            const container = document.getElementById('orderLogsContainer');
-            
-            if (!orderLogs.length) {
-                container.innerHTML = '<p style="color:rgba(255,255,255,0.5);text-align:center">No order logs yet...</p>';
-                return;
-            }
-            
-            container.innerHTML = orderLogs.slice().reverse().map(log => {
-                let itemsHtml = log.items.map(item => {
-                    let unit = 'items';
-                    let multiplier = 1;
-                    switch(item.type) {
-                        case 'stacks': unit = 'stacks'; multiplier = 64; break;
-                        case 'shulkers': unit = 'shulkers'; multiplier = 27 * 64; break;
-                    }
-                    const totalItems = multiplier * item.quantity;
-                    return `<div>• ${item.name}: ${item.quantity} ${unit} (${totalItems.toLocaleString()} items)</div>`;
-                }).join('');
-                
-                const actionColor = log.action === 'confirmed' ? '#4caf50' : '#ff5252';
-                const actionIcon = log.action === 'confirmed' ? '✓' : '✗';
-                
-                return `
-                    <div class="log-entry" style="border-left: 4px solid ${actionColor};">
-                        <div class="log-customer">${log.user} ${actionIcon} ${log.action}</div>
-                        <div class="log-details">
-                            <div><strong>Discord:</strong> ${log.discord}</div>
-                            <div><strong>Items:</strong></div>
-                            ${itemsHtml}
-                            <div><strong>Performed by:</strong> ${log.performedBy} at ${new Date(log.timestamp).toLocaleString()}</div>
-                        </div>
-                    </div>`;
-            }).join('');
-        }
-
-        function renderBulkLogs() {
-            if (currentUser !== 'FJ121') return;
-            const container = document.getElementById('logsContainer');
-            
-            if (!bulkOrderLogs.length) {
-                container.innerHTML = '<p style="color:rgba(255,255,255,0.5);text-align:center">No completed orders yet...</p>';
-                return;
-            }
-            
-            container.innerHTML = bulkOrderLogs.slice().reverse().map(log => {
-                let itemsHtml = log.items.map(item => {
-                    let unit = 'items';
-                    let multiplier = 1;
-                    switch(item.type) {
-                        case 'stacks': unit = 'stacks'; multiplier = 64; break;
-                        case 'shulkers': unit = 'shulkers'; multiplier = 27 * 64; break;
-                    }
-                    const totalItems = multiplier * item.quantity;
-                    return `<div>• ${item.name}: ${item.quantity} ${unit} (${totalItems.toLocaleString()} items)</div>`;
-                }).join('');
-                
-                return `
-                    <div class="log-entry">
-                        <div class="log-customer">${log.user}</div>
-                        <div class="log-details">
-                            <div><strong>Discord:</strong> ${log.discord}</div>
-                            <div><strong>Items:</strong></div>
-                            ${itemsHtml}
-                            <div><strong>Confirmed by:</strong> ${log.confirmedBy} at ${new Date(log.confirmedAt).toLocaleString()}</div>
-                        </div>
-                    </div>`;
-            }).join('');
-        }
-
-        function clearAllOrders() {
-            if (!confirm('Clear ALL submitted orders?')) return;
-            
-            // Log the action
-            const logEntry = { action: 'cleared', timestamp: new Date().toISOString(), performedBy: currentUser, orderCount: submittedOrders.length };
-            orderLogs.push(logEntry);
-            localStorage.setItem('tavernOrderLogs', JSON.stringify(orderLogs));
-            
-            submittedOrders = [];
-            localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
-            
-            renderAdminOrders();
-            renderOrderLogs();
-            showToast('All orders cleared', 'success');
-        }
-
-        /* CHAT SYSTEM */
+        /* CHAT FUNCTIONS */
         function openGlobalChat() {
             if (!currentUser) return showToast('Log in first', 'error');
             if (bannedUsers.includes(currentUser.toLowerCase())) return showToast('Banned from chat', 'error');
@@ -2362,13 +2157,6 @@ I'll continue with the complete fixed code:
             input.value = '';
             renderSupportMessages();
             scrollToBottom('supportMessages');
-        }
-
-        function showToast(msg, type = 'success') {
-            const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.className = `toast ${type} show`;
-            setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
         function scrollToBottom(id) {
