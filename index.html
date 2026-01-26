@@ -1,101 +1,331 @@
-<!-- Replace the existing toggleBulkItem function with this corrected version -->
+<!-- Replace the entire JavaScript section with this working version -->
 <script>
-function toggleBulkItem(itemId, btn) {
-    if (!currentUser || currentUser === 'FJ121' || currentUser === 'mod121') return showToast('Customers only', 'error');
-    const item = items.find(i => i.id === itemId);
-    if (!item) return;
-    const existing = userBulkOrder.find(b => b.id === itemId);
+/* =========================================================
+   0. INITIAL SETUP & REAL-TIME SYSTEM
+========================================================= */
+// Particles
+function createParticles() {
+    const container = document.getElementById('particles');
+    for (let i = 0; i < 50; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.animationDelay = Math.random() * 20 + 's';
+        p.style.animationDuration = (15 + Math.random() * 10) + 's';
+        container.appendChild(p);
+    }
+}
 
-    if (existing) {
-        userBulkOrder = userBulkOrder.filter(b => b.id !== itemId);
-        btn.textContent = 'Add to Bulk';
-        btn.classList.remove('added');
-        document.getElementById(`order-type-${itemId}`).classList.remove('show');
-        document.getElementById(`order-summary-${itemId}`).style.display = 'none';
-        showToast('Removed from bulk', 'success');
-    } else {
-        // Add item with default values
-        userBulkOrder.push({ 
-            id: itemId, 
-            orderType: 'item', // Default to single items
-            quantity: 1, // Default quantity
-            name: item.name, 
-            price: item.price 
+// Data & State
+let items = JSON.parse(localStorage.getItem('tavernItems')) || [
+    { id: 1, name: "Elytra", type: "item", location: "Floor 1", price: "40 d", stock: "in", tags: ["item", "Floor 1"] },
+    { id: 2, name: "Heavy Core", type: "item", location: null, price: "18 db", stock: "out", tags: ["item"] }
+];
+let currentUser = localStorage.getItem('tavernUser') || null;
+let userDiscord = localStorage.getItem('tavernDiscord') || '';
+let userMinecraft = localStorage.getItem('tavernMinecraft') || '';
+let userBulkOrder = JSON.parse(localStorage.getItem('tavernBulkOrder')) || [];
+let submittedOrders = JSON.parse(localStorage.getItem('tavernSubmittedOrders')) || [];
+let completedOrders = JSON.parse(localStorage.getItem('tavernCompletedOrders')) || [];
+let currentFilter = 'all';
+let currentChat = null;
+let currentSupportUser = null;
+let globalMessages = JSON.parse(localStorage.getItem('tavernGlobalChat')) || [];
+let supportChats = JSON.parse(localStorage.getItem('tavernSupportChats')) || {};
+let bannedUsers = JSON.parse(localStorage.getItem('tavernBanned')) || [];
+let mutedUsers = JSON.parse(localStorage.getItem('tavernMuted')) || [];
+let currentViewingOrder = null;
+
+// Real-time update intervals
+let globalChatInterval = null;
+let supportChatInterval = null;
+let ordersInterval = null;
+let lastMessageCount = 0;
+let lastOrderCount = 0;
+
+/* =========================================================
+   1. LOGIN / LOGOUT
+========================================================= */
+window.onload = () => {
+    createParticles();
+    setupEventListeners();
+    if (currentUser) restoreLogin();
+    renderItems();
+    showAutoUpdateNotice();
+    startRealTimeUpdates();
+};
+
+function setupEventListeners() {
+    const loginBtn = document.getElementById('enterShopBtn');
+    loginBtn.addEventListener('click', login);
+    
+    ['usernameInput', 'discordInput', 'minecraftInput'].forEach(id => {
+        const input = document.getElementById(id);
+        input.addEventListener('keypress', e => {
+            if (e.key === 'Enter') login();
         });
-        btn.textContent = '✓ Added';
-        btn.classList.add('added');
-        document.getElementById(`order-type-${itemId}`).classList.add('show');
-        document.getElementById(`order-summary-${itemId}`).style.display = 'block';
-        showToast('Added to bulk', 'success');
-        
-        // Initialize the display
-        updateOrderDisplay(itemId);
-    }
-    localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
+    });
+
+    const loginForm = document.getElementById('loginForm');
+    loginForm.addEventListener('submit', e => e.preventDefault());
 }
 
-// Add this new function to update the order display
-function updateOrderDisplay(itemId) {
-    const inBulk = userBulkOrder.find(b => b.id === itemId);
-    if (!inBulk) return;
+function restoreLogin() {
+    document.getElementById('currentUser').textContent = currentUser;
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('userInfo').classList.add('show');
+    if (currentUser === 'FJ121') showStaffUI();
+    else if (currentUser === 'mod121') showModUI();
+}
+
+function login() {
+    const username = document.getElementById('usernameInput').value.trim();
+    const discord = document.getElementById('discordInput').value.trim();
+    const minecraft = document.getElementById('minecraftInput').value.trim();
+
+    if (!username || !discord || !minecraft) {
+        showToast('Please fill in all fields', 'error');
+        return;
+    }
+
+    if (bannedUsers.includes(username.toLowerCase())) {
+        showToast('You are banned from this shop', 'error');
+        return;
+    }
+
+    currentUser = username;
+    userDiscord = discord;
+    userMinecraft = minecraft;
     
+    localStorage.setItem('tavernUser', currentUser);
+    localStorage.setItem('tavernDiscord', userDiscord);
+    localStorage.setItem('tavernMinecraft', userMinecraft);
+    
+    document.getElementById('currentUser').textContent = username;
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('userInfo').classList.add('show');
+    
+    if (username === 'FJ121') {
+        showStaffUI();
+        showToast('Welcome, Shopkeeper!', 'success');
+    } else if (username === 'mod121') {
+        showModUI();
+        showToast('Welcome, Moderator!', 'success');
+    } else {
+        showToast(`Welcome to The Tavern, ${username}!`, 'success');
+    }
+    
+    renderItems();
+    startRealTimeUpdates();
+}
+
+function logout() {
+    if (!confirm('Exit your account? You will need to log in again.')) return;
+    
+    currentUser = null;
+    userDiscord = '';
+    userMinecraft = '';
+    userBulkOrder = [];
+    
+    ['tavernUser', 'tavernDiscord', 'tavernMinecraft', 'tavernBulkOrder'].forEach(k => localStorage.removeItem(k));
+    
+    document.getElementById('usernameInput').value = '';
+    document.getElementById('discordInput').value = '';
+    document.getElementById('minecraftInput').value = '';
+    
+    document.getElementById('loginForm').style.display = 'grid';
+    document.getElementById('userInfo').classList.remove('show');
+    hideStaffUI();
+    hideModUI();
+    closeChat(); closeBulkModal(); closeOrderDetails();
+    stopRealTimeUpdates();
+    renderItems();
+    showToast('You have exited your account', 'success');
+}
+
+function showStaffUI() {
+    ['adminControls', 'statsBar', 'adminBulkOrders', 'supportList', 'bannedUsers'].forEach(id => document.getElementById(id).classList.add('show'));
+    updateStats(); renderAdminOrders(); renderSupportList(); renderBannedList();
+}
+
+function hideStaffUI() {
+    ['adminControls', 'statsBar', 'adminBulkOrders', 'supportList', 'bannedUsers'].forEach(id => document.getElementById(id).classList.remove('show'));
+}
+
+function showModUI() {
+    ['modControls', 'supportList', 'bannedUsers', 'adminBulkOrders'].forEach(id => document.getElementById(id).classList.add('show'));
+    renderSupportList(); renderBannedList(); renderAdminOrders();
+}
+
+function hideModUI() {
+    ['modControls', 'supportList', 'bannedUsers', 'adminBulkOrders'].forEach(id => document.getElementById(id).classList.remove('show'));
+}
+
+/* =========================================================
+   2. REAL-TIME UPDATE SYSTEM
+========================================================= */
+function startRealTimeUpdates() {
+    if (currentUser) {
+        startChatUpdates();
+        if (currentUser === 'FJ121' || currentUser === 'mod121') {
+            startOrderUpdates();
+        }
+    }
+}
+
+function stopRealTimeUpdates() {
+    if (globalChatInterval) clearInterval(globalChatInterval);
+    if (supportChatInterval) clearInterval(supportChatInterval);
+    if (ordersInterval) clearInterval(ordersInterval);
+}
+
+function startChatUpdates() {
+    globalChatInterval = setInterval(() => {
+        const currentMessages = JSON.parse(localStorage.getItem('tavernGlobalChat')) || [];
+        if (currentMessages.length !== lastMessageCount) {
+            lastMessageCount = currentMessages.length;
+            globalMessages = currentMessages;
+            if (document.getElementById('globalChatOverlay').classList.contains('show')) {
+                renderGlobalMessages();
+                scrollToBottom('globalMessages');
+            } else if (currentUser) {
+                showNewMessageNotification();
+            }
+        }
+    }, 1000);
+
+    supportChatInterval = setInterval(() => {
+        const currentChats = JSON.parse(localStorage.getItem('tavernSupportChats')) || {};
+        supportChats = currentChats;
+        if (document.getElementById('supportChatOverlay').classList.contains('show') && currentSupportUser) {
+            renderSupportMessages();
+            scrollToBottom('supportMessages');
+        }
+    }, 1000);
+}
+
+function startOrderUpdates() {
+    ordersInterval = setInterval(() => {
+        const currentOrders = JSON.parse(localStorage.getItem('tavernSubmittedOrders')) || [];
+        if (currentOrders.length !== lastOrderCount) {
+            lastOrderCount = currentOrders.length;
+            submittedOrders = currentOrders;
+            renderAdminOrders();
+            updateStats();
+            showNewOrderNotification();
+        }
+    }, 2000);
+}
+
+function showAutoUpdateNotice() {
+    const notice = document.getElementById('autoUpdateNotice');
+    notice.classList.add('show');
+    setTimeout(() => notice.classList.remove('show'), 3000);
+}
+
+function showNewMessageNotification() {
+    const chatBtn = document.querySelector('.btn-chat');
+    if (chatBtn) {
+        chatBtn.style.animation = 'pulse 0.5s 2';
+        setTimeout(() => chatBtn.style.animation = '', 1000);
+    }
+}
+
+function showNewOrderNotification() {
+    if (currentUser === 'FJ121' || currentUser === 'mod121') {
+        const bulkBtn = document.querySelector('.btn-bulk');
+        if (bulkBtn) {
+            bulkBtn.style.animation = 'pulse 0.5s 2';
+            setTimeout(() => bulkBtn.style.animation = '', 1000);
+        }
+        showToast('📦 New bulk order received!', 'success');
+    }
+}
+
+/* =========================================================
+   3. ITEMS & STOCK EDITOR
+========================================================= */
+function addItem() {
+    if (currentUser !== 'FJ121') return;
+    const name = document.getElementById('itemName').value.trim();
+    const price = document.getElementById('itemPrice').value.trim();
+    const type = document.getElementById('itemType').value;
+    const location = document.getElementById('itemLocation').value;
+    const stock = document.getElementById('itemStock').value;
+    if (!name || !price) return showToast('Name and price required', 'error');
+
+    const newItem = {
+        id: Date.now(),
+        name, type,
+        location: location === 'Hidden' ? null : location,
+        price, stock,
+        tags: [type]
+    };
+    if (location && location !== 'Hidden') newItem.tags.push(location);
+
+    items.push(newItem);
+    localStorage.setItem('tavernItems', JSON.stringify(items));
+    document.getElementById('itemName').value = '';
+    document.getElementById('itemPrice').value = '';
+    renderItems(); updateStats();
+    showToast('Item added', 'success');
+}
+
+function deleteItem(id) {
+    if (currentUser !== 'FJ121') return;
+    if (!confirm('Delete this item?')) return;
+    items = items.filter(i => i.id !== id);
+    localStorage.setItem('tavernItems', JSON.stringify(items));
+    renderItems(); updateStats();
+    showToast('Item deleted', 'success');
+}
+
+function updateItemStockEnhanced(itemId) {
+    if (currentUser !== 'FJ121') return;
+    const select = document.getElementById(`stock-select-${itemId}`);
+    const newStock = select.value;
     const item = items.find(i => i.id === itemId);
     if (!item) return;
     
-    const priceNum = parseFloat(item.price.replace(/[^0-9.]/g, '')) || 0;
-    let totalPrice = 0;
-    let unitDescription = '';
-    
-    // Calculate based on order type
-    if (inBulk.orderType === 'item') {
-        totalPrice = priceNum * inBulk.quantity;
-        unitDescription = `${inBulk.quantity} item(s)`;
-    } else if (inBulk.orderType === 'shulker') {
-        totalPrice = priceNum * 27 * inBulk.quantity;
-        unitDescription = `${inBulk.quantity} shulker(s) (${inBulk.quantity * 27} stacks)`;
-    } else if (inBulk.orderType === 'stacks') {
-        totalPrice = priceNum * inBulk.quantity;
-        unitDescription = `${inBulk.quantity} stack(s)`;
-    }
-    
-    // Update the summary display
-    const summaryEl = document.getElementById(`order-summary-${itemId}`);
-    if (summaryEl) {
-        summaryEl.textContent = `Total: ${totalPrice} d (${unitDescription})`;
-        summaryEl.style.display = 'block';
-    }
+    item.stock = newStock;
+    localStorage.setItem('tavernItems', JSON.stringify(items));
+    renderItems(); updateStats();
+    showToast(`Stock updated to ${newStock}`, 'success');
 }
 
-// Fix the updateOrderType function
-function updateOrderType(itemId, orderType) {
-    const inBulk = userBulkOrder.find(b => b.id === itemId);
-    if (inBulk) {
-        inBulk.orderType = orderType;
-        localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
-        updateOrderDisplay(itemId); // Update the display
-    }
+function updateStats() {
+    if (currentUser !== 'FJ121') return;
+    document.getElementById('totalItems').textContent = items.length;
+    document.getElementById('inStockItems').textContent = items.filter(i => i.stock === 'in').length;
+    document.getElementById('bulkRequests').textContent = submittedOrders.length;
+    const total = items.reduce((sum, it) => sum + (parseFloat(it.price) || 0), 0);
+    document.getElementById('totalValue').textContent = total + ' d';
 }
 
-// Fix the updateOrderQuantity function  
-function updateOrderQuantity(itemId, quantity) {
-    const inBulk = userBulkOrder.find(b => b.id === itemId);
-    if (inBulk) {
-        inBulk.quantity = Math.max(1, Math.min(64, parseInt(quantity) || 1));
-        localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
-        updateOrderDisplay(itemId); // Update the display
-    }
-}
-</script>
+/* =========================================================
+   4. RENDER ITEMS WITH WORKING BULK ORDER
+========================================================= */
+function renderItems() {
+    const container = document.getElementById('itemsContainer');
+    container.innerHTML = '';
+    let filtered = items;
+    if (currentFilter === 'in') filtered = items.filter(i => i.stock === 'in');
+    else if (currentFilter === 'out') filtered = items.filter(i => i.stock === 'out');
+    else if (currentFilter === 'limited') filtered = items.filter(i => i.stock === 'limited');
 
-<!-- Also update the createItemCard function to properly initialize the order type selector -->
-<script>
-// Replace the createItemCard function with this improved version
+    if (!filtered.length) {
+        container.innerHTML = `<div class="empty-state" style="grid-column:1/-1;text-align:center;padding:60px;color:rgba(255,255,255,0.5)"><div style="font-size:4rem;margin-bottom:20px">📭</div><p>No items found</p></div>`;
+        return;
+    }
+    filtered.forEach(it => container.appendChild(createItemCard(it)));
+}
+
 function createItemCard(item) {
     const div = document.createElement('div');
     div.className = 'item-card';
     div.id = `item-${item.id}`;
 
-    const inBulk = userBulkOrder.find(b => b.id === itemId);
+    const inBulk = userBulkOrder.find(b => b.id === item.id);
     const orderType = inBulk ? inBulk.orderType : 'item';
     const quantity = inBulk ? inBulk.quantity : 1;
 
@@ -153,5 +383,226 @@ function createItemCard(item) {
     }
     
     return div;
+}
+
+/* =========================================================
+   5. WORKING BULK ORDER SYSTEM
+========================================================= */
+function toggleBulkItem(itemId, btn) {
+    if (!currentUser || currentUser === 'FJ121' || currentUser === 'mod121') return showToast('Customers only', 'error');
+    const item = items.find(i => i.id === itemId);
+    if (!item) return;
+    const existing = userBulkOrder.find(b => b.id === itemId);
+
+    if (existing) {
+        userBulkOrder = userBulkOrder.filter(b => b.id !== itemId);
+        btn.textContent = 'Add to Bulk';
+        btn.classList.remove('added');
+        document.getElementById(`order-type-${itemId}`).classList.remove('show');
+        document.getElementById(`order-summary-${itemId}`).style.display = 'none';
+        showToast('Removed from bulk', 'success');
+    } else {
+        userBulkOrder.push({ 
+            id: itemId, 
+            orderType: 'item',
+            quantity: 1,
+            name: item.name, 
+            price: item.price 
+        });
+        btn.textContent = '✓ Added';
+        btn.classList.add('added');
+        document.getElementById(`order-type-${itemId}`).classList.add('show');
+        document.getElementById(`order-summary-${itemId}`).style.display = 'block';
+        showToast('Added to bulk', 'success');
+        updateOrderDisplay(itemId);
+    }
+    localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
+}
+
+function updateOrderDisplay(itemId) {
+    const inBulk = userBulkOrder.find(b => b.id === itemId);
+    if (!inBulk) return;
+    
+    const item = items.find(i => i.id === itemId);
+    if (!item) return;
+    
+    const priceNum = parseFloat(item.price.replace(/[^0-9.]/g, '')) || 0;
+    let totalPrice = 0;
+    let unitDescription = '';
+    
+    if (inBulk.orderType === 'item') {
+        totalPrice = priceNum * inBulk.quantity;
+        unitDescription = `${inBulk.quantity} item(s)`;
+    } else if (inBulk.orderType === 'shulker') {
+        totalPrice = priceNum * 27 * inBulk.quantity;
+        unitDescription = `${inBulk.quantity} shulker(s) (${inBulk.quantity * 27} stacks)`;
+    } else if (inBulk.orderType === 'stacks') {
+        totalPrice = priceNum * inBulk.quantity;
+        unitDescription = `${inBulk.quantity} stack(s)`;
+    }
+    
+    const summaryEl = document.getElementById(`order-summary-${itemId}`);
+    if (summaryEl) {
+        summaryEl.textContent = `Total: ${totalPrice} d (${unitDescription})`;
+        summaryEl.style.display = 'block';
+    }
+}
+
+function updateOrderType(itemId, orderType) {
+    const inBulk = userBulkOrder.find(b => b.id === itemId);
+    if (inBulk) {
+        inBulk.orderType = orderType;
+        localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
+        updateOrderDisplay(itemId);
+    }
+}
+
+function updateOrderQuantity(itemId, quantity) {
+    const inBulk = userBulkOrder.find(b => b.id === itemId);
+    if (inBulk) {
+        inBulk.quantity = Math.max(1, Math.min(64, parseInt(quantity) || 1));
+        localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
+        updateOrderDisplay(itemId);
+    }
+}
+
+function openBulkModal() {
+    if (!currentUser) return showToast('Log in first', 'error');
+    if (currentUser === 'FJ121' || currentUser === 'mod121') return showToast('Staff cannot order', 'error');
+    document.getElementById('bulkModal').classList.add('show');
+    renderBulkModal();
+}
+
+function closeBulkModal() {
+    document.getElementById('bulkModal').classList.remove('show');
+}
+
+function renderBulkModal() {
+    const cont = document.getElementById('bulkModalContent');
+    if (!userBulkOrder.length) {
+        cont.innerHTML = `
+            <div class="empty-bulk">
+                <div class="empty-bulk-icon">📭</div>
+                <p>Your bulk order is empty</p>
+                <p style="font-size:0.9rem;margin-top:10px">Add items from the shop to get started!</p>
+            </div>`;
+        return;
+    }
+    let total = 0, html = '';
+    userBulkOrder.forEach(b => {
+        const shop = items.find(i => i.id === b.id);
+        if (!shop) return;
+        
+        const priceNum = parseFloat(shop.price.replace(/[^0-9.]/g, '')) || 0;
+        let subtotal = 0;
+        let unitText = '';
+        
+        if (b.orderType === 'item') {
+            subtotal = priceNum * b.quantity;
+            unitText = `${b.quantity} item(s)`;
+        } else if (b.orderType === 'shulker') {
+            subtotal = priceNum * 27 * b.quantity;
+            unitText = `${b.quantity} shulker(s) (${b.quantity * 27} stacks)`;
+        } else if (b.orderType === 'stacks') {
+            subtotal = priceNum * b.quantity;
+            unitText = `${b.quantity} stack(s)`;
+        }
+        
+        total += subtotal;
+        
+        html += `
+            <div class="bulk-item-row">
+                <div class="bulk-item-info">
+                    <h4>${b.name}</h4>
+                    <p>${shop.price} per item × ${unitText} = ${subtotal} d</p>
+                    <p style="font-size:0.8rem;color:rgba(255,255,255,0.6)">Order type: ${b.orderType}</p>
+                </div>
+                <div class="bulk-item-actions">
+                    <button class="btn-remove" onclick="removeFromBulk(${b.id})">Remove</button>
+                </div>
+            </div>`;
+    });
+    html += `
+        <div class="bulk-total">
+            <h3>Total Order Value</h3>
+            <div class="bulk-total-amount">${total} d</div>
+        </div>
+        <button class="btn-submit-order" onclick="submitBulkOrder()">Submit Order</button>`;
+    cont.innerHTML = html;
+}
+
+function removeFromBulk(id) {
+    userBulkOrder = userBulkOrder.filter(b => b.id !== id);
+    localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
+    renderBulkModal(); renderItems();
+}
+
+function submitBulkOrder() {
+    if (!userBulkOrder.length) return showToast('Empty order', 'error');
+    const order = {
+        user: currentUser, discord: userDiscord, minecraft: userMinecraft,
+        items: [...userBulkOrder], timestamp: new Date().toISOString(), id: Date.now(),
+        completed: false
+    };
+    submittedOrders.push(order);
+    localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
+    userBulkOrder = []; localStorage.setItem('tavernBulkOrder', JSON.stringify(userBulkOrder));
+    renderBulkModal(); renderItems(); updateStats();
+    showToast('Order submitted! Check Discord.', 'success');
+    setTimeout(closeBulkModal, 1500);
+}
+
+function completeOrder(orderId) {
+    if (currentUser !== 'FJ121' && currentUser !== 'mod121') return;
+    const orderIndex = submittedOrders.findIndex(o => o.id === orderId);
+    if (orderIndex === -1) return;
+    
+    submittedOrders[orderIndex].completed = true;
+    submittedOrders[orderIndex].completedAt = new Date().toISOString();
+    submittedOrders[orderIndex].completedBy = currentUser;
+    
+    localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
+    renderAdminOrders(); updateStats();
+    showToast('Order marked as completed', 'success');
+}
+
+function clearAllOrders() {
+    if (!confirm('Clear ALL submitted orders?')) return;
+    submittedOrders = []; localStorage.setItem('tavernSubmittedOrders', JSON.stringify(submittedOrders));
+    renderAdminOrders(); updateStats();
+    showToast('All orders cleared', 'success');
+}
+
+/* =========================================================
+   6. CHAT SYSTEM (REST OF THE CODE REMAINS THE SAME)
+========================================================= */
+// [Keep all the existing chat functions here - they work fine]
+
+/* =========================================================
+   7. FILTER & UTILS
+========================================================= */
+function filterItems(type) {
+    currentFilter = type;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+    renderItems();
+}
+
+function showToast(msg, type = 'success') {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.className = `toast ${type} show`;
+    setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+function scrollToBottom(id) {
+    const el = document.getElementById(id);
+    el.scrollTop = el.scrollHeight;
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
 }
 </script>
