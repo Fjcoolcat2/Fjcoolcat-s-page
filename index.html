@@ -1833,7 +1833,7 @@
             const isMod = currentUser === 'mod121';
             const isCustomer = currentUser && currentUser !== 'FJ121' && currentUser !== 'mod121';
             
-            // Get user roles for display
+            // Get user roles for display - MOD121 NEVER SHOWS TAGS
             const userRolesDisplay = getUserRolesDisplay(currentUser);
             
             // Stock editor for staff
@@ -1874,6 +1874,9 @@
         }
 
         function getUserRolesDisplay(username) {
+            // MOD121 NEVER SHOWS ANY TAGS
+            if (username === 'mod121') return '';
+            
             if (!username || !userRoles[username]) return '';
             const roles = userRoles[username];
             if (roles.length === 0) return '';
@@ -1890,6 +1893,9 @@
         }
 
         function getChatRoleDisplay(username) {
+            // MOD121 NEVER SHOWS ANY TAGS IN CHAT
+            if (username === 'mod121') return '';
+            
             if (!username || !userRoles[username]) return '';
             const roles = userRoles[username];
             if (roles.length === 0) return '';
@@ -2652,7 +2658,7 @@
             const isModMsg = msg.isMod || msg.author === 'mod121';
             const time = new Date(msg.timestamp).toLocaleTimeString();
             
-            // GET CHAT ROLE DISPLAY - FIXED TO SHOW IN FRONT OF NAME
+            // GET CHAT ROLE DISPLAY - MOD121 NEVER SHOWS TAGS
             const chatRoleDisplay = getChatRoleDisplay(msg.author);
             
             let actions = '';
