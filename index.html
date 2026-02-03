@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Burrow - Premium Minecraft Emporium</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400 ;600;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --pink-primary: #ff69b4;
@@ -15,6 +15,8 @@
             --green-dark: #2e7d32;
             --purple-deep: #1a0b2e;
             --purple-mid: #2d1b4e;
+            --purple-accent: #9c27b0;
+            --purple-light: #ce93d8;
             --accent-blue: #4fc3f7;
             --accent-red: #ff5252;
             --chat-bg: rgba(20, 20, 30, 0.95);
@@ -363,7 +365,7 @@
         .role-display.buyer { background: #ff69b4; color: #1a0b2e; }
         .role-display.rich-buyer { background: #69f0ae; color: #1a0b2e; }
         .role-display.rich { background: linear-gradient(135deg, #ff69b4, #69f0ae); color: #fff; }
-        .role-display.friend { background: #69f0ae; color: #1a0b2e; }
+        .role-display.friend { background: #9c27b0; color: #fff; }
 
         /* Chat role display */
         .chat-role-display {
@@ -380,7 +382,7 @@
         .chat-role-display.buyer { background: #ff69b4; color: #1a0b2e; }
         .chat-role-display.rich-buyer { background: #69f0ae; color: #1a0b2e; }
         .chat-role-display.rich { background: linear-gradient(135deg, #ff69b4, #69f0ae); color: #fff; }
-        .chat-role-display.friend { background: #69f0ae; color: #1a0b2e; }
+        .chat-role-display.friend { background: #9c27b0; color: #fff; }
 
         /* PARTICLES */
         .particles {
@@ -795,7 +797,7 @@
         .role-tag-display.buyer { background: #ff69b4; color: #1a0b2e; }
         .role-tag-display.rich-buyer { background: #69f0ae; color: #1a0b2e; }
         .role-tag-display.rich { background: linear-gradient(135deg, #ff69b4, #69f0ae); color: #fff; }
-        .role-tag-display.friend { background: #69f0ae; color: #1a0b2e; }
+        .role-tag-display.friend { background: #9c27b0; color: #fff; }
         .role-remove-btn {
             margin-left: 8px;
             background: rgba(255, 82, 82, 0.8);
@@ -1120,6 +1122,10 @@
             border-color: var(--pink-primary);
             box-shadow: 0 0 20px rgba(255, 105, 180, 0.2);
         }
+        .chat-input:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
         .btn-send {
             padding: 12px 24px;
             background: linear-gradient(135deg, var(--pink-primary) 0%, var(--green-primary) 100%);
@@ -1132,9 +1138,13 @@
             letter-spacing: 1px;
             transition: all 0.3s;
         }
-        .btn-send:hover {
+        .btn-send:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
+        }
+        .btn-send:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
         .muted-banner {
             background: rgba(255, 82, 82, 0.1);
@@ -1643,7 +1653,7 @@
                     <option value="buyer">[Buyer] - Pink</option>
                     <option value="rich-buyer">[Rich Buyer] - Green</option>
                     <option value="rich">[🤑Really Rich] - Gradient</option>
-                    <option value="friend">[Friend] - Green</option>
+                    <option value="friend">[Friend] - Purple</option>
                 </select>
                 <button class="role-assign-btn" onclick="assignRole()">Assign Role</button>
             </div>
@@ -1710,7 +1720,7 @@
 
         <!-- SUPPORT CHATS LIST (Admin/Mod only) -->
         <div id="supportList" class="support-list">
-            <div class="support-list-header">
+            <div class="support-list-header" style="font-family: 'Cinzel', serif; font-size: 1.3rem; color: var(--pink-primary); margin-bottom: 20px;">
                 <span>🎫</span>
                 <span>Support Tickets</span>
             </div>
@@ -1721,7 +1731,7 @@
 
         <!-- BANNED USERS (Admin/Mod only) -->
         <div id="bannedUsers" class="banned-users">
-            <div class="banned-header">
+            <div class="banned-header" style="font-family: 'Cinzel', serif; font-size: 1.3rem; color: #ff5252; margin-bottom: 20px;">
                 <span>🚫</span>
                 <span>Banned Users</span>
             </div>
@@ -1732,12 +1742,12 @@
 
         <!-- ADMIN BULK ORDERS (Admin/Mod only) - CONSOLIDATED VIEW -->
         <div id="adminBulkOrders" class="admin-bulk-orders">
-            <div class="admin-bulk-header">
-                <div class="admin-bulk-title">📦 Customer Bulk Orders</div>
+            <div class="admin-bulk-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div class="admin-bulk-title" style="font-family: 'Cinzel', serif; font-size: 1.3rem; color: var(--pink-primary);">📦 Customer Bulk Orders</div>
                 <button class="btn-danger" onclick="clearAllOrders()">Clear All Orders</button>
             </div>
             <div id="adminBulkList" class="admin-bulk-list">
-                <div class="empty-orders">
+                <div style="text-align: center; padding: 60px 20px; color: rgba(255,255,255,0.5);">
                     <div style="font-size: 4rem; margin-bottom: 20px;">📭</div>
                     <p>No bulk orders yet...</p>
                 </div>
@@ -1746,7 +1756,7 @@
 
         <!-- ORDER LOGS (HO121 Only) -->
         <div id="orderLogs" class="order-logs">
-            <div class="logs-header">
+            <div class="logs-header" style="font-family: 'Cinzel', serif; font-size: 1.3rem; color: var(--pink-primary); margin-bottom: 20px;">
                 <span>📋</span>
                 <span>Order Logs</span>
             </div>
@@ -1757,7 +1767,7 @@
 
         <!-- BULK ORDER LOGS (HO121 Only) -->
         <div id="bulkLogs" class="bulk-logs">
-            <div class="logs-header">
+            <div class="logs-header" style="font-family: 'Cinzel', serif; font-size: 1.3rem; color: var(--pink-primary); margin-bottom: 20px;">
                 <span>📋</span>
                 <span>Bulk Order History</span>
             </div>
@@ -1860,95 +1870,110 @@
 
     <script>
         /* DATA & STATE MANAGEMENT */
-        let items = JSON.parse(localStorage.getItem('burrowItems')) || [
-            { id: 1, name: "Elytra", type: "item", location: null, price: "40 d", stock: "in" },
-            { id: 2, name: "Heavy Core", type: "item", location: null, price: "18 db", stock: "out" }
-        ];
-        let currentUser = localStorage.getItem('burrowUser') || null;
-        let userDiscord = localStorage.getItem('burrowDiscord') || '';
-        let userMinecraft = localStorage.getItem('burrowMinecraft') || '';
-        let userBulkOrder = JSON.parse(localStorage.getItem('burrowBulkOrder')) || [];
-        let submittedOrders = JSON.parse(localStorage.getItem('burrowSubmittedOrders')) || [];
-        let completedOrders = JSON.parse(localStorage.getItem('burrowCompletedOrders')) || [];
+        let items = [];
+        let currentUser = null;
+        let userDiscord = '';
+        let userMinecraft = '';
+        let userBulkOrder = [];
+        let submittedOrders = [];
+        let completedOrders = [];
         let currentFilter = 'all';
-        let globalMessages = JSON.parse(localStorage.getItem('burrowGlobalChat')) || [];
-        let supportChats = JSON.parse(localStorage.getItem('burrowSupportChats')) || {};
-        let bannedUsers = JSON.parse(localStorage.getItem('burrowBanned')) || [];
-        let bannedPlayersList = JSON.parse(localStorage.getItem('burrowBannedPlayers')) || [];
-        let mutedUsers = JSON.parse(localStorage.getItem('burrowMuted')) || [];
-        let userRoles = JSON.parse(localStorage.getItem('burrowUserRoles')) || {};
-        let allUsers = JSON.parse(localStorage.getItem('burrowAllUsers')) || [];
-        let bulkOrderLogs = JSON.parse(localStorage.getItem('burrowBulkLogs')) || [];
-        let orderLogs = JSON.parse(localStorage.getItem('burrowOrderLogs')) || [];
-        
-        // ANNOUNCEMENT & MAINTENANCE STATE
-        let announcement = JSON.parse(localStorage.getItem('burrowAnnouncement')) || { text: '', active: false };
-        let maintenanceMode = JSON.parse(localStorage.getItem('burrowMaintenance')) || false;
-        
+        let globalMessages = [];
+        let supportChats = {};
+        let bannedUsers = [];
+        let bannedPlayersList = [];
+        let mutedUsers = [];
+        let userRoles = {};
+        let allUsers = [];
+        let bulkOrderLogs = [];
+        let orderLogs = [];
+        let announcement = { text: '', active: false };
+        let maintenanceMode = false;
         let currentViewingOrder = null;
         let currentChat = null;
         let currentSupportUser = null;
+        let isStaffViewingSupport = false;
 
-        // ADDED: Cross-tab synchronization for items persistence
-        window.addEventListener('storage', function(e) {
-            if (e.key === 'burrowItems') {
-                try {
-                    const newItems = JSON.parse(e.newValue);
-                    if (newItems) {
-                        items = newItems;
-                        renderItems();
-                    }
-                } catch (err) {
-                    console.error('Error syncing items from storage:', err);
-                }
-            }
-            if (e.key === 'burrowSubmittedOrders') {
-                try {
-                    submittedOrders = JSON.parse(e.newValue) || [];
-                    if (currentUser === 'HO121' || currentUser === 'mod121') {
-                        renderAdminOrders();
-                    }
-                } catch (err) {
-                    console.error('Error syncing orders:', err);
-                }
-            }
-        });
+        /* STORAGE KEYS */
+        const STORAGE_KEYS = {
+            ITEMS: 'burrowItems',
+            USER: 'burrowUser',
+            DISCORD: 'burrowDiscord',
+            MINECRAFT: 'burrowMinecraft',
+            BULK_ORDER: 'burrowBulkOrder',
+            SUBMITTED_ORDERS: 'burrowSubmittedOrders',
+            COMPLETED_ORDERS: 'burrowCompletedOrders',
+            GLOBAL_CHAT: 'burrowGlobalChat',
+            SUPPORT_CHATS: 'burrowSupportChats',
+            BANNED: 'burrowBanned',
+            BANNED_PLAYERS: 'burrowBannedPlayers',
+            MUTED: 'burrowMuted',
+            USER_ROLES: 'burrowUserRoles',
+            ALL_USERS: 'burrowAllUsers',
+            BULK_LOGS: 'burrowBulkLogs',
+            ORDER_LOGS: 'burrowOrderLogs',
+            ANNOUNCEMENT: 'burrowAnnouncement',
+            MAINTENANCE: 'burrowMaintenance'
+        };
 
-        // ADDED: Force refresh from localStorage on load to ensure data persistence across browsers/sessions
+        /* SYNCHRONIZATION FUNCTIONS */
         function syncFromStorage() {
             try {
-                const storedItems = localStorage.getItem('burrowItems');
-                if (storedItems) {
-                    items = JSON.parse(storedItems);
-                }
-                const storedOrders = localStorage.getItem('burrowSubmittedOrders');
-                if (storedOrders) {
-                    submittedOrders = JSON.parse(storedOrders);
-                }
-                const storedUsers = localStorage.getItem('burrowAllUsers');
-                if (storedUsers) {
-                    allUsers = JSON.parse(storedUsers);
-                }
+                items = JSON.parse(localStorage.getItem(STORAGE_KEYS.ITEMS)) || [
+                    { id: 1, name: "Elytra", type: "item", location: null, price: "40 d", stock: "in" },
+                    { id: 2, name: "Heavy Core", type: "item", location: null, price: "18 db", stock: "out" }
+                ];
+                currentUser = localStorage.getItem(STORAGE_KEYS.USER) || null;
+                userDiscord = localStorage.getItem(STORAGE_KEYS.DISCORD) || '';
+                userMinecraft = localStorage.getItem(STORAGE_KEYS.MINECRAFT) || '';
+                userBulkOrder = JSON.parse(localStorage.getItem(STORAGE_KEYS.BULK_ORDER)) || [];
+                submittedOrders = JSON.parse(localStorage.getItem(STORAGE_KEYS.SUBMITTED_ORDERS)) || [];
+                completedOrders = JSON.parse(localStorage.getItem(STORAGE_KEYS.COMPLETED_ORDERS)) || [];
+                globalMessages = JSON.parse(localStorage.getItem(STORAGE_KEYS.GLOBAL_CHAT)) || [];
+                supportChats = JSON.parse(localStorage.getItem(STORAGE_KEYS.SUPPORT_CHATS)) || {};
+                bannedUsers = JSON.parse(localStorage.getItem(STORAGE_KEYS.BANNED)) || [];
+                bannedPlayersList = JSON.parse(localStorage.getItem(STORAGE_KEYS.BANNED_PLAYERS)) || [];
+                mutedUsers = JSON.parse(localStorage.getItem(STORAGE_KEYS.MUTED)) || [];
+                userRoles = JSON.parse(localStorage.getItem(STORAGE_KEYS.USER_ROLES)) || {};
+                allUsers = JSON.parse(localStorage.getItem(STORAGE_KEYS.ALL_USERS)) || [];
+                bulkOrderLogs = JSON.parse(localStorage.getItem(STORAGE_KEYS.BULK_LOGS)) || [];
+                orderLogs = JSON.parse(localStorage.getItem(STORAGE_KEYS.ORDER_LOGS)) || [];
+                announcement = JSON.parse(localStorage.getItem(STORAGE_KEYS.ANNOUNCEMENT)) || { text: '', active: false };
+                maintenanceMode = JSON.parse(localStorage.getItem(STORAGE_KEYS.MAINTENANCE)) || false;
             } catch (e) {
-                console.error('Storage sync error:', e);
+                console.error('Error syncing from storage:', e);
+            }
+        }
+
+        function saveToStorage(key, value) {
+            try {
+                localStorage.setItem(key, JSON.stringify(value));
+                window.dispatchEvent(new StorageEvent('storage', {
+                    key: key,
+                    newValue: JSON.stringify(value),
+                    oldValue: null,
+                    url: window.location.href
+                }));
+            } catch (e) {
+                console.error('Error saving to storage:', e);
             }
         }
 
         /* INITIALIZATION */
         window.onload = () => {
+            syncFromStorage();
             createParticles();
             setupEventListeners();
-            syncFromStorage(); // ADDED: Ensure fresh data from storage before rendering
             checkMaintenanceMode();
             checkAnnouncement();
             if (currentUser) restoreLogin();
             renderItems();
-            startRealTimeUpdates();
-            updateRoleSelector();
+            setupStorageListener();
         };
 
         function createParticles() {
             const container = document.getElementById('particles');
+            container.innerHTML = '';
             for (let i = 0; i < 50; i++) {
                 const p = document.createElement('div');
                 p.className = 'particle';
@@ -1961,28 +1986,107 @@
 
         function setupEventListeners() {
             const loginBtn = document.getElementById('enterShopBtn');
-            loginBtn.addEventListener('click', login);
+            if (loginBtn) {
+                loginBtn.addEventListener('click', login);
+            }
             
             ['usernameInput', 'discordInput', 'minecraftInput'].forEach(id => {
                 const input = document.getElementById(id);
-                input.addEventListener('keypress', e => {
-                    if (e.key === 'Enter') login();
+                if (input) {
+                    input.addEventListener('keypress', e => {
+                        if (e.key === 'Enter') login();
+                    });
+                }
+            });
+
+            const globalInput = document.getElementById('globalInput');
+            if (globalInput) {
+                globalInput.addEventListener('keypress', e => {
+                    if (e.key === 'Enter') sendGlobalMessage();
                 });
+            }
+
+            const supportInput = document.getElementById('supportInput');
+            if (supportInput) {
+                supportInput.addEventListener('keypress', e => {
+                    if (e.key === 'Enter') sendSupportMessage();
+                });
+            }
+        }
+
+        /* REAL-TIME SYNC USING STORAGE EVENTS */
+        function setupStorageListener() {
+            window.addEventListener('storage', (e) => {
+                if (!e.key) return;
+                
+                syncFromStorage();
+                
+                switch(e.key) {
+                    case STORAGE_KEYS.GLOBAL_CHAT:
+                        if (currentChat === 'global') {
+                            renderGlobalMessages();
+                            scrollToBottom('globalMessages');
+                        }
+                        break;
+                    case STORAGE_KEYS.SUPPORT_CHATS:
+                        if (currentChat === 'support') {
+                            renderSupportMessages();
+                            scrollToBottom('supportMessages');
+                        }
+                        if (currentUser === 'HO121' || currentUser === 'mod121') {
+                            renderSupportList();
+                        }
+                        break;
+                    case STORAGE_KEYS.SUBMITTED_ORDERS:
+                        if (currentUser === 'HO121' || currentUser === 'mod121') {
+                            renderAdminOrders();
+                        }
+                        break;
+                    case STORAGE_KEYS.ITEMS:
+                        renderItems();
+                        break;
+                    case STORAGE_KEYS.USER_ROLES:
+                        renderItems();
+                        if (currentChat === 'global') renderGlobalMessages();
+                        if (currentChat === 'support') renderSupportMessages();
+                        break;
+                    case STORAGE_KEYS.ANNOUNCEMENT:
+                        checkAnnouncement();
+                        break;
+                    case STORAGE_KEYS.MAINTENANCE:
+                        checkMaintenanceMode();
+                        break;
+                    case STORAGE_KEYS.BANNED_PLAYERS:
+                        if (currentUser === 'HO121') renderBannedPlayersList();
+                        break;
+                    case STORAGE_KEYS.ALL_USERS:
+                        if (currentUser === 'HO121') {
+                            updateRoleSelector();
+                            renderUserList();
+                        }
+                        break;
+                    case STORAGE_KEYS.BULK_LOGS:
+                        if (currentUser === 'HO121') renderBulkLogs();
+                        break;
+                    case STORAGE_KEYS.ORDER_LOGS:
+                        if (currentUser === 'HO121') renderOrderLogs();
+                        break;
+                }
             });
         }
 
         /* MAINTENANCE MODE FUNCTIONS */
         function checkMaintenanceMode() {
-            // HO121 never sees maintenance mode
             if (currentUser === 'HO121') {
                 document.getElementById('maintenanceOverlay').classList.remove('active');
                 return;
             }
             
+            const overlay = document.getElementById('maintenanceOverlay');
             if (maintenanceMode) {
-                document.getElementById('maintenanceOverlay').classList.add('active');
+                overlay.classList.add('active');
             } else {
-                document.getElementById('maintenanceOverlay').classList.remove('active');
+                overlay.classList.remove('active');
             }
         }
 
@@ -1990,7 +2094,7 @@
             if (currentUser !== 'HO121') return;
             
             maintenanceMode = !maintenanceMode;
-            localStorage.setItem('burrowMaintenance', JSON.stringify(maintenanceMode));
+            saveToStorage(STORAGE_KEYS.MAINTENANCE, maintenanceMode);
             
             const toggle = document.getElementById('maintenanceToggle');
             const status = document.getElementById('maintenanceStatus');
@@ -2008,6 +2112,8 @@
                 status.classList.add('maintenance-off');
                 showToast('Maintenance mode DISABLED - Site is now public', 'success');
             }
+            
+            checkMaintenanceMode();
         }
 
         /* ANNOUNCEMENT FUNCTIONS */
@@ -2022,9 +2128,9 @@
                 banner.classList.remove('active');
             }
             
-            // Update admin controls if HO121
             if (currentUser === 'HO121') {
-                document.getElementById('announcementInput').value = announcement.text || '';
+                const input = document.getElementById('announcementInput');
+                if (input) input.value = announcement.text || '';
             }
         }
 
@@ -2040,7 +2146,7 @@
             }
             
             announcement = { text: text, active: true, timestamp: new Date().toISOString() };
-            localStorage.setItem('burrowAnnouncement', JSON.stringify(announcement));
+            saveToStorage(STORAGE_KEYS.ANNOUNCEMENT, announcement);
             
             checkAnnouncement();
             showToast('Announcement posted!', 'success');
@@ -2050,7 +2156,7 @@
             if (currentUser !== 'HO121') return;
             
             announcement = { text: '', active: false };
-            localStorage.setItem('burrowAnnouncement', JSON.stringify(announcement));
+            saveToStorage(STORAGE_KEYS.ANNOUNCEMENT, announcement);
             
             document.getElementById('announcementInput').value = '';
             checkAnnouncement();
@@ -2062,7 +2168,7 @@
             sessionStorage.setItem('announcementDismissed', 'true');
         }
 
-        /* BANNED PLAYERS MANAGEMENT - NEW SECTION */
+        /* BANNED PLAYERS MANAGEMENT */
         function renderBannedPlayersList() {
             if (currentUser !== 'HO121') return;
             
@@ -2115,11 +2221,11 @@
             };
             
             bannedPlayersList.push(banEntry);
-            localStorage.setItem('burrowBannedPlayers', JSON.stringify(bannedPlayersList));
+            saveToStorage(STORAGE_KEYS.BANNED_PLAYERS, bannedPlayersList);
             
             if (!bannedUsers.includes(username.toLowerCase())) {
                 bannedUsers.push(username.toLowerCase());
-                localStorage.setItem('burrowBanned', JSON.stringify(bannedUsers));
+                saveToStorage(STORAGE_KEYS.BANNED, bannedUsers);
             }
             
             usernameInput.value = '';
@@ -2133,10 +2239,10 @@
             if (currentUser !== 'HO121') return;
             
             bannedPlayersList = bannedPlayersList.filter(p => p.username.toLowerCase() !== username.toLowerCase());
-            localStorage.setItem('burrowBannedPlayers', JSON.stringify(bannedPlayersList));
+            saveToStorage(STORAGE_KEYS.BANNED_PLAYERS, bannedPlayersList);
             
             bannedUsers = bannedUsers.filter(u => u !== username.toLowerCase());
-            localStorage.setItem('burrowBanned', JSON.stringify(bannedUsers));
+            saveToStorage(STORAGE_KEYS.BANNED, bannedUsers);
             
             renderBannedPlayersList();
             showToast(`Player "${username}" has been unbanned`, 'success');
@@ -2165,8 +2271,11 @@
                 return;
             }
             
-            if (bannedUsers.includes(username.toLowerCase()) || 
-                bannedPlayersList.find(p => p.username.toLowerCase() === username.toLowerCase())) {
+            // Check banned status
+            const isBanned = bannedUsers.includes(username.toLowerCase()) || 
+                           bannedPlayersList.find(p => p.username.toLowerCase() === username.toLowerCase());
+            
+            if (isBanned) {
                 showToast('You are banned from this shop', 'error');
                 return;
             }
@@ -2175,13 +2284,14 @@
             userDiscord = discord;
             userMinecraft = minecraft;
             
-            localStorage.setItem('burrowUser', currentUser);
-            localStorage.setItem('burrowDiscord', userDiscord);
-            localStorage.setItem('burrowMinecraft', userMinecraft);
+            saveToStorage(STORAGE_KEYS.USER, currentUser);
+            saveToStorage(STORAGE_KEYS.DISCORD, userDiscord);
+            saveToStorage(STORAGE_KEYS.MINECRAFT, userMinecraft);
             
+            // Add to all users list
             if (!allUsers.includes(currentUser)) {
                 allUsers.push(currentUser);
-                localStorage.setItem('burrowAllUsers', JSON.stringify(allUsers));
+                saveToStorage(STORAGE_KEYS.ALL_USERS, allUsers);
             }
             
             document.getElementById('currentUser').textContent = username;
@@ -2212,7 +2322,10 @@
             userMinecraft = '';
             userBulkOrder = [];
             
-            ['burrowUser', 'burrowDiscord', 'burrowMinecraft', 'burrowBulkOrder'].forEach(k => localStorage.removeItem(k));
+            localStorage.removeItem(STORAGE_KEYS.USER);
+            localStorage.removeItem(STORAGE_KEYS.DISCORD);
+            localStorage.removeItem(STORAGE_KEYS.MINECRAFT);
+            localStorage.removeItem(STORAGE_KEYS.BULK_ORDER);
             
             document.getElementById('usernameInput').value = '';
             document.getElementById('discordInput').value = '';
@@ -2362,7 +2475,8 @@
             }
             
             userRoles[username].push(role);
-            localStorage.setItem('burrowUserRoles', JSON.stringify(userRoles));
+            saveToStorage(STORAGE_KEYS.USER_ROLES, userRoles);
+            
             renderUserList();
             renderItems();
             showToast(`Assigned ${role} role to ${username}`, 'success');
@@ -2374,7 +2488,7 @@
             if (currentUser !== 'HO121') return;
             if (userRoles[username]) {
                 delete userRoles[username];
-                localStorage.setItem('burrowUserRoles', JSON.stringify(userRoles));
+                saveToStorage(STORAGE_KEYS.USER_ROLES, userRoles);
                 renderUserList();
                 renderItems();
                 showToast(`Removed all roles from ${username}`, 'success');
@@ -2394,14 +2508,7 @@
             
             const newItem = { id: Date.now(), name, type, location: null, price, stock };
             items.push(newItem);
-            
-            // ADDED: Error handling for localStorage to ensure data persists
-            try {
-                localStorage.setItem('burrowItems', JSON.stringify(items));
-            } catch (e) {
-                console.error('Failed to save items:', e);
-                showToast('Warning: Item added to page but may not persist due to storage error', 'error');
-            }
+            saveToStorage(STORAGE_KEYS.ITEMS, items);
             
             document.getElementById('itemName').value = '';
             document.getElementById('itemPrice').value = '';
@@ -2415,14 +2522,7 @@
             if (!confirm('Delete this item from the shop?')) return;
             
             items = items.filter(i => i.id !== id);
-            
-            // ADDED: Error handling for deletion
-            try {
-                localStorage.setItem('burrowItems', JSON.stringify(items));
-            } catch (e) {
-                console.error('Failed to delete item:', e);
-            }
-            
+            saveToStorage(STORAGE_KEYS.ITEMS, items);
             renderItems();
             showToast('Item removed from shop', 'success');
         }
@@ -2433,14 +2533,7 @@
             if (!item) return;
             
             item.stock = newStock;
-            
-            // ADDED: Error handling for stock update
-            try {
-                localStorage.setItem('burrowItems', JSON.stringify(items));
-            } catch (e) {
-                console.error('Failed to update stock:', e);
-            }
-            
+            saveToStorage(STORAGE_KEYS.ITEMS, items);
             renderItems();
             showToast(`Stock updated to ${newStock}`, 'success');
         }
@@ -2508,8 +2601,10 @@
             return div;
         }
 
+        /* FIXED: getUserRolesDisplay function - shows roles for all users including staff if they have them */
         function getUserRolesDisplay(username) {
-            if (username === 'mod121') return '';
+            // Don't show roles for HO121 or mod121 in item cards (they show [OWNER] and [MOD] instead)
+            if (username === 'HO121' || username === 'mod121') return '';
             
             if (!username || !userRoles[username]) return '';
             const roles = userRoles[username];
@@ -2526,8 +2621,10 @@
             }).join('');
         }
 
+        /* FIXED: getChatRoleDisplay function - only shows custom roles, not staff roles */
         function getChatRoleDisplay(username) {
-            if (username === 'mod121') return '';
+            // HO121 and mod121 don't show custom roles - they show [OWNER] and [MOD] in chat header
+            if (username === 'HO121' || username === 'mod121') return '';
             
             if (!username || !userRoles[username]) return '';
             const roles = userRoles[username];
@@ -2544,13 +2641,6 @@
             }).join('');
         }
 
-        function filterItems(type) {
-            currentFilter = type;
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            renderItems();
-        }
-
         /* BULK ORDER SYSTEM */
         function openEnhancedBulkModal(itemId) {
             if (!currentUser || currentUser === 'HO121' || currentUser === 'mod121') return;
@@ -2561,6 +2651,7 @@
             const modal = document.createElement('div');
             modal.className = 'chat-overlay show';
             modal.style.display = 'flex';
+            modal.id = 'tempBulkModal';
             modal.innerHTML = `
                 <div class="chat-container" style="max-width: 500px;">
                     <div class="chat-header">
@@ -2568,7 +2659,7 @@
                             <span>📦</span>
                             <span>Add ${item.name} to Order</span>
                         </div>
-                        <button class="close-chat" onclick="this.closest('.chat-overlay').remove()">×</button>
+                        <button class="close-chat" onclick="document.getElementById('tempBulkModal').remove()">×</button>
                     </div>
                     <div style="padding: 30px;">
                         <div style="margin-bottom: 20px; text-align: center;">
@@ -2618,7 +2709,9 @@
         }
 
         function addToEnhancedBulk(itemId) {
-            const modal = document.querySelector('.chat-overlay[style*="flex"]');
+            const modal = document.getElementById('tempBulkModal');
+            if (!modal) return;
+            
             const type = modal.querySelector('#bulkType').value;
             const quantity = parseInt(modal.querySelector('#bulkQuantity').value) || 0;
             
@@ -2627,6 +2720,7 @@
             const item = items.find(i => i.id === itemId);
             if (!item) return;
             
+            // Remove existing entry for this item
             userBulkOrder = userBulkOrder.filter(b => b.id !== itemId);
             
             userBulkOrder.push({
@@ -2637,7 +2731,7 @@
                 quantity: quantity
             });
             
-            localStorage.setItem('burrowBulkOrder', JSON.stringify(userBulkOrder));
+            saveToStorage(STORAGE_KEYS.BULK_ORDER, userBulkOrder);
             modal.remove();
             showToast('Added to bulk order!', 'success');
         }
@@ -2696,7 +2790,7 @@
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span style="color: var(--pink-primary);">≈ ${(multiplier * b.quantity).toLocaleString()} items total</span>
-                            <button class="btn-remove" onclick="removeFromBulk(${b.id})" style="padding: 6px 12px; background: rgba(255,82,82,0.2); color: #ff5252; border: 1px solid #ff5252; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">Remove</button>
+                            <button class="btn-remove" onclick="removeFromBulk(${b.id})">Remove</button>
                         </div>
                     </div>`;
             });
@@ -2713,7 +2807,7 @@
 
         function removeFromBulk(id) {
             userBulkOrder = userBulkOrder.filter(b => b.id !== id);
-            localStorage.setItem('burrowBulkOrder', JSON.stringify(userBulkOrder));
+            saveToStorage(STORAGE_KEYS.BULK_ORDER, userBulkOrder);
             renderEnhancedBulkModal();
         }
 
@@ -2731,18 +2825,10 @@
             };
             
             submittedOrders.push(order);
-            
-            // ADDED: Error handling for order submission
-            try {
-                localStorage.setItem('burrowSubmittedOrders', JSON.stringify(submittedOrders));
-            } catch (e) {
-                console.error('Failed to save order:', e);
-                showToast('Error saving order', 'error');
-                return;
-            }
+            saveToStorage(STORAGE_KEYS.SUBMITTED_ORDERS, submittedOrders);
             
             userBulkOrder = [];
-            localStorage.setItem('burrowBulkOrder', JSON.stringify(userBulkOrder));
+            saveToStorage(STORAGE_KEYS.BULK_ORDER, userBulkOrder);
             
             renderEnhancedBulkModal();
             showToast('Order submitted! Check Discord.', 'success');
@@ -2851,29 +2937,13 @@
             
             const logEntry = { ...order, action: 'confirmed', timestamp: order.completedAt, performedBy: currentUser };
             orderLogs.push(logEntry);
-            
-            // ADDED: Error handling for logs
-            try {
-                localStorage.setItem('burrowOrderLogs', JSON.stringify(orderLogs));
-            } catch (e) {
-                console.error('Failed to save order log:', e);
-            }
+            saveToStorage(STORAGE_KEYS.ORDER_LOGS, orderLogs);
             
             bulkOrderLogs.push({ ...order, confirmedAt: order.completedAt, confirmedBy: currentUser });
-            
-            try {
-                localStorage.setItem('burrowBulkLogs', JSON.stringify(bulkOrderLogs));
-            } catch (e) {
-                console.error('Failed to save bulk log:', e);
-            }
+            saveToStorage(STORAGE_KEYS.BULK_LOGS, bulkOrderLogs);
             
             submittedOrders.splice(orderIndex, 1);
-            
-            try {
-                localStorage.setItem('burrowSubmittedOrders', JSON.stringify(submittedOrders));
-            } catch (e) {
-                console.error('Failed to update orders:', e);
-            }
+            saveToStorage(STORAGE_KEYS.SUBMITTED_ORDERS, submittedOrders);
             
             renderAdminOrders();
             renderBulkLogs();
@@ -2958,33 +3028,24 @@
             
             const logEntry = { action: 'cleared', timestamp: new Date().toISOString(), performedBy: currentUser, orderCount: submittedOrders.length };
             orderLogs.push(logEntry);
-            
-            try {
-                localStorage.setItem('burrowOrderLogs', JSON.stringify(orderLogs));
-            } catch (e) {
-                console.error('Failed to save log:', e);
-            }
+            saveToStorage(STORAGE_KEYS.ORDER_LOGS, orderLogs);
             
             submittedOrders = [];
-            
-            try {
-                localStorage.setItem('burrowSubmittedOrders', JSON.stringify(submittedOrders));
-            } catch (e) {
-                console.error('Failed to clear orders:', e);
-            }
+            saveToStorage(STORAGE_KEYS.SUBMITTED_ORDERS, submittedOrders);
             
             renderAdminOrders();
             renderOrderLogs();
             showToast('All orders cleared', 'success');
         }
 
-        /* CHAT SYSTEM - ENHANCED WITH ROLES */
+        /* CHAT SYSTEM - ENHANCED WITH REAL-TIME SYNC */
         function openGlobalChat() {
             if (!currentUser) return showToast('Log in first', 'error');
             if (bannedUsers.includes(currentUser.toLowerCase())) return showToast('Banned from chat', 'error');
             
             currentChat = 'global';
             currentSupportUser = null;
+            isStaffViewingSupport = false;
             document.getElementById('globalChatOverlay').classList.add('show');
             renderGlobalMessages();
             scrollToBottom('globalMessages');
@@ -3001,6 +3062,7 @@
             
             currentChat = 'support';
             currentSupportUser = currentUser;
+            isStaffViewingSupport = false;
             document.getElementById('supportChatOverlay').classList.add('show');
             document.getElementById('supportChatTitle').textContent = `Support - ${currentUser}`;
             
@@ -3019,6 +3081,7 @@
             document.getElementById('supportChatOverlay').classList.remove('show');
             currentChat = null;
             currentSupportUser = null;
+            isStaffViewingSupport = false;
         }
 
         function sendGlobalMessage() {
@@ -3038,14 +3101,7 @@
             };
             
             globalMessages.push(msg);
-            
-            // ADDED: Error handling for chat
-            try {
-                localStorage.setItem('burrowGlobalChat', JSON.stringify(globalMessages));
-            } catch (e) {
-                console.error('Failed to save chat:', e);
-            }
-            
+            saveToStorage(STORAGE_KEYS.GLOBAL_CHAT, globalMessages);
             input.value = '';
             renderGlobalMessages();
             scrollToBottom('globalMessages');
@@ -3055,7 +3111,17 @@
             const input = document.getElementById('supportInput');
             const content = input.value.trim();
             
-            if (!content || !currentUser || !currentSupportUser || mutedUsers.includes(currentUser.toLowerCase())) return;
+            if (!content || !currentUser || mutedUsers.includes(currentUser.toLowerCase())) return;
+            
+            let chatUser = currentSupportUser;
+            
+            if (isStaffViewingSupport && (currentUser === 'HO121' || currentUser === 'mod121')) {
+                chatUser = currentSupportUser;
+            } else {
+                chatUser = currentUser;
+            }
+            
+            if (!chatUser) return;
             
             const msg = {
                 id: Date.now(),
@@ -3067,15 +3133,9 @@
                 isMod: currentUser === 'mod121'
             };
             
-            if (!supportChats[currentSupportUser]) supportChats[currentSupportUser] = [];
-            supportChats[currentSupportUser].push(msg);
-            
-            try {
-                localStorage.setItem('burrowSupportChats', JSON.stringify(supportChats));
-            } catch (e) {
-                console.error('Failed to save support chat:', e);
-            }
-            
+            if (!supportChats[chatUser]) supportChats[chatUser] = [];
+            supportChats[chatUser].push(msg);
+            saveToStorage(STORAGE_KEYS.SUPPORT_CHATS, supportChats);
             input.value = '';
             renderSupportMessages();
             scrollToBottom('supportMessages');
@@ -3090,7 +3150,7 @@
 
         function scrollToBottom(id) {
             const el = document.getElementById(id);
-            el.scrollTop = el.scrollHeight;
+            if (el) el.scrollTop = el.scrollHeight;
         }
 
         /* ADMIN/MOD FUNCTIONS */
@@ -3105,12 +3165,13 @@
             }
             
             cont.innerHTML = users.map(user => {
-                const msgs = supportChats[user];
+                const msgs = supportChats[user] || [];
                 const last = msgs[msgs.length - 1];
+                const unread = msgs.filter(m => !m.readByStaff && (m.author !== 'HO121' && m.author !== 'mod121')).length;
                 return `
                     <div class="support-chat-item" onclick="openStaffSupportChat('${user}')" style="cursor:pointer">
                         <div class="support-user-info">
-                            <h4>${user}</h4>
+                            <h4>${user} ${unread > 0 ? `<span style="background:#ff5252;color:#fff;padding:2px 8px;border-radius:10px;font-size:0.7rem">${unread} new</span>` : ''}</h4>
                             <p>${last ? last.content.substring(0, 50) + '...' : 'No messages'}</p>
                         </div>
                         <div class="support-meta">
@@ -3160,7 +3221,7 @@
             
             if (!submittedOrders.length) {
                 cont.innerHTML = `
-                    <div class="empty-orders">
+                    <div style="text-align: center; padding: 60px 20px; color: rgba(255,255,255,0.5);">
                         <div style="font-size:4rem;margin-bottom:20px">📭</div>
                         <p>No bulk orders yet</p>
                     </div>`;
@@ -3182,8 +3243,8 @@
                     let unit = 'items';
                     let multiplier = 1;
                     switch(b.type) {
-                        case 'stacks': multiplier = 64; unit = 'stacks'; break;
-                        case 'shulkers': multiplier = 27 * 64; unit = 'shulkers'; break;
+                        case 'stacks': unit = 'stacks'; multiplier = 64; break;
+                        case 'shulkers': unit = 'shulkers'; multiplier = 27 * 64; break;
                     }
                     const totalItems = multiplier * b.quantity;
                     return `
@@ -3228,7 +3289,7 @@
             if (!confirm(`Close ticket for ${username}?`)) return;
             
             delete supportChats[username];
-            localStorage.setItem('burrowSupportChats', JSON.stringify(supportChats));
+            saveToStorage(STORAGE_KEYS.SUPPORT_CHATS, supportChats);
             
             if (currentSupportUser === username) closeChat();
             renderSupportList();
@@ -3239,8 +3300,20 @@
             if (currentUser !== 'HO121' && currentUser !== 'mod121') return;
             currentChat = 'support';
             currentSupportUser = username;
+            isStaffViewingSupport = true;
             document.getElementById('supportChatOverlay').classList.add('show');
             document.getElementById('supportChatTitle').textContent = `Support - ${username}`;
+            
+            if (supportChats[username]) {
+                supportChats[username].forEach(m => {
+                    if (m.author !== 'HO121' && m.author !== 'mod121') {
+                        m.readByStaff = true;
+                    }
+                });
+                saveToStorage(STORAGE_KEYS.SUPPORT_CHATS, supportChats);
+                renderSupportList();
+            }
+            
             renderSupportMessages();
             scrollToBottom('supportMessages');
         }
@@ -3252,7 +3325,7 @@
                 const msg = globalMessages.find(m => m.id === msgId);
                 if (msg) {
                     msg.deleted = true;
-                    localStorage.setItem('burrowGlobalChat', JSON.stringify(globalMessages));
+                    saveToStorage(STORAGE_KEYS.GLOBAL_CHAT, globalMessages);
                     renderGlobalMessages();
                 }
             } else if (type === 'support' && currentSupportUser) {
@@ -3261,7 +3334,7 @@
                     const msg = chat.find(m => m.id === msgId);
                     if (msg) {
                         msg.deleted = true;
-                        localStorage.setItem('burrowSupportChats', JSON.stringify(supportChats));
+                        saveToStorage(STORAGE_KEYS.SUPPORT_CHATS, supportChats);
                         renderSupportMessages();
                     }
                 }
@@ -3274,7 +3347,7 @@
             
             if (!mutedUsers.includes(username.toLowerCase())) {
                 mutedUsers.push(username.toLowerCase());
-                localStorage.setItem('burrowMuted', JSON.stringify(mutedUsers));
+                saveToStorage(STORAGE_KEYS.MUTED, mutedUsers);
                 showToast(`${username} muted`, 'success');
             }
         }
@@ -3282,7 +3355,7 @@
         function unmuteUser(username) {
             if (currentUser !== 'HO121' && currentUser !== 'mod121') return;
             mutedUsers = mutedUsers.filter(u => u !== username.toLowerCase());
-            localStorage.setItem('burrowMuted', JSON.stringify(mutedUsers));
+            saveToStorage(STORAGE_KEYS.MUTED, mutedUsers);
             renderBannedList();
             showToast(`${username} unmuted`, 'success');
         }
@@ -3293,7 +3366,7 @@
             
             if (!bannedUsers.includes(username.toLowerCase())) {
                 bannedUsers.push(username.toLowerCase());
-                localStorage.setItem('burrowBanned', JSON.stringify(bannedUsers));
+                saveToStorage(STORAGE_KEYS.BANNED, bannedUsers);
                 showToast(`${username} banned`, 'success');
             }
         }
@@ -3301,7 +3374,7 @@
         function unbanUser(username) {
             if (currentUser !== 'HO121' && currentUser !== 'mod121') return;
             bannedUsers = bannedUsers.filter(u => u !== username.toLowerCase());
-            localStorage.setItem('burrowBanned', JSON.stringify(bannedUsers));
+            saveToStorage(STORAGE_KEYS.BANNED, bannedUsers);
             renderBannedList();
             showToast(`${username} unbanned`, 'success');
         }
@@ -3320,6 +3393,7 @@
             box.innerHTML = supportChats[currentSupportUser].map(m => createMessageHTML(m, 'support')).join('');
         }
 
+        /* FIXED: createMessageHTML - Owner and Mod don't show username in chat, only [OWNER] or [MOD] */
         function createMessageHTML(msg, type, className = '') {
             const isStaffUser = currentUser === 'HO121';
             const isModUser = currentUser === 'mod121';
@@ -3328,7 +3402,8 @@
             const isModMsg = msg.isMod || msg.author === 'mod121';
             const time = new Date(msg.timestamp).toLocaleTimeString();
             
-            const chatRoleDisplay = getChatRoleDisplay(msg.author);
+            // Only show chat role display for non-staff users (buyers with roles)
+            const chatRoleDisplay = (!isOwnerMsg && !isModMsg) ? getChatRoleDisplay(msg.author) : '';
             
             let actions = '';
             if ((isStaffUser || isModUser) && !msg.deleted && msg.author !== 'HO121' && msg.author !== 'mod121') {
@@ -3340,8 +3415,15 @@
                     </div>`;
             }
             
-            const authorDisplay = isOwnerMsg ? '[OWNER]' : (isModMsg ? '[MOD]' : msg.author);
-            const authorClass = isOwnerMsg ? 'owner' : (isModMsg ? 'mod' : '');
+            // FIXED: Owner and Mod don't show username, only [OWNER] or [MOD]
+            let authorDisplay;
+            if (isOwnerMsg) {
+                authorDisplay = '[OWNER]';
+            } else if (isModMsg) {
+                authorDisplay = '[MOD]';
+            } else {
+                authorDisplay = msg.author;
+            }
             
             let cls = className || 'chat-message ' + (isOwn ? 'own' : 'other');
             if (msg.deleted) cls += ' deleted';
@@ -3351,7 +3433,7 @@
             return `
                 <div class="${cls}" data-msg-id="${msg.id}">
                     <div class="message-header">
-                        <span class="message-author ${authorClass}">${chatRoleDisplay}${authorDisplay}</span>
+                        <span class="message-author ${isOwnerMsg ? 'owner' : (isModMsg ? 'mod' : '')}">${chatRoleDisplay}${authorDisplay}</span>
                         <span class="message-time">${time}</span>
                     </div>
                     <div class="message-content">${msg.deleted ? '<em>Message deleted by moderator</em>' : escapeHtml(msg.content)}</div>
@@ -3363,101 +3445,6 @@
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
-        }
-
-        /* REAL-TIME UPDATES - ENHANCED FOR ALL COMPONENTS */
-        function startRealTimeUpdates() {
-            if (currentUser) {
-                setInterval(() => {
-                    const currentMessages = JSON.parse(localStorage.getItem('burrowGlobalChat')) || [];
-                    if (currentMessages.length !== globalMessages.length) {
-                        globalMessages = currentMessages;
-                        if (document.getElementById('globalChatOverlay').classList.contains('show')) {
-                            renderGlobalMessages();
-                            scrollToBottom('globalMessages');
-                        }
-                    }
-                }, 100);
-                
-                setInterval(() => {
-                    const currentChats = JSON.parse(localStorage.getItem('burrowSupportChats')) || {};
-                    supportChats = currentChats;
-                    if (document.getElementById('supportChatOverlay').classList.contains('show') && currentSupportUser) {
-                        renderSupportMessages();
-                        scrollToBottom('supportMessages');
-                    }
-                }, 100);
-                
-                if (currentUser === 'HO121' || currentUser === 'mod121') {
-                    setInterval(() => {
-                        const currentOrders = JSON.parse(localStorage.getItem('burrowSubmittedOrders')) || [];
-                        if (currentOrders.length !== submittedOrders.length) {
-                            submittedOrders = currentOrders;
-                            renderAdminOrders();
-                            showToast('📦 New bulk order received!', 'success');
-                        }
-                    }, 100);
-                }
-                
-                if (currentUser === 'HO121') {
-                    setInterval(() => {
-                        const currentUsers = JSON.parse(localStorage.getItem('burrowAllUsers')) || [];
-                        if (currentUsers.length !== allUsers.length) {
-                            allUsers = currentUsers;
-                            updateRoleSelector();
-                            renderUserList();
-                        }
-                    }, 100);
-                }
-                
-                setInterval(() => {
-                    const currentItems = JSON.parse(localStorage.getItem('burrowItems')) || [];
-                    if (JSON.stringify(currentItems) !== JSON.stringify(items)) {
-                        items = currentItems;
-                        renderItems();
-                    }
-                }, 100);
-                
-                setInterval(() => {
-                    const currentRoles = JSON.parse(localStorage.getItem('burrowUserRoles')) || {};
-                    if (JSON.stringify(currentRoles) !== JSON.stringify(userRoles)) {
-                        userRoles = currentRoles;
-                        renderItems();
-                        if (document.getElementById('globalChatOverlay').classList.contains('show')) {
-                            renderGlobalMessages();
-                        }
-                        if (document.getElementById('supportChatOverlay').classList.contains('show')) {
-                            renderSupportMessages();
-                        }
-                    }
-                }, 100);
-                
-                setInterval(() => {
-                    const currentAnnouncement = JSON.parse(localStorage.getItem('burrowAnnouncement')) || { text: '', active: false };
-                    if (JSON.stringify(currentAnnouncement) !== JSON.stringify(announcement)) {
-                        announcement = currentAnnouncement;
-                        checkAnnouncement();
-                    }
-                }, 100);
-                
-                setInterval(() => {
-                    const currentMaintenance = JSON.parse(localStorage.getItem('burrowMaintenance')) || false;
-                    if (currentMaintenance !== maintenanceMode) {
-                        maintenanceMode = currentMaintenance;
-                        checkMaintenanceMode();
-                    }
-                }, 100);
-                
-                if (currentUser === 'HO121') {
-                    setInterval(() => {
-                        const currentBannedPlayers = JSON.parse(localStorage.getItem('burrowBannedPlayers')) || [];
-                        if (JSON.stringify(currentBannedPlayers) !== JSON.stringify(bannedPlayersList)) {
-                            bannedPlayersList = currentBannedPlayers;
-                            renderBannedPlayersList();
-                        }
-                    }, 100);
-                }
-            }
         }
     </script>
 </body>
