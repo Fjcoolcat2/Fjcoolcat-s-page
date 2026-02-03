@@ -645,6 +645,18 @@
             border-radius: 10px;
             margin-bottom: 10px;
             transition: all 0.3s;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .member-item:hover {
@@ -715,6 +727,32 @@
         .btn-delete:hover {
             background: var(--purple-light);
             color: #fff;
+        }
+
+        /* Live indicator */
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(76, 175, 80, 0.1);
+            color: #4caf50;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-left: 15px;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #4caf50;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         /* Toast Notification */
@@ -898,7 +936,13 @@
         <div class="doc-container">
             <!-- Doc Header -->
             <div class="doc-header">
-                <div class="doc-title">📜 Members Registry</div>
+                <div class="doc-title">
+                    📜 Members Registry
+                    <span class="live-indicator">
+                        <span class="live-dot"></span>
+                        LIVE
+                    </span>
+                </div>
                 <div class="doc-actions">
                     <button class="doc-btn doc-btn-secondary" onclick="exportData()">
                         📥 Export
@@ -991,10 +1035,15 @@
         let currentUser = null;
         let editingId = null;
 
+        // Storage key constant
+        const STORAGE_KEY = 'whisperingDreamsMembers';
+
         // Initialize
         window.onload = () => {
             createBackgroundEffects();
+            loadMembers();
             checkSession();
+            startRealtimeSync();
             
             // Enter key support
             document.getElementById('loginPassword').addEventListener('keypress', (e) => {
@@ -1030,13 +1079,45 @@
             }
         }
 
+        // Load members from storage
+        function loadMembers() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                members = JSON.parse(saved);
+            }
+        }
+
+        // Save members and notify other tabs
+        function saveMembers() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(members));
+            // Trigger storage event for same-tab updates
+            window.dispatchEvent(new StorageEvent('storage', {
+                key: STORAGE_KEY,
+                newValue: JSON.stringify(members),
+                url: window.location.href
+            }));
+        }
+
+        // Real-time sync across tabs
+        function startRealtimeSync() {
+            window.addEventListener('storage', (e) => {
+                if (e.key === STORAGE_KEY) {
+                    loadMembers();
+                    if (currentUser) {
+                        renderMembers();
+                        // Show notification if someone else added a member
+                        const newCount = members.length;
+                        const oldCount = parseInt(document.getElementById('memberCount').textContent);
+                        if (newCount > oldCount) {
+                            showToast('New member added!', 'success');
+                        }
+                    }
+                }
+            });
+        }
+
         function checkSession() {
             const savedUser = localStorage.getItem('whisperingDreamsUser');
-            const savedMembers = localStorage.getItem('whisperingDreamsMembers');
-            
-            if (savedMembers) {
-                members = JSON.parse(savedMembers);
-            }
             
             if (savedUser) {
                 currentUser = savedUser;
@@ -1066,6 +1147,7 @@
             document.getElementById('currentUserBadge').style.display = 'flex';
             document.getElementById('currentUsername').textContent = currentUser;
             
+            // Render members immediately when showing main content
             renderMembers();
         }
 
@@ -1110,6 +1192,11 @@
             
             renderMembers();
             showToast('Member added to the dream!', 'success');
+            
+            // Scroll to see the new member
+            setTimeout(() => {
+                document.querySelector('.members-section').scrollIntoView({ behavior: 'smooth' });
+            }, 100);
         }
 
         function deleteMember(id) {
@@ -1173,7 +1260,10 @@
                 return;
             }
             
-            container.innerHTML = members.map(member => `
+            // Sort by newest first
+            const sortedMembers = [...members].sort((a, b) => b.id - a.id);
+            
+            container.innerHTML = sortedMembers.map(member => `
                 <div class="member-item">
                     <div class="member-info">
                         <div class="member-avatar">${member.discord.charAt(0).toUpperCase()}</div>
@@ -1192,10 +1282,6 @@
                     </div>
                 </div>
             `).join('');
-        }
-
-        function saveMembers() {
-            localStorage.setItem('whisperingDreamsMembers', JSON.stringify(members));
         }
 
         function escapeHtml(text) {
