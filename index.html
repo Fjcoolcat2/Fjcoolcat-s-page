@@ -20,6 +20,7 @@
             --blue-light: #81d4fa;
             --blue-glow: #29b6f6;
             --accent-gold: #ffd54f;
+            --accent-pink: #e91e63;
         }
 
         body {
@@ -296,6 +297,25 @@
             box-shadow: 0 10px 30px rgba(79, 195, 247, 0.4);
         }
 
+        /* Admin Badge */
+        .admin-badge {
+            background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-gold) 100%);
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
+            animation: glow 2s infinite ease-in-out;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4); }
+            50% { box-shadow: 0 4px 25px rgba(233, 30, 99, 0.7), 0 0 30px rgba(255, 213, 79, 0.3); }
+        }
+
         .current-user {
             position: fixed;
             top: 20px;
@@ -448,6 +468,16 @@
             background: rgba(79, 195, 247, 0.2);
         }
 
+        .doc-btn-danger {
+            background: linear-gradient(135deg, #ff5252 0%, #d32f2f 100%);
+            color: #fff;
+        }
+
+        .doc-btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 82, 82, 0.4);
+        }
+
         .doc-content {
             padding: 40px;
         }
@@ -485,6 +515,55 @@
         .minecraft-name {
             color: var(--blue-glow);
             font-weight: 600;
+        }
+
+        /* Member Badge - BIG */
+        .member-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #4caf50 0%, #81c784 100%);
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-left: 15px;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+            animation: badgePulse 2s infinite ease-in-out;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 6px 20px rgba(76, 175, 80, 0.6); }
+        }
+
+        .member-badge::before {
+            content: '✓';
+            margin-right: 8px;
+            font-weight: 900;
+        }
+
+        .pending-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #ff9800 0%, #ffc107 100%);
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-left: 15px;
+        }
+
+        .pending-badge::before {
+            content: '⏳';
+            margin-right: 6px;
         }
 
         /* Example Section */
@@ -527,7 +606,7 @@
             letter-spacing: 1px;
         }
 
-        /* Add Entry Form */
+        /* Add Entry Form - Admin Only */
         .entry-form {
             background: linear-gradient(135deg, #f3e5f5 0%, #e3f2fd 100%);
             border-radius: 12px;
@@ -639,11 +718,11 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 18px 20px;
+            padding: 20px;
             background: #fff;
             border: 1px solid #e0e0e0;
-            border-radius: 10px;
-            margin-bottom: 10px;
+            border-radius: 12px;
+            margin-bottom: 12px;
             transition: all 0.3s;
             animation: slideIn 0.4s ease-out;
         }
@@ -665,15 +744,26 @@
             transform: translateX(5px);
         }
 
+        .member-item.approved {
+            border-left: 5px solid #4caf50;
+            background: linear-gradient(135deg, #fff 0%, #f1f8e9 100%);
+        }
+
+        .member-item.pending {
+            border-left: 5px solid #ff9800;
+            background: linear-gradient(135deg, #fff 0%, #fff8e1 100%);
+        }
+
         .member-info {
             display: flex;
             align-items: center;
             gap: 15px;
+            flex: 1;
         }
 
         .member-avatar {
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             background: linear-gradient(135deg, var(--purple-light) 0%, var(--blue-primary) 100%);
             border-radius: 50%;
             display: flex;
@@ -681,8 +771,16 @@
             justify-content: center;
             color: #fff;
             font-weight: 700;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             box-shadow: 0 4px 15px rgba(79, 195, 247, 0.3);
+            flex-shrink: 0;
+        }
+
+        .member-details {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .member-names {
@@ -697,16 +795,16 @@
         }
 
         .btn-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
             border: none;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.3s;
-            font-size: 1rem;
+            font-size: 1.1rem;
         }
 
         .btn-edit {
@@ -729,6 +827,47 @@
             color: #fff;
         }
 
+        .btn-approve {
+            background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-approve:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-approve:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* View Only Notice */
+        .view-only-notice {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            border: 2px solid var(--blue-primary);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: var(--purple-deep);
+        }
+
+        .view-only-notice h3 {
+            margin-bottom: 10px;
+            color: var(--purple-light);
+        }
+
         /* Live indicator */
         .live-indicator {
             display: inline-flex;
@@ -739,7 +878,6 @@
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 0.85rem;
-            margin-left: 15px;
         }
 
         .live-dot {
@@ -853,6 +991,11 @@
                 padding: 20px;
             }
             
+            .member-details {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
             .member-names {
                 flex-direction: column;
                 align-items: flex-start;
@@ -861,6 +1004,11 @@
             
             .separator {
                 display: none;
+            }
+
+            .member-badge, .pending-badge {
+                margin-left: 0;
+                margin-top: 5px;
             }
         }
     </style>
@@ -907,6 +1055,7 @@
     <!-- Current User Badge -->
     <div class="current-user" id="currentUserBadge" style="display: none;">
         <span id="currentUsername">Guest</span>
+        <span id="adminBadge" class="admin-badge" style="display: none;">ADMIN</span>
         <button class="btn-logout" onclick="logout()">Logout</button>
     </div>
 
@@ -943,13 +1092,8 @@
                         LIVE
                     </span>
                 </div>
-                <div class="doc-actions">
-                    <button class="doc-btn doc-btn-secondary" onclick="exportData()">
-                        📥 Export
-                    </button>
-                    <button class="doc-btn doc-btn-primary" onclick="scrollToForm()">
-                        ➕ Add Member
-                    </button>
+                <div class="doc-actions" id="headerActions">
+                    <!-- Actions injected by JS based on permissions -->
                 </div>
             </div>
 
@@ -965,29 +1109,21 @@
                             <span class="separator">>></span>
                             <span class="minecraft-name">_Fjcoolcat_</span>
                         </span>
+                        <span class="member-badge">Member</span>
                     </div>
                     <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(74, 20, 140, 0.2); color: #666; font-size: 0.9rem;">
-                        💡 Tip: Discord username on the left (purple), Minecraft in-game name on the right (blue)
+                        💡 Approved members show a green "MEMBER" badge. Pending members show an orange badge until approved by admin.
                     </div>
                 </div>
 
-                <!-- Members List -->
-                <div class="members-section">
-                    <div class="section-title">
-                        <span>✦ Registered Members</span>
-                        <span class="member-count" id="memberCount">0</span>
-                    </div>
-                    
-                    <div id="membersList">
-                        <div class="empty-state">
-                            <div class="empty-state-icon">🌙</div>
-                            <p>The dream is empty... Add the first member!</p>
-                        </div>
-                    </div>
+                <!-- View Only Notice (for non-admin users) -->
+                <div class="view-only-notice" id="viewOnlyNotice" style="display: none;">
+                    <h3>👁️ View Only Mode</h3>
+                    <p>You can view all registered members. Only the administrator can add, edit, or remove members.</p>
                 </div>
 
-                <!-- Add Entry Form -->
-                <div class="entry-form" id="entryForm">
+                <!-- Add Entry Form (Admin Only) -->
+                <div class="entry-form" id="entryForm" style="display: none;">
                     <div class="form-title">✨ Add New Member</div>
                     <div class="form-row">
                         <div class="form-group">
@@ -1001,11 +1137,26 @@
                         <button class="btn-add" onclick="addMember()">Add</button>
                     </div>
                 </div>
+
+                <!-- Members List -->
+                <div class="members-section">
+                    <div class="section-title">
+                        <span>✦ Registered Members</span>
+                        <span class="member-count" id="memberCount">0</span>
+                    </div>
+                    
+                    <div id="membersList">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🌙</div>
+                            <p>The dream is empty... Waiting for the admin to add members!</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Edit Modal -->
+    <!-- Edit Modal (Admin Only) -->
     <div class="modal-overlay" id="editModal">
         <div class="modal">
             <h3 class="modal-title">✏️ Edit Member</h3>
@@ -1013,9 +1164,15 @@
                 <label>Discord Username</label>
                 <input type="text" id="editDiscord" placeholder="Discord username">
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin-bottom: 15px;">
                 <label>Minecraft Username</label>
                 <input type="text" id="editMinecraft" placeholder="Minecraft username">
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="editApproved" style="margin-right: 8px;">
+                    Approved Member (Show "MEMBER" badge)
+                </label>
             </div>
             <div class="modal-actions">
                 <button class="doc-btn doc-btn-secondary" onclick="closeEditModal()">Cancel</button>
@@ -1030,13 +1187,16 @@
     </div>
 
     <script>
+        // Constants
+        const ADMIN_USERNAME = 'FJ121';
+        const STORAGE_KEY = 'whisperingDreamsMembers';
+        const USER_KEY = 'whisperingDreamsUser';
+
         // Data Management
         let members = [];
         let currentUser = null;
+        let isAdmin = false;
         let editingId = null;
-
-        // Storage key constant
-        const STORAGE_KEY = 'whisperingDreamsMembers';
 
         // Initialize
         window.onload = () => {
@@ -1105,22 +1265,17 @@
                     loadMembers();
                     if (currentUser) {
                         renderMembers();
-                        // Show notification if someone else added a member
-                        const newCount = members.length;
-                        const oldCount = parseInt(document.getElementById('memberCount').textContent);
-                        if (newCount > oldCount) {
-                            showToast('New member added!', 'success');
-                        }
                     }
                 }
             });
         }
 
         function checkSession() {
-            const savedUser = localStorage.getItem('whisperingDreamsUser');
+            const savedUser = localStorage.getItem(USER_KEY);
             
             if (savedUser) {
                 currentUser = savedUser;
+                isAdmin = (currentUser === ADMIN_USERNAME);
                 showMainContent();
             }
         }
@@ -1135,9 +1290,15 @@
             }
             
             currentUser = username;
-            localStorage.setItem('whisperingDreamsUser', username);
+            isAdmin = (currentUser === ADMIN_USERNAME);
+            localStorage.setItem(USER_KEY, username);
             
-            showToast(`Welcome to the dream, ${username}!`, 'success');
+            if (isAdmin) {
+                showToast(`Welcome, Administrator ${username}!`, 'success');
+            } else {
+                showToast(`Welcome to the dream, ${username}!`, 'success');
+            }
+            
             showMainContent();
         }
 
@@ -1147,16 +1308,55 @@
             document.getElementById('currentUserBadge').style.display = 'flex';
             document.getElementById('currentUsername').textContent = currentUser;
             
-            // Render members immediately when showing main content
+            // Show admin badge if admin
+            if (isAdmin) {
+                document.getElementById('adminBadge').style.display = 'inline-flex';
+            }
+            
+            setupPermissions();
             renderMembers();
         }
 
+        function setupPermissions() {
+            const headerActions = document.getElementById('headerActions');
+            const entryForm = document.getElementById('entryForm');
+            const viewOnlyNotice = document.getElementById('viewOnlyNotice');
+            
+            if (isAdmin) {
+                // Admin: Full access
+                headerActions.innerHTML = `
+                    <button class="doc-btn doc-btn-secondary" onclick="exportData()">
+                        📥 Export
+                    </button>
+                    <button class="doc-btn doc-btn-primary" onclick="scrollToForm()">
+                        ➕ Add Member
+                    </button>
+                `;
+                entryForm.style.display = 'block';
+                viewOnlyNotice.style.display = 'none';
+            } else {
+                // Regular user: View only
+                headerActions.innerHTML = `
+                    <button class="doc-btn doc-btn-secondary" onclick="exportData()">
+                        📥 Export List
+                    </button>
+                `;
+                entryForm.style.display = 'none';
+                viewOnlyNotice.style.display = 'block';
+            }
+        }
+
         function logout() {
-            localStorage.removeItem('whisperingDreamsUser');
+            localStorage.removeItem(USER_KEY);
             location.reload();
         }
 
         function addMember() {
+            if (!isAdmin) {
+                showToast('Only the administrator can add members!', 'error');
+                return;
+            }
+            
             const discord = document.getElementById('discordInput').value.trim();
             const minecraft = document.getElementById('minecraftInput').value.trim();
             
@@ -1180,6 +1380,7 @@
                 id: Date.now(),
                 discord: discord,
                 minecraft: minecraft,
+                approved: false, // New members are pending by default
                 addedBy: currentUser,
                 addedAt: new Date().toISOString()
             };
@@ -1191,7 +1392,7 @@
             document.getElementById('minecraftInput').value = '';
             
             renderMembers();
-            showToast('Member added to the dream!', 'success');
+            showToast('Member added! Approval pending.', 'success');
             
             // Scroll to see the new member
             setTimeout(() => {
@@ -1199,7 +1400,29 @@
             }, 100);
         }
 
+        function approveMember(id) {
+            if (!isAdmin) {
+                showToast('Only the administrator can approve members!', 'error');
+                return;
+            }
+            
+            const member = members.find(m => m.id === id);
+            if (member) {
+                member.approved = true;
+                member.approvedAt = new Date().toISOString();
+                member.approvedBy = currentUser;
+                saveMembers();
+                renderMembers();
+                showToast(`✓ ${member.discord} is now an approved member!`, 'success');
+            }
+        }
+
         function deleteMember(id) {
+            if (!isAdmin) {
+                showToast('Only the administrator can remove members!', 'error');
+                return;
+            }
+            
             if (!confirm('Remove this member from the registry?')) return;
             
             members = members.filter(m => m.id !== id);
@@ -1209,12 +1432,18 @@
         }
 
         function openEditModal(id) {
+            if (!isAdmin) {
+                showToast('Only the administrator can edit members!', 'error');
+                return;
+            }
+            
             const member = members.find(m => m.id === id);
             if (!member) return;
             
             editingId = id;
             document.getElementById('editDiscord').value = member.discord;
             document.getElementById('editMinecraft').value = member.minecraft;
+            document.getElementById('editApproved').checked = member.approved;
             document.getElementById('editModal').classList.add('show');
         }
 
@@ -1224,10 +1453,11 @@
         }
 
         function saveEdit() {
-            if (!editingId) return;
+            if (!isAdmin || !editingId) return;
             
             const discord = document.getElementById('editDiscord').value.trim();
             const minecraft = document.getElementById('editMinecraft').value.trim();
+            const approved = document.getElementById('editApproved').checked;
             
             if (!discord || !minecraft) {
                 showToast('Please fill in both fields', 'error');
@@ -1236,8 +1466,16 @@
             
             const member = members.find(m => m.id === editingId);
             if (member) {
+                const wasApproved = member.approved;
                 member.discord = discord;
                 member.minecraft = minecraft;
+                member.approved = approved;
+                
+                if (approved && !wasApproved) {
+                    member.approvedAt = new Date().toISOString();
+                    member.approvedBy = currentUser;
+                }
+                
                 saveMembers();
                 renderMembers();
                 closeEditModal();
@@ -1255,33 +1493,55 @@
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">🌙</div>
-                        <p>The dream is empty... Add the first member!</p>
+                        <p>${isAdmin ? 'The dream is empty... Add the first member!' : 'The dream is empty... Waiting for the admin to add members!'}</p>
                     </div>`;
                 return;
             }
             
-            // Sort by newest first
-            const sortedMembers = [...members].sort((a, b) => b.id - a.id);
+            // Sort: Approved first, then by date
+            const sortedMembers = [...members].sort((a, b) => {
+                if (a.approved === b.approved) return b.id - a.id;
+                return a.approved ? -1 : 1;
+            });
             
-            container.innerHTML = sortedMembers.map(member => `
-                <div class="member-item">
-                    <div class="member-info">
-                        <div class="member-avatar">${member.discord.charAt(0).toUpperCase()}</div>
-                        <div class="doc-line" style="margin: 0;">
-                            <span class="bullet">●</span>
-                            <span class="username-pair">
-                                <span class="discord-name">${escapeHtml(member.discord)}</span>
-                                <span class="separator">>></span>
-                                <span class="minecraft-name">${escapeHtml(member.minecraft)}</span>
-                            </span>
+            container.innerHTML = sortedMembers.map(member => {
+                const isPending = !member.approved;
+                const badgeHtml = member.approved 
+                    ? '<span class="member-badge">Member</span>'
+                    : '<span class="pending-badge">Pending</span>';
+                
+                // Actions only for admin
+                let actionsHtml = '';
+                if (isAdmin) {
+                    actionsHtml = `
+                        <div class="member-actions">
+                            ${isPending ? `<button class="btn-approve" onclick="approveMember(${member.id})">✓ Approve</button>` : ''}
+                            <button class="btn-icon btn-edit" onclick="openEditModal(${member.id})" title="Edit">✏️</button>
+                            <button class="btn-icon btn-delete" onclick="deleteMember(${member.id})" title="Delete">🗑️</button>
                         </div>
+                    `;
+                }
+                
+                return `
+                    <div class="member-item ${member.approved ? 'approved' : 'pending'}">
+                        <div class="member-info">
+                            <div class="member-avatar">${member.discord.charAt(0).toUpperCase()}</div>
+                            <div class="member-details">
+                                <div class="member-names">
+                                    <span class="bullet">●</span>
+                                    <span class="username-pair">
+                                        <span class="discord-name">${escapeHtml(member.discord)}</span>
+                                        <span class="separator">>></span>
+                                        <span class="minecraft-name">${escapeHtml(member.minecraft)}</span>
+                                    </span>
+                                </div>
+                                ${badgeHtml}
+                            </div>
+                        </div>
+                        ${actionsHtml}
                     </div>
-                    <div class="member-actions">
-                        <button class="btn-icon btn-edit" onclick="openEditModal(${member.id})" title="Edit">✏️</button>
-                        <button class="btn-icon btn-delete" onclick="deleteMember(${member.id})" title="Delete">🗑️</button>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         function escapeHtml(text) {
@@ -1291,6 +1551,7 @@
         }
 
         function scrollToForm() {
+            if (!isAdmin) return;
             document.getElementById('entryForm').scrollIntoView({ behavior: 'smooth' });
             document.getElementById('discordInput').focus();
         }
@@ -1302,9 +1563,23 @@
             }
             
             let text = '<<Members>>\\n\\n';
-            members.forEach(m => {
-                text += `● ${m.discord} >> ${m.minecraft}\\n`;
-            });
+            const approvedMembers = members.filter(m => m.approved);
+            const pendingMembers = members.filter(m => !m.approved);
+            
+            if (approvedMembers.length > 0) {
+                text += '✓ APPROVED MEMBERS:\\n';
+                approvedMembers.forEach(m => {
+                    text += `● ${m.discord} >> ${m.minecraft} [MEMBER]\\n`;
+                });
+                text += '\\n';
+            }
+            
+            if (pendingMembers.length > 0) {
+                text += '⏳ PENDING MEMBERS:\\n';
+                pendingMembers.forEach(m => {
+                    text += `● ${m.discord} >> ${m.minecraft} [PENDING]\\n`;
+                });
+            }
             
             const blob = new Blob([text], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
