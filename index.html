@@ -3,2037 +3,2401 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Whispering Dreams - Member Registry</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+    <title>The Burrow - Premium Minecraft Emporium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         :root {
+            --pink-primary: #ff69b4;
+            --pink-light: #ffb6c1;
+            --pink-dark: #c71585;
+            --green-primary: #69f0ae;
+            --green-light: #b9f6ca;
+            --green-dark: #2e7d32;
             --purple-deep: #1a0b2e;
             --purple-mid: #2d1b4e;
-            --purple-light: #4a148c;
-            --blue-primary: #4fc3f7;
-            --blue-light: #81d4fa;
-            --blue-glow: #29b6f6;
-            --accent-gold: #ffd54f;
-            --accent-pink: #e91e63;
+            --purple-accent: #9c27b0;
+            --accent-blue: #4fc3f7;
+            --accent-red: #ff5252;
+            --chat-bg: rgba(20, 20, 30, 0.95);
+            --mod-blue: #2196f3;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple-mid) 50%, #0d1b2a 100%);
+            background: radial-gradient(ellipse at top, var(--pink-dark) 0%, transparent 50%),
+                        radial-gradient(ellipse at bottom, var(--green-dark) 0%, #0a0a0f 100%),
+                        linear-gradient(135deg, #ff69b4 0%, #69f0ae 50%, #2e7d32 100%);
+            background-attachment: fixed;
             min-height: 100vh;
-            color: var(--blue-primary);
+            color: #fff;
             overflow-x: hidden;
         }
 
-        /* Animated Background */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
+        .maintenance-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #1a0b2e 0%, #0f0c29 100%);
+            z-index: 99999; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 40px;
         }
-
-        .star {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: var(--blue-light);
-            border-radius: 50%;
-            animation: twinkle 3s infinite ease-in-out;
-            box-shadow: 0 0 10px var(--blue-primary);
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.2; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.5); }
-        }
-
-        .dream-orb {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(79, 195, 247, 0.15) 0%, transparent 60%),
-                        radial-gradient(circle, rgba(74, 20, 140, 0.2) 0%, transparent 50%);
-            border-radius: 50%;
-            filter: blur(60px);
-            animation: float 25s infinite ease-in-out;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(60px, -40px) scale(1.1); }
-            50% { transform: translate(-40px, 60px) scale(0.9); }
-            75% { transform: translate(-60px, -20px) scale(1.05); }
-        }
-
-        /* Moon Logo CSS */
-        .moon-logo {
-            width: 80px;
-            height: 80px;
-            position: relative;
-            margin: 0 auto 20px;
-        }
-
-        .moon-circle {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--purple-mid) 0%, var(--purple-deep) 100%);
-            border: 3px solid var(--accent-gold);
-            box-shadow: 0 0 30px rgba(79, 195, 247, 0.4),
-                        inset 0 0 20px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .moon {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--accent-gold) 0%, #ffb300 100%);
-            border-radius: 50%;
-            top: 50%;
-            left: 55%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 20px rgba(255, 213, 79, 0.5);
-        }
-
-        .moon::after {
-            content: '';
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--purple-mid) 0%, var(--purple-deep) 100%);
-            border-radius: 50%;
-            top: -5px;
-            right: -10px;
-        }
-
-        .star-icon {
-            position: absolute;
-            color: var(--blue-light);
-            font-size: 12px;
-            text-shadow: 0 0 10px var(--blue-primary);
-            animation: pulse-star 2s infinite ease-in-out;
-        }
-
-        @keyframes pulse-star {
-            0%, 100% { opacity: 0.6; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
-        }
-
-        .star-icon:nth-child(2) { top: 15%; left: 20%; animation-delay: 0s; }
-        .star-icon:nth-child(3) { top: 25%; right: 20%; animation-delay: 0.5s; }
-        .star-icon:nth-child(4) { top: 60%; left: 15%; animation-delay: 1s; }
-        .star-icon:nth-child(5) { bottom: 20%; right: 25%; animation-delay: 1.5s; }
-
-        .cloud {
-            position: absolute;
-            bottom: 15%;
-            width: 20px;
-            height: 8px;
-            background: rgba(79, 195, 247, 0.3);
-            border-radius: 10px;
-        }
-
-        .cloud:nth-child(6) { left: 20%; }
-        .cloud:nth-child(7) { right: 20%; width: 15px; height: 6px; }
-
-        /* Small logo variant for header */
-        .moon-logo-small {
-            width: 50px;
-            height: 50px;
-            display: inline-block;
-            vertical-align: middle;
-            margin-right: 15px;
-        }
-
-        .moon-logo-small .moon-circle {
-            border-width: 2px;
-        }
-
-        .moon-logo-small .moon {
-            width: 30px;
-            height: 30px;
-        }
-
-        .moon-logo-small .moon::after {
-            width: 24px;
-            height: 24px;
-            top: -3px;
-            right: -6px;
-        }
-
-        .moon-logo-small .star-icon {
-            font-size: 8px;
-        }
-
-        /* Login Overlay */
-        .login-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(26, 11, 46, 0.98);
-            backdrop-filter: blur(20px);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.5s, visibility 0.5s;
-        }
-
-        .login-overlay.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .login-container {
-            background: rgba(45, 27, 78, 0.4);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            border-radius: 24px;
-            padding: 50px;
-            width: 90%;
-            max-width: 450px;
-            text-align: center;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 
-                        0 0 100px rgba(79, 195, 247, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .login-container::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(79, 195, 247, 0.1), transparent 30%);
-            animation: rotate 10s linear infinite;
-        }
-
-        @keyframes rotate {
-            100% { transform: rotate(360deg); }
-        }
-
-        .login-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .login-title {
-            font-family: 'Cinzel', serif;
-            font-size: 2.2rem;
-            color: var(--blue-light);
-            margin-bottom: 10px;
-            text-shadow: 0 0 30px rgba(79, 195, 247, 0.5);
-            letter-spacing: 3px;
-        }
-
-        .login-subtitle {
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 40px;
-            font-size: 1rem;
-        }
-
-        .input-group {
+        .maintenance-overlay.active { display: flex; }
+        .maintenance-icon { font-size: 6rem; margin-bottom: 30px; animation: pulse 2s ease-in-out infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.8; } }
+        .maintenance-title {
+            font-family: 'Cinzel', serif; font-size: 4rem; font-weight: 800;
+            background: linear-gradient(180deg, #fff 0%, var(--pink-primary) 50%, var(--green-primary) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
             margin-bottom: 20px;
-            text-align: left;
         }
-
-        .input-group label {
-            display: block;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-            font-weight: 500;
+        .maintenance-text { font-size: 1.5rem; color: rgba(255, 255, 255, 0.8); max-width: 600px; line-height: 1.6; }
+        .maintenance-spinner {
+            width: 60px; height: 60px; border: 4px solid rgba(255, 105, 180, 0.2);
+            border-top-color: var(--pink-primary); border-radius: 50%; animation: spin 1s linear infinite; margin-top: 40px;
         }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        .input-group input {
-            width: 100%;
-            padding: 15px 20px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 2px solid rgba(79, 195, 247, 0.2);
-            border-radius: 12px;
-            color: #fff;
-            font-size: 1rem;
-            outline: none;
-            transition: all 0.3s;
+        .announcement-banner {
+            display: none; position: fixed; top: 60px; left: 0; right: 0;
+            background: linear-gradient(135deg, rgba(255, 105, 180, 0.15) 0%, rgba(105, 240, 174, 0.15) 100%);
+            backdrop-filter: blur(20px); border-bottom: 2px solid var(--pink-primary);
+            padding: 15px 20px; z-index: 9998; animation: slideDown 0.5s ease;
         }
-
-        .input-group input:focus {
-            border-color: var(--blue-primary);
-            box-shadow: 0 0 20px rgba(79, 195, 247, 0.2);
+        .announcement-banner.active { display: block; }
+        .announcement-content { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        .announcement-icon { font-size: 1.5rem; }
+        .announcement-text { font-size: 1.1rem; font-weight: 500; color: #fff; text-align: center; }
+        .announcement-close {
+            position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: all 0.3s;
         }
+        .announcement-close:hover { background: rgba(255, 82, 82, 0.3); border-color: #ff5252; color: #ff5252; }
 
-        .btn-login {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, var(--blue-primary) 0%, var(--purple-light) 100%);
-            border: none;
-            border-radius: 12px;
-            color: #fff;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 10px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        .announcement-controls {
+            display: none; background: rgba(255, 105, 180, 0.1); border: 2px solid rgba(255, 105, 180, 0.5);
+            border-radius: 16px; padding: 25px; margin-bottom: 30px; animation: slideDown 0.5s ease;
         }
-
-        .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(79, 195, 247, 0.4);
+        .announcement-controls.show { display: block; }
+        .announcement-controls-header {
+            font-family: 'Cinzel', serif; font-size: 1.3rem; color: #ffb6c1;
+            margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
         }
-
-        /* Admin Badge */
-        .admin-badge {
-            background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-gold) 100%);
-            color: #fff;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
-            animation: glow 2s infinite ease-in-out;
-        }
-
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4); }
-            50% { box-shadow: 0 4px 25px rgba(233, 30, 99, 0.7), 0 0 30px rgba(255, 213, 79, 0.3); }
-        }
-
-        .current-user {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(45, 27, 78, 0.6);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            padding: 12px 24px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-        }
-
-        .current-user span {
-            color: #fff;
-            font-weight: 500;
-        }
-
-        .btn-logout {
-            background: rgba(79, 195, 247, 0.2);
-            border: 1px solid var(--blue-primary);
-            color: var(--blue-light);
-            padding: 6px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.3s;
-        }
-
-        .btn-logout:hover {
-            background: var(--blue-primary);
-            color: var(--purple-deep);
-        }
-
-        /* Main Container */
-        .main-container {
-            position: relative;
-            z-index: 1;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s, transform 0.5s;
-        }
-
-        .main-container.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Header */
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 40px 0;
-        }
-
-        .header-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .header h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 3.5rem;
-            color: var(--blue-light);
-            text-shadow: 0 0 40px rgba(79, 195, 247, 0.4);
-            letter-spacing: 4px;
-            display: inline-block;
-        }
-
-        .header p {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            margin-top: 10px;
-        }
-
-        /* Announcements Section */
-        .announcements-section {
-            background: linear-gradient(135deg, rgba(233, 30, 99, 0.15) 0%, rgba(79, 195, 247, 0.15) 100%);
-            border: 2px solid rgba(79, 195, 247, 0.4);
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 30px;
-            backdrop-filter: blur(10px);
-        }
-
-        .announcements-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .announcements-title {
-            font-family: 'Cinzel', serif;
-            font-size: 1.4rem;
-            color: var(--blue-light);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .announcement-form {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            display: none;
-        }
-
-        .announcement-form.show {
-            display: block;
-        }
-
+        .announcement-input-group { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px; }
         .announcement-input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid rgba(79, 195, 247, 0.3);
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            font-size: 1rem;
-            margin-bottom: 15px;
-            outline: none;
+            flex: 1; min-width: 300px; padding: 12px 20px;
+            border: 2px solid rgba(255, 105, 180, 0.5); background: rgba(0, 0, 0, 0.4);
+            color: #fff; border-radius: 10px; font-size: 1rem; outline: none;
+        }
+        .announcement-input:focus { border-color: #ff69b4; box-shadow: 0 0 20px rgba(255, 105, 180, 0.3); }
+        .maintenance-toggle { display: flex; align-items: center; gap: 15px; padding: 15px; background: rgba(0, 0, 0, 0.3); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .toggle-switch {
+            position: relative; width: 60px; height: 30px; background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px; cursor: pointer; transition: all 0.3s; border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        .toggle-switch.active { background: var(--green-primary); border-color: var(--green-primary); }
+        .toggle-switch::after {
+            content: ''; position: absolute; top: 2px; left: 2px; width: 22px; height: 22px;
+            background: #fff; border-radius: 50%; transition: all 0.3s;
+        }
+        .toggle-switch.active::after { left: 32px; }
+        .toggle-label { font-weight: 600; font-size: 1rem; }
+        .toggle-label.maintenance-on { color: var(--green-primary); }
+        .toggle-label.maintenance-off { color: rgba(255, 255, 255, 0.7); }
+
+        .banned-players-panel {
+            display: none; background: rgba(183, 28, 28, 0.1); border: 2px solid rgba(255, 82, 82, 0.5);
+            border-radius: 16px; padding: 25px; margin-bottom: 30px; animation: slideDown 0.5s ease;
+        }
+        .banned-players-panel.show { display: block; }
+        .banned-panel-header {
+            font-family: 'Cinzel', serif; font-size: 1.3rem; color: #ff5252;
+            margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+        }
+        .ban-input-group { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px; }
+        .ban-input {
+            flex: 1; min-width: 250px; padding: 12px 20px;
+            border: 2px solid rgba(255, 82, 82, 0.5); background: rgba(0, 0, 0, 0.4);
+            color: #fff; border-radius: 10px; font-size: 1rem; outline: none;
+        }
+        .ban-input:focus { border-color: #ff5252; box-shadow: 0 0 20px rgba(255, 82, 82, 0.3); }
+        .ban-reason-input { flex: 2; min-width: 300px; }
+        .banned-list-container { max-height: 300px; overflow-y: auto; margin-top: 20px; }
+        .banned-player-card {
+            background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 82, 82, 0.3);
+            border-radius: 12px; padding: 15px 20px; margin-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: center; transition: all 0.3s;
+        }
+        .banned-player-card:hover { border-color: rgba(255, 82, 82, 0.6); transform: translateX(5px); }
+        .banned-player-info { flex: 1; }
+        .banned-player-name { font-size: 1.1rem; font-weight: 600; color: #ff5252; margin-bottom: 5px; }
+        .banned-player-meta { font-size: 0.85rem; color: rgba(255, 255, 255, 0.6); }
+        .banned-player-reason { font-size: 0.9rem; color: rgba(255, 255, 255, 0.8); margin-top: 5px; font-style: italic; }
+        .btn-unban-player {
+            padding: 8px 16px; background: rgba(105, 240, 174, 0.2); color: var(--green-primary);
+            border: 1px solid var(--green-primary); border-radius: 8px; cursor: pointer;
+            font-size: 0.9rem; font-weight: 600; transition: all 0.3s;
+        }
+        .btn-unban-player:hover { background: var(--green-primary); color: #1a0b2e; }
+
+        .role-display {
+            display: inline-block; padding: 2px 6px; border-radius: 12px; font-size: 0.7rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-left: 5px;
+        }
+        .role-display.buyer { background: #ff69b4; color: #1a0b2e; }
+        .role-display.rich-buyer { background: #69f0ae; color: #1a0b2e; }
+        .role-display.rich { background: linear-gradient(135deg, #ff69b4, #69f0ae); color: #fff; }
+        .role-display.friend { background: #9c27b0; color: #fff; }
+
+        .chat-role-display {
+            display: inline-block; padding: 2px 6px; border-radius: 8px; font-size: 0.7rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-right: 5px; vertical-align: middle;
+        }
+        .chat-role-display.buyer { background: #ff69b4; color: #1a0b2e; }
+        .chat-role-display.rich-buyer { background: #69f0ae; color: #1a0b2e; }
+        .chat-role-display.rich { background: linear-gradient(135deg, #ff69b4, #69f0ae); color: #fff; }
+        .chat-role-display.friend { background: #9c27b0; color: #fff; }
+
+        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 0; }
+        .particle {
+            position: absolute; width: 4px; height: 4px; background: var(--pink-primary);
+            border-radius: 50%; opacity: 0.3; animation: float 20s infinite linear;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 0.3; } 90% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+        }
+
+        .container { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 20px; }
+
+        header { text-align: center; margin-bottom: 30px; padding: 40px 20px 20px; }
+        .main-title {
+            font-family: 'Cinzel', serif; font-size: 5rem; font-weight: 800;
+            background: linear-gradient(180deg, #fff 0%, var(--pink-primary) 50%, var(--green-primary) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 105, 180, 0.5); letter-spacing: 8px;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+        @keyframes titleGlow {
+            from { filter: drop-shadow(0 0 20px rgba(255,105,180,0.4)); }
+            to { filter: drop-shadow(0 0 40px rgba(105,240,174,0.8)); }
+        }
+        .shop-owners {
+            font-family: 'Cinzel', serif; font-size: 1.2rem; color: rgba(255, 255, 255, 0.8);
+            margin-top: 15px; letter-spacing: 3px; text-transform: uppercase;
+            background: linear-gradient(90deg, var(--pink-primary), #fff, var(--green-primary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-size: 200% auto; animation: shine 3s linear infinite;
+        }
+        @keyframes shine { to { background-position: 200% center; } }
+
+        .location-bar {
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--pink-primary); padding: 12px;
+            text-align: center; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+        .location-text {
+            font-family: 'Cinzel', serif; color: var(--pink-primary); font-size: 1.1rem;
+            letter-spacing: 2px; display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+
+        .login-section {
+            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 105, 180, 0.1); border-radius: 20px;
+            padding: 30px; margin-bottom: 40px; max-width: 800px; margin-left: auto; margin-right: auto;
+        }
+        .login-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .login-form input {
+            padding: 15px 20px; border: 2px solid rgba(255, 105, 180, 0.2);
+            background: rgba(0, 0, 0, 0.4); color: #fff; border-radius: 12px;
+            font-size: 1rem; outline: none; transition: all 0.3s;
+        }
+        .login-form input:focus { border-color: var(--pink-primary); box-shadow: 0 0 20px rgba(255, 105, 180, 0.2); }
+        .user-info { display: none; text-align: center; padding: 20px 0; }
+        .user-info.show { display: block; }
+        .welcome-text { color: rgba(255, 255, 255, 0.8); font-size: 1.1rem; margin-bottom: 20px; }
+        .username { color: var(--pink-primary); font-weight: 700; font-size: 1.3rem; }
+        .user-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+        button {
+            padding: 12px 25px; border: none; border-radius: 10px; cursor: pointer;
+            font-size: 0.95rem; font-weight: 600; transition: all 0.3s;
+            text-transform: uppercase; letter-spacing: 1px; font-family: 'Inter', sans-serif;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--pink-primary) 0%, var(--green-primary) 100%);
+            color: #1a0b2e; box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+        }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(255, 105, 180, 0.5); }
+        .btn-chat {
+            background: linear-gradient(135deg, #ff69b4 0%, #c71585 100%); color: #fff;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+        }
+        .btn-chat:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255, 105, 180, 0.5); }
+        .btn-bulk {
+            background: linear-gradient(135deg, #69f0ae 0%, #2e7d32 100%); color: #1a0b2e;
+            box-shadow: 0 4px 15px rgba(105, 240, 174, 0.3);
+        }
+        .btn-bulk:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(105, 240, 174, 0.5); }
+        .btn-support {
+            background: linear-gradient(135deg, #ff69b4 0%, #69f0ae 100%); color: #1a0b2e;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+        }
+        .btn-support:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255, 105, 180, 0.5); }
+        .btn-danger {
+            background: linear-gradient(135deg, #ff5252 0%, #b33939 100%); color: #fff;
+            box-shadow: 0 4px 15px rgba(255, 82, 82, 0.3);
+        }
+        .btn-danger:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255, 82, 82, 0.5); }
+
+        .admin-controls, .mod-controls, .role-manager, .support-list, .banned-users, .admin-bulk-orders, .bulk-logs, .order-logs {
+            display: none; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px;
+            padding: 30px; margin-bottom: 40px; animation: slideDown 0.5s ease;
+        }
+        .admin-controls.show, .mod-controls.show, .role-manager.show, .support-list.show, .banned-users.show, .admin-bulk-orders.show, .bulk-logs.show, .order-logs.show { display: block !important; }
+
+        .admin-controls { background: rgba(255, 105, 180, 0.05); border: 1px solid rgba(255, 105, 180, 0.2); }
+        .admin-title {
+            font-family: 'Cinzel', serif; font-size: 1.5rem; color: var(--pink-primary);
+            margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+        }
+        .add-item-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        label { color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
+        select, input[type="text"], input[type="number"] {
+            padding: 12px 15px; border: 2px solid rgba(255, 105, 180, 0.2);
+            background: rgba(0, 0, 0, 0.4); color: #fff; border-radius: 10px;
+            outline: none; font-size: 1rem; font-family: 'Inter', sans-serif;
+        }
+        select:focus, input:focus { border-color: var(--pink-primary); box-shadow: 0 0 15px rgba(255, 105, 180, 0.2); }
+
+        .mod-controls { background: rgba(105, 240, 174, 0.05); border: 1px solid rgba(105, 240, 174, 0.2); }
+        .mod-title {
+            font-family: 'Cinzel', serif; font-size: 1.5rem; color: var(--green-primary);
+            margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+        }
+        .mod-badge {
+            background: linear-gradient(135deg, var(--green-primary), var(--green-light));
+            color: #1a0b2e; padding: 4px 12px; border-radius: 6px;
+            font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        .role-manager { background: rgba(255, 105, 180, 0.05); border: 1px solid rgba(105, 240, 174, 0.3); }
+        .role-manager-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 105, 180, 0.2);
+        }
+        .role-manager-header h3 { font-family: 'Cinzel', serif; color: var(--pink-primary); font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
+        .close-role-panel {
+            background: rgba(255, 82, 82, 0.2); color: #ff5252; border: 2px solid rgba(255, 82, 82, 0.5);
+            width: 35px; height: 35px; border-radius: 50%; cursor: pointer;
+            font-size: 1.3rem; display: flex; align-items: center; justify-content: center; transition: all 0.3s;
+        }
+        .close-role-panel:hover { background: rgba(255, 82, 82, 0.4); color: #fff; transform: rotate(90deg); }
+        .role-user-selector { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
+        .role-user-select {
+            padding: 10px 15px; border: 2px solid rgba(255, 105, 180, 0.3);
+            background: rgba(0, 0, 0, 0.5); color: #fff; border-radius: 8px; font-size: 1rem; min-width: 200px;
+        }
+        .role-assign-btn {
+            padding: 10px 20px; background: linear-gradient(135deg, var(--pink-primary) 0%, var(--green-primary) 100%);
+            color: #1a0b2e; border: none; border-radius: 8px; cursor: pointer;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s;
+        }
+        .role-assign-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3); }
+        .user-list-container { max-height: 400px; overflow-y: auto; margin-top: 20px; }
+        .user-card {
+            background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px; padding: 20px; margin-bottom: 15px;
+            display: flex; justify-content: space-between; align-items: center; transition: all 0.3s;
+        }
+        .user-card:hover { transform: translateX(5px); border-color: rgba(255, 105, 180, 0.3); }
+        .user-name { font-size: 1.1rem; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .user-roles { display: flex; gap: 8px; flex-wrap: wrap; }
+        .role-tag-display {
+            padding: 4px 10px; border-radius: 15px; font-size: 0.75rem;
+            font-weight: 600; text-transform: uppercase;
+        }
+        .role-tag-display.buyer { background: #ff69b4; color: #1a0b2e; }
+        .role-tag-display.rich-buyer { background: #69f0ae; color: #1a0b2e; }
+        .role-tag-display.rich { background: linear-gradient(135deg, #ff69b4, #69f0ae); color: #fff; }
+        .role-tag-display.friend { background: #9c27b0; color: #fff; }
+        .role-remove-btn {
+            margin-left: 8px; background: rgba(255, 82, 82, 0.8); color: #fff;
+            border: none; border-radius: 50%; width: 18px; height: 18px;
+            font-size: 10px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+        }
+        .role-remove-btn:hover { background: #ff5252; }
+
+        .items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 25px; margin-bottom: 40px; }
+        .item-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px; padding: 25px; display: flex; justify-content: space-between;
+            align-items: center; transition: all 0.4s; position: relative; overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .item-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 105, 180, 0.1);
+            border-color: rgba(255, 105, 180, 0.3);
+        }
+        .item-name { font-family: 'Cinzel', serif; font-size: 1.5rem; font-weight: 600; margin-bottom: 12px; color: #fff; }
+        .tags { display: flex; gap: 10px; flex-wrap: wrap; }
+        .tag {
+            padding: 6px 16px; border-radius: 20px; font-size: 0.85rem;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .tag-item { background: linear-gradient(135deg, var(--pink-primary), #c71585); color: #fff; }
+        .tag-floor { background: linear-gradient(135deg, #ff69b4, #69f0ae); color: #1a0b2e; }
+        .tag-rarity { background: linear-gradient(135deg, var(--accent-red), #c62828); color: #fff; }
+        .price {
+            font-family: 'Cinzel', serif; font-size: 2rem; font-weight: 700;
+            background: linear-gradient(180deg, var(--pink-light) 0%, var(--green-primary) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .stock-status {
+            padding: 8px 20px; border-radius: 25px; font-size: 0.95rem; font-weight: 600;
+            border: 2px solid; text-transform: uppercase; letter-spacing: 1px;
+            cursor: pointer; transition: all 0.3s;
+        }
+        .stock-status:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
+        .in-stock { background: rgba(105, 240, 174, 0.15); color: var(--green-primary); border-color: var(--green-primary); }
+        .out-of-stock { background: rgba(255, 82, 82, 0.15); color: var(--accent-red); border-color: var(--accent-red); }
+        .limited { background: rgba(255, 105, 180, 0.15); color: #ff69b4; border-color: #ff69b4; }
+        .delete-btn {
+            position: absolute; top: 15px; right: 15px; background: rgba(255, 82, 82, 0.9);
+            color: #fff; border: none; width: 35px; height: 35px; border-radius: 50%;
+            cursor: pointer; display: none; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 1.2rem; transition: all 0.3s;
+        }
+        .item-card:hover .delete-btn { display: flex; }
+        .delete-btn:hover { background: #ff1744; transform: scale(1.1) rotate(90deg); }
+        .add-to-bulk {
+            margin-top: 12px; padding: 10px 20px; background: rgba(255, 105, 180, 0.2);
+            border: 2px solid #ff69b4; color: #fff; border-radius: 25px; cursor: pointer;
+            font-size: 0.9rem; font-weight: 600; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .add-to-bulk:hover { background: #ff69b4; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4); }
+        .add-to-bulk.added { background: var(--green-primary); border-color: var(--green-primary); color: #1a0b2e; }
+
+        .tabs-container { margin-bottom: 30px; border-bottom: 1px solid rgba(255, 105, 180, 0.1); padding-bottom: 20px; }
+        .tabs { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+        .tab {
+            padding: 12px 28px; background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 30px;
+            color: rgba(255, 255, 255, 0.7); cursor: pointer; transition: all 0.3s;
+            font-weight: 500; letter-spacing: 1px; position: relative; overflow: hidden;
+        }
+        .tab.active {
+            color: #1a0b2e; border-color: var(--pink-primary);
+            transform: translateY(-2px); box-shadow: 0 5px 20px rgba(255, 105, 180, 0.3);
+        }
+        .tab.active::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--pink-primary), var(--green-primary)); z-index: -1;
         }
 
-        .announcement-input:focus {
-            border-color: var(--blue-primary);
-            box-shadow: 0 0 20px rgba(79, 195, 247, 0.2);
-        }
-
-        .announcement-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .announcement-item {
-            background: rgba(45, 27, 78, 0.6);
-            border-left: 4px solid var(--accent-gold);
-            border-radius: 12px;
-            padding: 20px;
-            position: relative;
-            animation: slideIn 0.4s ease-out;
-        }
-
-        .announcement-item.new {
-            border-left-color: var(--accent-pink);
-            background: rgba(233, 30, 99, 0.1);
-        }
-
-        .announcement-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .announcement-author {
-            color: var(--accent-gold);
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .announcement-time {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.85rem;
-        }
-
-        .announcement-text {
-            color: #fff;
-            font-size: 1.05rem;
-            line-height: 1.6;
-        }
-
-        .announcement-delete {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255, 82, 82, 0.2);
-            border: none;
-            color: #ff5252;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-
-        .announcement-delete:hover {
-            background: #ff5252;
-            color: #fff;
-        }
-
-        .no-announcements {
-            text-align: center;
-            padding: 40px;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        /* Doc Style Container */
-        .doc-container {
-            background: rgba(255, 255, 255, 0.97);
-            border-radius: 8px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-            min-height: 600px;
-            color: #333;
-            overflow: hidden;
-            border: 1px solid rgba(79, 195, 247, 0.2);
-        }
-
-        .doc-header {
-            background: linear-gradient(135deg, var(--purple-mid) 0%, var(--purple-deep) 100%);
-            border-bottom: 1px solid rgba(79, 195, 247, 0.3);
-            padding: 20px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .doc-title {
-            font-size: 1.5rem;
-            color: var(--blue-light);
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .doc-actions {
-            display: flex;
-            gap: 12px;
-        }
-
-        .doc-btn {
-            padding: 10px 20px;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s;
-        }
-
-        .doc-btn-primary {
-            background: linear-gradient(135deg, var(--blue-primary) 0%, var(--blue-glow) 100%);
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(79, 195, 247, 0.3);
-        }
-
-        .doc-btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(79, 195, 247, 0.4);
-        }
-
-        .doc-btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--blue-light);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-        }
-
-        .doc-btn-secondary:hover {
-            background: rgba(79, 195, 247, 0.2);
-        }
-
-        .doc-btn-danger {
-            background: linear-gradient(135deg, #ff5252 0%, #d32f2f 100%);
-            color: #fff;
-        }
-
-        .doc-btn-danger:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 82, 82, 0.4);
-        }
-
-        .doc-btn-announcement {
-            background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-gold) 100%);
-            color: #fff;
-            animation: pulse-glow 2s infinite;
-        }
-
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 15px rgba(233, 30, 99, 0.4); }
-            50% { box-shadow: 0 0 25px rgba(255, 213, 79, 0.6); }
-        }
-
-        .doc-content {
-            padding: 40px;
-        }
-
-        .doc-line {
-            display: flex;
-            align-items: center;
-            margin-bottom: 8px;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #333;
-        }
-
-        .bullet {
-            color: var(--purple-light);
-            margin-right: 12px;
-            font-size: 1.2rem;
-        }
-
-        .username-pair {
-            font-family: 'Inter', sans-serif;
-        }
-
-        .discord-name {
-            color: var(--purple-light);
-            font-weight: 600;
-        }
-
-        .separator {
-            color: #999;
-            margin: 0 12px;
-            font-weight: 300;
-        }
-
-        .minecraft-name {
-            color: var(--blue-glow);
-            font-weight: 600;
-        }
-
-        /* Member Badge - BIG */
-        .member-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #4caf50 0%, #81c784 100%);
-            color: #fff;
-            padding: 8px 20px;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-left: 15px;
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
-            animation: badgePulse 2s infinite ease-in-out;
-        }
-
-        @keyframes badgePulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4); }
-            50% { transform: scale(1.05); box-shadow: 0 6px 20px rgba(76, 175, 80, 0.6); }
-        }
-
-        .member-badge::before {
-            content: '✓';
-            margin-right: 8px;
-            font-weight: 900;
-        }
-
-        .pending-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #ff9800 0%, #ffc107 100%);
-            color: #fff;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-left: 15px;
-        }
-
-        .pending-badge::before {
-            content: '⏳';
-            margin-right: 6px;
-        }
-
-        /* Add Entry Form - Now for everyone */
-        .entry-form {
-            background: linear-gradient(135deg, #f3e5f5 0%, #e3f2fd 100%);
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 30px;
-            border: 2px solid rgba(79, 195, 247, 0.3);
-        }
-
-        .form-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .form-title {
-            font-size: 1.2rem;
-            color: var(--purple-deep);
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .form-notice {
-            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
-            border: 1px solid #ff9800;
-            border-radius: 8px;
-            padding: 12px 16px;
-            color: #e65100;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr auto;
-            gap: 15px;
-            align-items: end;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            font-size: 0.9rem;
-            color: var(--purple-mid);
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .form-group input {
-            padding: 14px 18px;
-            border: 2px solid rgba(79, 195, 247, 0.3);
-            border-radius: 8px;
-            font-size: 1rem;
-            outline: none;
-            transition: all 0.3s;
-            background: #fff;
-            color: var(--purple-deep);
-        }
-
-        .form-group input:focus {
-            border-color: var(--blue-primary);
-            box-shadow: 0 0 0 3px rgba(79, 195, 247, 0.2);
-        }
-
-        .btn-add {
-            padding: 14px 28px;
-            background: linear-gradient(135deg, var(--blue-primary) 0%, var(--purple-light) 100%);
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            height: fit-content;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-        }
-
-        .btn-add:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(79, 195, 247, 0.4);
-        }
-
-        .members-section {
-            margin-top: 30px;
-        }
-
-        .section-title {
-            font-size: 1.3rem;
-            color: var(--purple-deep);
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #e0e0e0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .member-count {
-            background: linear-gradient(135deg, var(--purple-light) 0%, var(--blue-primary) 100%);
-            color: #fff;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #999;
-        }
-
-        .empty-state-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            opacity: 0.5;
-        }
-
-        .member-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px;
-            background: #fff;
-            border: 1px solid #e0e0e0;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            transition: all 0.3s;
-            animation: slideIn 0.4s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .member-item:hover {
-            border-color: var(--blue-primary);
-            box-shadow: 0 4px 20px rgba(79, 195, 247, 0.15);
-            transform: translateX(5px);
-        }
-
-        .member-item.approved {
-            border-left: 5px solid #4caf50;
-            background: linear-gradient(135deg, #fff 0%, #f1f8e9 100%);
-        }
-
-        .member-item.pending {
-            border-left: 5px solid #ff9800;
-            background: linear-gradient(135deg, #fff 0%, #fff8e1 100%);
-        }
-
-        .member-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex: 1;
-        }
-
-        .member-avatar {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--purple-light) 0%, var(--blue-primary) 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-weight: 700;
-            font-size: 1.3rem;
-            box-shadow: 0 4px 15px rgba(79, 195, 247, 0.3);
-            flex-shrink: 0;
-        }
-
-        .member-details {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .member-names {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .member-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            font-size: 1.1rem;
-        }
-
-        .btn-edit {
-            background: #e3f2fd;
-            color: var(--blue-primary);
-        }
-
-        .btn-edit:hover {
-            background: var(--blue-primary);
-            color: #fff;
-        }
-
-        .btn-delete {
-            background: #fce4ec;
-            color: var(--purple-light);
-        }
-
-        .btn-delete:hover {
-            background: var(--purple-light);
-            color: #fff;
-        }
-
-        .btn-approve {
-            background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-approve:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
-        }
-
-        .btn-approve:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .added-by {
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        /* Live indicator */
-        .live-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(76, 175, 80, 0.1);
-            color: #4caf50;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-        }
-
-        .live-dot {
-            width: 8px;
-            height: 8px;
-            background: #4caf50;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        /* Toast Notification */
         .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: var(--purple-deep);
-            color: #fff;
-            padding: 16px 32px;
-            border-radius: 50px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            z-index: 2000;
-            opacity: 0;
-            transition: all 0.4s;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border: 2px solid transparent;
+            position: fixed; bottom: 30px; left: 50%;
+            transform: translateX(-50%) translateY(100px); background: rgba(0, 0, 0, 0.9);
+            color: #fff; padding: 16px 32px; border-radius: 50px;
+            border: 1px solid var(--pink-primary); font-weight: 600; opacity: 0;
+            transition: all 0.4s; z-index: 9999; backdrop-filter: blur(10px);
         }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .toast.success { border-color: var(--green-primary); color: var(--green-primary); }
+        .toast.error { border-color: var(--accent-red); color: var(--accent-red); }
 
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
+        .chat-overlay {
+            display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px); z-index: 1000; align-items: center; justify-content: center;
         }
+        .chat-overlay.show { display: flex; }
+        .chat-container {
+            background: var(--chat-bg); border: 1px solid rgba(255, 105, 180, 0.2);
+            border-radius: 20px; width: 90%; max-width: 600px; max-height: 80vh;
+            display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        .chat-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .chat-title { display: flex; align-items: center; gap: 10px; font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--pink-primary); }
+        .chat-type-badge { background: rgba(255, 255, 255, 0.1); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
+        .chat-type-badge.support { background: rgba(255, 105, 180, 0.3); color: #ff69b4; }
+        .close-chat {
+            background: none; border: none; color: rgba(255, 255, 255, 0.5);
+            font-size: 1.5rem; cursor: pointer; width: 30px; height: 30px;
+            display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: all 0.3s;
+        }
+        .close-chat:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+        .chat-messages { flex: 1; padding: 20px; overflow-y: auto; max-height: 400px; }
+        .chat-input-area { display: flex; padding: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); gap: 10px; }
+        .chat-input {
+            flex: 1; padding: 12px 20px; border: 2px solid rgba(255, 105, 180, 0.2);
+            background: rgba(0, 0, 0, 0.4); color: #fff; border-radius: 25px;
+            outline: none; font-size: 1rem; font-family: 'Inter', sans-serif;
+        }
+        .chat-input:focus { border-color: var(--pink-primary); box-shadow: 0 0 20px rgba(255, 105, 180, 0.2); }
+        .chat-input:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-send {
+            padding: 12px 24px; background: linear-gradient(135deg, var(--pink-primary) 0%, var(--green-primary) 100%);
+            color: #1a0b2e; border: none; border-radius: 25px; cursor: pointer;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s;
+        }
+        .btn-send:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3); }
+        .btn-send:disabled { opacity: 0.5; cursor: not-allowed; }
+        .muted-banner {
+            background: rgba(255, 82, 82, 0.1); border: 1px solid rgba(255, 82, 82, 0.3);
+            color: #ff5252; padding: 10px 20px; margin: 10px 20px; border-radius: 8px;
+            text-align: center; font-weight: 600;
+        }
+        .chat-message { margin-bottom: 15px; animation: slideDown 0.3s ease; }
+        .chat-message.own { text-align: right; }
+        .chat-message.other { text-align: left; }
+        .chat-message.deleted { opacity: 0.5; }
+        .chat-message.owner-msg .message-author { color: var(--pink-primary) !important; font-weight: 800; }
+        .chat-message.mod-msg .message-author { color: var(--green-primary) !important; font-weight: 800; }
+        .message-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .message-author { font-weight: 600; color: var(--pink-primary); font-size: 0.9rem; }
+        .message-time { color: rgba(255, 255, 255, 0.5); font-size: 0.8rem; }
+        .message-content {
+            background: rgba(255, 255, 255, 0.05); padding: 10px 15px;
+            border-radius: 15px; display: inline-block; max-width: 80%; word-wrap: break-word;
+        }
+        .chat-message.own .message-content { background: rgba(255, 105, 180, 0.1); border: 1px solid rgba(255, 105, 180, 0.2); }
+        .message-actions { display: flex; gap: 5px; margin-top: 5px; }
+        .msg-btn {
+            padding: 4px 8px; background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2); color: rgba(255, 255, 255, 0.7);
+            border-radius: 4px; cursor: pointer; font-size: 0.7rem; transition: all 0.3s;
+        }
+        .msg-btn:hover { background: rgba(255, 255, 255, 0.2); color: #fff; }
+        .msg-btn-delete:hover { background: rgba(255, 82, 82, 0.3); border-color: #ff5252; color: #ff5252; }
+        .msg-btn-mute:hover { background: rgba(255, 105, 180, 0.3); border-color: #ff69b4; color: #ff69b4; }
+        .msg-btn-ban:hover { background: rgba(183, 28, 28, 0.3); border-color: #b71c1c; color: #b71c1c; }
 
-        .toast.success {
-            border-color: var(--blue-primary);
-            color: var(--blue-light);
+        .order-view-modal {
+            display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px); z-index: 1001; align-items: center; justify-content: center;
         }
+        .order-view-modal.show { display: flex; }
+        .order-view-container {
+            background: var(--chat-bg); border: 1px solid rgba(255, 105, 180, 0.2);
+            border-radius: 20px; width: 90%; max-width: 800px; max-height: 80vh;
+            display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        .order-view-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .order-view-content { flex: 1; padding: 30px; overflow-y: auto; }
+        .btn-confirm-order {
+            padding: 12px 24px; background: linear-gradient(135deg, var(--green-primary) 0%, #2e7d32 100%);
+            color: #1a0b2e; border: none; border-radius: 12px; cursor: pointer;
+            font-size: 1rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 1px; transition: all 0.3s; margin-top: 20px; width: 100%;
+        }
+        .btn-confirm-order:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(105, 240, 174, 0.3); }
+        .btn-remove {
+            padding: 6px 12px; background: rgba(255, 82, 82, 0.2); color: #ff5252;
+            border: 1px solid #ff5252; border-radius: 6px; cursor: pointer;
+            font-size: 0.8rem; font-weight: 600; transition: all 0.3s;
+        }
+        .btn-remove:hover { background: #ff5252; color: #fff; }
+        .bulk-quantity-selector { display: flex; gap: 15px; align-items: center; margin-bottom: 20px; }
+        .bulk-type-select {
+            flex: 1; padding: 10px 15px; border: 2px solid rgba(255, 105, 180, 0.5);
+            background: rgba(0, 0, 0, 0.3); color: #fff; border-radius: 8px; font-size: 1rem;
+        }
+        .bulk-quantity-input {
+            width: 80px; padding: 10px; border: 2px solid rgba(255, 105, 180, 0.5);
+            background: rgba(0, 0, 0, 0.3); color: #fff; border-radius: 8px;
+            text-align: center; font-weight: bold;
+        }
+        .btn-success {
+            background: linear-gradient(135deg, var(--green-primary) 0%, #2e7d32 100%);
+            color: #1a0b2e; padding: 12px 24px; border: none; border-radius: 8px;
+            cursor: pointer; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s;
+        }
+        .btn-success:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(105, 240, 174, 0.3); }
 
-        .toast.error {
-            border-color: var(--purple-light);
-            color: #f8bbd9;
+        .support-chat-item, .banned-item {
+            background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px; padding: 15px; margin-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: center; transition: all 0.3s;
         }
+        .support-chat-item:hover, .banned-item:hover { border-color: rgba(255, 105, 180, 0.3); transform: translateX(5px); }
+        .support-user-info h4, .banned-name { color: #fff; font-weight: 600; margin-bottom: 5px; }
+        .support-user-info p { color: rgba(255, 255, 255, 0.6); font-size: 0.9rem; }
+        .support-meta { text-align: right; }
+        .support-time { color: rgba(255, 255, 255, 0.5); font-size: 0.8rem; margin-bottom: 8px; }
+        .btn-close-ticket, .btn-unban, .btn-unmute {
+            padding: 6px 12px; background: rgba(255, 82, 82, 0.2); color: #ff5252;
+            border: 1px solid #ff5252; border-radius: 6px; cursor: pointer;
+            font-size: 0.8rem; font-weight: 600; transition: all 0.3s;
+        }
+        .btn-close-ticket:hover, .btn-unban:hover, .btn-unmute:hover { background: #ff5252; color: #fff; }
 
-        /* Edit Modal */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(26, 11, 46, 0.7);
-            backdrop-filter: blur(5px);
-            z-index: 1500;
-            display: none;
-            align-items: center;
-            justify-content: center;
+        .bulk-order-card {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 105, 180, 0.3);
+            border-radius: 16px; padding: 20px; margin-bottom: 20px; transition: all 0.3s;
         }
+        .bulk-order-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255, 105, 180, 0.2); }
+        .bulk-order-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .bulk-order-user { font-size: 1.1rem; font-weight: 600; color: #fff; }
+        .bulk-order-time { color: rgba(255, 255, 255, 0.6); font-size: 0.85rem; }
+        .bulk-order-details { margin-bottom: 15px; }
+        .bulk-order-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 8px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .bulk-item-name { font-weight: 500; color: #fff; }
+        .bulk-item-qty { color: #ffb6c1; font-size: 0.9rem; }
+        .bulk-order-total { font-size: 1.2rem; font-weight: 700; color: var(--pink-primary); text-align: right; margin-bottom: 15px; }
+        .btn-view-order, .btn-completed {
+            padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer;
+            font-size: 0.9rem; font-weight: 600; transition: all 0.3s;
+        }
+        .btn-view-order { background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255, 255, 255, 0.2); }
+        .btn-view-order:hover { background: rgba(255, 255, 255, 0.2); }
+        .btn-completed { background: linear-gradient(135deg, var(--green-primary) 0%, #2e7d32 100%); color: #1a0b2e; }
+        .btn-completed:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(105, 240, 174, 0.3); }
 
-        .modal-overlay.show {
-            display: flex;
+        .log-entry {
+            background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px; padding: 15px; margin-bottom: 10px; border-left: 4px solid var(--pink-primary);
         }
-
-        .modal {
-            background: #fff;
-            border-radius: 16px;
-            padding: 30px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-            border: 2px solid var(--blue-primary);
-        }
-
-        .modal-title {
-            font-size: 1.5rem;
-            color: var(--purple-deep);
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 25px;
-            justify-content: flex-end;
-        }
-
-        /* Sync Status Indicator */
-        .sync-status {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(45, 27, 78, 0.8);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            padding: 10px 16px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-            font-size: 0.85rem;
-            color: var(--blue-light);
-            transition: all 0.3s;
-        }
-
-        .sync-status.online {
-            border-color: #4caf50;
-            color: #81c784;
-        }
-
-        .sync-status.syncing {
-            border-color: var(--accent-gold);
-            color: var(--accent-gold);
-            animation: pulse-border 1.5s infinite;
-        }
-
-        @keyframes pulse-border {
-            0%, 100% { box-shadow: 0 0 5px rgba(255, 213, 79, 0.4); }
-            50% { box-shadow: 0 0 15px rgba(255, 213, 79, 0.8); }
-        }
-
-        .sync-indicator {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: currentColor;
-        }
+        .log-customer { font-weight: 600; color: var(--pink-primary); margin-bottom: 8px; }
+        .log-details { color: rgba(255, 255, 255, 0.8); font-size: 0.9rem; line-height: 1.5; }
+        .log-details div { margin-bottom: 4px; }
 
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .header-content {
-                flex-direction: column;
-            }
-            
-            .moon-logo-small {
-                margin-right: 0;
-            }
-            
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            
-            .doc-content {
-                padding: 20px;
-            }
-            
-            .member-details {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .member-names {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 5px;
-            }
-            
-            .separator {
-                display: none;
-            }
-
-            .member-badge, .pending-badge {
-                margin-left: 0;
-                margin-top: 5px;
-            }
-
-            .announcement-meta {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .sync-status {
-                bottom: 10px;
-                left: 10px;
-                font-size: 0.75rem;
-                padding: 8px 12px;
-            }
+            .main-title { font-size: 2.5rem; letter-spacing: 4px; }
+            .shop-owners { font-size: 0.9rem; }
+            .items-grid { grid-template-columns: 1fr; }
+            .login-form { grid-template-columns: 1fr; }
+            .user-info { flex-direction: column; text-align: center; }
+            .role-user-selector { flex-direction: column; align-items: stretch; }
+            .add-item-form { grid-template-columns: 1fr; }
+            .user-actions { flex-direction: column; }
+            .user-actions button { width: 100%; }
+            .maintenance-title { font-size: 2rem; }
+            .maintenance-text { font-size: 1rem; }
+            .announcement-content { flex-direction: column; text-align: center; }
+            .ban-input-group { flex-direction: column; }
+            .ban-input, .ban-reason-input { min-width: 100%; }
         }
+
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .stock-editor { margin-top: 10px; }
+        .stock-select {
+            width: 100%; padding: 8px 12px; border: 2px solid rgba(255, 105, 180, 0.3);
+            background: rgba(0, 0, 0, 0.5); color: #fff; border-radius: 8px; font-size: 0.9rem; cursor: pointer;
+        }
+        .stock-select.in { border-color: var(--green-primary); }
+        .stock-select.out { border-color: var(--accent-red); }
+        .stock-select.limited { border-color: #ff69b4; }
     </style>
 </head>
 <body>
-    <!-- Background Animation -->
-    <div class="bg-animation" id="bgAnimation"></div>
+    <!-- MAINTENANCE MODE OVERLAY -->
+    <div id="maintenanceOverlay" class="maintenance-overlay">
+        <div class="maintenance-icon">🔧</div>
+        <h1 class="maintenance-title">Under Maintenance</h1>
+        <p class="maintenance-text">We'll be back soon! The shop is currently undergoing maintenance to bring you an even better experience.</p>
+        <div class="maintenance-spinner"></div>
+    </div>
 
-    <!-- Login Overlay -->
-    <div class="login-overlay" id="loginOverlay">
-        <div class="login-container">
-            <div class="login-content">
-                <!-- Moon Logo -->
-                <div class="moon-logo">
-                    <div class="moon-circle">
-                        <div class="moon"></div>
-                        <span class="star-icon">✦</span>
-                        <span class="star-icon">✦</span>
-                        <span class="star-icon">✦</span>
-                        <span class="star-icon">✦</span>
-                        <div class="cloud"></div>
-                        <div class="cloud"></div>
-                    </div>
-                </div>
-                
-                <h1 class="login-title">The Whispering Dreams</h1>
-                <p class="login-subtitle">Enter the realm of dreams</p>
-                
-                <div class="input-group">
-                    <label>Username</label>
-                    <input type="text" id="loginUsername" placeholder="Enter your username">
-                </div>
-                
-                <div class="input-group">
-                    <label>Password</label>
-                    <input type="password" id="loginPassword" placeholder="Enter your password">
-                </div>
-                
-                <button class="btn-login" onclick="login()">Enter The Dream</button>
-            </div>
+    <!-- ANNOUNCEMENT BANNER -->
+    <div id="announcementBanner" class="announcement-banner">
+        <div class="announcement-content">
+            <span class="announcement-icon">📢</span>
+            <span class="announcement-text" id="announcementText">Welcome to The Burrow!</span>
+        </div>
+        <button class="announcement-close" onclick="closeAnnouncement()" title="Dismiss">×</button>
+    </div>
+
+    <!-- Location Bar -->
+    <div class="location-bar">
+        <div class="location-text">
+            <span class="location-icon">📌</span>
+            <span>Shop is at <strong>122 49 -42</strong></span>
         </div>
     </div>
 
-    <!-- Current User Badge -->
-    <div class="current-user" id="currentUserBadge" style="display: none;">
-        <span id="currentUsername">Guest</span>
-        <span id="adminBadge" class="admin-badge" style="display: none;">ADMIN</span>
-        <button class="btn-logout" onclick="logout()">Logout</button>
-    </div>
-
-    <!-- Sync Status Indicator -->
-    <div class="sync-status online" id="syncStatus">
-        <span class="sync-indicator"></span>
-        <span id="syncText">Connected</span>
-    </div>
-
-    <!-- Main Content -->
-    <div class="main-container" id="mainContainer">
-        <header class="header">
-            <div class="header-content">
-                <!-- Small Moon Logo -->
-                <div class="moon-logo moon-logo-small">
-                    <div class="moon-circle">
-                        <div class="moon"></div>
-                        <span class="star-icon">✦</span>
-                        <span class="star-icon">✦</span>
-                        <span class="star-icon">✦</span>
-                        <span class="star-icon">✦</span>
-                        <div class="cloud"></div>
-                        <div class="cloud"></div>
-                    </div>
-                </div>
-                <div>
-                    <h1>The Whispering Dreams</h1>
-                    <p>Member Registry</p>
-                </div>
-            </div>
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1 class="main-title">THE BURROW</h1>
+            <div class="shop-owners">Hol1zy's Shop</div>
+            <p style="color: rgba(255,255,255,0.5); margin-top: 10px; letter-spacing: 4px; text-transform: uppercase;">Premium Minecraft Emporium</p>
         </header>
 
-        <!-- Announcements Section -->
-        <div class="announcements-section" id="announcementsSection">
-            <div class="announcements-header">
-                <div class="announcements-title">
-                    📢 Announcements
-                </div>
-                <div id="announcementActions">
-                    <!-- Admin only button injected here -->
-                </div>
+        <!-- LOGIN SECTION -->
+        <div class="login-section" id="loginSection">
+            <div id="loginForm" class="login-form">
+                <input type="text" id="usernameInput" placeholder="Username" required>
+                <input type="text" id="discordInput" placeholder="Discord (e.g., user#1234)" required>
+                <input type="text" id="minecraftInput" placeholder="Minecraft Username" required>
+                <button type="button" class="btn-primary" id="enterShopBtn" onclick="login()">Enter Shop</button>
             </div>
-            
-            <!-- Admin: Post Announcement Form -->
-            <div class="announcement-form" id="announcementForm">
-                <input type="text" class="announcement-input" id="announcementInput" placeholder="Type your announcement here...">
-                <button class="doc-btn doc-btn-primary" onclick="postAnnouncement()" style="width: 100%;">
-                    📣 Post Announcement
-                </button>
-            </div>
-            
-            <!-- Announcements List -->
-            <div class="announcement-list" id="announcementList">
-                <div class="no-announcements">
-                    📭 No announcements yet
+            <div id="userInfo" class="user-info">
+                <div class="welcome-text">
+                    Welcome, <span class="username" id="currentUser"></span>
+                </div>
+                <div class="user-actions">
+                    <button class="btn-chat" onclick="openGlobalChat()">💬 Global Chat</button>
+                    <button class="btn-support" onclick="openSupportChat()">🎫 Support Chat</button>
+                    <button class="btn-bulk" onclick="openBulkModal()">📦 My Bulk Order</button>
+                    <button class="btn-danger" onclick="logout()">Exit</button>
                 </div>
             </div>
         </div>
 
-        <div class="doc-container">
-            <!-- Doc Header -->
-            <div class="doc-header">
-                <div class="doc-title">
-                    📜 Members Registry
-                    <span class="live-indicator">
-                        <span class="live-dot"></span>
-                        LIVE
-                    </span>
+        <!-- ANNOUNCEMENT CONTROLS (HO121 only) -->
+        <div id="announcementControls" class="announcement-controls">
+            <div class="announcement-controls-header">
+                <span>📢</span>
+                <span>Announcement & Maintenance Controls</span>
+            </div>
+            <div class="announcement-input-group">
+                <input type="text" class="announcement-input" id="announcementInput" placeholder="Enter announcement message...">
+                <button class="btn-primary" onclick="postAnnouncement()">Post Announcement</button>
+                <button class="btn-danger" onclick="clearAnnouncement()">Clear</button>
+            </div>
+            <div class="maintenance-toggle">
+                <span class="toggle-label" id="maintenanceLabel">Maintenance Mode:</span>
+                <div class="toggle-switch" id="maintenanceToggle" onclick="toggleMaintenance()"></div>
+                <span class="toggle-label maintenance-off" id="maintenanceStatus">OFF</span>
+            </div>
+        </div>
+
+        <!-- BANNED PLAYERS MANAGEMENT PANEL (HO121 only) -->
+        <div id="bannedPlayersPanel" class="banned-players-panel">
+            <div class="banned-panel-header">
+                <span>🚫</span>
+                <span>Banned Players Management</span>
+            </div>
+            <div class="ban-input-group">
+                <input type="text" class="ban-input" id="banUsernameInput" placeholder="Enter username to ban...">
+                <input type="text" class="ban-input ban-reason-input" id="banReasonInput" placeholder="Ban reason (optional)...">
+                <button class="btn-danger" onclick="banPlayer()">Ban Player</button>
+            </div>
+            <div class="banned-list-container" id="bannedPlayersListContainer">
+                <p style="color: rgba(255,255,255,0.5); text-align: center; padding: 20px;">No banned players</p>
+            </div>
+        </div>
+
+        <!-- ROLE MANAGER PANEL (HO121 only) -->
+        <div id="roleManagerPanel" class="role-manager">
+            <div class="role-manager-header">
+                <h3>👑 Role Manager</h3>
+                <button class="close-role-panel" onclick="toggleRolePanel()">×</button>
+            </div>
+            <div class="role-user-selector">
+                <select class="role-user-select" id="roleUserSelect">
+                    <option value="">Select User...</option>
+                </select>
+                <select class="role-user-select" id="roleTypeSelect">
+                    <option value="">Select Role...</option>
+                    <option value="buyer">[Buyer] - Pink</option>
+                    <option value="rich-buyer">[Rich Buyer] - Green</option>
+                    <option value="rich">[🤑Really Rich] - Gradient</option>
+                    <option value="friend">[Friend] - Purple</option>
+                </select>
+                <button class="role-assign-btn" onclick="assignRole()">Assign Role</button>
+            </div>
+            <div class="user-list-container" id="userListContainer">
+                <!-- Users will appear here -->
+            </div>
+        </div>
+
+        <!-- ADMIN CONTROLS (HO121 only) -->
+        <div id="adminControls" class="admin-controls">
+            <div class="admin-title">
+                <span>👑</span>
+                <span>Shopkeeper's Controls</span>
+            </div>
+            <div class="add-item-form">
+                <div class="form-group">
+                    <label>Item Name</label>
+                    <input type="text" id="itemName" placeholder="e.g., Netherite Sword">
                 </div>
-                <div class="doc-actions" id="headerActions">
-                    <!-- Actions injected by JS based on permissions -->
+                <div class="form-group">
+                    <label>Price (single item)</label>
+                    <input type="text" id="itemPrice" placeholder="e.g., 25 d">
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="itemType">
+                        <option value="item">Item</option>
+                        <option value="block">Block</option>
+                        <option value="tool">Tool</option>
+                        <option value="armor">Armor</option>
+                        <option value="weapon">Weapon</option>
+                        <option value="rare">Rare</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Stock Status</label>
+                    <select id="itemStock">
+                        <option value="in">In Stock</option>
+                        <option value="out">Out of Stock</option>
+                        <option value="limited">Limited</option>
+                    </select>
+                </div>
+                <div class="form-group" style="display: flex; align-items: end;">
+                    <button class="btn-success" onclick="addItem()" style="width: 100%;">Add to Shop</button>
+                </div>
+                <div class="form-group" style="display: flex; align-items: end;">
+                    <button class="btn-primary" onclick="toggleRolePanel()" style="width: 100%; background: linear-gradient(135deg, #ff69b4, #69f0ae);">👑 Role Manager</button>
                 </div>
             </div>
+        </div>
 
-            <!-- Doc Content -->
-            <div class="doc-content">
-                <!-- Add Entry Form - Now for everyone -->
-                <div class="entry-form" id="entryForm">
-                    <div class="form-header">
-                        <div class="form-title">✨ Register Yourself</div>
-                        <div class="form-notice" id="formNotice">
-                            <span>ℹ️</span>
-                            <span>Your registration will be pending until approved by the admin</span>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Your Discord Username</label>
-                            <input type="text" id="discordInput" placeholder="e.g., Fjcoolcat">
-                        </div>
-                        <div class="form-group">
-                            <label>Your Minecraft Username</label>
-                            <input type="text" id="minecraftInput" placeholder="e.g., _Fjcoolcat_">
-                        </div>
-                        <button class="btn-add" onclick="addMember()">Register</button>
-                    </div>
-                </div>
+        <!-- MOD CONTROLS (mod121 only) -->
+        <div id="modControls" class="mod-controls">
+            <div class="mod-title">
+                <span>🛡️</span>
+                <span>Moderator Panel <span class="mod-badge">[MOD]</span></span>
+            </div>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <button class="btn-chat" onclick="openGlobalChat()">💬 Global Chat</button>
+                <button class="btn-support" onclick="openSupportChat()">🎫 Support Chat</button>
+                <button class="btn-bulk" onclick="openBulkModal()">📦 My Bulk Order</button>
+            </div>
+        </div>
 
-                <!-- Members List -->
-                <div class="members-section">
-                    <div class="section-title">
-                        <span>✦ Registered Members</span>
-                        <span class="member-count" id="memberCount">0</span>
-                    </div>
-                    
-                    <div id="membersList">
-                        <div class="empty-state">
-                            <div class="empty-state-icon">🌙</div>
-                            <p>No members registered yet. Be the first!</p>
-                        </div>
-                    </div>
+        <!-- SUPPORT CHATS LIST (Admin/Mod only) -->
+        <div id="supportList" class="support-list">
+            <div class="support-list-header">
+                <span>🎫</span>
+                <span>Support Tickets</span>
+            </div>
+            <div id="supportChatsContainer">
+                <p style="color: rgba(255,255,255,0.5); text-align: center; padding: 40px;">No support tickets yet...</p>
+            </div>
+        </div>
+
+        <!-- BANNED USERS (Admin/Mod only) -->
+        <div id="bannedUsers" class="banned-users">
+            <div class="banned-header">
+                <span>🚫</span>
+                <span>Banned Users</span>
+            </div>
+            <div id="bannedList">
+                <p style="color: rgba(255,255,255,0.5); text-align: center;">No banned users</p>
+            </div>
+        </div>
+
+        <!-- ADMIN BULK ORDERS (Admin/Mod only) -->
+        <div id="adminBulkOrders" class="admin-bulk-orders">
+            <div class="admin-bulk-header">
+                <div class="admin-bulk-title">📦 Customer Bulk Orders</div>
+                <button class="btn-danger" onclick="clearAllOrders()">Clear All Orders</button>
+            </div>
+            <div id="adminBulkList" class="admin-bulk-list">
+                <div class="empty-orders">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">📭</div>
+                    <p>No bulk orders yet...</p>
                 </div>
+            </div>
+        </div>
+
+        <!-- ORDER LOGS (HO121 Only) -->
+        <div id="orderLogs" class="order-logs">
+            <div class="logs-header">
+                <span>📋</span>
+                <span>Order Logs</span>
+            </div>
+            <div id="orderLogsContainer">
+                <p style="color: rgba(255,255,255,0.5); text-align: center;">No order logs yet...</p>
+            </div>
+        </div>
+
+        <!-- BULK ORDER LOGS (HO121 Only) -->
+        <div id="bulkLogs" class="bulk-logs">
+            <div class="logs-header">
+                <span>📋</span>
+                <span>Bulk Order History</span>
+            </div>
+            <div id="logsContainer">
+                <p style="color: rgba(255,255,255,0.5); text-align: center;">No completed orders yet...</p>
+            </div>
+        </div>
+
+        <!-- Items Grid -->
+        <div id="itemsContainer" class="items-grid"></div>
+    </div>
+
+    <!-- Chat Overlays -->
+    <div id="globalChatOverlay" class="chat-overlay">
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="chat-title">
+                    <span>💬</span>
+                    <span>Global Chat</span>
+                    <span class="chat-type-badge">Public</span>
+                </div>
+                <button class="close-chat" onclick="closeChat()">×</button>
+            </div>
+            <div class="chat-messages" id="globalMessages"></div>
+            <div id="globalMutedBanner" class="muted-banner" style="display: none;">
+                🔇 You are muted and cannot send messages
+            </div>
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" id="globalInput" placeholder="Type your message..." maxlength="500">
+                <button class="btn-send" id="globalSendBtn" onclick="sendGlobalMessage()">Send</button>
             </div>
         </div>
     </div>
 
-    <!-- Edit Modal (Admin Only) -->
-    <div class="modal-overlay" id="editModal">
-        <div class="modal">
-            <h3 class="modal-title">✏️ Edit Member</h3>
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label>Discord Username</label>
-                <input type="text" id="editDiscord" placeholder="Discord username">
+    <div id="supportChatOverlay" class="chat-overlay">
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="chat-title">
+                    <span>🎫</span>
+                    <span id="supportChatTitle">Support Chat</span>
+                    <span class="chat-type-badge support">Private</span>
+                </div>
+                <button class="close-chat" onclick="closeChat()">×</button>
             </div>
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label>Minecraft Username</label>
-                <input type="text" id="editMinecraft" placeholder="Minecraft username">
+            <div class="chat-messages" id="supportMessages"></div>
+            <div id="supportMutedBanner" class="muted-banner" style="display: none;">
+                🔇 You are muted and cannot send messages
             </div>
-            <div class="form-group">
-                <label>
-                    <input type="checkbox" id="editApproved" style="margin-right: 8px;">
-                    Approved Member (Show "MEMBER" badge)
-                </label>
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" id="supportInput" placeholder="Describe your issue or question..." maxlength="500">
+                <button class="btn-send" id="supportSendBtn" onclick="sendSupportMessage()">Send</button>
             </div>
-            <div class="modal-actions">
-                <button class="doc-btn doc-btn-secondary" onclick="closeEditModal()">Cancel</button>
-                <button class="doc-btn doc-btn-primary" onclick="saveEdit()">Save Changes</button>
+        </div>
+    </div>
+
+    <!-- Bulk Order Modal -->
+    <div id="bulkModal" class="chat-overlay">
+        <div class="chat-container" style="max-width: 900px;">
+            <div class="chat-header">
+                <div class="chat-title">
+                    <span>📦</span>
+                    <span>Your Bulk Order</span>
+                </div>
+                <button class="close-chat" onclick="closeBulkModal()">×</button>
             </div>
+            <div style="padding: 30px; overflow-y: auto; flex: 1;">
+                <div class="how-to-order" style="background: rgba(255, 105, 180, 0.1); border: 1px solid rgba(255, 105, 180, 0.3); border-radius: 16px; padding: 25px; margin-bottom: 30px;">
+                    <h3 style="color: #ffb6c1; margin-bottom: 15px;">📋 How to Order</h3>
+                    <ol style="margin-left: 20px; color: rgba(255, 255, 255, 0.8); line-height: 1.8;">
+                        <li>Add items to your bulk order using the "Add to Bulk" buttons in the shop</li>
+                        <li>Choose between <strong>Items</strong>, <strong>Stacks</strong>, or <strong>Shulkers</strong></li>
+                        <li>Enter the quantity you want</li>
+                        <li><strong>1 Shulker = 27 stacks</strong> of the item</li>
+                        <li><strong>1 Stack = 64 items</strong> (or 16 for some items)</li>
+                        <li>Review your order - prices are automatically calculated</li>
+                        <li>Click <strong>"Submit Order"</strong> to send it to the shopkeeper</li>
+                    </ol>
+                </div>
+                <div id="bulkModalContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order View Modal -->
+    <div id="orderViewModal" class="order-view-modal">
+        <div class="order-view-container">
+            <div class="order-view-header">
+                <div class="chat-title">
+                    <span>📋</span>
+                    <span>Order Details</span>
+                </div>
+                <button class="close-chat" onclick="closeOrderView()">×</button>
+            </div>
+            <div class="order-view-content" id="orderViewContent"></div>
         </div>
     </div>
 
     <!-- Toast -->
-    <div class="toast" id="toast">
-        <span id="toastMessage">Message</span>
-    </div>
+    <div id="toast" class="toast"></div>
 
     <script>
-        // Constants
-        const ADMIN_USERNAME = 'FJ121';
-        const MEMBERS_KEY = 'whisperingDreamsMembers';
-        const ANNOUNCEMENTS_KEY = 'whisperingDreamsAnnouncements';
-        const USER_KEY = 'whisperingDreamsUser';
-        const SYNC_CHANNEL = 'whispering-dreams-sync';
+        /* ============================================================
+           UNIVERSAL CROSS-TAB SYNCHRONIZATION SYSTEM
+           Works in ALL browsers including IE11+
+           ============================================================ */
+        
+        // Generate unique tab ID
+        const TAB_ID = 'tab_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+        
+        // Storage keys that need syncing
+        const SYNC_KEYS = [
+            'burrowItems', 'burrowGlobalChat', 'burrowSupportChats', 'burrowSubmittedOrders',
+            'burrowUserRoles', 'burrowAnnouncement', 'burrowMaintenance', 'burrowBannedPlayers',
+            'burrowBanned', 'burrowMuted', 'burrowAllUsers', 'burrowBulkLogs', 'burrowOrderLogs'
+        ];
 
-        // Data Management
-        let members = [];
-        let announcements = [];
-        let currentUser = null;
-        let isAdmin = false;
-        let editingId = null;
-        let broadcastChannel = null;
-        let isSyncing = false;
-
-        // Initialize
-        window.onload = () => {
-            createBackgroundEffects();
-            initSyncChannel();
-            loadData();
-            checkSession();
-            startRealtimeSync();
-            
-            // Enter key support
-            document.getElementById('loginPassword').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') login();
+        // Initialize storage with defaults if empty
+        function initStorage() {
+            if (!localStorage.getItem('burrowItems')) {
+                localStorage.setItem('burrowItems', JSON.stringify([
+                    { id: 1, name: "Elytra", type: "item", location: null, price: "40 d", stock: "in" },
+                    { id: 2, name: "Heavy Core", type: "item", location: null, price: "18 db", stock: "out" }
+                ]));
+            }
+            SYNC_KEYS.forEach(key => {
+                if (!localStorage.getItem(key)) localStorage.setItem(key, JSON.stringify({}));
             });
-            
-            document.getElementById('minecraftInput').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') addMember();
-            });
+        }
 
-            document.getElementById('announcementInput').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') postAnnouncement();
-            });
-
-            // Handle visibility change to sync when tab becomes active
-            document.addEventListener('visibilitychange', () => {
-                if (!document.hidden && currentUser) {
-                    syncData();
-                }
-            });
-        };
-
-        // Initialize BroadcastChannel for cross-tab communication
-        function initSyncChannel() {
+        // Universal sync function - works in ALL browsers
+        function syncData(key, value) {
+            // 1. Save to localStorage
             try {
-                broadcastChannel = new BroadcastChannel(SYNC_CHANNEL);
-                broadcastChannel.onmessage = (event) => {
-                    const { type, data, timestamp } = event.data;
-                    
-                    // Prevent handling our own messages or outdated messages
-                    if (timestamp <= Date.now() - 5000) return;
-                    
-                    handleSyncMessage(type, data);
-                };
+                localStorage.setItem(key, JSON.stringify(value));
             } catch (e) {
-                console.log('BroadcastChannel not supported, falling back to localStorage');
-                broadcastChannel = null;
+                console.error('Storage failed:', e);
+                return false;
             }
-        }
 
-        // Handle incoming sync messages
-        function handleSyncMessage(type, data) {
-            if (!currentUser) return; // Only sync if logged in
-            
-            setSyncStatus('syncing');
-            
-            switch(type) {
-                case 'MEMBERS_UPDATE':
-                    members = data;
-                    localStorage.setItem(MEMBERS_KEY, JSON.stringify(members));
-                    if (currentUser) renderMembers();
-                    showSyncToast('Members updated from another tab');
-                    break;
-                case 'ANNOUNCEMENTS_UPDATE':
-                    announcements = data;
-                    localStorage.setItem(ANNOUNCEMENTS_KEY, JSON.stringify(announcements));
-                    if (currentUser) renderAnnouncements();
-                    showSyncToast('New announcement received');
-                    break;
-                case 'FULL_SYNC':
-                    if (data.members) {
-                        members = data.members;
-                        localStorage.setItem(MEMBERS_KEY, JSON.stringify(members));
-                    }
-                    if (data.announcements) {
-                        announcements = data.announcements;
-                        localStorage.setItem(ANNOUNCEMENTS_KEY, JSON.stringify(announcements));
-                    }
-                    if (currentUser) {
-                        renderMembers();
-                        renderAnnouncements();
-                    }
-                    break;
-                case 'PING':
-                    // Respond to ping with current data
-                    if (broadcastChannel) {
-                        broadcastChannel.postMessage({
-                            type: 'PONG',
-                            data: { members, announcements },
-                            timestamp: Date.now()
-                        });
-                    }
-                    break;
-            }
-            
-            setTimeout(() => setSyncStatus('online'), 1000);
-        }
-
-        // Broadcast changes to other tabs
-        function broadcastChange(type, data) {
-            const message = {
-                type: type,
-                data: data,
+            // 2. Broadcast to other tabs using multiple methods
+            const broadcastData = {
+                key: key,
+                value: value,
+                tabId: TAB_ID,
                 timestamp: Date.now()
             };
-            
-            // Use BroadcastChannel if available
-            if (broadcastChannel) {
-                broadcastChannel.postMessage(message);
+
+            // Method 1: BroadcastChannel (modern browsers)
+            if (typeof BroadcastChannel !== 'undefined') {
+                try {
+                    const bc = new BroadcastChannel('burrow_sync_channel');
+                    bc.postMessage(broadcastData);
+                    bc.close();
+                } catch (e) {}
             }
-            
-            // Always use localStorage as fallback for cross-browser sync
+
+            // Method 2: CustomEvent with localStorage backup (universal)
             try {
-                localStorage.setItem('lastSync_' + type, JSON.stringify({
-                    data: data,
-                    timestamp: Date.now()
+                // Use a dedicated broadcast key with timestamp to ensure change detection
+                const broadcastKey = 'burrow_broadcast_' + Date.now();
+                localStorage.setItem(broadcastKey, JSON.stringify(broadcastData));
+                // Clean up after a short delay
+                setTimeout(() => {
+                    localStorage.removeItem(broadcastKey);
+                }, 1000);
+            } catch (e) {}
+
+            // Method 3: dispatchEvent for same-tab listeners (immediate)
+            try {
+                window.dispatchEvent(new CustomEvent('burrow-data-change', {
+                    detail: broadcastData
                 }));
             } catch (e) {
-                console.error('localStorage sync failed:', e);
+                // Fallback for IE
+                const event = document.createEvent('CustomEvent');
+                event.initCustomEvent('burrow-data-change', true, true, broadcastData);
+                window.dispatchEvent(event);
             }
+
+            return true;
         }
 
-        // Set sync status indicator
-        function setSyncStatus(status) {
-            const indicator = document.getElementById('syncStatus');
-            const text = document.getElementById('syncText');
-            
-            indicator.className = 'sync-status ' + status;
-            
-            switch(status) {
-                case 'online':
-                    text.textContent = 'Connected';
-                    break;
-                case 'syncing':
-                    text.textContent = 'Syncing...';
-                    break;
-                case 'offline':
-                    text.textContent = 'Offline';
-                    break;
-            }
-        }
-
-        // Show sync-specific toast
-        function showSyncToast(message) {
-            const toast = document.getElementById('toast');
-            const msg = document.getElementById('toastMessage');
-            
-            msg.textContent = '🔄 ' + message;
-            toast.className = 'toast success show';
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2000);
-        }
-
-        function createBackgroundEffects() {
-            const bg = document.getElementById('bgAnimation');
-            
-            // Create stars
-            for (let i = 0; i < 150; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 3 + 's';
-                bg.appendChild(star);
-            }
-            
-            // Create dream orbs
-            for (let i = 0; i < 4; i++) {
-                const orb = document.createElement('div');
-                orb.className = 'dream-orb';
-                orb.style.left = Math.random() * 80 + '%';
-                orb.style.top = Math.random() * 80 + '%';
-                orb.style.animationDelay = (i * 6) + 's';
-                bg.appendChild(orb);
-            }
-        }
-
-        // Load all data from storage
-        function loadData() {
-            const savedMembers = localStorage.getItem(MEMBERS_KEY);
-            const savedAnnouncements = localStorage.getItem(ANNOUNCEMENTS_KEY);
-            
-            if (savedMembers) {
-                members = JSON.parse(savedMembers);
-            }
-            if (savedAnnouncements) {
-                announcements = JSON.parse(savedAnnouncements);
-            }
-        }
-
-        // Save data and broadcast to other tabs
-        function saveMembers() {
-            localStorage.setItem(MEMBERS_KEY, JSON.stringify(members));
-            broadcastChange('MEMBERS_UPDATE', members);
-        }
-
-        function saveAnnouncements() {
-            localStorage.setItem(ANNOUNCEMENTS_KEY, JSON.stringify(announcements));
-            broadcastChange('ANNOUNCEMENTS_UPDATE', announcements);
-        }
-
-        // Force full sync
-        function syncData() {
-            setSyncStatus('syncing');
-            broadcastChange('FULL_SYNC', { members, announcements });
-            setTimeout(() => setSyncStatus('online'), 500);
-        }
-
-        // Real-time sync across tabs using multiple methods
-        function startRealtimeSync() {
-            // Method 1: BroadcastChannel (modern browsers)
-            if (broadcastChannel) {
-                // Already initialized in initSyncChannel
-            }
-            
-            // Method 2: localStorage events (fallback + cross-browser)
-            window.addEventListener('storage', (e) => {
-                if (!currentUser) return;
-                
-                if (e.key === MEMBERS_KEY) {
-                    const newData = JSON.parse(e.newValue || '[]');
-                    if (JSON.stringify(newData) !== JSON.stringify(members)) {
-                        members = newData;
-                        renderMembers();
-                        setSyncStatus('syncing');
-                        setTimeout(() => setSyncStatus('online'), 1000);
+        // Data change handler
+        function handleDataChange(key, value, fromTab) {
+            // Update local variables based on key
+            switch(key) {
+                case 'burrowItems': items = value; renderItems(); break;
+                case 'burrowGlobalChat': 
+                    globalMessages = value; 
+                    if (currentChat === 'global') {
+                        renderGlobalMessages();
+                        scrollToBottom('globalMessages');
                     }
-                } else if (e.key === ANNOUNCEMENTS_KEY) {
-                    const newData = JSON.parse(e.newValue || '[]');
-                    if (JSON.stringify(newData) !== JSON.stringify(announcements)) {
-                        announcements = newData;
-                        renderAnnouncements();
-                        setSyncStatus('syncing');
-                        setTimeout(() => setSyncStatus('online'), 1000);
+                    break;
+                case 'burrowSupportChats': 
+                    supportChats = value; 
+                    if (currentChat === 'support') {
+                        renderSupportMessages();
+                        scrollToBottom('supportMessages');
                     }
-                } else if (e.key && e.key.startsWith('lastSync_')) {
-                    // Handle sync triggers from other tabs
-                    try {
-                        const syncData = JSON.parse(e.newValue);
-                        if (syncData && syncData.timestamp > Date.now() - 5000) {
-                            loadData();
-                            if (currentUser) {
-                                renderMembers();
-                                renderAnnouncements();
-                            }
+                    if (currentUser === 'HO121' || currentUser === 'mod121') renderSupportList();
+                    break;
+                case 'burrowSubmittedOrders': 
+                    submittedOrders = value; 
+                    if (currentUser === 'HO121' || currentUser === 'mod121') renderAdminOrders();
+                    break;
+                case 'burrowUserRoles': 
+                    userRoles = value; 
+                    renderItems();
+                    if (currentChat === 'global') renderGlobalMessages();
+                    if (currentChat === 'support') renderSupportMessages();
+                    break;
+                case 'burrowAnnouncement': 
+                    announcement = value; 
+                    checkAnnouncement(); 
+                    break;
+                case 'burrowMaintenance': 
+                    maintenanceMode = value; 
+                    checkMaintenanceMode(); 
+                    break;
+                case 'burrowBannedPlayers': 
+                    bannedPlayersList = value; 
+                    if (currentUser === 'HO121') renderBannedPlayersList();
+                    break;
+                case 'burrowBanned': 
+                    bannedUsers = value; 
+                    if (currentUser === 'HO121' || currentUser === 'mod121') renderBannedList();
+                    break;
+                case 'burrowMuted': 
+                    mutedUsers = value; 
+                    if (currentUser === 'HO121' || currentUser === 'mod121') renderBannedList();
+                    break;
+                case 'burrowAllUsers': 
+                    allUsers = value; 
+                    if (currentUser === 'HO121') {
+                        updateRoleSelector();
+                        renderUserList();
+                    }
+                    break;
+                case 'burrowBulkLogs': 
+                    bulkOrderLogs = value; 
+                    if (currentUser === 'HO121') renderBulkLogs();
+                    break;
+                case 'burrowOrderLogs': 
+                    orderLogs = value; 
+                    if (currentUser === 'HO121') renderOrderLogs();
+                    break;
+            }
+        }
+
+        // Setup all event listeners for cross-tab sync
+        function setupSyncListeners() {
+            // 1. BroadcastChannel listener (modern browsers)
+            if (typeof BroadcastChannel !== 'undefined') {
+                try {
+                    const bc = new BroadcastChannel('burrow_sync_channel');
+                    bc.onmessage = function(event) {
+                        const data = event.data;
+                        if (data && data.tabId !== TAB_ID) {
+                            handleDataChange(data.key, data.value, data.tabId);
                         }
-                    } catch (err) {
-                        console.error('Sync error:', err);
-                    }
+                    };
+                } catch (e) {}
+            }
+
+            // 2. storage event (cross-tab, excludes current tab)
+            window.addEventListener('storage', function(e) {
+                // Handle regular storage changes from other tabs
+                if (e.key && SYNC_KEYS.includes(e.key)) {
+                    try {
+                        const value = JSON.parse(e.newValue);
+                        handleDataChange(e.key, value, 'other_tab');
+                    } catch (err) {}
+                }
+                
+                // Handle broadcast messages
+                if (e.key && e.key.indexOf('burrow_broadcast_') === 0) {
+                    try {
+                        const data = JSON.parse(e.newValue);
+                        if (data && data.tabId !== TAB_ID) {
+                            handleDataChange(data.key, data.value, data.tabId);
+                        }
+                    } catch (err) {}
                 }
             });
-            
-            // Method 3: Periodic sync check (every 2 seconds)
-            setInterval(() => {
-                if (currentUser && !document.hidden) {
-                    const savedMembers = localStorage.getItem(MEMBERS_KEY);
-                    const savedAnnouncements = localStorage.getItem(ANNOUNCEMENTS_KEY);
-                    
-                    const currentMembersStr = JSON.stringify(members);
-                    const currentAnnouncementsStr = JSON.stringify(announcements);
-                    
-                    if (savedMembers && savedMembers !== currentMembersStr) {
-                        members = JSON.parse(savedMembers);
-                        renderMembers();
-                    }
-                    
-                    if (savedAnnouncements && savedAnnouncements !== currentAnnouncementsStr) {
-                        announcements = JSON.parse(savedAnnouncements);
-                        renderAnnouncements();
-                    }
-                }
-            }, 2000);
-        }
 
-        function checkSession() {
-            const savedUser = localStorage.getItem(USER_KEY);
-            
-            if (savedUser) {
-                currentUser = savedUser;
-                isAdmin = (currentUser === ADMIN_USERNAME);
-                showMainContent();
+            // 3. CustomEvent listener (same tab, immediate)
+            window.addEventListener('burrow-data-change', function(e) {
+                const data = e.detail || e;
+                if (data && data.tabId === TAB_ID) {
+                    // Same tab update - refresh UI
+                    handleDataChange(data.key, data.value, 'self');
+                }
+            });
+
+            // 4. Polling fallback for older browsers (IE9-10)
+            if (!window.addEventListener || typeof BroadcastChannel === 'undefined') {
+                startPollingFallback();
             }
         }
 
-        function login() {
-            const username = document.getElementById('loginUsername').value.trim();
-            const password = document.getElementById('loginPassword').value.trim();
+        // Polling fallback for very old browsers
+        let lastPollValues = {};
+        function startPollingFallback() {
+            setInterval(function() {
+                SYNC_KEYS.forEach(function(key) {
+                    try {
+                        const current = localStorage.getItem(key);
+                        if (current !== lastPollValues[key]) {
+                            lastPollValues[key] = current;
+                            const value = JSON.parse(current);
+                            handleDataChange(key, value, 'poll');
+                        }
+                    } catch (e) {}
+                });
+            }, 1000); // Check every second
+        }
+
+        // Wrapper to replace all localStorage.setItem calls
+        function setAndSync(key, value) {
+            return syncData(key, value);
+        }
+
+        /* ============================================================
+           APPLICATION STATE & DATA
+           ============================================================ */
+        
+        let items = JSON.parse(localStorage.getItem('burrowItems')) || [
+            { id: 1, name: "Elytra", type: "item", location: null, price: "40 d", stock: "in" },
+            { id: 2, name: "Heavy Core", type: "item", location: null, price: "18 db", stock: "out" }
+        ];
+        let currentUser = localStorage.getItem('burrowUser') || null;
+        let userDiscord = localStorage.getItem('burrowDiscord') || '';
+        let userMinecraft = localStorage.getItem('burrowMinecraft') || '';
+        let userBulkOrder = JSON.parse(localStorage.getItem('burrowBulkOrder')) || [];
+        let submittedOrders = JSON.parse(localStorage.getItem('burrowSubmittedOrders')) || [];
+        let completedOrders = JSON.parse(localStorage.getItem('burrowCompletedOrders')) || [];
+        let currentFilter = 'all';
+        let globalMessages = JSON.parse(localStorage.getItem('burrowGlobalChat')) || [];
+        let supportChats = JSON.parse(localStorage.getItem('burrowSupportChats')) || {};
+        let bannedUsers = JSON.parse(localStorage.getItem('burrowBanned')) || [];
+        let bannedPlayersList = JSON.parse(localStorage.getItem('burrowBannedPlayers')) || [];
+        let mutedUsers = JSON.parse(localStorage.getItem('burrowMuted')) || [];
+        let userRoles = JSON.parse(localStorage.getItem('burrowUserRoles')) || {};
+        let allUsers = JSON.parse(localStorage.getItem('burrowAllUsers')) || [];
+        let bulkOrderLogs = JSON.parse(localStorage.getItem('burrowBulkLogs')) || [];
+        let orderLogs = JSON.parse(localStorage.getItem('burrowOrderLogs')) || [];
+        let announcement = JSON.parse(localStorage.getItem('burrowAnnouncement')) || { text: '', active: false };
+        let maintenanceMode = JSON.parse(localStorage.getItem('burrowMaintenance')) || false;
+        let currentViewingOrder = null;
+        let currentChat = null;
+        let currentSupportUser = null;
+        let isStaffViewingSupport = false;
+
+        /* INITIALIZATION */
+        window.onload = function() {
+            initStorage();
+            createParticles();
+            setupEventListeners();
+            setupSyncListeners();
+            checkMaintenanceMode();
+            checkAnnouncement();
+            if (currentUser) restoreLogin();
+            renderItems();
+        };
+
+        function createParticles() {
+            const container = document.getElementById('particles');
+            container.innerHTML = '';
+            for (let i = 0; i < 50; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDelay = Math.random() * 20 + 's';
+                p.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(p);
+            }
+        }
+
+        function setupEventListeners() {
+            const loginBtn = document.getElementById('enterShopBtn');
+            if (loginBtn) loginBtn.addEventListener('click', login);
             
-            if (!username || !password) {
-                showToast('Please fill in all fields', 'error');
+            ['usernameInput', 'discordInput', 'minecraftInput'].forEach(function(id) {
+                const input = document.getElementById(id);
+                if (input) input.addEventListener('keypress', function(e) { 
+                    if (e.key === 'Enter') login(); 
+                });
+            });
+
+            const globalInput = document.getElementById('globalInput');
+            if (globalInput) globalInput.addEventListener('keypress', function(e) { 
+                if (e.key === 'Enter') sendGlobalMessage(); 
+            });
+
+            const supportInput = document.getElementById('supportInput');
+            if (supportInput) supportInput.addEventListener('keypress', function(e) { 
+                if (e.key === 'Enter') sendSupportMessage(); 
+            });
+        }
+
+        /* MAINTENANCE MODE FUNCTIONS */
+        function checkMaintenanceMode() {
+            if (currentUser === 'HO121') {
+                document.getElementById('maintenanceOverlay').classList.remove('active');
                 return;
             }
+            const overlay = document.getElementById('maintenanceOverlay');
+            if (maintenanceMode) overlay.classList.add('active');
+            else overlay.classList.remove('active');
+        }
+
+        function toggleMaintenance() {
+            if (currentUser !== 'HO121') return;
+            maintenanceMode = !maintenanceMode;
+            setAndSync('burrowMaintenance', maintenanceMode);
             
-            currentUser = username;
-            isAdmin = (currentUser === ADMIN_USERNAME);
-            localStorage.setItem(USER_KEY, username);
-            
-            if (isAdmin) {
-                showToast(`Welcome, Administrator ${username}!`, 'success');
+            const toggle = document.getElementById('maintenanceToggle');
+            const status = document.getElementById('maintenanceStatus');
+            if (maintenanceMode) {
+                toggle.classList.add('active');
+                status.textContent = 'ON';
+                status.classList.remove('maintenance-off');
+                status.classList.add('maintenance-on');
+                showToast('Maintenance mode ENABLED', 'success');
             } else {
-                showToast(`Welcome to the dream, ${username}!`, 'success');
+                toggle.classList.remove('active');
+                status.textContent = 'OFF';
+                status.classList.remove('maintenance-on');
+                status.classList.add('maintenance-off');
+                showToast('Maintenance mode DISABLED', 'success');
             }
-            
-            showMainContent();
+            checkMaintenanceMode();
         }
 
-        function showMainContent() {
-            document.getElementById('loginOverlay').classList.add('hidden');
-            document.getElementById('mainContainer').classList.add('visible');
-            document.getElementById('currentUserBadge').style.display = 'flex';
-            document.getElementById('currentUsername').textContent = currentUser;
+        /* ANNOUNCEMENT FUNCTIONS */
+        function checkAnnouncement() {
+            const banner = document.getElementById('announcementBanner');
+            const text = document.getElementById('announcementText');
+            if (announcement && announcement.active && announcement.text) {
+                text.textContent = announcement.text;
+                banner.classList.add('active');
+            } else banner.classList.remove('active');
             
-            // Show admin badge if admin
-            if (isAdmin) {
-                document.getElementById('adminBadge').style.display = 'inline-flex';
-            }
-            
-            setupPermissions();
-            renderMembers();
-            renderAnnouncements();
-            
-            // Request sync from other tabs
-            if (broadcastChannel) {
-                broadcastChannel.postMessage({
-                    type: 'PING',
-                    timestamp: Date.now()
-                });
-            }
-        }
-
-        function setupPermissions() {
-            const headerActions = document.getElementById('headerActions');
-            const announcementActions = document.getElementById('announcementActions');
-            const announcementForm = document.getElementById('announcementForm');
-            const formNotice = document.getElementById('formNotice');
-            
-            if (isAdmin) {
-                // Admin: Full access
-                headerActions.innerHTML = `
-                    <button class="doc-btn doc-btn-secondary" onclick="exportData()">
-                        📥 Export
-                    </button>
-                `;
-                
-                announcementActions.innerHTML = `
-                    <button class="doc-btn doc-btn-announcement" onclick="toggleAnnouncementForm()">
-                        📣 New Announcement
-                    </button>
-                `;
-                
-                announcementForm.classList.add('show');
-                formNotice.innerHTML = '<span>✓</span><span>You can add and approve members</span>';
-                formNotice.style.background = 'linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%)';
-                formNotice.style.borderColor = '#4caf50';
-                formNotice.style.color = '#2e7d32';
-            } else {
-                // Regular user: Can add self, but pending
-                headerActions.innerHTML = `
-                    <button class="doc-btn doc-btn-secondary" onclick="exportData()">
-                        📥 Export List
-                    </button>
-                `;
-                
-                announcementActions.innerHTML = '';
-                announcementForm.classList.remove('show');
-                formNotice.innerHTML = '<span>ℹ️</span><span>Your registration will be pending until approved by the admin</span>';
-            }
-        }
-
-        function toggleAnnouncementForm() {
-            const form = document.getElementById('announcementForm');
-            form.classList.toggle('show');
-            if (form.classList.contains('show')) {
-                document.getElementById('announcementInput').focus();
+            if (currentUser === 'HO121') {
+                const input = document.getElementById('announcementInput');
+                if (input) input.value = announcement.text || '';
             }
         }
 
         function postAnnouncement() {
-            if (!isAdmin) {
-                showToast('Only the administrator can post announcements!', 'error');
-                return;
-            }
+            if (currentUser !== 'HO121') return;
+            const input = document.getElementById('announcementInput');
+            const text = input.value.trim();
+            if (!text) return showToast('Please enter an announcement message', 'error');
             
-            const text = document.getElementById('announcementInput').value.trim();
-            
-            if (!text) {
-                showToast('Please enter an announcement', 'error');
-                return;
-            }
-            
-            const announcement = {
-                id: Date.now(),
-                text: text,
-                author: currentUser,
-                timestamp: new Date().toISOString()
-            };
-            
-            announcements.unshift(announcement); // Add to beginning
-            saveAnnouncements();
-            
-            document.getElementById('announcementInput').value = '';
-            renderAnnouncements();
+            announcement = { text: text, active: true, timestamp: new Date().toISOString() };
+            setAndSync('burrowAnnouncement', announcement);
+            checkAnnouncement();
             showToast('Announcement posted!', 'success');
         }
 
-        function deleteAnnouncement(id) {
-            if (!isAdmin) {
-                showToast('Only the administrator can delete announcements!', 'error');
-                return;
-            }
-            
-            if (!confirm('Delete this announcement?')) return;
-            
-            announcements = announcements.filter(a => a.id !== id);
-            saveAnnouncements();
-            renderAnnouncements();
-            showToast('Announcement deleted', 'success');
+        function clearAnnouncement() {
+            if (currentUser !== 'HO121') return;
+            announcement = { text: '', active: false };
+            setAndSync('burrowAnnouncement', announcement);
+            document.getElementById('announcementInput').value = '';
+            checkAnnouncement();
+            showToast('Announcement cleared', 'success');
         }
 
-        function renderAnnouncements() {
-            const container = document.getElementById('announcementList');
-            
-            if (announcements.length === 0) {
-                container.innerHTML = `
-                    <div class="no-announcements">
-                        📭 No announcements yet
-                    </div>`;
+        function closeAnnouncement() {
+            document.getElementById('announcementBanner').classList.remove('active');
+            sessionStorage.setItem('announcementDismissed', 'true');
+        }
+
+        /* BANNED PLAYERS MANAGEMENT */
+        function renderBannedPlayersList() {
+            if (currentUser !== 'HO121') return;
+            const container = document.getElementById('bannedPlayersListContainer');
+            if (!bannedPlayersList || bannedPlayersList.length === 0) {
+                container.innerHTML = '<p style="color: rgba(255,255,255,0.5); text-align: center; padding: 20px;">No banned players</p>';
                 return;
             }
-            
-            container.innerHTML = announcements.map((ann, index) => {
-                const isNew = index === 0; // First one is newest
-                const date = new Date(ann.timestamp).toLocaleString();
-                
+            container.innerHTML = bannedPlayersList.map(function(player) {
+                const bannedDate = player.bannedAt ? new Date(player.bannedAt).toLocaleDateString() : 'Unknown';
                 return `
-                    <div class="announcement-item ${isNew ? 'new' : ''}">
-                        <div class="announcement-meta">
-                            <span class="announcement-author">👤 ${escapeHtml(ann.author)}</span>
-                            <span class="announcement-time">${date}</span>
+                    <div class="banned-player-card">
+                        <div class="banned-player-info">
+                            <div class="banned-player-name">${player.username}</div>
+                            <div class="banned-player-meta">Banned on: ${bannedDate} by ${player.bannedBy || 'Unknown'}</div>
+                            ${player.reason ? `<div class="banned-player-reason">Reason: ${player.reason}</div>` : ''}
                         </div>
-                        <div class="announcement-text">${escapeHtml(ann.text)}</div>
-                        ${isAdmin ? `<button class="announcement-delete" onclick="deleteAnnouncement(${ann.id})">×</button>` : ''}
-                    </div>
-                `;
+                        <button class="btn-unban-player" onclick="unbanPlayer('${player.username}')">Unban</button>
+                    </div>`;
             }).join('');
         }
 
-        function addMember() {
+        function banPlayer() {
+            if (currentUser !== 'HO121') return;
+            const usernameInput = document.getElementById('banUsernameInput');
+            const reasonInput = document.getElementById('banReasonInput');
+            const username = usernameInput.value.trim();
+            const reason = reasonInput.value.trim();
+            if (!username) return showToast('Please enter a username to ban', 'error');
+            
+            const existingBan = bannedPlayersList.find(function(p) { 
+                return p.username.toLowerCase() === username.toLowerCase(); 
+            });
+            if (existingBan) return showToast('This player is already banned', 'error');
+            
+            const banEntry = { 
+                username: username, 
+                reason: reason, 
+                bannedAt: new Date().toISOString(), 
+                bannedBy: currentUser 
+            };
+            bannedPlayersList.push(banEntry);
+            setAndSync('burrowBannedPlayers', bannedPlayersList);
+            
+            if (!bannedUsers.includes(username.toLowerCase())) {
+                bannedUsers.push(username.toLowerCase());
+                setAndSync('burrowBanned', bannedUsers);
+            }
+            
+            usernameInput.value = '';
+            reasonInput.value = '';
+            renderBannedPlayersList();
+            showToast(`Player "${username}" has been banned`, 'success');
+        }
+
+        function unbanPlayer(username) {
+            if (currentUser !== 'HO121') return;
+            bannedPlayersList = bannedPlayersList.filter(function(p) { 
+                return p.username.toLowerCase() !== username.toLowerCase(); 
+            });
+            setAndSync('burrowBannedPlayers', bannedPlayersList);
+            bannedUsers = bannedUsers.filter(function(u) { 
+                return u !== username.toLowerCase(); 
+            });
+            setAndSync('burrowBanned', bannedUsers);
+            renderBannedPlayersList();
+            showToast(`Player "${username}" has been unbanned`, 'success');
+        }
+
+        /* LOGIN / LOGOUT / ROLE MANAGEMENT */
+        function restoreLogin() {
+            document.getElementById('currentUser').textContent = currentUser;
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('userInfo').classList.add('show');
+            if (currentUser === 'HO121') showStaffUI();
+            else if (currentUser === 'mod121') showModUI();
+        }
+
+        function login() {
+            const username = document.getElementById('usernameInput').value.trim();
             const discord = document.getElementById('discordInput').value.trim();
             const minecraft = document.getElementById('minecraftInput').value.trim();
+            if (!username || !discord || !minecraft) return showToast('Please fill in all fields', 'error');
             
-            if (!discord || !minecraft) {
-                showToast('Please enter both usernames', 'error');
-                return;
+            if (bannedUsers.includes(username.toLowerCase())) {
+                return showToast('You are banned from this shop', 'error');
             }
             
-            // Check for duplicates
-            const exists = members.some(m => 
-                m.discord.toLowerCase() === discord.toLowerCase() || 
-                m.minecraft.toLowerCase() === minecraft.toLowerCase()
-            );
+            var isBannedPlayer = bannedPlayersList.find(function(p) { 
+                return p.username.toLowerCase() === username.toLowerCase(); 
+            });
+            if (isBannedPlayer) return showToast('You are banned from this shop', 'error');
             
-            if (exists) {
-                showToast('This member already exists!', 'error');
-                return;
+            currentUser = username;
+            userDiscord = discord;
+            userMinecraft = minecraft;
+            localStorage.setItem('burrowUser', currentUser);
+            localStorage.setItem('burrowDiscord', userDiscord);
+            localStorage.setItem('burrowMinecraft', userMinecraft);
+            
+            if (!allUsers.includes(currentUser)) {
+                allUsers.push(currentUser);
+                setAndSync('burrowAllUsers', allUsers);
             }
             
-            // If admin adds, auto-approve. If user adds, pending.
-            const autoApprove = isAdmin;
+            document.getElementById('currentUser').textContent = username;
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('userInfo').classList.add('show');
+            checkMaintenanceMode();
             
-            const member = {
-                id: Date.now(),
-                discord: discord,
-                minecraft: minecraft,
-                approved: autoApprove,
-                addedBy: currentUser,
-                addedAt: new Date().toISOString()
-            };
-            
-            if (autoApprove) {
-                member.approvedAt = new Date().toISOString();
-                member.approvedBy = currentUser;
+            if (username === 'HO121') {
+                showToast('Welcome, Shopkeeper!', 'success');
+                showStaffUI();
+            } else if (username === 'mod121') {
+                showToast('Welcome, Moderator!', 'success');
+                showModUI();
+            } else {
+                showToast(`Welcome to The Burrow, ${username}!`, 'success');
             }
-            
-            members.push(member);
-            saveMembers();
-            
+            renderItems();
+            updateRoleSelector();
+        }
+
+        function logout() {
+            if (!confirm('Exit your account? You will need to log in again.')) return;
+            currentUser = null;
+            userDiscord = '';
+            userMinecraft = '';
+            userBulkOrder = [];
+            ['burrowUser', 'burrowDiscord', 'burrowMinecraft', 'burrowBulkOrder'].forEach(function(k) { 
+                localStorage.removeItem(k); 
+            });
+            document.getElementById('usernameInput').value = '';
             document.getElementById('discordInput').value = '';
             document.getElementById('minecraftInput').value = '';
+            document.getElementById('loginForm').style.display = 'grid';
+            document.getElementById('userInfo').classList.remove('show');
+            document.querySelectorAll('#adminControls, #modControls, #supportList, #bannedUsers, #adminBulkOrders, #bulkLogs, #roleManagerPanel, #orderLogs, #announcementControls, #bannedPlayersPanel').forEach(function(el) { 
+                el.classList.remove('show'); 
+            });
+            document.getElementById('maintenanceOverlay').classList.remove('active');
+            renderItems();
+            showToast('You have exited your account', 'success');
+        }
+
+        function showStaffUI() {
+            document.getElementById('adminControls').classList.add('show');
+            document.getElementById('announcementControls').classList.add('show');
+            document.getElementById('bannedPlayersPanel').classList.add('show');
+            document.getElementById('supportList').classList.add('show');
+            document.getElementById('bannedUsers').classList.add('show');
+            document.getElementById('adminBulkOrders').classList.add('show');
+            document.getElementById('bulkLogs').classList.add('show');
+            document.getElementById('orderLogs').classList.add('show');
+            document.getElementById('modControls').classList.remove('show');
             
-            renderMembers();
-            
-            if (autoApprove) {
-                showToast('Member added and approved!', 'success');
+            const toggle = document.getElementById('maintenanceToggle');
+            const status = document.getElementById('maintenanceStatus');
+            if (maintenanceMode) {
+                toggle.classList.add('active');
+                status.textContent = 'ON';
+                status.classList.remove('maintenance-off');
+                status.classList.add('maintenance-on');
             } else {
-                showToast('Registration submitted! Awaiting admin approval.', 'success');
+                toggle.classList.remove('active');
+                status.textContent = 'OFF';
+                status.classList.remove('maintenance-on');
+                status.classList.add('maintenance-off');
             }
-            
-            setTimeout(() => {
-                document.querySelector('.members-section').scrollIntoView({ behavior: 'smooth' });
-            }, 100);
+            updateRoleSelector();
+            renderSupportList();
+            renderBannedList();
+            renderBannedPlayersList();
+            renderAdminOrders();
+            renderBulkLogs();
+            renderOrderLogs();
+            checkAnnouncement();
         }
 
-        function approveMember(id) {
-            if (!isAdmin) {
-                showToast('Only the administrator can approve members!', 'error');
-                return;
-            }
-            
-            const member = members.find(m => m.id === id);
-            if (member) {
-                member.approved = true;
-                member.approvedAt = new Date().toISOString();
-                member.approvedBy = currentUser;
-                saveMembers();
-                renderMembers();
-                showToast(`✓ ${member.discord} is now an approved member!`, 'success');
-            }
+        function showModUI() {
+            document.getElementById('modControls').classList.add('show');
+            document.getElementById('supportList').classList.add('show');
+            document.getElementById('bannedUsers').classList.add('show');
+            document.getElementById('adminBulkOrders').classList.add('show');
+            document.getElementById('adminControls').classList.remove('show');
+            document.getElementById('bulkLogs').classList.remove('show');
+            document.getElementById('orderLogs').classList.remove('show');
+            document.getElementById('roleManagerPanel').classList.remove('show');
+            document.getElementById('announcementControls').classList.remove('show');
+            document.getElementById('bannedPlayersPanel').classList.remove('show');
+            renderSupportList();
+            renderBannedList();
+            renderAdminOrders();
         }
 
-        function deleteMember(id) {
-            if (!isAdmin) {
-                showToast('Only the administrator can remove members!', 'error');
-                return;
-            }
-            
-            if (!confirm('Remove this member from the registry?')) return;
-            
-            members = members.filter(m => m.id !== id);
-            saveMembers();
-            renderMembers();
-            showToast('Member removed', 'success');
-        }
-
-        function openEditModal(id) {
-            if (!isAdmin) {
-                showToast('Only the administrator can edit members!', 'error');
-                return;
-            }
-            
-            const member = members.find(m => m.id === id);
-            if (!member) return;
-            
-            editingId = id;
-            document.getElementById('editDiscord').value = member.discord;
-            document.getElementById('editMinecraft').value = member.minecraft;
-            document.getElementById('editApproved').checked = member.approved;
-            document.getElementById('editModal').classList.add('show');
-        }
-
-        function closeEditModal() {
-            document.getElementById('editModal').classList.remove('show');
-            editingId = null;
-        }
-
-        function saveEdit() {
-            if (!isAdmin || !editingId) return;
-            
-            const discord = document.getElementById('editDiscord').value.trim();
-            const minecraft = document.getElementById('editMinecraft').value.trim();
-            const approved = document.getElementById('editApproved').checked;
-            
-            if (!discord || !minecraft) {
-                showToast('Please fill in both fields', 'error');
-                return;
-            }
-            
-            const member = members.find(m => m.id === editingId);
-            if (member) {
-                const wasApproved = member.approved;
-                member.discord = discord;
-                member.minecraft = minecraft;
-                member.approved = approved;
-                
-                if (approved && !wasApproved) {
-                    member.approvedAt = new Date().toISOString();
-                    member.approvedBy = currentUser;
+        /* ROLE MANAGEMENT */
+        function updateRoleSelector() {
+            if (currentUser !== 'HO121') return;
+            const select = document.getElementById('roleUserSelect');
+            select.innerHTML = '<option value="">Select User...</option>';
+            allUsers.forEach(function(user) {
+                if (user !== 'HO121' && user !== 'mod121' && user !== currentUser) {
+                    const option = document.createElement('option');
+                    option.value = user;
+                    option.textContent = user;
+                    select.appendChild(option);
                 }
-                
-                saveMembers();
-                renderMembers();
-                closeEditModal();
-                showToast('Member updated!', 'success');
+            });
+        }
+
+        function toggleRolePanel() {
+            const panel = document.getElementById('roleManagerPanel');
+            if (panel.classList.contains('show')) panel.classList.remove('show');
+            else {
+                panel.classList.add('show');
+                renderUserList();
             }
         }
 
-        function renderMembers() {
-            const container = document.getElementById('membersList');
-            const countBadge = document.getElementById('memberCount');
-            
-            countBadge.textContent = members.length;
-            
-            if (members.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">🌙</div>
-                        <p>No members registered yet. Be the first!</p>
+        function renderUserList() {
+            const container = document.getElementById('userListContainer');
+            let filteredUsers = allUsers.filter(function(user) { 
+                return user !== 'HO121' && user !== 'mod121' && user !== currentUser; 
+            });
+            if (filteredUsers.length === 0) {
+                container.innerHTML = '<p style="text-align:center;color:rgba(255,255,255,0.5);padding:20px;">No users found</p>';
+                return;
+            }
+            container.innerHTML = filteredUsers.map(function(user) {
+                const roles = userRoles[user] || [];
+                let roleTags = '';
+                if (roles.length > 0) {
+                    roleTags = roles.map(function(role) {
+                        const roleData = {
+                            buyer: { tag: '[Buyer]', class: 'buyer' },
+                            'rich-buyer': { tag: '[Rich Buyer]', class: 'rich-buyer' },
+                            rich: { tag: '[🤑Really Rich]', class: 'rich' },
+                            friend: { tag: '[Friend]', class: 'friend' }
+                        }[role];
+                        return `<span class="role-tag-display ${roleData.class}">${roleData.tag}</span>`;
+                    }).join('');
+                }
+                return `
+                    <div class="user-card" data-username="${user}">
+                        <div>
+                            <div class="user-name">${user}</div>
+                            <div class="user-roles">${roleTags}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <button class="role-remove-btn" onclick="removeAllRoles('${user}')" title="Remove all roles" style="margin-left: 0;">×</button>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function assignRole() {
+            const userSelect = document.getElementById('roleUserSelect');
+            const roleSelect = document.getElementById('roleTypeSelect');
+            const username = userSelect.value;
+            const role = roleSelect.value;
+            if (!username || !role) return showToast('Please select both user and role', 'error');
+            if (!userRoles[username]) userRoles[username] = [];
+            if (userRoles[username].includes(role)) return showToast('User already has this role', 'error');
+            userRoles[username].push(role);
+            setAndSync('burrowUserRoles', userRoles);
+            renderUserList();
+            renderItems();
+            showToast(`Assigned ${role} role to ${username}`, 'success');
+            userSelect.value = '';
+            roleSelect.value = '';
+        }
+
+        function removeAllRoles(username) {
+            if (currentUser !== 'HO121') return;
+            if (userRoles[username]) {
+                delete userRoles[username];
+                setAndSync('burrowUserRoles', userRoles);
+                renderUserList();
+                renderItems();
+                showToast(`Removed all roles from ${username}`, 'success');
+            }
+        }
+
+        /* ITEMS MANAGEMENT */
+        function addItem() {
+            if (currentUser !== 'HO121') return;
+            const name = document.getElementById('itemName').value.trim();
+            const price = document.getElementById('itemPrice').value.trim();
+            const type = document.getElementById('itemType').value;
+            const stock = document.getElementById('itemStock').value;
+            if (!name || !price) return showToast('Name and price required', 'error');
+            const newItem = { id: Date.now(), name: name, type: type, location: null, price: price, stock: stock };
+            items.push(newItem);
+            setAndSync('burrowItems', items);
+            document.getElementById('itemName').value = '';
+            document.getElementById('itemPrice').value = '';
+            renderItems();
+            showToast('Item added to shop', 'success');
+        }
+
+        function deleteItem(id) {
+            if (currentUser !== 'HO121') return;
+            if (!confirm('Delete this item from the shop?')) return;
+            items = items.filter(function(i) { return i.id !== id; });
+            setAndSync('burrowItems', items);
+            renderItems();
+            showToast('Item removed from shop', 'success');
+        }
+
+        function updateItemStock(id, newStock) {
+            if (currentUser !== 'HO121') return;
+            const item = items.find(function(i) { return i.id === id; });
+            if (!item) return;
+            item.stock = newStock;
+            setAndSync('burrowItems', items);
+            renderItems();
+            showToast(`Stock updated to ${newStock}`, 'success');
+        }
+
+        function renderItems() {
+            const container = document.getElementById('itemsContainer');
+            container.innerHTML = '';
+            let filtered = items;
+            if (currentFilter === 'in') filtered = items.filter(function(i) { return i.stock === 'in'; });
+            else if (currentFilter === 'out') filtered = items.filter(function(i) { return i.stock === 'out'; });
+            else if (currentFilter === 'limited') filtered = items.filter(function(i) { return i.stock === 'limited'; });
+            if (!filtered.length) {
+                container.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px;color:rgba(255,255,255,0.5)"><div style="font-size:4rem;margin-bottom:20px">📭</div><p>No items found</p></div>`;
+                return;
+            }
+            filtered.forEach(function(it) { container.appendChild(createItemCard(it)); });
+        }
+
+        function createItemCard(item) {
+            const div = document.createElement('div');
+            div.className = 'item-card';
+            const isStaff = currentUser === 'HO121';
+            const isMod = currentUser === 'mod121';
+            const isCustomer = currentUser && currentUser !== 'HO121' && currentUser !== 'mod121';
+            const userRolesDisplay = getUserRolesDisplay(currentUser);
+            let stockHtml = '';
+            if (isStaff) {
+                stockHtml = `
+                    <div class="stock-editor">
+                        <select class="stock-select ${item.stock}" onchange="updateItemStock(${item.id}, this.value)">
+                            <option value="in" ${item.stock === 'in' ? 'selected' : ''}>In Stock</option>
+                            <option value="out" ${item.stock === 'out' ? 'selected' : ''}>Out of Stock</option>
+                            <option value="limited" ${item.stock === 'limited' ? 'selected' : ''}>Limited</option>
+                        </select>
+                    </div>`;
+            }
+            div.innerHTML = `
+                <div class="item-info">
+                    <div class="item-name">${item.name} ${userRolesDisplay}</div>
+                    <div class="tags">
+                        <span class="tag tag-item">${item.type}</span>
+                        ${item.stock === 'limited' ? '<span class="tag tag-rarity">Limited</span>' : ''}
+                    </div>
+                </div>
+                <div class="item-details">
+                    <div class="price">${item.price}</div>
+                    <div class="stock-status ${item.stock === 'in' ? 'in-stock' : item.stock === 'limited' ? 'limited' : 'out-of-stock'}">
+                        ${item.stock === 'in' ? '✓ In Stock' : item.stock === 'limited' ? '⚠ Limited Stock' : '✗ Out of Stock'}
+                    </div>
+                    ${stockHtml}
+                    ${isCustomer ? `<button class="add-to-bulk" onclick="openEnhancedBulkModal(${item.id})">📦 Add to Bulk Order</button>` : ''}
+                </div>
+                ${isStaff ? `<button class="delete-btn" onclick="deleteItem(${item.id})">×</button>` : ''}
+            `;
+            return div;
+        }
+
+        function getUserRolesDisplay(username) {
+            if (username === 'mod121') return '';
+            if (!username || !userRoles[username]) return '';
+            const roles = userRoles[username];
+            if (roles.length === 0) return '';
+            return roles.map(function(role) {
+                const roleData = {
+                    buyer: { tag: '[Buyer]', class: 'buyer' },
+                    'rich-buyer': { tag: '[Rich Buyer]', class: 'rich-buyer' },
+                    rich: { tag: '[🤑Really Rich]', class: 'rich' },
+                    friend: { tag: '[Friend]', class: 'friend' }
+                }[role];
+                return `<span class="role-display ${roleData.class}">${roleData.tag}</span>`;
+            }).join('');
+        }
+
+        function getChatRoleDisplay(username) {
+            if (username === 'mod121') return '';
+            if (!username || !userRoles[username]) return '';
+            const roles = userRoles[username];
+            if (roles.length === 0) return '';
+            return roles.map(function(role) {
+                const roleData = {
+                    buyer: { tag: '[Buyer]', class: 'buyer' },
+                    'rich-buyer': { tag: '[Rich Buyer]', class: 'rich-buyer' },
+                    rich: { tag: '[🤑Really Rich]', class: 'rich' },
+                    friend: { tag: '[Friend]', class: 'friend' }
+                }[role];
+                return `<span class="chat-role-display ${roleData.class}">${roleData.tag}</span>`;
+            }).join('');
+        }
+
+        /* BULK ORDER SYSTEM */
+        function openEnhancedBulkModal(itemId) {
+            if (!currentUser || currentUser === 'HO121' || currentUser === 'mod121') return;
+            const item = items.find(function(i) { return i.id === itemId; });
+            if (!item) return;
+            const modal = document.createElement('div');
+            modal.className = 'chat-overlay show';
+            modal.style.display = 'flex';
+            modal.id = 'tempBulkModal';
+            modal.innerHTML = `
+                <div class="chat-container" style="max-width: 500px;">
+                    <div class="chat-header">
+                        <div class="chat-title">
+                            <span>📦</span>
+                            <span>Add ${item.name} to Order</span>
+                        </div>
+                        <button class="close-chat" onclick="document.getElementById('tempBulkModal').remove()">×</button>
+                    </div>
+                    <div style="padding: 30px;">
+                        <div style="margin-bottom: 20px; text-align: center;">
+                            <h3 style="color: var(--pink-primary); margin-bottom: 10px;">${item.name}</h3>
+                            <div style="color: rgba(255,255,255,0.7); font-size: 1.1rem;">${item.price} per item</div>
+                        </div>
+                        <div class="bulk-quantity-selector">
+                            <select class="bulk-type-select" id="bulkType">
+                                <option value="items">Items</option>
+                                <option value="stacks">Stacks (64 items)</option>
+                                <option value="shulkers">Shulkers (27 stacks)</option>
+                            </select>
+                            <input type="number" class="bulk-quantity-input" id="bulkQuantity" value="1" min="1" max="64">
+                        </div>
+                        <div style="margin: 20px 0; padding: 15px; background: rgba(255,105,180,0.1); border-radius: 12px; text-align: center;">
+                            <div style="color: #ffb6c1; font-size: 1.1rem;">Total: <span id="bulkTotal">1</span> items</div>
+                        </div>
+                        <button class="btn-confirm-order" onclick="addToEnhancedBulk(${item.id})">Add to Order</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            const typeSelect = modal.querySelector('#bulkType');
+            const quantityInput = modal.querySelector('#bulkQuantity');
+            const totalDisplay = modal.querySelector('#bulkTotal');
+            function calculateTotal() {
+                const type = typeSelect.value;
+                const quantity = parseInt(quantityInput.value) || 0;
+                let total = quantity;
+                switch(type) {
+                    case 'stacks': total = quantity * 64; break;
+                    case 'shulkers': total = quantity * 27 * 64; break;
+                }
+                totalDisplay.textContent = total.toLocaleString();
+            }
+            typeSelect.addEventListener('change', calculateTotal);
+            quantityInput.addEventListener('input', calculateTotal);
+            calculateTotal();
+        }
+
+        function addToEnhancedBulk(itemId) {
+            const modal = document.getElementById('tempBulkModal');
+            if (!modal) return;
+            const type = modal.querySelector('#bulkType').value;
+            const quantity = parseInt(modal.querySelector('#bulkQuantity').value) || 0;
+            if (quantity < 1) return showToast('Please enter a valid quantity', 'error');
+            const item = items.find(function(i) { return i.id === itemId; });
+            if (!item) return;
+            userBulkOrder = userBulkOrder.filter(function(b) { return b.id !== itemId; });
+            userBulkOrder.push({ id: itemId, name: item.name, price: item.price, type: type, quantity: quantity });
+            localStorage.setItem('burrowBulkOrder', JSON.stringify(userBulkOrder));
+            modal.remove();
+            showToast('Added to bulk order!', 'success');
+        }
+
+        function openBulkModal() {
+            if (!currentUser) return showToast('Log in first', 'error');
+            if (currentUser === 'HO121' || currentUser === 'mod121') return showToast('Staff cannot order', 'error');
+            document.getElementById('bulkModal').classList.add('show');
+            renderEnhancedBulkModal();
+        }
+
+        function closeBulkModal() {
+            document.getElementById('bulkModal').classList.remove('show');
+        }
+
+        function renderEnhancedBulkModal() {
+            const cont = document.getElementById('bulkModalContent');
+            if (!userBulkOrder.length) {
+                cont.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px; color: rgba(255,255,255,0.5);">
+                        <div style="font-size: 4rem; margin-bottom: 20px;">📭</div>
+                        <p>Your bulk order is empty</p>
+                        <p style="font-size: 0.9rem; margin-top: 10px;">Add items from the shop to get started!</p>
                     </div>`;
                 return;
             }
-            
-            // Sort: Approved first, then by date
-            const sortedMembers = [...members].sort((a, b) => {
-                if (a.approved === b.approved) return b.id - a.id;
-                return a.approved ? -1 : 1;
-            });
-            
-            container.innerHTML = sortedMembers.map(member => {
-                const isPending = !member.approved;
-                const badgeHtml = member.approved 
-                    ? '<span class="member-badge">Member</span>'
-                    : '<span class="pending-badge">Pending Approval</span>';
-                
-                const addedByText = `<div class="added-by">Added by: ${escapeHtml(member.addedBy)}</div>`;
-                
-                // Actions only for admin
-                let actionsHtml = '';
-                if (isAdmin) {
-                    actionsHtml = `
-                        <div class="member-actions">
-                            ${isPending ? `<button class="btn-approve" onclick="approveMember(${member.id})">✓ Approve</button>` : ''}
-                            <button class="btn-icon btn-edit" onclick="openEditModal(${member.id})" title="Edit">✏️</button>
-                            <button class="btn-icon btn-delete" onclick="deleteMember(${member.id})" title="Delete">🗑️</button>
-                        </div>
-                    `;
+            let total = 0, html = '';
+            userBulkOrder.forEach(function(b) {
+                const shop = items.find(function(i) { return i.id === b.id; });
+                if (!shop) return;
+                const priceNum = parseFloat(shop.price.replace(/[^0-9.]/g, '')) || 0;
+                let multiplier = 1, unit = 'items';
+                switch(b.type) {
+                    case 'stacks': multiplier = 64; unit = 'stacks'; break;
+                    case 'shulkers': multiplier = 27 * 64; unit = 'shulkers'; break;
                 }
-                
-                return `
-                    <div class="member-item ${member.approved ? 'approved' : 'pending'}">
-                        <div class="member-info">
-                            <div class="member-avatar">${member.discord.charAt(0).toUpperCase()}</div>
-                            <div>
-                                <div class="member-details">
-                                    <div class="member-names">
-                                        <span class="bullet">●</span>
-                                        <span class="username-pair">
-                                            <span class="discord-name">${escapeHtml(member.discord)}</span>
-                                            <span class="separator">>></span>
-                                            <span class="minecraft-name">${escapeHtml(member.minecraft)}</span>
-                                        </span>
-                                    </div>
-                                    ${badgeHtml}
-                                </div>
-                                ${addedByText}
-                            </div>
+                const sub = priceNum * multiplier * b.quantity;
+                total += sub;
+                html += `
+                    <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,105,180,0.3); border-radius: 12px; padding: 20px; margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <h4 style="color: #fff; margin: 0;">${b.name}</h4>
+                            <span style="color: #ffb6c1; font-size: 0.9rem;">${b.quantity} ${unit}</span>
                         </div>
-                        ${actionsHtml}
+                        <div style="color: rgba(255,255,255,0.7); margin-bottom: 15px;">
+                            ${shop.price} per item × ${multiplier} × ${b.quantity} ${unit} = ${sub} d
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: var(--pink-primary);">≈ ${(multiplier * b.quantity).toLocaleString()} items total</span>
+                            <button class="btn-remove" onclick="removeFromBulk(${b.id})" style="padding: 6px 12px; background: rgba(255,82,82,0.2); color: #ff5252; border: 1px solid #ff5252; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">Remove</button>
+                        </div>
+                    </div>`;
+            });
+            html += `
+                <div style="background: linear-gradient(135deg, rgba(255,105,180,0.1), rgba(105,240,174,0.1)); border: 2px solid var(--pink-primary); border-radius: 16px; padding: 25px; text-align: center; margin-top: 25px;">
+                    <h3>Total Order Value</h3>
+                    <div style="font-size: 2.5rem; font-weight: 700; color: #fff;">${total} d</div>
+                </div>
+                <button class="btn-confirm-order" onclick="submitEnhancedBulkOrder()" style="width: 100%; margin-top: 20px; padding: 15px; background: linear-gradient(135deg, var(--green-primary) 0%, #2e7d32 100%); color: #1a0b2e; border: none; border-radius: 12px; cursor: pointer; font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Submit Order</button>`;
+            cont.innerHTML = html;
+        }
+
+        function removeFromBulk(id) {
+            userBulkOrder = userBulkOrder.filter(function(b) { return b.id !== id; });
+            localStorage.setItem('burrowBulkOrder', JSON.stringify(userBulkOrder));
+            renderEnhancedBulkModal();
+        }
+
+        function submitEnhancedBulkOrder() {
+            if (!userBulkOrder.length) return showToast('Empty order', 'error');
+            const order = {
+                user: currentUser, 
+                discord: userDiscord, 
+                minecraft: userMinecraft,
+                items: userBulkOrder.slice(), 
+                timestamp: new Date().toISOString(),
+                id: Date.now(), 
+                completed: false
+            };
+            submittedOrders.push(order);
+            setAndSync('burrowSubmittedOrders', submittedOrders);
+            userBulkOrder = [];
+            localStorage.setItem('burrowBulkOrder', JSON.stringify(userBulkOrder));
+            renderEnhancedBulkModal();
+            showToast('Order submitted! Check Discord.', 'success');
+            setTimeout(closeBulkModal, 1500);
+        }
+
+        function viewOrderDetails(orderId) {
+            if (currentUser !== 'HO121' && currentUser !== 'mod121') return;
+            const order = submittedOrders.find(function(o) { return o.id === orderId; });
+            if (!order) return;
+            currentViewingOrder = order;
+            renderOrderView(order);
+            document.getElementById('orderViewModal').classList.add('show');
+        }
+
+        function closeOrderView() {
+            document.getElementById('orderViewModal').classList.remove('show');
+            currentViewingOrder = null;
+        }
+
+        function renderOrderView(order) {
+            const content = document.getElementById('orderViewContent');
+            let itemsHtml = '', total = 0;
+            const consolidatedItems = {};
+            order.items.forEach(function(item) {
+                const key = item.id + '-' + item.type;
+                if (consolidatedItems[key]) consolidatedItems[key].quantity += item.quantity;
+                else consolidatedItems[key] = Object.assign({}, item);
+            });
+            Object.values(consolidatedItems).forEach(function(item) {
+                const shop = items.find(function(i) { return i.id === item.id; });
+                if (!shop) return;
+                const priceNum = parseFloat(shop.price.replace(/[^0-9.]/g, '')) || 0;
+                let multiplier = 1, unit = 'items';
+                switch(item.type) {
+                    case 'stacks': multiplier = 64; unit = 'stacks'; break;
+                    case 'shulkers': multiplier = 27 * 64; unit = 'shulkers'; break;
+                }
+                const subtotal = priceNum * multiplier * item.quantity;
+                total += subtotal;
+                itemsHtml += `
+                    <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,105,180,0.3); border-radius: 12px; padding: 20px; margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <h4 style="color: #fff; margin: 0;">${item.name}</h4>
+                            <span style="color: #ffb6c1; font-size: 0.9rem;">${item.quantity} ${unit}</span>
+                        </div>
+                        <div style="color: rgba(255,255,255,0.7); margin-bottom: 15px;">
+                            ${shop.price} per item × ${multiplier} × ${item.quantity} ${unit} = ${subtotal} d
+                        </div>
+                        <div style="color: var(--pink-primary);">≈ ${(multiplier * item.quantity).toLocaleString()} items total</div>
+                    </div>`;
+            });
+            content.innerHTML = `
+                <div style="margin-bottom: 30px;">
+                    <h3 style="color: var(--pink-primary); margin-bottom: 15px;">Customer Information</h3>
+                    <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 12px;">
+                        <div style="margin-bottom: 10px;"><strong>Username:</strong> ${order.user}</div>
+                        <div style="margin-bottom: 10px;"><strong>Discord:</strong> ${order.discord}</div>
+                        <div style="margin-bottom: 10px;"><strong>Minecraft:</strong> ${order.minecraft}</div>
+                        <div><strong>Order Date:</strong> ${new Date(order.timestamp).toLocaleString()}</div>
                     </div>
-                `;
+                </div>
+                <div style="margin-bottom: 30px;">
+                    <h3 style="color: var(--pink-primary); margin-bottom: 15px;">Order Items</h3>
+                    ${itemsHtml}
+                </div>
+                <div style="background: linear-gradient(135deg, rgba(255,105,180,0.1), rgba(105,240,174,0.1)); border: 2px solid var(--pink-primary); border-radius: 16px; padding: 25px; text-align: center;">
+                    <h3>Total Order Value</h3>
+                    <div style="font-size: 2.5rem; font-weight: 700; color: #fff;">${total} d</div>
+                </div>
+                ${!order.completed ? `<button class="btn-confirm-order" onclick="confirmOrder(${order.id})">✓ Confirm Order</button>` : `<div style="text-align: center; padding: 20px; background: rgba(76, 175, 80, 0.1); border: 2px solid #4caf50; border-radius: 12px; color: #4caf50; font-weight: 700;">✓ Order Confirmed</div>`}
+            `;
+        }
+
+        function confirmOrder(orderId) {
+            if (currentUser !== 'HO121' && currentUser !== 'mod121') return;
+            const orderIndex = submittedOrders.findIndex(function(o) { return o.id === orderId; });
+            if (orderIndex === -1) return;
+            const order = submittedOrders[orderIndex];
+            order.completed = true;
+            order.completedAt = new Date().toISOString();
+            order.completedBy = currentUser;
+            const logEntry = Object.assign({}, order, { 
+                action: 'confirmed', 
+                timestamp: order.completedAt, 
+                performedBy: currentUser 
+            });
+            orderLogs.push(logEntry);
+            setAndSync('burrowOrderLogs', orderLogs);
+            bulkOrderLogs.push(Object.assign({}, order, { 
+                confirmedAt: order.completedAt, 
+                confirmedBy: currentUser 
+            }));
+            setAndSync('burrowBulkLogs', bulkOrderLogs);
+            submittedOrders.splice(orderIndex, 1);
+            setAndSync('burrowSubmittedOrders', submittedOrders);
+            renderAdminOrders();
+            renderBulkLogs();
+            renderOrderLogs();
+            closeOrderView();
+            showToast('Order confirmed and logged!', 'success');
+        }
+
+        function renderOrderLogs() {
+            if (currentUser !== 'HO121') return;
+            const container = document.getElementById('orderLogsContainer');
+            if (!orderLogs.length) {
+                container.innerHTML = '<p style="color:rgba(255,255,255,0.5);text-align:center">No order logs yet...</p>';
+                return;
+            }
+            container.innerHTML = orderLogs.slice().reverse().map(function(log) {
+                let itemsHtml = log.items.map(function(item) {
+                    let unit = 'items', multiplier = 1;
+                    switch(item.type) {
+                        case 'stacks': unit = 'stacks'; multiplier = 64; break;
+                        case 'shulkers': unit = 'shulkers'; multiplier = 27 * 64; break;
+                    }
+                    const totalItems = multiplier * item.quantity;
+                    return `<div>• ${item.name}: ${item.quantity} ${unit} (${totalItems.toLocaleString()} items)</div>`;
+                }).join('');
+                const actionColor = log.action === 'confirmed' ? '#4caf50' : '#ff5252';
+                const actionIcon = log.action === 'confirmed' ? '✓' : '✗';
+                return `
+                    <div class="log-entry" style="border-left: 4px solid ${actionColor};">
+                        <div class="log-customer">${log.user} ${actionIcon} ${log.action}</div>
+                        <div class="log-details">
+                            <div><strong>Discord:</strong> ${log.discord}</div>
+                            <div><strong>Items:</strong></div>${itemsHtml}
+                            <div><strong>Performed by:</strong> ${log.performedBy} at ${new Date(log.timestamp).toLocaleString()}</div>
+                        </div>
+                    </div>`;
             }).join('');
+        }
+
+        function renderBulkLogs() {
+            if (currentUser !== 'HO121') return;
+            const container = document.getElementById('logsContainer');
+            if (!bulkOrderLogs.length) {
+                container.innerHTML = '<p style="color:rgba(255,255,255,0.5);text-align:center">No completed orders yet...</p>';
+                return;
+            }
+            container.innerHTML = bulkOrderLogs.slice().reverse().map(function(log) {
+                let itemsHtml = log.items.map(function(item) {
+                    let unit = 'items', multiplier = 1;
+                    switch(item.type) {
+                        case 'stacks': unit = 'stacks'; multiplier = 64; break;
+                        case 'shulkers': unit = 'shulkers'; multiplier = 27 * 64; break;
+                    }
+                    const totalItems = multiplier * item.quantity;
+                    return `<div>• ${item.name}: ${item.quantity} ${unit} (${totalItems.toLocaleString()} items)</div>`;
+                }).join('');
+                return `
+                    <div class="log-entry">
+                        <div class="log-customer">${log.user}</div>
+                        <div class="log-details">
+                            <div><strong>Discord:</strong> ${log.discord}</div>
+                            <div><strong>Items:</strong></div>${itemsHtml}
+                            <div><strong>Confirmed by:</strong> ${log.confirmedBy} at ${new Date(log.confirmedAt).toLocaleString()}</div>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function clearAllOrders() {
+            if (!confirm('Clear ALL submitted orders?')) return;
+            const logEntry = { 
+                action: 'cleared', 
+                timestamp: new Date().toISOString(), 
+                performedBy: currentUser, 
+                orderCount: submittedOrders.length 
+            };
+            orderLogs.push(logEntry);
+            setAndSync('burrowOrderLogs', orderLogs);
+            submittedOrders = [];
+            setAndSync('burrowSubmittedOrders', submittedOrders);
+            renderAdminOrders();
+            renderOrderLogs();
+            showToast('All orders cleared', 'success');
+        }
+
+        /* CHAT SYSTEM */
+        function openGlobalChat() {
+            if (!currentUser) return showToast('Log in first', 'error');
+            if (bannedUsers.includes(currentUser.toLowerCase())) return showToast('Banned from chat', 'error');
+            currentChat = 'global';
+            currentSupportUser = null;
+            isStaffViewingSupport = false;
+            document.getElementById('globalChatOverlay').classList.add('show');
+            renderGlobalMessages();
+            scrollToBottom('globalMessages');
+            const muted = mutedUsers.includes(currentUser.toLowerCase());
+            document.getElementById('globalInput').disabled = muted;
+            document.getElementById('globalSendBtn').disabled = muted;
+            document.getElementById('globalMutedBanner').style.display = muted ? 'block' : 'none';
+        }
+
+        function openSupportChat() {
+            if (!currentUser) return showToast('Log in first', 'error');
+            if (bannedUsers.includes(currentUser.toLowerCase())) return showToast('Banned from chat', 'error');
+            currentChat = 'support';
+            currentSupportUser = currentUser;
+            isStaffViewingSupport = false;
+            document.getElementById('supportChatOverlay').classList.add('show');
+            document.getElementById('supportChatTitle').textContent = 'Support - ' + currentUser;
+            if (!supportChats[currentSupportUser]) supportChats[currentSupportUser] = [];
+            renderSupportMessages();
+            scrollToBottom('supportMessages');
+            const muted = mutedUsers.includes(currentUser.toLowerCase());
+            document.getElementById('supportInput').disabled = muted;
+            document.getElementById('supportSendBtn').disabled = muted;
+            document.getElementById('supportMutedBanner').style.display = muted ? 'block' : 'none';
+        }
+
+        function closeChat() {
+            document.getElementById('globalChatOverlay').classList.remove('show');
+            document.getElementById('supportChatOverlay').classList.remove('show');
+            currentChat = null;
+            currentSupportUser = null;
+            isStaffViewingSupport = false;
+        }
+
+        function sendGlobalMessage() {
+            const input = document.getElementById('globalInput');
+            const content = input.value.trim();
+            if (!content || !currentUser || mutedUsers.includes(currentUser.toLowerCase())) return;
+            const msg = {
+                id: Date.now(), 
+                author: currentUser, 
+                content: content,
+                timestamp: new Date().toISOString(), 
+                deleted: false,
+                isOwner: currentUser === 'HO121', 
+                isMod: currentUser === 'mod121'
+            };
+            globalMessages.push(msg);
+            setAndSync('burrowGlobalChat', globalMessages);
+            input.value = '';
+            renderGlobalMessages();
+            scrollToBottom('globalMessages');
+        }
+
+        function sendSupportMessage() {
+            const input = document.getElementById('supportInput');
+            const content = input.value.trim();
+            if (!content || !currentUser || mutedUsers.includes(currentUser.toLowerCase())) return;
+            var chatUser = isStaffViewingSupport ? currentSupportUser : currentUser;
+            if (!chatUser) return;
+            const msg = {
+                id: Date.now(), 
+                author: currentUser, 
+                content: content,
+                timestamp: new Date().toISOString(), 
+                deleted: false,
+                isOwner: currentUser === 'HO121', 
+                isMod: currentUser === 'mod121'
+            };
+            if (!supportChats[chatUser]) supportChats[chatUser] = [];
+            supportChats[chatUser].push(msg);
+            setAndSync('burrowSupportChats', supportChats);
+            input.value = '';
+            renderSupportMessages();
+            scrollToBottom('supportMessages');
+        }
+
+        function showToast(msg, type) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.className = 'toast ' + (type || 'success') + ' show';
+            setTimeout(function() { toast.classList.remove('show'); }, 3000);
+        }
+
+        function scrollToBottom(id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollTop = el.scrollHeight;
+        }
+
+        /* ADMIN/MOD FUNCTIONS */
+        function renderSupportList() {
+            if (currentUser !== 'HO121' && currentUser !== 'mod121') return;
+            const cont = document.getElementById('supportChatsContainer');
+            const users = Object.keys(supportChats).filter(function(u) { 
+                return u !== 'HO121' && u !== 'mod121'; 
+            });
+            if (!users.length) {
+                cont.innerHTML = '<p style="color:rgba(255,255,255,0.5);text-align:center;padding:40px">No support tickets</p>';
+                return;
+            }
+            cont.innerHTML = users.map(function(user) {
+                const msgs = supportChats[user] || [];
+                const last = msgs[msgs.length - 1];
+                const unread = msgs.filter(function(m) { 
+                    return !m.readByStaff && (m.author !== 'HO121' && m.author !== 'mod121'); 
+                }).length;
+                return `
+                    <div class="support-chat-item" onclick="openStaffSupportChat('${user}')" style="cursor:pointer">
+                        <div class="support-user-info">
+                            <h4>${user} ${unread > 0 ? '<span style="background:#ff5252;color:#fff;padding:2px 8px;border-radius:10px;font-size:0.7rem">' + unread + ' new</span>' : ''}</h4>
+                            <p>${last ? last.content.substring(0, 50) + '...' : 'No messages'}</p>
+                        </div>
+                        <div class="support-meta">
+                            <div class="support-time">${last ? new Date(last.timestamp).toLocaleTimeString() : ''}</div>
+                            <button class="btn-close-ticket" onclick="event.stopPropagation(); closeSupportTicket('${user}')" title="Close Ticket">✕ Close</button>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function renderBannedList() {
+            if (currentUser !== 'HO121' && currentUser !== 'mod121') return;
+            const cont = document.getElementById('bannedList');
+            const banned = bannedUsers.length;
+            const mutedOnly = mutedUsers.filter(function(u) { 
+                return !bannedUsers.includes(u); 
+            });
+            if (!banned && !mutedOnly.length) {
+                cont.innerHTML = '<p style="color:rgba(255,255,255,0.5);text-align:center">No banned or muted users</p>';
+                return;
+            }
+            var html = '';
+            if (banned) {
+                html += '<h4 style="color:#ff5252;margin-bottom:15px">🚫 Banned</h4>';
+                html += bannedUsers.map(function(u) {
+                    return `
+                    <div class="banned-item">
+                        <span class="banned-name">${u}</span>
+                        <button class="btn-unban" onclick="unbanUser('${u}')">Unban</button>
+                    </div>`;
+                }).join('');
+            }
+            if (mutedOnly.length) {
+                html += '<h4 style="color:#ff69b4;margin:20px 0 15px">🔇 Muted Only</h4>';
+                html += mutedOnly.map(function(u) {
+                    return `
+                    <div class="banned-item">
+                        <span class="banned-name" style="color:#ff69b4">${u}</span>
+                        <button class="btn-unmute" onclick="unmuteUser('${u}')">Unmute</button>
+                    </div>`;
+                }).join('');
+            }
+            cont.innerHTML = html;
+        }
+
+        function renderAdminOrders() {
+            if (currentUser !== 'HO121' && currentUser !== 'mod121') return;
+            const cont = document.getElementById('adminBulkList');
+            if (!submittedOrders.length) {
+                cont.innerHTML = '<div class="empty-orders"><div style="font-size:4rem;margin-bottom:20px">📭</div><p>No bulk orders yet</p></div>';
+                return;
+            }
+            cont.innerHTML = submittedOrders.map(function(order) {
+                const consolidatedItems = {};
+                order.items.forEach(function(item) {
+                    const key = item.id + '-' + item.type;
+                    if (consolidatedItems[key]) consolidatedItems[key].quantity += item.quantity;
+                    else consolidatedItems[key] = Object.assign({}, item);
+                });
+                let itemsHtml = Object.values(consolidatedItems).map(function(b) {
+                    let unit = 'items', multiplier = 1;
+                    switch(b.type) {
+                        case 'stacks': multiplier = 64; unit = 'stacks'; break;
+                        case 'shulkers': multiplier = 27 * 64; unit = 'shulkers'; break;
+                    }
+                    const totalItems = multiplier * b.quantity;
+                    return `
+                        <div class="bulk-order-item">
+                            <span class="bulk-item-name">${b.name}</span>
+                            <span class="bulk-item-qty">${b.quantity} ${unit} (${totalItems.toLocaleString()} items)</span>
+                        </div>`;
+                }).join('');
+                const total = Object.values(consolidatedItems).reduce(function(sum, b) {
+                    const shop = items.find(function(i) { return i.id === b.id; });
+                    const priceNum = parseFloat((shop ? shop.price : '0').replace(/[^0-9.]/g, '')) || 0;
+                    let multiplier = 1;
+                    switch(b.type) {
+                        case 'stacks': multiplier = 64; break;
+                        case 'shulkers': multiplier = 27 * 64; break;
+                    }
+                    return sum + (priceNum * multiplier * b.quantity);
+                }, 0);
+                return `
+                    <div class="bulk-order-card">
+                        <div class="bulk-order-header">
+                            <div>
+                                <div class="bulk-order-user">${order.user}</div>
+                                <div style="color:rgba(255,255,255,0.6);font-size:0.85rem;margin-top:5px">MC: ${order.minecraft} | Discord: ${order.discord}</div>
+                            </div>
+                            <div class="bulk-order-time">${new Date(order.timestamp).toLocaleString()}</div>
+                        </div>
+                        <div class="bulk-order-details">${itemsHtml}</div>
+                        <div class="bulk-order-total">Total: ${total} d</div>
+                        <div style="margin-top: 15px; display: flex; justify-content: flex-end; gap: 10px;">
+                            <button class="btn-view-order" onclick="viewOrderDetails(${order.id})">👁️ View Details</button>
+                            <button class="btn-completed" onclick="confirmOrder(${order.id})">✓ Confirm Order</button>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function closeSupportTicket(username) {
+            if (currentUser !== 'HO121' && currentUser !== 'mod121') return;
+            if (!confirm('Close ticket for ' + username + '?')) return;
+            delete supportChats[username];
+            setAndSync('burrowSupportChats', supportChats);
+            if (currentSupportUser === username) closeChat();
+            renderSupportList();
+            showToast('Ticket closed', 'success');
+        }
+
+        function openStaffSupportChat(username) {
+            if (currentUser !== 'HO121' && currentUser !== 'mod121') return;
+            currentChat = 'support';
+            currentSupportUser = username;
+            isStaffViewingSupport = true;
+            document.getElementById('supportChatOverlay').classList.add('show');
+            document.getElementById('supportChatTitle').textContent = 'Support - ' + username;
+            if (supportChats[username]) {
+                supportChats[username].forEach(function(m) {
+                    if (m.author !== 'HO121' && m.author !== 'mod121') m.readByStaff = true;
+                });
+                setAndSync('burrowSupportChats', supportChats);
+                renderSupportList();
+            }
+            renderSupportMessages();
+            scrollToBottom('supportMessages');
+        }
+
+        function deleteMessage(type, msgId) {
+            if (currentUser !== 'HO121' && currentUser !== 'mod121') return;
+            if (type === 'global') {
+                const msg = globalMessages.find(function(m) { return m.id === msgId; });
+                if (msg) {
+                    msg.deleted = true;
+                    setAndSync('burrowGlobalChat', globalMessages);
+                    renderGlobalMessages();
+                }
+            } else if (type === 'support' && currentSupportUser) {
+                const chat = supportChats[currentSupportUser];
+                if (chat) {
+                    const msg = chat.find(function(m) { return m.id === msgId; });
+                    if (msg) {
+                        msg.deleted = true;
+                        setAndSync('burrowSupportChats', supportChats);
+                        renderSupportMessages();
+                    }
+                }
+            }
+        }
+
+        function muteUser(username) {
+            if (currentUser !== 'HO121' && currentUser !== 'mod121') return;
+            if (username === 'HO121' || username === 'mod121') return;
+            if (!mutedUsers.includes(username.toLowerCase())) {
+                mutedUsers.push(username.toLowerCase());
+                setAndSync('burrowMuted', mutedUsers);
+                showToast(username + ' muted', 'success');
+            }
+        }
+
+        function unmuteUser(username) {
+            if (currentUser !== 'HO121' && currentUser !== 'mod121') return;
+            mutedUsers = mutedUsers.filter(function(u) { 
+                return u !== username.toLowerCase(); 
+            });
+            setAndSync('burrowMuted', mutedUsers);
+            renderBannedList();
+            showToast(username + ' unmuted', 'success');
+        }
+
+        function banUser(username) {
+            if (currentUser !== 'HO121' && currentUser !== 'mod121') return;
+            if (username === 'HO121' || username === 'mod121') return;
+            if (!bannedUsers.includes(username.toLowerCase())) {
+                bannedUsers.push(username.toLowerCase());
+                setAndSync('burrowBanned', bannedUsers);
+                showToast(username + ' banned', 'success');
+            }
+        }
+
+        function unbanUser(username) {
+            if (currentUser !== 'HO121' && currentUser !== 'mod121') return;
+            bannedUsers = bannedUsers.filter(function(u) { 
+                return u !== username.toLowerCase(); 
+            });
+            setAndSync('burrowBanned', bannedUsers);
+            renderBannedList();
+            showToast(username + ' unbanned', 'success');
+        }
+
+        function renderGlobalMessages() {
+            const box = document.getElementById('globalMessages');
+            box.innerHTML = globalMessages.map(function(m) { 
+                return createMessageHTML(m, 'global'); 
+            }).join('');
+        }
+
+        function renderSupportMessages() {
+            const box = document.getElementById('supportMessages');
+            if (!currentSupportUser || !supportChats[currentSupportUser]) {
+                box.innerHTML = '<p style="text-align:center;color:rgba(255,255,255,0.5);margin-top:40px">No messages yet. Start the conversation!</p>';
+                return;
+            }
+            box.innerHTML = supportChats[currentSupportUser].map(function(m) { 
+                return createMessageHTML(m, 'support'); 
+            }).join('');
+        }
+
+        function createMessageHTML(msg, type, className) {
+            const isStaffUser = currentUser === 'HO121';
+            const isModUser = currentUser === 'mod121';
+            const isOwn = msg.author === currentUser;
+            const isOwnerMsg = msg.isOwner || msg.author === 'HO121';
+            const isModMsg = msg.isMod || msg.author === 'mod121';
+            const time = new Date(msg.timestamp).toLocaleTimeString();
+            const chatRoleDisplay = getChatRoleDisplay(msg.author);
+            var actions = '';
+            if ((isStaffUser || isModUser) && !msg.deleted && msg.author !== 'HO121' && msg.author !== 'mod121') {
+                actions = `
+                    <div class="message-actions">
+                        <button class="msg-btn msg-btn-delete" onclick="deleteMessage('${type}', ${msg.id})">🗑 Delete</button>
+                        <button class="msg-btn msg-btn-mute" onclick="muteUser('${msg.author}')">🔇 Mute</button>
+                        <button class="msg-btn msg-btn-ban" onclick="banUser('${msg.author}')">🚫 Ban</button>
+                    </div>`;
+            }
+            const authorDisplay = isOwnerMsg ? '[OWNER]' : (isModMsg ? '[MOD]' : msg.author);
+            const authorClass = isOwnerMsg ? 'owner' : (isModMsg ? 'mod' : '');
+            var cls = className || 'chat-message ' + (isOwn ? 'own' : 'other');
+            if (msg.deleted) cls += ' deleted';
+            else if (isOwnerMsg) cls += ' owner-msg';
+            else if (isModMsg) cls += ' mod-msg';
+            return `
+                <div class="${cls}" data-msg-id="${msg.id}">
+                    <div class="message-header">
+                        <span class="message-author ${authorClass}">${chatRoleDisplay}${authorDisplay}</span>
+                        <span class="message-time">${time}</span>
+                    </div>
+                    <div class="message-content">${msg.deleted ? '<em>Message deleted by moderator</em>' : escapeHtml(msg.content)}</div>
+                    ${actions}
+                </div>`;
         }
 
         function escapeHtml(text) {
@@ -2041,63 +2405,6 @@
             div.textContent = text;
             return div.innerHTML;
         }
-
-        function exportData() {
-            if (members.length === 0) {
-                showToast('No members to export', 'error');
-                return;
-            }
-            
-            let text = '<<Members>>\\n\\n';
-            const approvedMembers = members.filter(m => m.approved);
-            const pendingMembers = members.filter(m => !m.approved);
-            
-            if (approvedMembers.length > 0) {
-                text += '✓ APPROVED MEMBERS:\\n';
-                approvedMembers.forEach(m => {
-                    text += `● ${m.discord} >> ${m.minecraft} [MEMBER]\\n`;
-                });
-                text += '\\n';
-            }
-            
-            if (pendingMembers.length > 0) {
-                text += '⏳ PENDING MEMBERS:\\n';
-                pendingMembers.forEach(m => {
-                    text += `● ${m.discord} >> ${m.minecraft} [PENDING]\\n`;
-                });
-            }
-            
-            const blob = new Blob([text], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'whispering-dreams-members.txt';
-            a.click();
-            
-            showToast('Exported to text file!', 'success');
-        }
-
-        function showToast(message, type) {
-            const toast = document.getElementById('toast');
-            const msg = document.getElementById('toastMessage');
-            
-            msg.textContent = message;
-            toast.className = `toast ${type} show`;
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
-        function logout() {
-            localStorage.removeItem(USER_KEY);
-            location.reload();
-        }
-
-        // Close modal on overlay click
-        document.getElementById('editModal').addEventListener('click', (e) => {
-            if (e.target.id === 'editModal') closeEditModal();
-        });
     </script>
 </body>
 </html>
