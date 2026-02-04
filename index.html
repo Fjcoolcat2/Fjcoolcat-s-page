@@ -959,15 +959,162 @@
         let currentSupportUser = null;
         let isStaffViewingSupport = false;
 
+        // Cross-tab communication using BroadcastChannel API with fallback
+        const CHANNEL_NAME = 'burrow_shop_channel';
+        let broadcastChannel = null;
+        
+        // Try to create BroadcastChannel, fallback to localStorage polling if not supported
+        try {
+            if (typeof BroadcastChannel !== 'undefined') {
+                broadcastChannel = new BroadcastChannel(CHANNEL_NAME);
+            }
+        } catch (e) {
+            console.log('BroadcastChannel not supported, using fallback');
+        }
+
+        /* CROSS-TAB COMMUNICATION FUNCTIONS */
+        function broadcastUpdate(type, data) {
+            const message = { type, data, timestamp: Date.now(), senderId: getSenderId() };
+            
+            // Use BroadcastChannel if available
+            if (broadcastChannel) {
+                broadcastChannel.postMessage(message);
+            }
+            
+            // Also use localStorage for broader compatibility and cross-origin scenarios
+            try {
+                const key = 'burrow_broadcast_' + Date.now();
+                localStorage.setItem(key, JSON.stringify(message));
+                setTimeout(() => localStorage.removeItem(key), 100);
+            } catch (e) {}
+        }
+
+        function getSenderId() {
+            if (!window.__senderId) {
+                window.__senderId = 'user_' + Math.random().toString(36).substr(2, 9);
+            }
+            return window.__senderId;
+        }
+
+        function handleBroadcastMessage(message) {
+            if (message.senderId === getSenderId()) return; // Ignore own messages
+            
+            switch(message.type) {
+                case 'items':
+                    items = message.data;
+                    localStorage.setItem('burrowItems', JSON.stringify(items));
+                    renderItems();
+                    break;
+                case 'globalChat':
+                    globalMessages = message.data;
+                    localStorage.setItem('burrowGlobalChat', JSON.stringify(globalMessages));
+                    if (currentChat === 'global') {
+                        renderGlobalMessages();
+                        scrollToBottom('globalMessages');
+                    }
+                    break;
+                case 'supportChats':
+                    supportChats = message.data;
+                    localStorage.setItem('burrowSupportChats', JSON.stringify(supportChats));
+                    if (currentChat === 'support') {
+                        renderSupportMessages();
+                        scrollToBottom('supportMessages');
+                    }
+                    if (currentUser === 'HO121' || currentUser === 'mod121') {
+                        renderSupportList();
+                    }
+                    break;
+                case 'submittedOrders':
+                    submittedOrders = message.data;
+                    localStorage.setItem('burrowSubmittedOrders', JSON.stringify(submittedOrders));
+                    if (currentUser === 'HO121' || currentUser === 'mod121') renderAdminOrders();
+                    break;
+                case 'userRoles':
+                    userRoles = message.data;
+                    localStorage.setItem('burrowUserRoles', JSON.stringify(userRoles));
+                    renderItems();
+                    if (currentChat === 'global') renderGlobalMessages();
+                    if (currentChat === 'support') renderSupportMessages();
+                    break;
+                case 'announcement':
+                    announcement = message.data;
+                    localStorage.setItem('burrowAnnouncement', JSON.stringify(announcement));
+                    checkAnnouncement();
+                    break;
+                case 'maintenance':
+                    maintenanceMode = message.data;
+                    localStorage.setItem('burrowMaintenance', JSON.stringify(maintenanceMode));
+                    checkMaintenanceMode();
+                    break;
+                case 'bannedPlayers':
+                    bannedPlayersList = message.data;
+                    localStorage.setItem('burrowBannedPlayers', JSON.stringify(bannedPlayersList));
+                    if (currentUser === 'HO121') renderBannedPlayersList();
+                    break;
+                case 'banned':
+                    bannedUsers = message.data;
+                    localStorage.setItem('burrowBanned', JSON.stringify(bannedUsers));
+                    if (currentUser === 'HO121' || currentUser === 'mod121') renderBannedList();
+                    break;
+                case 'muted':
+                    mutedUsers = message.data;
+                    localStorage.setItem('burrowMuted', JSON.stringify(mutedUsers));
+                    if (currentUser === 'HO121' || currentUser === 'mod121') renderBannedList();
+                    break;
+                case 'allUsers':
+                    allUsers = message.data;
+                    localStorage.setItem('burrowAllUsers', JSON.stringify(allUsers));
+                    if (currentUser === 'HO121') {
+                        updateRoleSelector();
+                        renderUserList();
+                    }
+                    break;
+                case 'bulkLogs':
+                    bulkOrderLogs = message.data;
+                    localStorage.setItem('burrowBulkLogs', JSON.stringify(bulkOrderLogs));
+                    if (currentUser === 'HO121') renderBulkLogs();
+                    break;
+                case 'orderLogs':
+                    orderLogs = message.data;
+                    localStorage.setItem('burrowOrderLogs', JSON.stringify(orderLogs));
+                    if (currentUser === 'HO121') renderOrderLogs();
+                    break;
+            }
+        }
+
+        function syncLocalStorage(key, value) {
+            localStorage.setItem(key, JSON.stringify(value));
+            // Determine broadcast type from key
+            const typeMap = {
+                'burrowItems': 'items',
+                'burrowGlobalChat': 'globalChat',
+                'burrowSupportChats': 'supportChats',
+                'burrowSubmittedOrders': 'submittedOrders',
+                'burrowUserRoles': 'userRoles',
+                'burrowAnnouncement': 'announcement',
+                'burrowMaintenance': 'maintenance',
+                'burrowBannedPlayers': 'bannedPlayers',
+                'burrowBanned': 'banned',
+                'burrowMuted': 'muted',
+                'burrowAllUsers': 'allUsers',
+                'burrowBulkLogs': 'bulkLogs',
+                'burrowOrderLogs': 'orderLogs'
+            };
+            const type = typeMap[key];
+            if (type) {
+                broadcastUpdate(type, value);
+            }
+        }
+
         /* INITIALIZATION */
         window.onload = () => {
             createParticles();
             setupEventListeners();
+            setupBroadcastListeners();
             checkMaintenanceMode();
             checkAnnouncement();
             if (currentUser) restoreLogin();
             renderItems();
-            setupStorageListener();
         };
 
         function createParticles() {
@@ -999,83 +1146,103 @@
             if (supportInput) supportInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendSupportMessage(); });
         }
 
-        /* REAL-TIME SYNC USING STORAGE EVENTS */
-        function setupStorageListener() {
+        /* BROADCAST LISTENERS SETUP */
+        function setupBroadcastListeners() {
+            // BroadcastChannel listener
+            if (broadcastChannel) {
+                broadcastChannel.onmessage = (event) => {
+                    handleBroadcastMessage(event.data);
+                };
+            }
+
+            // localStorage fallback for cross-tab communication
             window.addEventListener('storage', (e) => {
-                if (!e.key) return;
+                // Handle regular localStorage changes from other tabs
+                if (e.key && e.key.startsWith('burrow') && !e.key.startsWith('burrow_broadcast')) {
+                    handleStorageChange(e.key, e.newValue);
+                }
                 
-                const key = e.key;
-                const newValue = e.newValue ? JSON.parse(e.newValue) : null;
-                
-                switch(key) {
-                    case 'burrowGlobalChat':
-                        globalMessages = newValue || [];
-                        if (currentChat === 'global') {
-                            renderGlobalMessages();
-                            scrollToBottom('globalMessages');
-                        }
-                        break;
-                    case 'burrowSupportChats':
-                        supportChats = newValue || {};
-                        if (currentChat === 'support') {
-                            renderSupportMessages();
-                            scrollToBottom('supportMessages');
-                        }
-                        if (currentUser === 'HO121' || currentUser === 'mod121') {
-                            renderSupportList();
-                        }
-                        break;
-                    case 'burrowSubmittedOrders':
-                        submittedOrders = newValue || [];
-                        if (currentUser === 'HO121' || currentUser === 'mod121') renderAdminOrders();
-                        break;
-                    case 'burrowItems':
-                        items = newValue || [];
-                        renderItems();
-                        break;
-                    case 'burrowUserRoles':
-                        userRoles = newValue || {};
-                        renderItems();
-                        if (currentChat === 'global') renderGlobalMessages();
-                        if (currentChat === 'support') renderSupportMessages();
-                        break;
-                    case 'burrowAnnouncement':
-                        announcement = newValue || { text: '', active: false };
-                        checkAnnouncement();
-                        break;
-                    case 'burrowMaintenance':
-                        maintenanceMode = newValue || false;
-                        checkMaintenanceMode();
-                        break;
-                    case 'burrowBannedPlayers':
-                        bannedPlayersList = newValue || [];
-                        if (currentUser === 'HO121') renderBannedPlayersList();
-                        break;
-                    case 'burrowBanned':
-                        bannedUsers = newValue || [];
-                        if (currentUser === 'HO121' || currentUser === 'mod121') renderBannedList();
-                        break;
-                    case 'burrowMuted':
-                        mutedUsers = newValue || [];
-                        if (currentUser === 'HO121' || currentUser === 'mod121') renderBannedList();
-                        break;
-                    case 'burrowAllUsers':
-                        allUsers = newValue || [];
-                        if (currentUser === 'HO121') {
-                            updateRoleSelector();
-                            renderUserList();
-                        }
-                        break;
-                    case 'burrowBulkLogs':
-                        bulkOrderLogs = newValue || [];
-                        if (currentUser === 'HO121') renderBulkLogs();
-                        break;
-                    case 'burrowOrderLogs':
-                        orderLogs = newValue || [];
-                        if (currentUser === 'HO121') renderOrderLogs();
-                        break;
+                // Handle broadcast messages
+                if (e.key && e.key.startsWith('burrow_broadcast_')) {
+                    try {
+                        const message = JSON.parse(e.newValue);
+                        if (message) handleBroadcastMessage(message);
+                    } catch (err) {}
                 }
             });
+        }
+
+        function handleStorageChange(key, newValue) {
+            const value = newValue ? JSON.parse(newValue) : null;
+            
+            switch(key) {
+                case 'burrowGlobalChat':
+                    globalMessages = value || [];
+                    if (currentChat === 'global') {
+                        renderGlobalMessages();
+                        scrollToBottom('globalMessages');
+                    }
+                    break;
+                case 'burrowSupportChats':
+                    supportChats = value || {};
+                    if (currentChat === 'support') {
+                        renderSupportMessages();
+                        scrollToBottom('supportMessages');
+                    }
+                    if (currentUser === 'HO121' || currentUser === 'mod121') {
+                        renderSupportList();
+                    }
+                    break;
+                case 'burrowSubmittedOrders':
+                    submittedOrders = value || [];
+                    if (currentUser === 'HO121' || currentUser === 'mod121') renderAdminOrders();
+                    break;
+                case 'burrowItems':
+                    items = value || [];
+                    renderItems();
+                    break;
+                case 'burrowUserRoles':
+                    userRoles = value || {};
+                    renderItems();
+                    if (currentChat === 'global') renderGlobalMessages();
+                    if (currentChat === 'support') renderSupportMessages();
+                    break;
+                case 'burrowAnnouncement':
+                    announcement = value || { text: '', active: false };
+                    checkAnnouncement();
+                    break;
+                case 'burrowMaintenance':
+                    maintenanceMode = value || false;
+                    checkMaintenanceMode();
+                    break;
+                case 'burrowBannedPlayers':
+                    bannedPlayersList = value || [];
+                    if (currentUser === 'HO121') renderBannedPlayersList();
+                    break;
+                case 'burrowBanned':
+                    bannedUsers = value || [];
+                    if (currentUser === 'HO121' || currentUser === 'mod121') renderBannedList();
+                    break;
+                case 'burrowMuted':
+                    mutedUsers = value || [];
+                    if (currentUser === 'HO121' || currentUser === 'mod121') renderBannedList();
+                    break;
+                case 'burrowAllUsers':
+                    allUsers = value || [];
+                    if (currentUser === 'HO121') {
+                        updateRoleSelector();
+                        renderUserList();
+                    }
+                    break;
+                case 'burrowBulkLogs':
+                    bulkOrderLogs = value || [];
+                    if (currentUser === 'HO121') renderBulkLogs();
+                    break;
+                case 'burrowOrderLogs':
+                    orderLogs = value || [];
+                    if (currentUser === 'HO121') renderOrderLogs();
+                    break;
+            }
         }
 
         /* MAINTENANCE MODE FUNCTIONS */
@@ -1092,7 +1259,7 @@
         function toggleMaintenance() {
             if (currentUser !== 'HO121') return;
             maintenanceMode = !maintenanceMode;
-            localStorage.setItem('burrowMaintenance', JSON.stringify(maintenanceMode));
+            syncLocalStorage('burrowMaintenance', maintenanceMode);
             
             const toggle = document.getElementById('maintenanceToggle');
             const status = document.getElementById('maintenanceStatus');
@@ -1134,7 +1301,7 @@
             if (!text) return showToast('Please enter an announcement message', 'error');
             
             announcement = { text: text, active: true, timestamp: new Date().toISOString() };
-            localStorage.setItem('burrowAnnouncement', JSON.stringify(announcement));
+            syncLocalStorage('burrowAnnouncement', announcement);
             checkAnnouncement();
             showToast('Announcement posted!', 'success');
         }
@@ -1142,7 +1309,7 @@
         function clearAnnouncement() {
             if (currentUser !== 'HO121') return;
             announcement = { text: '', active: false };
-            localStorage.setItem('burrowAnnouncement', JSON.stringify(announcement));
+            syncLocalStorage('burrowAnnouncement', announcement);
             document.getElementById('announcementInput').value = '';
             checkAnnouncement();
             showToast('Announcement cleared', 'success');
@@ -1187,10 +1354,10 @@
             }
             const banEntry = { username: username, reason: reason, bannedAt: new Date().toISOString(), bannedBy: currentUser };
             bannedPlayersList.push(banEntry);
-            localStorage.setItem('burrowBannedPlayers', JSON.stringify(bannedPlayersList));
+            syncLocalStorage('burrowBannedPlayers', bannedPlayersList);
             if (!bannedUsers.includes(username.toLowerCase())) {
                 bannedUsers.push(username.toLowerCase());
-                localStorage.setItem('burrowBanned', JSON.stringify(bannedUsers));
+                syncLocalStorage('burrowBanned', bannedUsers);
             }
             usernameInput.value = '';
             reasonInput.value = '';
@@ -1201,9 +1368,9 @@
         function unbanPlayer(username) {
             if (currentUser !== 'HO121') return;
             bannedPlayersList = bannedPlayersList.filter(p => p.username.toLowerCase() !== username.toLowerCase());
-            localStorage.setItem('burrowBannedPlayers', JSON.stringify(bannedPlayersList));
+            syncLocalStorage('burrowBannedPlayers', bannedPlayersList);
             bannedUsers = bannedUsers.filter(u => u !== username.toLowerCase());
-            localStorage.setItem('burrowBanned', JSON.stringify(bannedUsers));
+            syncLocalStorage('burrowBanned', bannedUsers);
             renderBannedPlayersList();
             showToast(`Player "${username}" has been unbanned`, 'success');
         }
@@ -1237,7 +1404,7 @@
             
             if (!allUsers.includes(currentUser)) {
                 allUsers.push(currentUser);
-                localStorage.setItem('burrowAllUsers', JSON.stringify(allUsers));
+                syncLocalStorage('burrowAllUsers', allUsers);
             }
             
             document.getElementById('currentUser').textContent = username;
@@ -1393,7 +1560,7 @@
             if (!userRoles[username]) userRoles[username] = [];
             if (userRoles[username].includes(role)) return showToast('User already has this role', 'error');
             userRoles[username].push(role);
-            localStorage.setItem('burrowUserRoles', JSON.stringify(userRoles));
+            syncLocalStorage('burrowUserRoles', userRoles);
             renderUserList();
             renderItems();
             showToast(`Assigned ${role} role to ${username}`, 'success');
@@ -1405,7 +1572,7 @@
             if (currentUser !== 'HO121') return;
             if (userRoles[username]) {
                 delete userRoles[username];
-                localStorage.setItem('burrowUserRoles', JSON.stringify(userRoles));
+                syncLocalStorage('burrowUserRoles', userRoles);
                 renderUserList();
                 renderItems();
                 showToast(`Removed all roles from ${username}`, 'success');
@@ -1422,7 +1589,7 @@
             if (!name || !price) return showToast('Name and price required', 'error');
             const newItem = { id: Date.now(), name, type, location: null, price, stock };
             items.push(newItem);
-            localStorage.setItem('burrowItems', JSON.stringify(items));
+            syncLocalStorage('burrowItems', items);
             document.getElementById('itemName').value = '';
             document.getElementById('itemPrice').value = '';
             renderItems();
@@ -1433,7 +1600,7 @@
             if (currentUser !== 'HO121') return;
             if (!confirm('Delete this item from the shop?')) return;
             items = items.filter(i => i.id !== id);
-            localStorage.setItem('burrowItems', JSON.stringify(items));
+            syncLocalStorage('burrowItems', items);
             renderItems();
             showToast('Item removed from shop', 'success');
         }
@@ -1443,7 +1610,7 @@
             const item = items.find(i => i.id === id);
             if (!item) return;
             item.stock = newStock;
-            localStorage.setItem('burrowItems', JSON.stringify(items));
+            syncLocalStorage('burrowItems', items);
             renderItems();
             showToast(`Stock updated to ${newStock}`, 'success');
         }
@@ -1684,7 +1851,7 @@
                 id: Date.now(), completed: false
             };
             submittedOrders.push(order);
-            localStorage.setItem('burrowSubmittedOrders', JSON.stringify(submittedOrders));
+            syncLocalStorage('burrowSubmittedOrders', submittedOrders);
             userBulkOrder = [];
             localStorage.setItem('burrowBulkOrder', JSON.stringify(userBulkOrder));
             renderEnhancedBulkModal();
@@ -1770,11 +1937,11 @@
             order.completedBy = currentUser;
             const logEntry = { ...order, action: 'confirmed', timestamp: order.completedAt, performedBy: currentUser };
             orderLogs.push(logEntry);
-            localStorage.setItem('burrowOrderLogs', JSON.stringify(orderLogs));
+            syncLocalStorage('burrowOrderLogs', orderLogs);
             bulkOrderLogs.push({ ...order, confirmedAt: order.completedAt, confirmedBy: currentUser });
-            localStorage.setItem('burrowBulkLogs', JSON.stringify(bulkOrderLogs));
+            syncLocalStorage('burrowBulkLogs', bulkOrderLogs);
             submittedOrders.splice(orderIndex, 1);
-            localStorage.setItem('burrowSubmittedOrders', JSON.stringify(submittedOrders));
+            syncLocalStorage('burrowSubmittedOrders', submittedOrders);
             renderAdminOrders();
             renderBulkLogs();
             renderOrderLogs();
@@ -1846,9 +2013,9 @@
             if (!confirm('Clear ALL submitted orders?')) return;
             const logEntry = { action: 'cleared', timestamp: new Date().toISOString(), performedBy: currentUser, orderCount: submittedOrders.length };
             orderLogs.push(logEntry);
-            localStorage.setItem('burrowOrderLogs', JSON.stringify(orderLogs));
+            syncLocalStorage('burrowOrderLogs', orderLogs);
             submittedOrders = [];
-            localStorage.setItem('burrowSubmittedOrders', JSON.stringify(submittedOrders));
+            syncLocalStorage('burrowSubmittedOrders', submittedOrders);
             renderAdminOrders();
             renderOrderLogs();
             showToast('All orders cleared', 'success');
@@ -1905,7 +2072,7 @@
                 isOwner: currentUser === 'HO121', isMod: currentUser === 'mod121'
             };
             globalMessages.push(msg);
-            localStorage.setItem('burrowGlobalChat', JSON.stringify(globalMessages));
+            syncLocalStorage('burrowGlobalChat', globalMessages);
             input.value = '';
             renderGlobalMessages();
             scrollToBottom('globalMessages');
@@ -1924,7 +2091,7 @@
             };
             if (!supportChats[chatUser]) supportChats[chatUser] = [];
             supportChats[chatUser].push(msg);
-            localStorage.setItem('burrowSupportChats', JSON.stringify(supportChats));
+            syncLocalStorage('burrowSupportChats', supportChats);
             input.value = '';
             renderSupportMessages();
             scrollToBottom('supportMessages');
@@ -2058,7 +2225,7 @@
             if (currentUser !== 'HO121' && currentUser !== 'mod121') return;
             if (!confirm(`Close ticket for ${username}?`)) return;
             delete supportChats[username];
-            localStorage.setItem('burrowSupportChats', JSON.stringify(supportChats));
+            syncLocalStorage('burrowSupportChats', supportChats);
             if (currentSupportUser === username) closeChat();
             renderSupportList();
             showToast('Ticket closed', 'success');
@@ -2075,7 +2242,7 @@
                 supportChats[username].forEach(m => {
                     if (m.author !== 'HO121' && m.author !== 'mod121') m.readByStaff = true;
                 });
-                localStorage.setItem('burrowSupportChats', JSON.stringify(supportChats));
+                syncLocalStorage('burrowSupportChats', supportChats);
                 renderSupportList();
             }
             renderSupportMessages();
@@ -2088,7 +2255,7 @@
                 const msg = globalMessages.find(m => m.id === msgId);
                 if (msg) {
                     msg.deleted = true;
-                    localStorage.setItem('burrowGlobalChat', JSON.stringify(globalMessages));
+                    syncLocalStorage('burrowGlobalChat', globalMessages);
                     renderGlobalMessages();
                 }
             } else if (type === 'support' && currentSupportUser) {
@@ -2097,7 +2264,7 @@
                     const msg = chat.find(m => m.id === msgId);
                     if (msg) {
                         msg.deleted = true;
-                        localStorage.setItem('burrowSupportChats', JSON.stringify(supportChats));
+                        syncLocalStorage('burrowSupportChats', supportChats);
                         renderSupportMessages();
                     }
                 }
@@ -2109,7 +2276,7 @@
             if (username === 'HO121' || username === 'mod121') return;
             if (!mutedUsers.includes(username.toLowerCase())) {
                 mutedUsers.push(username.toLowerCase());
-                localStorage.setItem('burrowMuted', JSON.stringify(mutedUsers));
+                syncLocalStorage('burrowMuted', mutedUsers);
                 showToast(`${username} muted`, 'success');
             }
         }
@@ -2117,7 +2284,7 @@
         function unmuteUser(username) {
             if (currentUser !== 'HO121' && currentUser !== 'mod121') return;
             mutedUsers = mutedUsers.filter(u => u !== username.toLowerCase());
-            localStorage.setItem('burrowMuted', JSON.stringify(mutedUsers));
+            syncLocalStorage('burrowMuted', mutedUsers);
             renderBannedList();
             showToast(`${username} unmuted`, 'success');
         }
@@ -2127,7 +2294,7 @@
             if (username === 'HO121' || username === 'mod121') return;
             if (!bannedUsers.includes(username.toLowerCase())) {
                 bannedUsers.push(username.toLowerCase());
-                localStorage.setItem('burrowBanned', JSON.stringify(bannedUsers));
+                syncLocalStorage('burrowBanned', bannedUsers);
                 showToast(`${username} banned`, 'success');
             }
         }
@@ -2135,7 +2302,7 @@
         function unbanUser(username) {
             if (currentUser !== 'HO121' && currentUser !== 'mod121') return;
             bannedUsers = bannedUsers.filter(u => u !== username.toLowerCase());
-            localStorage.setItem('burrowBanned', JSON.stringify(bannedUsers));
+            syncLocalStorage('burrowBanned', bannedUsers);
             renderBannedList();
             showToast(`${username} unbanned`, 'success');
         }
