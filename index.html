@@ -2258,4 +2258,72 @@
             if (ticket) {
                 ticket.status = 'open';
                 ticket.claimedBy = null;
-                localStorage.setItem('outlandTickets', JSON
+                localStorage.setItem('outlandTickets', JSON.stringify(tickets));
+                renderTickets();
+                showToast('Ticket reopened!', 'success');
+            }
+        }
+
+        function updateTicketStats() {
+            const openCount = tickets.filter(t => t.status === 'open').length;
+            document.getElementById('adminOpenTickets').textContent = openCount;
+        }
+
+        // Utilities
+        function copyIP(ip) {
+            navigator.clipboard.writeText(ip).then(() => {
+                const display = document.querySelector('.ip-display');
+                display.classList.add('copied');
+                setTimeout(() => display.classList.remove('copied'), 2000);
+                showToast('IP copied to clipboard!', 'success');
+            });
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            const icon = toast.querySelector('i');
+            
+            msg.textContent = message;
+            toast.className = 'toast show ' + type;
+            
+            icon.className = type === 'error' ? 'fas fa-exclamation-circle' : 'fas fa-check-circle';
+            
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function toggleMobileMenu() {
+            const nav = document.querySelector('.nav-links');
+            nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function postAnnouncement() {
+            const text = prompt('Enter announcement text:');
+            if (text) {
+                const container = document.getElementById('announcementsContainer');
+                const banner = document.createElement('div');
+                banner.className = 'announcement-banner';
+                banner.innerHTML = `
+                    <i class="fas fa-bullhorn"></i>
+                    <div class="announcement-content">
+                        <h3>Staff Announcement</h3>
+                        <p>${escapeHtml(text)}</p>
+                    </div>
+                `;
+                container.insertBefore(banner, container.firstChild);
+                showToast('Announcement posted!', 'success');
+            }
+        }
+
+        function viewLogs() {
+            showToast('Log viewer would open here (connect to backend)', 'success');
+        }
+    </script>
+</body>
+</html>
