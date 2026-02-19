@@ -1,85 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MineCord</title>
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
-}
-
 body {
+  margin: 0;
   display: flex;
   height: 100vh;
+  font-family: Arial;
   background: #1e1f22;
   color: white;
 }
 
-/* LEFT SERVER BAR */
 .server-bar {
-  width: 72px;
+  width: 70px;
   background: #18191c;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px 0;
-  gap: 12px;
+  padding-top: 10px;
 }
 
 .server-icon {
-  width: 48px;
-  height: 48px;
+  width: 50px;
+  height: 50px;
+  margin: 8px 0;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ff4fd8, #8a2be2);
+  background: linear-gradient(135deg, hotpink, purple);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
   cursor: pointer;
-  transition: 0.2s;
 }
 
-.server-icon:hover {
-  border-radius: 16px;
-}
-
-/* CHANNEL SIDEBAR */
 .channel-bar {
-  width: 240px;
+  width: 220px;
   background: #2b2d31;
-  display: flex;
-  flex-direction: column;
-}
-
-.server-header {
-  padding: 16px;
-  font-weight: bold;
-  background: linear-gradient(90deg, #ff4fd8, #8a2be2);
-  text-align: center;
-}
-
-.channel-list {
   padding: 10px;
-  flex: 1;
+}
+
+.server-title {
+  font-weight: bold;
+  padding: 10px;
+  background: linear-gradient(90deg, hotpink, purple);
+  text-align: center;
 }
 
 .channel {
   padding: 8px;
-  border-radius: 6px;
+  margin-top: 5px;
   cursor: pointer;
-  color: #ccc;
 }
 
 .channel:hover {
   background: #393c43;
-  color: white;
 }
 
-/* MAIN CHAT */
 .chat {
   flex: 1;
   display: flex;
@@ -88,40 +64,24 @@ body {
 }
 
 .chat-header {
-  padding: 16px;
-  font-weight: bold;
-  border-bottom: 1px solid #1e1f22;
+  padding: 15px;
+  border-bottom: 1px solid black;
 }
 
 .messages {
   flex: 1;
-  padding: 20px;
-  overflow-y: auto;
-}
-
-.message {
-  margin-bottom: 15px;
-}
-
-.username {
-  font-weight: bold;
-  background: linear-gradient(90deg, #ff4fd8, #8a2be2);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  padding: 15px;
 }
 
 .input-area {
-  padding: 15px;
-  border-top: 1px solid #1e1f22;
+  padding: 10px;
 }
 
 input {
   width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  border: none;
-  outline: none;
+  padding: 10px;
   background: #40444b;
+  border: none;
   color: white;
 }
 </style>
@@ -134,26 +94,19 @@ input {
 </div>
 
 <div class="channel-bar">
-  <div class="server-header">MineCord</div>
-  <div class="channel-list">
-    <div class="channel"># general</div>
-    <div class="channel"># pvp-chat</div>
-    <div class="channel"># announcements</div>
-  </div>
+  <div class="server-title">MineCord</div>
+  <div class="channel"># general</div>
+  <div class="channel"># pvp-chat</div>
+  <div class="channel"># announcements</div>
 </div>
 
 <div class="chat">
   <div class="chat-header"># general</div>
   <div class="messages">
-    <div class="message">
-      <span class="username">Owner</span>: Welcome to MineCord!
-    </div>
-    <div class="message">
-      <span class="username">fjcoolcat</span>: This looks clean 👀
-    </div>
+    <p><b style="color: hotpink;">Owner:</b> Welcome to MineCord</p>
   </div>
   <div class="input-area">
-    <input type="text" placeholder="Message #general">
+    <input placeholder="Message #general">
   </div>
 </div>
 
