@@ -1,196 +1,233 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>MineCord</title>
-<style>
-* {margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
-body {display:flex;height:100vh;background:#313338;color:white;}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Clone</title>
+    <style>
+        :root {
+            --bg-dark: #1e1f22;
+            --bg-sidebar: #2b2d31;
+            --bg-chat: #313338;
+            --text-main: #dbdee1;
+            --text-muted: #949ba4;
+            --accent: #5865f2;
+            --online: #23a55a;
+        }
 
-/* SERVER BAR */
-.server-bar{
-  width:72px;
-  background:#1e1f22;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:10px 0;
-  gap:10px;
-}
-.server{
-  width:48px;height:48px;border-radius:50%;
-  background:linear-gradient(135deg,#ff4fd8,#8a2be2);
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;font-weight:bold;
-}
-.server.active{border:3px solid white;}
-.add-server{
-  width:48px;height:48px;border-radius:50%;
-  background:#2b2d31;display:flex;align-items:center;
-  justify-content:center;cursor:pointer;font-size:22px;
-}
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            display: flex;
+            color: var(--text-main);
+            overflow: hidden;
+        }
 
-/* CHANNEL BAR */
-.channels{
-  width:240px;background:#2b2d31;
-  display:flex;flex-direction:column;
-}
-.server-name{
-  padding:15px;text-align:center;
-  background:linear-gradient(90deg,#ff4fd8,#8a2be2);
-  font-weight:bold;
-}
-.channel-list{flex:1;padding:10px;}
-.channel{
-  padding:8px;border-radius:6px;
-  cursor:pointer;color:#b5bac1;
-}
-.channel:hover{background:#393c43;color:white;}
-.channel.active{background:#404249;color:white;}
-.add-channel{
-  padding:8px;margin-top:10px;
-  background:#393c43;border-radius:6px;
-  text-align:center;cursor:pointer;
-}
+        /* 1. Server Sidebar (The circles on the left) */
+        .servers {
+            background-color: var(--bg-dark);
+            width: 72px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 12px;
+            gap: 8px;
+        }
 
-/* CHAT */
-.chat{flex:1;display:flex;flex-direction:column;}
-.chat-header{
-  padding:15px;border-bottom:1px solid black;
-}
-.messages{flex:1;padding:20px;overflow-y:auto;}
-.message{margin-bottom:10px;}
-.username{
-  font-weight:bold;
-  background:linear-gradient(90deg,#ff4fd8,#8a2be2);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-.input-area{padding:10px;border-top:1px solid black;}
-input{
-  width:100%;padding:10px;border:none;
-  background:#383a40;color:white;border-radius:8px;
-}
-</style>
+        .server-icon {
+            width: 48px;
+            height: 48px;
+            background-color: var(--bg-chat);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .server-icon:hover {
+            border-radius: 30%;
+            background-color: var(--accent);
+        }
+
+        /* 2. Channel Sidebar */
+        .channels {
+            background-color: var(--bg-sidebar);
+            width: 240px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .channel-header {
+            padding: 12px;
+            font-weight: bold;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            height: 48px;
+            box-sizing: border-box;
+        }
+
+        .channel-list {
+            padding: 20px 8px;
+            flex-grow: 1;
+        }
+
+        .channel-item {
+            padding: 6px 8px;
+            border-radius: 4px;
+            color: var(--text-muted);
+            cursor: pointer;
+            margin-bottom: 2px;
+        }
+
+        .channel-item:hover {
+            background-color: #3f4147;
+            color: var(--text-main);
+        }
+
+        .channel-item.active {
+            background-color: #3f4147;
+            color: white;
+        }
+
+        /* 3. Main Chat Area */
+        .chat-container {
+            flex-grow: 1;
+            background-color: var(--bg-chat);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            height: 48px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            font-weight: bold;
+        }
+
+        .messages {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #5865f2;
+            margin-right: 15px;
+        }
+
+        .msg-content b {
+            font-size: 1rem;
+            margin-right: 8px;
+        }
+
+        .msg-text {
+            color: var(--text-main);
+            margin-top: 4px;
+        }
+
+        /* 4. Input Area */
+        .input-area {
+            padding: 0 16px 24px 16px;
+        }
+
+        .input-wrapper {
+            background-color: #383a40;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        input {
+            background: transparent;
+            border: none;
+            color: white;
+            width: 100%;
+            outline: none;
+        }
+
+        /* 5. Members List */
+        .members {
+            width: 240px;
+            background-color: var(--bg-sidebar);
+            padding: 20px 8px;
+        }
+
+        .member-item {
+            display: flex;
+            align-items: center;
+            padding: 6px 8px;
+            gap: 10px;
+        }
+    </style>
 </head>
 <body>
 
-<div class="server-bar" id="serverBar">
-  <div class="add-server" onclick="createServer()">+</div>
-</div>
+    <div class="servers">
+        <div class="server-icon" style="background-color: #5865f2;">💬</div>
+        <hr style="width: 32px; border: 1px solid #35363c; margin: 4px 0;">
+        <div class="server-icon">G</div>
+        <div class="server-icon">JS</div>
+        <div class="server-icon">+</div>
+    </div>
 
-<div class="channels">
-  <div class="server-name" id="serverName">No Server</div>
-  <div class="channel-list" id="channelList"></div>
-  <div class="add-channel" onclick="createChannel()">+ Add Channel</div>
-</div>
+    <div class="channels">
+        <div class="channel-header">My Cool Server</div>
+        <div class="channel-list">
+            <div class="channel-item"># rules</div>
+            <div class="channel-item active"># general</div>
+            <div class="channel-item"># off-topic</div>
+            <div class="channel-item"># gaming</div>
+        </div>
+    </div>
 
-<div class="chat">
-  <div class="chat-header" id="chatTitle">Select a channel</div>
-  <div class="messages" id="messages"></div>
-  <div class="input-area">
-    <input id="messageInput" placeholder="Message..." onkeydown="sendMessage(event)">
-  </div>
-</div>
+    <div class="chat-container">
+        <div class="chat-header"># general</div>
+        <div class="messages">
+            <div class="message">
+                <div class="avatar"></div>
+                <div class="msg-content">
+                    <b>Wumpus</b> <span style="color:var(--text-muted); font-size: 0.75rem;">Today at 12:00 PM</span>
+                    <div class="msg-text">Welcome to the clone! This is pure HTML/CSS.</div>
+                </div>
+            </div>
+            <div class="message">
+                <div class="avatar" style="background: #eb459e;"></div>
+                <div class="msg-content">
+                    <b>Clyde</b> <span style="color:var(--text-muted); font-size: 0.75rem;">Today at 12:05 PM</span>
+                    <div class="msg-text">It looks pretty close to the real thing, right?</div>
+                </div>
+            </div>
+        </div>
+        <div class="input-area">
+            <div class="input-wrapper">
+                <input type="text" placeholder="Message #general">
+            </div>
+        </div>
+    </div>
 
-<script>
-let servers = JSON.parse(localStorage.getItem("minecord")) || [];
-let currentServer = null;
-let currentChannel = null;
-
-function save(){
-  localStorage.setItem("minecord", JSON.stringify(servers));
-}
-
-function renderServers(){
-  const bar = document.getElementById("serverBar");
-  bar.innerHTML = '<div class="add-server" onclick="createServer()">+</div>';
-  servers.forEach((s,i)=>{
-    const div = document.createElement("div");
-    div.className="server"+(currentServer===i?" active":"");
-    div.innerText=s.name[0].toUpperCase();
-    div.onclick=()=>selectServer(i);
-    bar.appendChild(div);
-  });
-}
-
-function createServer(){
-  const name = prompt("Server name?");
-  if(!name) return;
-  servers.push({name,channels:[]});
-  save();
-  renderServers();
-}
-
-function selectServer(i){
-  currentServer=i;
-  currentChannel=null;
-  renderServers();
-  renderChannels();
-  document.getElementById("serverName").innerText=servers[i].name;
-  document.getElementById("messages").innerHTML="";
-  document.getElementById("chatTitle").innerText="Select a channel";
-}
-
-function renderChannels(){
-  const list=document.getElementById("channelList");
-  list.innerHTML="";
-  if(currentServer===null) return;
-  servers[currentServer].channels.forEach((c,i)=>{
-    const div=document.createElement("div");
-    div.className="channel"+(currentChannel===i?" active":"");
-    div.innerText="# "+c.name;
-    div.onclick=()=>selectChannel(i);
-    list.appendChild(div);
-  });
-}
-
-function createChannel(){
-  if(currentServer===null) return alert("Select server first");
-  const name=prompt("Channel name?");
-  if(!name) return;
-  servers[currentServer].channels.push({name,messages:[]});
-  save();
-  renderChannels();
-}
-
-function selectChannel(i){
-  currentChannel=i;
-  renderChannels();
-  renderMessages();
-  document.getElementById("chatTitle").innerText="# "+servers[currentServer].channels[i].name;
-}
-
-function renderMessages(){
-  const box=document.getElementById("messages");
-  box.innerHTML="";
-  if(currentChannel===null) return;
-  servers[currentServer].channels[currentChannel].messages.forEach(m=>{
-    box.innerHTML+=`
-      <div class="message">
-        <span class="username">${m.user}</span>: ${m.text}
-      </div>
-    `;
-  });
-}
-
-function sendMessage(e){
-  if(e.key==="Enter"){
-    if(currentChannel===null) return;
-    const input=document.getElementById("messageInput");
-    if(!input.value.trim()) return;
-    servers[currentServer].channels[currentChannel].messages.push({
-      user:"User",
-      text:input.value
-    });
-    input.value="";
-    save();
-    renderMessages();
-  }
-}
-
-renderServers();
-</script>
+    <div class="members">
+        <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 10px; padding-left: 8px;">ONLINE — 2</div>
+        <div class="member-item">
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: #5865f2;"></div>
+            <span>Wumpus</span>
+        </div>
+        <div class="member-item">
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: #eb459e;"></div>
+            <span>Clyde</span>
+        </div>
+    </div>
 
 </body>
 </html>
