@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Discord Clone</title>
+<title>Better Discord Clone</title>
 
 <style>
 :root {
@@ -13,30 +13,29 @@
     --text-main: #dbdee1;
     --text-muted: #949ba4;
     --accent: #5865f2;
+    --hover: #3f4147;
 }
 
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
     height: 100vh;
     display: flex;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, sans-serif;
     color: var(--text-main);
     overflow: hidden;
 }
 
-/* SERVER SIDEBAR */
+/* SERVERS */
 .servers {
-    background: var(--bg-dark);
     width: 72px;
+    background: var(--bg-dark);
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 12px 0;
-    gap: 8px;
+    gap: 10px;
 }
 
 .server-icon {
@@ -51,21 +50,22 @@ body {
     transition: 0.2s;
 }
 
-.server-icon:hover {
-    border-radius: 30%;
+.server-icon:hover,
+.server-icon.active {
     background: var(--accent);
+    border-radius: 30%;
 }
 
-/* CHANNEL SIDEBAR */
+/* CHANNELS */
 .channels {
-    background: var(--bg-sidebar);
     width: 240px;
+    background: var(--bg-sidebar);
     display: flex;
     flex-direction: column;
 }
 
 .channel-header {
-    padding: 14px;
+    padding: 15px;
     font-weight: bold;
     border-bottom: 1px solid #232428;
 }
@@ -85,11 +85,11 @@ body {
 
 .channel-item:hover,
 .channel-item.active {
-    background: #3f4147;
+    background: var(--hover);
     color: white;
 }
 
-/* CHAT AREA */
+/* CHAT */
 .chat-container {
     flex-grow: 1;
     display: flex;
@@ -102,8 +102,8 @@ body {
     display: flex;
     align-items: center;
     padding: 0 16px;
-    font-weight: bold;
     border-bottom: 1px solid #232428;
+    font-weight: bold;
 }
 
 .messages {
@@ -121,18 +121,13 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    background: var(--accent);
     margin-right: 15px;
 }
 
-.msg-content b {
-    margin-right: 6px;
-}
+.msg-text { margin-top: 4px; }
 
-.msg-text {
-    margin-top: 4px;
-}
-
-/* INPUT AREA */
+/* INPUT */
 .input-area {
     padding: 16px;
 }
@@ -152,18 +147,12 @@ input {
     outline: none;
 }
 
-/* MEMBERS SIDEBAR */
+/* MEMBERS */
 .members {
     width: 240px;
     background: var(--bg-sidebar);
-    padding: 20px 10px;
+    padding: 20px;
     overflow-y: auto;
-}
-
-.member-title {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-bottom: 10px;
 }
 
 .member-item {
@@ -177,6 +166,15 @@ input {
     width: 32px;
     height: 32px;
     border-radius: 50%;
+    background: var(--accent);
+}
+
+/* TYPING */
+.typing {
+    font-size: 12px;
+    color: var(--text-muted);
+    padding-left: 20px;
+    height: 20px;
 }
 </style>
 </head>
@@ -184,69 +182,84 @@ input {
 <body>
 
 <div class="servers">
-    <div class="server-icon" style="background:#5865f2;">💬</div>
+    <div class="server-icon active">💬</div>
     <div class="server-icon">G</div>
     <div class="server-icon">JS</div>
-    <div class="server-icon">+</div>
 </div>
 
 <div class="channels">
-    <div class="channel-header">My Cool Server</div>
+    <div class="channel-header">My Server</div>
     <div class="channel-list">
-        <div class="channel-item"># rules</div>
         <div class="channel-item active"># general</div>
-        <div class="channel-item"># off-topic</div>
         <div class="channel-item"># gaming</div>
+        <div class="channel-item"># memes</div>
     </div>
 </div>
 
 <div class="chat-container">
-    <div class="chat-header"># general</div>
-
-    <div class="messages">
-        <div class="message">
-            <div class="avatar" style="background:#5865f2;"></div>
-            <div>
-                <b>Wumpus</b>
-                <span style="color:#949ba4; font-size:12px;">Today at 12:00 PM</span>
-                <div class="msg-text">
-                    Welcome to the fixed version! Everything scrolls properly now.
-                </div>
-            </div>
-        </div>
-
-        <div class="message">
-            <div class="avatar" style="background:#eb459e;"></div>
-            <div>
-                <b>Clyde</b>
-                <span style="color:#949ba4; font-size:12px;">Today at 12:05 PM</span>
-                <div class="msg-text">
-                    This should now display 100% correctly.
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <div class="chat-header" id="chatTitle"># general</div>
+    <div class="messages" id="messages"></div>
+    <div class="typing" id="typing"></div>
     <div class="input-area">
         <div class="input-wrapper">
-            <input type="text" placeholder="Message #general">
+            <input type="text" id="messageInput" placeholder="Message #general">
         </div>
     </div>
 </div>
 
 <div class="members">
-    <div class="member-title">ONLINE — 2</div>
-
+    <div style="color:var(--text-muted); font-size:12px; margin-bottom:10px;">ONLINE — 1</div>
     <div class="member-item">
-        <div class="member-avatar" style="background:#5865f2;"></div>
-        <span>Wumpus</span>
-    </div>
-
-    <div class="member-item">
-        <div class="member-avatar" style="background:#eb459e;"></div>
-        <span>Clyde</span>
+        <div class="member-avatar"></div>
+        <span>You</span>
     </div>
 </div>
+
+<script>
+const input = document.getElementById("messageInput");
+const messages = document.getElementById("messages");
+const typing = document.getElementById("typing");
+const channels = document.querySelectorAll(".channel-item");
+const chatTitle = document.getElementById("chatTitle");
+
+let currentChannel = "general";
+
+function addMessage(text, user="You") {
+    const msg = document.createElement("div");
+    msg.classList.add("message");
+    msg.innerHTML = `
+        <div class="avatar"></div>
+        <div>
+            <b>${user}</b>
+            <div class="msg-text">${text}</div>
+        </div>
+    `;
+    messages.appendChild(msg);
+    messages.scrollTop = messages.scrollHeight;
+}
+
+input.addEventListener("keypress", function(e) {
+    if (e.key === "Enter" && input.value.trim() !== "") {
+        addMessage(input.value);
+        input.value = "";
+    }
+});
+
+input.addEventListener("input", () => {
+    typing.textContent = input.value ? "You are typing..." : "";
+});
+
+channels.forEach(channel => {
+    channel.addEventListener("click", () => {
+        channels.forEach(c => c.classList.remove("active"));
+        channel.classList.add("active");
+        currentChannel = channel.textContent.replace("# ","");
+        chatTitle.textContent = channel.textContent;
+        messages.innerHTML = "";
+        input.placeholder = "Message " + channel.textContent;
+    });
+});
+</script>
 
 </body>
 </html>
