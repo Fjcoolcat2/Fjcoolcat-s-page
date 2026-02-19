@@ -1,233 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discord Clone</title>
-    <style>
-        :root {
-            --bg-dark: #1e1f22;
-            --bg-sidebar: #2b2d31;
-            --bg-chat: #313338;
-            --text-main: #dbdee1;
-            --text-muted: #949ba4;
-            --accent: #5865f2;
-            --online: #23a55a;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discord Clone</title>
 
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            display: flex;
-            color: var(--text-main);
-            overflow: hidden;
-        }
+<style>
+:root {
+    --bg-dark: #1e1f22;
+    --bg-sidebar: #2b2d31;
+    --bg-chat: #313338;
+    --text-main: #dbdee1;
+    --text-muted: #949ba4;
+    --accent: #5865f2;
+}
 
-        /* 1. Server Sidebar (The circles on the left) */
-        .servers {
-            background-color: var(--bg-dark);
-            width: 72px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 12px;
-            gap: 8px;
-        }
+* {
+    box-sizing: border-box;
+}
 
-        .server-icon {
-            width: 48px;
-            height: 48px;
-            background-color: var(--bg-chat);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: 0.2s;
-        }
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--text-main);
+    overflow: hidden;
+}
 
-        .server-icon:hover {
-            border-radius: 30%;
-            background-color: var(--accent);
-        }
+/* SERVER SIDEBAR */
+.servers {
+    background: var(--bg-dark);
+    width: 72px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 0;
+    gap: 8px;
+}
 
-        /* 2. Channel Sidebar */
-        .channels {
-            background-color: var(--bg-sidebar);
-            width: 240px;
-            display: flex;
-            flex-direction: column;
-        }
+.server-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--bg-chat);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+}
 
-        .channel-header {
-            padding: 12px;
-            font-weight: bold;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-            height: 48px;
-            box-sizing: border-box;
-        }
+.server-icon:hover {
+    border-radius: 30%;
+    background: var(--accent);
+}
 
-        .channel-list {
-            padding: 20px 8px;
-            flex-grow: 1;
-        }
+/* CHANNEL SIDEBAR */
+.channels {
+    background: var(--bg-sidebar);
+    width: 240px;
+    display: flex;
+    flex-direction: column;
+}
 
-        .channel-item {
-            padding: 6px 8px;
-            border-radius: 4px;
-            color: var(--text-muted);
-            cursor: pointer;
-            margin-bottom: 2px;
-        }
+.channel-header {
+    padding: 14px;
+    font-weight: bold;
+    border-bottom: 1px solid #232428;
+}
 
-        .channel-item:hover {
-            background-color: #3f4147;
-            color: var(--text-main);
-        }
+.channel-list {
+    padding: 10px;
+    flex-grow: 1;
+}
 
-        .channel-item.active {
-            background-color: #3f4147;
-            color: white;
-        }
+.channel-item {
+    padding: 6px 8px;
+    border-radius: 4px;
+    color: var(--text-muted);
+    cursor: pointer;
+    margin-bottom: 4px;
+}
 
-        /* 3. Main Chat Area */
-        .chat-container {
-            flex-grow: 1;
-            background-color: var(--bg-chat);
-            display: flex;
-            flex-direction: column;
-        }
+.channel-item:hover,
+.channel-item.active {
+    background: #3f4147;
+    color: white;
+}
 
-        .chat-header {
-            height: 48px;
-            padding: 0 16px;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-            font-weight: bold;
-        }
+/* CHAT AREA */
+.chat-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-chat);
+}
 
-        .messages {
-            flex-grow: 1;
-            padding: 20px;
-            overflow-y: auto;
-        }
+.chat-header {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    font-weight: bold;
+    border-bottom: 1px solid #232428;
+}
 
-        .message {
-            display: flex;
-            margin-bottom: 15px;
-        }
+.messages {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
 
-        .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #5865f2;
-            margin-right: 15px;
-        }
+.message {
+    display: flex;
+    margin-bottom: 15px;
+}
 
-        .msg-content b {
-            font-size: 1rem;
-            margin-right: 8px;
-        }
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
 
-        .msg-text {
-            color: var(--text-main);
-            margin-top: 4px;
-        }
+.msg-content b {
+    margin-right: 6px;
+}
 
-        /* 4. Input Area */
-        .input-area {
-            padding: 0 16px 24px 16px;
-        }
+.msg-text {
+    margin-top: 4px;
+}
 
-        .input-wrapper {
-            background-color: #383a40;
-            padding: 10px;
-            border-radius: 8px;
-        }
+/* INPUT AREA */
+.input-area {
+    padding: 16px;
+}
 
-        input {
-            background: transparent;
-            border: none;
-            color: white;
-            width: 100%;
-            outline: none;
-        }
+.input-wrapper {
+    background: #383a40;
+    border-radius: 8px;
+    padding: 10px;
+}
 
-        /* 5. Members List */
-        .members {
-            width: 240px;
-            background-color: var(--bg-sidebar);
-            padding: 20px 8px;
-        }
+input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: white;
+    font-size: 14px;
+    outline: none;
+}
 
-        .member-item {
-            display: flex;
-            align-items: center;
-            padding: 6px 8px;
-            gap: 10px;
-        }
-    </style>
+/* MEMBERS SIDEBAR */
+.members {
+    width: 240px;
+    background: var(--bg-sidebar);
+    padding: 20px 10px;
+    overflow-y: auto;
+}
+
+.member-title {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+}
+
+.member-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.member-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+</style>
 </head>
+
 <body>
 
-    <div class="servers">
-        <div class="server-icon" style="background-color: #5865f2;">💬</div>
-        <hr style="width: 32px; border: 1px solid #35363c; margin: 4px 0;">
-        <div class="server-icon">G</div>
-        <div class="server-icon">JS</div>
-        <div class="server-icon">+</div>
-    </div>
+<div class="servers">
+    <div class="server-icon" style="background:#5865f2;">💬</div>
+    <div class="server-icon">G</div>
+    <div class="server-icon">JS</div>
+    <div class="server-icon">+</div>
+</div>
 
-    <div class="channels">
-        <div class="channel-header">My Cool Server</div>
-        <div class="channel-list">
-            <div class="channel-item"># rules</div>
-            <div class="channel-item active"># general</div>
-            <div class="channel-item"># off-topic</div>
-            <div class="channel-item"># gaming</div>
-        </div>
+<div class="channels">
+    <div class="channel-header">My Cool Server</div>
+    <div class="channel-list">
+        <div class="channel-item"># rules</div>
+        <div class="channel-item active"># general</div>
+        <div class="channel-item"># off-topic</div>
+        <div class="channel-item"># gaming</div>
     </div>
+</div>
 
-    <div class="chat-container">
-        <div class="chat-header"># general</div>
-        <div class="messages">
-            <div class="message">
-                <div class="avatar"></div>
-                <div class="msg-content">
-                    <b>Wumpus</b> <span style="color:var(--text-muted); font-size: 0.75rem;">Today at 12:00 PM</span>
-                    <div class="msg-text">Welcome to the clone! This is pure HTML/CSS.</div>
-                </div>
-            </div>
-            <div class="message">
-                <div class="avatar" style="background: #eb459e;"></div>
-                <div class="msg-content">
-                    <b>Clyde</b> <span style="color:var(--text-muted); font-size: 0.75rem;">Today at 12:05 PM</span>
-                    <div class="msg-text">It looks pretty close to the real thing, right?</div>
+<div class="chat-container">
+    <div class="chat-header"># general</div>
+
+    <div class="messages">
+        <div class="message">
+            <div class="avatar" style="background:#5865f2;"></div>
+            <div>
+                <b>Wumpus</b>
+                <span style="color:#949ba4; font-size:12px;">Today at 12:00 PM</span>
+                <div class="msg-text">
+                    Welcome to the fixed version! Everything scrolls properly now.
                 </div>
             </div>
         </div>
-        <div class="input-area">
-            <div class="input-wrapper">
-                <input type="text" placeholder="Message #general">
+
+        <div class="message">
+            <div class="avatar" style="background:#eb459e;"></div>
+            <div>
+                <b>Clyde</b>
+                <span style="color:#949ba4; font-size:12px;">Today at 12:05 PM</span>
+                <div class="msg-text">
+                    This should now display 100% correctly.
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="members">
-        <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 10px; padding-left: 8px;">ONLINE — 2</div>
-        <div class="member-item">
-            <div style="width: 32px; height: 32px; border-radius: 50%; background: #5865f2;"></div>
-            <span>Wumpus</span>
-        </div>
-        <div class="member-item">
-            <div style="width: 32px; height: 32px; border-radius: 50%; background: #eb459e;"></div>
-            <span>Clyde</span>
+    <div class="input-area">
+        <div class="input-wrapper">
+            <input type="text" placeholder="Message #general">
         </div>
     </div>
+</div>
+
+<div class="members">
+    <div class="member-title">ONLINE — 2</div>
+
+    <div class="member-item">
+        <div class="member-avatar" style="background:#5865f2;"></div>
+        <span>Wumpus</span>
+    </div>
+
+    <div class="member-item">
+        <div class="member-avatar" style="background:#eb459e;"></div>
+        <span>Clyde</span>
+    </div>
+</div>
 
 </body>
 </html>
