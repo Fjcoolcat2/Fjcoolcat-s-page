@@ -1,114 +1,191 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <title>MineCord</title>
 <style>
+* { margin:0; padding:0; box-sizing:border-box; font-family: Whitney, Arial, sans-serif; }
+
 body {
-  margin: 0;
-  display: flex;
-  height: 100vh;
-  font-family: Arial;
-  background: #1e1f22;
-  color: white;
+  display:flex;
+  height:100vh;
+  background:#313338;
+  color:white;
 }
 
-.server-bar {
-  width: 70px;
-  background: #18191c;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 10px;
+/* SERVER BAR */
+.server-bar{
+  width:72px;
+  background:#1e1f22;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding-top:12px;
+  gap:10px;
+}
+.server{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#ff4fd8,#8a2be2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.2s;
+}
+.server:hover{ border-radius:16px; }
+
+/* CHANNEL BAR */
+.channels{
+  width:240px;
+  background:#2b2d31;
+  display:flex;
+  flex-direction:column;
+}
+.server-name{
+  padding:16px;
+  font-weight:bold;
+  background:linear-gradient(90deg,#ff4fd8,#8a2be2);
+  text-align:center;
+}
+.channel-list{
+  flex:1;
+  padding:10px;
+}
+.channel{
+  padding:8px;
+  border-radius:6px;
+  cursor:pointer;
+  color:#b5bac1;
+}
+.channel:hover{ background:#393c43; color:white; }
+.channel.active{ background:#404249; color:white; }
+
+/* CHAT AREA */
+.chat{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
+.chat-header{
+  padding:16px;
+  border-bottom:1px solid #1e1f22;
+  font-weight:bold;
+}
+.messages{
+  flex:1;
+  padding:20px;
+  overflow-y:auto;
+}
+.message{
+  margin-bottom:15px;
+}
+.username{
+  font-weight:bold;
+  background:linear-gradient(90deg,#ff4fd8,#8a2be2);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.input-area{
+  padding:15px;
+  border-top:1px solid #1e1f22;
+}
+input{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:none;
+  outline:none;
+  background:#383a40;
+  color:white;
 }
 
-.server-icon {
-  width: 50px;
-  height: 50px;
-  margin: 8px 0;
-  border-radius: 50%;
-  background: linear-gradient(135deg, hotpink, purple);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+/* MEMBER LIST */
+.members{
+  width:240px;
+  background:#2b2d31;
+  padding:15px;
 }
-
-.channel-bar {
-  width: 220px;
-  background: #2b2d31;
-  padding: 10px;
+.member{
+  padding:6px 0;
+  color:#b5bac1;
 }
-
-.server-title {
-  font-weight: bold;
-  padding: 10px;
-  background: linear-gradient(90deg, hotpink, purple);
-  text-align: center;
-}
-
-.channel {
-  padding: 8px;
-  margin-top: 5px;
-  cursor: pointer;
-}
-
-.channel:hover {
-  background: #393c43;
-}
-
-.chat {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background: #313338;
-}
-
-.chat-header {
-  padding: 15px;
-  border-bottom: 1px solid black;
-}
-
-.messages {
-  flex: 1;
-  padding: 15px;
-}
-
-.input-area {
-  padding: 10px;
-}
-
-input {
-  width: 100%;
-  padding: 10px;
-  background: #40444b;
-  border: none;
-  color: white;
-}
+.member.owner{ color:#ff4fd8; font-weight:bold; }
 </style>
 </head>
 <body>
 
 <div class="server-bar">
-  <div class="server-icon">MC</div>
-  <div class="server-icon">+</div>
+  <div class="server">MC</div>
 </div>
 
-<div class="channel-bar">
-  <div class="server-title">MineCord</div>
-  <div class="channel"># general</div>
-  <div class="channel"># pvp-chat</div>
-  <div class="channel"># announcements</div>
+<div class="channels">
+  <div class="server-name">MineCord</div>
+  <div class="channel-list">
+    <div class="channel active" onclick="switchChannel('general')"># general</div>
+    <div class="channel" onclick="switchChannel('pvp')"># pvp-chat</div>
+    <div class="channel" onclick="switchChannel('announcements')"># announcements</div>
+  </div>
 </div>
 
 <div class="chat">
-  <div class="chat-header"># general</div>
-  <div class="messages">
-    <p><b style="color: hotpink;">Owner:</b> Welcome to MineCord</p>
-  </div>
+  <div class="chat-header" id="chatTitle"># general</div>
+  <div class="messages" id="messages"></div>
   <div class="input-area">
-    <input placeholder="Message #general">
+    <input id="messageInput" placeholder="Message #general" onkeydown="sendMessage(event)">
   </div>
 </div>
+
+<div class="members">
+  <div class="member owner">Owner</div>
+  <div class="member">fjcoolcat</div>
+  <div class="member">Player123</div>
+</div>
+
+<script>
+let currentChannel = "general";
+let chats = {
+  general: [],
+  pvp: [],
+  announcements: []
+};
+
+function switchChannel(channel){
+  currentChannel = channel;
+  document.getElementById("chatTitle").innerText = "# " + channel;
+  document.querySelectorAll(".channel").forEach(c=>c.classList.remove("active"));
+  event.target.classList.add("active");
+  renderMessages();
+}
+
+function renderMessages(){
+  const msgBox = document.getElementById("messages");
+  msgBox.innerHTML = "";
+  chats[currentChannel].forEach(msg=>{
+    msgBox.innerHTML += `
+      <div class="message">
+        <span class="username">${msg.user}</span>: ${msg.text}
+      </div>
+    `;
+  });
+}
+
+function sendMessage(e){
+  if(e.key === "Enter"){
+    const input = document.getElementById("messageInput");
+    if(input.value.trim() !== ""){
+      chats[currentChannel].push({
+        user: "fjcoolcat",
+        text: input.value
+      });
+      input.value = "";
+      renderMessages();
+    }
+  }
+}
+</script>
 
 </body>
 </html>
